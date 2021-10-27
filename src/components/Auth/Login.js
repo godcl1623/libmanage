@@ -11,7 +11,6 @@ import {
 } from '../../actions';
 import { hasher, salter } from '../../custom_modules/hasher';
 import { encryptor } from '../../custom_modules/aeser';
-import { tracer } from '../../custom_modules/security/fes';
 
 const loginException = (dispatch, history) => {
   const formData = {
@@ -20,7 +19,7 @@ const loginException = (dispatch, history) => {
   axios
     .post(
       'http://localhost:3002/login_process',
-      { sofo: encryptor(formData, tracer) },
+      { sofo: encryptor(formData, process.env.TRACER) },
       { withCredentials: true }
     )
     .then(res => {
@@ -114,7 +113,7 @@ const Login = () => {
           axios
             .post(
               'http://localhost:3002/login_process',
-              { sofo: encryptor(formData, tracer) },
+              { sofo: encryptor(formData, process.env.TRACER) },
               { withCredentials: true }
             )
             .then(res => {
