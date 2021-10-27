@@ -30,7 +30,7 @@ const modalOption = {
 const modalContents = (state, dispatch, setState1, setState2, origin) => {
   if (origin !== 'Library') {
     // 모든 스토어에 대응 가능하도록 개선 필요
-    if (state.stores === undefined || state.stores.game.steam === false) {
+    if (state.stores === undefined || state.stores.game === undefined || state.stores.game.steam === false) {
       return (
         <article>
           <h2>스토어 목록</h2>
