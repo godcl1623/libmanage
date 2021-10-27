@@ -35,7 +35,7 @@ const Find = ({ mode }) => {
               const emptyInputCheck = inputs.filter(input => input.value === '');
               const formData = {};
               const infoCheck = async infoObj => {
-                await axios.post(`http://localhost:3002/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.TRACER) }, { withCredentials: true })
+                await axios.post(`http://localhost:3002/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };

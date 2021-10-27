@@ -112,14 +112,14 @@ const Register = () => {
           const existCheck = async sofo => {
             await axios.post(
               'http://localhost:3002/member/register',
-              {foo: encryptor(sofo, process.env.TRACER)},
+              {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
               { withCredentials: true })
             .then(res => {
               if (res.data === 'success') {
                 alert('회원가입이 완료되었습니다.\n로그인해 주세요.');
                 history.push('/');
               } else {
-                const tempObj = decryptor(res.data, process.env.TRACER);
+                const tempObj = decryptor(res.data, process.env.REACT_APP_TRACER);
                 setIdState(tempObj.id);
                 setNickState(tempObj.nick);
                 setEmailAuth(tempObj.email);
