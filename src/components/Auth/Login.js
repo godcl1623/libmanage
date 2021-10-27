@@ -19,7 +19,7 @@ const loginException = (dispatch, history) => {
   axios
     .post(
       'http://localhost:3002/login_process',
-      { sofo: encryptor(formData, process.env.TRACER) },
+      { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
       { withCredentials: true }
     )
     .then(res => {
@@ -113,7 +113,7 @@ const Login = () => {
           axios
             .post(
               'http://localhost:3002/login_process',
-              { sofo: encryptor(formData, process.env.TRACER) },
+              { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
               { withCredentials: true }
             )
             .then(res => {
