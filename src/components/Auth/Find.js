@@ -5,7 +5,6 @@ import axios from 'axios';
 import FormSubmit from './module/components/FormSubmit';
 import FindRequested from './module/components/FindRequested';
 import { encryptor } from '../../custom_modules/aeser';
-import { tracer } from '../../custom_modules/security/fes';
 
 const Find = ({ mode }) => {
   const [tabState, setTabState] = useState(mode);
@@ -36,7 +35,7 @@ const Find = ({ mode }) => {
               const emptyInputCheck = inputs.filter(input => input.value === '');
               const formData = {};
               const infoCheck = async infoObj => {
-                await axios.post(`http://localhost:3002/member/find/${tabState}`, { infoObj: encryptor(infoObj, tracer) }, { withCredentials: true })
+                await axios.post(`http://localhost:3002/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.TRACER) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };

@@ -7,7 +7,6 @@ import axios from 'axios';
 import ChangePwd from './module/components/ChangePwd';
 import { tokenStateCreator as setTokenState } from '../../actions';
 import { encryptor } from '../../custom_modules/aeser';
-import { tracer } from '../../custom_modules/security/fes';
 
 const now = () => {
   const date = new Date();
@@ -36,7 +35,7 @@ const Reset = () => {
       tokenTail,
       requestedTime
     }
-    axios.post('http://localhost:3002/member/reset', { postData: encryptor(postData, tracer) }, { withCredentials: true })
+    axios.post('http://localhost:3002/member/reset', { postData: encryptor(postData, process.env.TRACER) }, { withCredentials: true })
       .then(res => {
         dispatch(setTokenState(res.data.tokenState));
         setRequestToken(res.data.token);

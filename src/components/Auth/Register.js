@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { encryptor, decryptor } from '../../custom_modules/aeser';
 import { hasher } from '../../custom_modules/hasher';
-import { tracer } from '../../custom_modules/security/fes';
 import FormSubmit from './module/components/FormSubmit';
 import InputTemplate from './module/components/InputTemplate';
 import { verifyId, verifyPwd, verifyNick, verifyEmail } from './module/utils';
@@ -113,14 +112,14 @@ const Register = () => {
           const existCheck = async sofo => {
             await axios.post(
               'http://localhost:3002/member/register',
-              {foo: encryptor(sofo, tracer)},
+              {foo: encryptor(sofo, process.env.TRACER)},
               { withCredentials: true })
             .then(res => {
               if (res.data === 'success') {
                 alert('회원가입이 완료되었습니다.\n로그인해 주세요.');
                 history.push('/');
               } else {
-                const tempObj = decryptor(res.data, tracer);
+                const tempObj = decryptor(res.data, process.env.TRACER);
                 setIdState(tempObj.id);
                 setNickState(tempObj.nick);
                 setEmailAuth(tempObj.email);
