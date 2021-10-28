@@ -41,6 +41,7 @@ const Login = () => {
   const history = useHistory();
 
   useEffect(() => {
+    const abortCon = new AbortController();
     axios
       .post(
         'http://localhost:3002/check_login',
@@ -56,24 +57,31 @@ const Login = () => {
           }
         } else if (res.data.isGuest) {
           // 임시로 작성
-          dispatch(loginStatusCreator(true));
+          dispatch(loginStatusCreator(res.data.isLoginSuccessful));
           history.push('/main');
           if (userState.nickname === undefined) {
             dispatch(userStateCreator(res.data));
           }
-        } else {
+        } else if (res.data.isLoginSuccessful === false) {
           // alert(res.data);
         }
       })
       .catch(err => alert(err));
+      return () => {
+        abortCon.abort();
+      }
   }, []);
 
   useEffect(() => {
+    const abortCon = new AbortController();
     if (logoutClicked) {
       dispatch(logoutClickedCreator(false));
     }
     if (comparisonState !== '') {
       dispatch(comparisonStateCreator(''));
+    }
+    return () => {
+      abortCon.abort();
     }
   }, []);
 
@@ -117,7 +125,6 @@ const Login = () => {
               { withCredentials: true }
             )
             .then(res => {
-              console.log(res.data);
               if (res.data.isLoginSuccessful && !res.data.isGuest) {
                 dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                 dispatch(userStateCreator(res.data));

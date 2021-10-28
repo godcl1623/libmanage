@@ -109,6 +109,7 @@ const Main = () => {
   const history = useHistory();
 
   useEffect(() => {
+    const abortCon = new AbortController();
     const checkLogin = () => {
       axios
         .post(
@@ -125,12 +126,12 @@ const Main = () => {
             }
           } else if (res.data.isGuest) {
             // 임시로 작성
-            dispatch(loginStatusCreator(true));
+            dispatch(loginStatusCreator(res.data.isLoginSuccessful));
             if (userState.nickname === undefined) {
               dispatch(userStateCreator(res.data));
               dispatch(comparisonStateCreator(''));
             }
-          } else {
+          } else if (res.data.isLoginSuccessful === false) {
             alert('로그인이 필요합니다');
             history.push('/');
           }
@@ -141,9 +142,13 @@ const Main = () => {
       checkLogin();
     }
     checkLogin();
+    return () => {
+      abortCon.abort();
+    }
   }, [comparisonState]);
 
   useEffect(() => {
+    const abortCon = new AbortController();
     const { stores } = userState;
     if (stores !== undefined) {
       const categories = Object.keys(stores);
@@ -166,9 +171,13 @@ const Main = () => {
       });
       setStoresList(testObj);
     }
+    return () => {
+      abortCon.abort();
+    }
   }, [userState.stores]);
 
   useEffect(() => {
+    const abortCon = new AbortController();
     const dataToSend = {
       reqUser: userState.nickname,
       // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
@@ -180,11 +189,16 @@ const Main = () => {
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           setUserLibrary({ steam: res.data });
-        });
+        })
+        // .catch(err => alert(err));
+    }
+    return () => {
+      abortCon.abort();
     }
   }, [storesList]);
 
   useEffect(() => {
+    const abortCon = new AbortController();
     if (selectedItemData.name) {
       if (selectedItem !== selectedItemData.name) {
         dispatch(modalStateCreator(true));
@@ -193,6 +207,9 @@ const Main = () => {
       }
     } else if (selectedItem) {
       dispatch(modalStateCreator(true));
+    }
+    return () => {
+      abortCon.abort();
     }
   }, [selectedItem, selectedItemData]);
 
