@@ -27,6 +27,7 @@ const Progress = () => {
     }
   };
   useEffect(() => {
+    const abortCon = new AbortController();
     axios
       .post('http://localhost:3002/check_login', { message: '' }, { withCredentials: true })
       .then(res => {
@@ -43,6 +44,7 @@ const Progress = () => {
             }
           });
       });
+    return () => abortCon.abort();
   }, []);
   // useEffect(() => {
   //   axios.post('http://localhost:3003/api/search', {}, {withCredentials: true})
@@ -53,6 +55,7 @@ const Progress = () => {
   //     })
   //   }, []);
   useEffect(() => {
+    const abortCon = new AbortController();
     const requestStatus = setInterval(() => {
       axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
         if (res.data.status === status) {
@@ -65,7 +68,10 @@ const Progress = () => {
         }
       });
     }, 100);
-    return () => clearInterval(requestStatus);
+    return () => {
+      clearInterval(requestStatus);
+      abortCon.abort();
+    };
   }, [total]);
   return (
     <>

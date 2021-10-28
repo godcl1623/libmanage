@@ -254,13 +254,21 @@ const Library = ({ userLib }) => {
   };
 
   React.useEffect(() => {
+    const abortCon = new AbortController();
     const { left, top } = ref.current.getBoundingClientRect();
     updateBtnCoords(left, top);
+    return () => {
+      abortCon.abort();
+    }
   }, []);
 
   React.useEffect(() => {
+    const abortCon = new AbortController();
     dispatch(selectedItemCreator(localSelectedItem));
     dispatch(selectedItemDataCreator(localSelectedItemData));
+    return () => {
+      abortCon.abort();
+    }
   }, [localSelectedItem, localSelectedItemData]);
 
   const wrapper = {

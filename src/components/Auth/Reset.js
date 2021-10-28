@@ -31,6 +31,7 @@ const Reset = () => {
   const requestedTime = now();
 
   useEffect(() => {
+    const abortCon = new AbortController();
     const postData = {
       tokenTail,
       requestedTime
@@ -41,6 +42,7 @@ const Reset = () => {
         setRequestToken(res.data.token);
       })
       .catch(err => alert(err));
+    return () => abortCon.abort();
   }, []);
 
   switch(tokenState) {

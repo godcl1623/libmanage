@@ -12,8 +12,10 @@ const Find = ({ mode }) => {
   const tabHandler = str => setTabState(str);
 
   useEffect(() => {
+    const abortCon = new AbortController();
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {input.value = ''});
+    return () => abortCon.abort();
   }, [tabState]);
 
   return (
