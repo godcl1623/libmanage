@@ -38,7 +38,8 @@ const modalContents = (state, dispatch, setState1, setState2, origin) => {
           <section className="store_container">
             <h3>스팀</h3>
             <a
-              href="http://localhost:3003/auth/steam"
+              // href="http://localhost:3003/auth/steam"
+              href="http://localhost:3001/auth/steam"
               // target="_blank"
               // rel="noreferrer"
             >
@@ -63,7 +64,8 @@ const modalContents = (state, dispatch, setState1, setState2, origin) => {
                 dispatch(setState1(temp));
                 axios
                   .post(
-                    'http://localhost:3003/disconnect',
+                    // 'http://localhost:3003/disconnect',
+                    'http://localhost:3001/disconnect',
                     { reqUserInfo: JSON.stringify(state) },
                     { withCredentials: true }
                   )
@@ -113,7 +115,8 @@ const Main = () => {
     const checkLogin = () => {
       axios
         .post(
-          'http://localhost:3002/check_login',
+          // 'http://localhost:3002/check_login',
+          'http://localhost:3001/check_login',
           { message: comparisonState },
           { withCredentials: true }
         )
@@ -185,7 +188,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           setUserLibrary({ steam: res.data });

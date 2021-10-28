@@ -65,7 +65,8 @@ const Header = () => {
         onClick={() => {
           axios
             .post(
-              'http://localhost:3002/logout_process',
+              // 'http://localhost:3002/logout_process',
+              'http://localhost:3001/logout_process',
               { message: 'foo' },
               { withCredentials: true }
             )

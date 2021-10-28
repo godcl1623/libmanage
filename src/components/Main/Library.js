@@ -53,7 +53,8 @@ const testBtns = (state, setState) => (
       onClick={e => {
         axios
           .post(
-            'http://localhost:3003/api/connect',
+            // 'http://localhost:3003/api/connect',
+            'http://localhost:3001/api/connect',
             { execute: 'order66' },
             { withCredentials: true }
           )
@@ -67,7 +68,8 @@ const testBtns = (state, setState) => (
     <button
       onClick={e => {
         axios
-          .post('http://localhost:3003/meta_search', { apiCred: state }, { withCredentials: true })
+          // .post('http://localhost:3003/meta_search', { apiCred: state }, { withCredentials: true })
+          .post('http://localhost:3001/meta_search', { apiCred: state }, { withCredentials: true })
           .then(res => console.log(res));
       }}
     >
@@ -105,7 +107,8 @@ const makeList = (...args) => {
                 if (extCredState.cid === undefined) {
                   axios
                     .post(
-                      'http://localhost:3003/api/connect',
+                      // 'http://localhost:3003/api/connect',
+                      'http://localhost:3001/api/connect',
                       { execute: 'order66' },
                       { withCredentials: true }
                     )
@@ -118,7 +121,8 @@ const makeList = (...args) => {
                       };
                       axios
                         .post(
-                          'http://localhost:3003/get/meta',
+                          // 'http://localhost:3003/get/meta',
+                          'http://localhost:3001/get/meta',
                           { reqData },
                           { withCredentials: true }
                         )
@@ -133,7 +137,8 @@ const makeList = (...args) => {
                     credData: extCredState
                   };
                   axios
-                    .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
+                    // .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
+                    .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
                     .then(res => {
                       selItemData(res.data);
                     });
@@ -175,7 +180,8 @@ const makeList = (...args) => {
                   if (extCredState.cid === undefined) {
                     axios
                       .post(
-                        'http://localhost:3003/api/connect',
+                        // 'http://localhost:3003/api/connect',
+                        'http://localhost:3001/api/connect',
                         { execute: 'order66' },
                         { withCredentials: true }
                       )
@@ -188,7 +194,8 @@ const makeList = (...args) => {
                         };
                         axios
                           .post(
-                            'http://localhost:3003/get/meta',
+                            // 'http://localhost:3003/get/meta',
+                            'http://localhost:3001/get/meta',
                             { reqData },
                             { withCredentials: true }
                           )
@@ -204,7 +211,8 @@ const makeList = (...args) => {
                     };
                     axios
                       .post(
-                        'http://localhost:3003/get/meta',
+                        // 'http://localhost:3003/get/meta',
+                        'http://localhost:3001/get/meta',
                         { reqData },
                         { withCredentials: true }
                       )
