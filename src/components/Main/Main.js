@@ -111,7 +111,7 @@ const Main = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const abortCon = new AbortController();
+    // const abortCon = new AbortController();
     const checkLogin = () => {
       axios
         .post(
@@ -121,6 +121,7 @@ const Main = () => {
           { withCredentials: true }
         )
         .then(res => {
+          console.log(res.data)
           if (res.data.isLoginSuccessful) {
             dispatch(loginStatusCreator(res.data.isLoginSuccessful));
             if (userState.nickname === undefined) {
@@ -145,9 +146,9 @@ const Main = () => {
       checkLogin();
     }
     checkLogin();
-    return () => {
-      abortCon.abort();
-    }
+    // return () => {
+    //   abortCon.abort();
+    // }
   }, [comparisonState]);
 
   useEffect(() => {
