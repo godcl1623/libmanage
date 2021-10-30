@@ -112,8 +112,8 @@ const Main = () => {
 
   useEffect(() => {
     // const abortCon = new AbortController();
-    const checkLogin = () => {
-      axios
+    const checkLogin = async () => {
+      await axios
         .post(
           // 'http://localhost:3002/check_login',
           'http://localhost:3001/check_login',
@@ -135,7 +135,7 @@ const Main = () => {
               dispatch(userStateCreator(res.data));
               dispatch(comparisonStateCreator(''));
             }
-          } else if (res.data.isLoginSuccessful === false) {
+          } else if (res.data.isLoginSuccessful === false || res.data === 'check_failed') {
             alert('로그인이 필요합니다');
             history.push('/');
           }
