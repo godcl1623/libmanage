@@ -113,6 +113,10 @@ const Main = () => {
   useEffect(() => {
     // const abortCon = new AbortController();
     const checkLogin = async () => {
+      // const message = {
+      //   comparisonState,
+        
+      // }
       await axios
         .post(
           // 'http://localhost:3002/check_login',
@@ -121,7 +125,6 @@ const Main = () => {
           { withCredentials: true }
         )
         .then(res => {
-          console.log(res.data)
           if (res.data.isLoginSuccessful) {
             dispatch(loginStatusCreator(res.data.isLoginSuccessful));
             if (userState.nickname === undefined) {
