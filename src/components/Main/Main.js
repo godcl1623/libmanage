@@ -15,6 +15,7 @@ import {
   comparisonStateCreator,
   modalStateCreator
 } from '../../actions';
+import { sendTo } from '../../custom_modules/address';
 
 const modalOption = {
   position: 'absolute',
@@ -39,7 +40,8 @@ const modalContents = (state, dispatch, setState1, setState2, origin) => {
             <h3>스팀</h3>
             <a
               // href="http://localhost:3003/auth/steam"
-              href="http://localhost:3001/auth/steam"
+              // href="http://localhost:3001/auth/steam"
+              href={`https://${sendTo}/auth/steam`}
               // target="_blank"
               // rel="noreferrer"
             >
@@ -65,7 +67,8 @@ const modalContents = (state, dispatch, setState1, setState2, origin) => {
                 axios
                   .post(
                     // 'http://localhost:3003/disconnect',
-                    'http://localhost:3001/disconnect',
+                    // 'http://localhost:3001/disconnect',
+                    `https://${sendTo}/disconnect`,
                     { reqUserInfo: JSON.stringify(state) },
                     { withCredentials: true }
                   )
@@ -120,7 +123,8 @@ const Main = () => {
       await axios
         .post(
           // 'http://localhost:3002/check_login',
-          'http://localhost:3001/check_login',
+          // 'http://localhost:3001/check_login',
+          `https://${sendTo}/check_login`,
           { message: comparisonState },
           { withCredentials: true }
         )
@@ -193,7 +197,8 @@ const Main = () => {
     if (dataToSend.reqLibs !== '') {
       axios
         // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
-        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           setUserLibrary({ steam: res.data });

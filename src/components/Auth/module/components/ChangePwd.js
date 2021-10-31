@@ -9,6 +9,7 @@ import { tokenStateCreator } from '../../../../actions';
 import { encryptor } from '../../../../custom_modules/aeser';
 import { hasher } from '../../../../custom_modules/hasher';
 import { verifyPwd } from '../utils';
+import { sendTo } from '../../../../custom_modules/address';
 
 const ChangePwd = ({ token, reqTime }) => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -56,7 +57,8 @@ const ChangePwd = ({ token, reqTime }) => {
           formData.reqTime = reqTime();
           formData.originTime = originTime;
           // axios.post('http://localhost:3002/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
-          axios.post('http://localhost:3001/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
+          // axios.post('http://localhost:3001/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
+          axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
             .then(res => {
               if (res.data === 'complete') {
                 alert('비밀번호가 변경되었습니다.\n다시 로그인해주세요.');

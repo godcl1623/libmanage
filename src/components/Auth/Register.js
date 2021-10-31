@@ -7,6 +7,7 @@ import { hasher } from '../../custom_modules/hasher';
 import FormSubmit from './module/components/FormSubmit';
 import InputTemplate from './module/components/InputTemplate';
 import { verifyId, verifyPwd, verifyNick, verifyEmail } from './module/utils';
+import { sendTo } from '../../custom_modules/address';
 
 const Register = () => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -112,7 +113,8 @@ const Register = () => {
           const existCheck = async sofo => {
             await axios.post(
               // 'http://localhost:3002/member/register',
-              'http://localhost:3001/member/register',
+              // 'http://localhost:3001/member/register',
+              `https://${sendTo}/member/register`,
               {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
               { withCredentials: true })
             .then(res => {

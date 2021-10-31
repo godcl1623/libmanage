@@ -11,6 +11,7 @@ import {
 } from '../../actions';
 import { hasher, salter } from '../../custom_modules/hasher';
 import { encryptor } from '../../custom_modules/aeser';
+import { sendTo } from '../../custom_modules/address';
 
 const loginException = (dispatch, history) => {
   const formData = {
@@ -19,7 +20,8 @@ const loginException = (dispatch, history) => {
   axios
     .post(
       // 'http://localhost:3002/login_process',
-      'http://localhost:3001/login_process',
+      // 'http://localhost:3001/login_process',
+      `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
       { withCredentials: true }
     )
@@ -46,7 +48,8 @@ const Login = () => {
     axios
       .post(
         // 'http://localhost:3002/check_login',
-        'http://localhost:3001/check_login',
+        // 'http://localhost:3001/check_login',
+        `https://${sendTo}/check_login`,
         { message: comparisonState },
         { withCredentials: true }
       )
@@ -123,7 +126,8 @@ const Login = () => {
           axios
             .post(
               // 'http://localhost:3002/login_process',
-              'http://localhost:3001/login_process',
+              // 'http://localhost:3001/login_process',
+              `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
               { withCredentials: true }
             )
