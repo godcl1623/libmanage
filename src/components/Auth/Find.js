@@ -5,6 +5,7 @@ import axios from 'axios';
 import FormSubmit from './module/components/FormSubmit';
 import FindRequested from './module/components/FindRequested';
 import { encryptor } from '../../custom_modules/aeser';
+import { sendTo } from '../../custom_modules/address';
 
 const Find = ({ mode }) => {
   const [tabState, setTabState] = useState(mode);
@@ -38,7 +39,8 @@ const Find = ({ mode }) => {
               const formData = {};
               const infoCheck = async infoObj => {
                 // await axios.post(`http://localhost:3002/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
-              await axios.post(`http://localhost:3001/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+              // await axios.post(`http://localhost:3001/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+              await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };
