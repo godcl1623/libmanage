@@ -20,8 +20,8 @@ const loginException = (dispatch, history) => {
   axios
     .post(
       // 'http://localhost:3002/login_process',
-      // 'http://localhost:3001/login_process',
-      `https://${sendTo}/login_process`,
+      'http://localhost:3001/login_process',
+      // `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
       { withCredentials: true }
     )
@@ -48,8 +48,8 @@ const Login = () => {
     axios
       .post(
         // 'http://localhost:3002/check_login',
-        // 'http://localhost:3001/check_login',
-        `https://${sendTo}/check_login`,
+        'http://localhost:3001/check_login',
+        // `https://${sendTo}/check_login`,
         { message: comparisonState },
         { withCredentials: true }
       )
@@ -126,8 +126,8 @@ const Login = () => {
           axios
             .post(
               // 'http://localhost:3002/login_process',
-              // 'http://localhost:3001/login_process',
-              `https://${sendTo}/login_process`,
+              'http://localhost:3001/login_process',
+              // `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
               { withCredentials: true }
             )
@@ -135,6 +135,7 @@ const Login = () => {
               if (res.data.isLoginSuccessful && !res.data.isGuest) {
                 dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                 dispatch(userStateCreator(res.data));
+                localStorage.setItem('test', JSON.stringify(res.data));
                 alert(`${res.data.nickname}님, 로그인에 성공했습니다.`);
                 history.push('/main');
               } else {
