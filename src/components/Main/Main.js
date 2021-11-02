@@ -31,7 +31,11 @@ const modalOption = {
 const modalContents = (state, dispatch, setState1, setState2, origin) => {
   if (origin !== 'Library') {
     // 모든 스토어에 대응 가능하도록 개선 필요
-    if (state.stores === undefined || state.stores.game === undefined || state.stores.game.steam === false) {
+    if (
+      state.stores === undefined ||
+      state.stores.game === undefined ||
+      state.stores.game.steam === false
+    ) {
       return (
         <article>
           <h2>스토어 목록</h2>
@@ -118,8 +122,8 @@ const Main = () => {
     const checkLogin = async () => {
       const message = {
         comparisonState,
-        info: localStorage.getItem('test')
-      }
+        million: localStorage.getItem('frog')
+      };
       await axios
         .post(
           // 'http://localhost:3002/check_login',
@@ -130,21 +134,36 @@ const Main = () => {
           { withCredentials: true }
         )
         .then(res => {
-          // console.log(res.data)
           if (res.data.isLoginSuccessful) {
-            dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-            if (userState.nickname === undefined) {
-              dispatch(userStateCreator(res.data));
-              dispatch(comparisonStateCreator(''));
+            if (!res.data.isGuest) {
+              dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              if (userState.nickname === undefined) {
+                dispatch(userStateCreator(res.data));
+                dispatch(comparisonStateCreator(''));
+              }
+            } else {
+              dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              if (userState.nickname === undefined) {
+                dispatch(userStateCreator(res.data));
+                dispatch(comparisonStateCreator(''));
+              }
             }
-          } else if (res.data.isGuest) {
-            // 임시로 작성
-            dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-            if (userState.nickname === undefined) {
-              dispatch(userStateCreator(res.data));
-              dispatch(comparisonStateCreator(''));
-            }
-          } else if (res.data.isLoginSuccessful === false || res.data === 'check_failed') {
+          } else if (res.data === 'session_expired' || res.data === 'check_failed') {
+            (() =>
+              new Promise(resolve => {
+                localStorage.removeItem('frog');
+                localStorage.removeItem('flies');
+                if (!localStorage.getItem('frog')) {
+                  resolve(true);
+                }
+              })
+              .then(res => {
+                if (res) {
+                  alert('로그인이 필요합니다');
+                  history.push('/');
+                }
+              }))();
+          } else if (res.data === 'no_sessions') {
             alert('로그인이 필요합니다');
             history.push('/');
           }
@@ -186,7 +205,7 @@ const Main = () => {
     }
     return () => {
       abortCon.abort();
-    }
+    };
   }, [userState.stores]);
 
   useEffect(() => {
@@ -204,12 +223,12 @@ const Main = () => {
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           setUserLibrary({ steam: res.data });
-        })
-        // .catch(err => alert(err));
+        });
+      // .catch(err => alert(err));
     }
     return () => {
       abortCon.abort();
-    }
+    };
   }, [storesList]);
 
   useEffect(() => {
@@ -225,7 +244,7 @@ const Main = () => {
     }
     return () => {
       abortCon.abort();
-    }
+    };
   }, [selectedItem, selectedItemData]);
 
   if (loginStatus === false && logoutClicked === false) {

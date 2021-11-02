@@ -45,30 +45,33 @@ const Login = () => {
 
   useEffect(() => {
     const abortCon = new AbortController();
+    const message = {
+      comparisonState,
+      million: localStorage.getItem('frog')
+    }
     axios
       .post(
         // 'http://localhost:3002/check_login',
         'http://localhost:3001/check_login',
         // `https://${sendTo}/check_login`,
-        { message: comparisonState },
+        { message },
         { withCredentials: true }
       )
       .then(res => {
         if (res.data.isLoginSuccessful) {
-          dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-          history.push('/main');
-          if (userState.nickname === undefined) {
-            dispatch(userStateCreator(res.data));
+          if (!res.data.isGueset) {
+            dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+            history.push('/main');
+            if (userState.nickname === undefined) {
+              dispatch(userStateCreator(res.data));
+            } else {
+              dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              history.push('/main');
+              if (userState.nickname === undefined) {
+                dispatch(userStateCreator(res.data));
+              }
+            }
           }
-        } else if (res.data.isGuest) {
-          // 임시로 작성
-          dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-          history.push('/main');
-          if (userState.nickname === undefined) {
-            dispatch(userStateCreator(res.data));
-          }
-        } else if (res.data.isLoginSuccessful === false) {
-          // alert(res.data);
         }
       })
       .catch(err => alert(err));
@@ -135,7 +138,8 @@ const Login = () => {
               if (res.data.isLoginSuccessful && !res.data.isGuest) {
                 dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                 dispatch(userStateCreator(res.data));
-                localStorage.setItem('test', JSON.stringify(res.data));
+                localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));
+                localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER));
                 alert(`${res.data.nickname}님, 로그인에 성공했습니다.`);
                 history.push('/main');
               } else {
