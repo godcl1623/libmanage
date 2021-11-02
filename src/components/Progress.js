@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { comparisonStateCreator } from '../actions';
 import { sendTo } from '../custom_modules/address';
 
 const Progress = () => {
+  const comparisonState = useSelector(state => state.comparisonState);
   const [count, setCount] = useState('');
   const [total, setTotal] = useState('');
   const [status, setStatus] = useState('1');
@@ -29,10 +30,14 @@ const Progress = () => {
   };
   useEffect(() => {
     const abortCon = new AbortController();
+    const message = {
+      comparisonState,
+      million: localStorage.getItem('frog')
+    };
     axios
       // .post('http://localhost:3002/check_login', { message: '' }, { withCredentials: true })
       // .post('http://localhost:3001/check_login', { message: '' }, { withCredentials: true })
-      .post(`https://${sendTo}/check_login`, { message: '' }, { withCredentials: true })
+      .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
       .then(res => {
         const reqUserInfo = res.data;
         return new Promise((resolve, reject) => resolve(reqUserInfo));
