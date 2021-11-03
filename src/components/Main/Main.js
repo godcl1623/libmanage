@@ -79,7 +79,7 @@ const modalContents = (state, dispatch, setState1, setState2, origin) => {
                   .then(res => {
                     if (res) {
                       dispatch(setState2(false));
-                      window.location.reload();
+                      // window.location.reload();
                     }
                   });
               }}
@@ -172,6 +172,9 @@ const Main = () => {
     };
     if (comparisonState !== '') {
       checkLogin();
+      if (comparisonState === '') {
+        window.location.reload();
+      }
     }
     checkLogin();
     // return () => {
