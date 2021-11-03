@@ -28,7 +28,8 @@ const modalOption = {
   zIndex: '2'
 };
 
-const modalContents = (state, dispatch, setState1, setState2, origin) => {
+const modalContents = (...args) => {
+  const [state, dispatch, setState1, setState2, origin, setLibs] = args;
   if (origin !== 'Library') {
     // 모든 스토어에 대응 가능하도록 개선 필요
     if (
@@ -79,7 +80,7 @@ const modalContents = (state, dispatch, setState1, setState2, origin) => {
                   .then(res => {
                     if (res) {
                       dispatch(setState2(false));
-                      // window.location.reload();
+                      setLibs('');
                     }
                   });
               }}
@@ -156,8 +157,7 @@ const Main = () => {
                 if (!localStorage.getItem('frog')) {
                   resolve(true);
                 }
-              })
-              .then(res => {
+              }).then(res => {
                 if (res) {
                   alert('로그인이 필요합니다');
                   history.push('/');
@@ -172,9 +172,6 @@ const Main = () => {
     };
     if (comparisonState !== '') {
       checkLogin();
-      if (comparisonState === '') {
-        window.location.reload();
-      }
     }
     checkLogin();
     // return () => {
@@ -297,7 +294,14 @@ const Main = () => {
       <Modal
         style={modalOption}
         contents={() =>
-          modalContents(userState, dispatch, comparisonStateCreator, modalStateCreator, modalOrigin)
+          modalContents(
+            userState,
+            dispatch,
+            comparisonStateCreator,
+            modalStateCreator,
+            modalOrigin,
+            setUserLibrary
+          )
         }
         origin={modalOrigin}
       />
