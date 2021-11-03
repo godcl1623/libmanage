@@ -222,7 +222,9 @@ const Main = () => {
         .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
-          setUserLibrary({ steam: res.data });
+          if (res.data !== 'no_result') {
+            setUserLibrary({ steam: res.data });
+          }
         });
       // .catch(err => alert(err));
     }
