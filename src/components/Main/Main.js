@@ -77,13 +77,13 @@ const modalContents = (...args) => {
                 const temp = state;
                 temp.stores.game.steam = false;
                 // 반영을 위해서는 comparisonState 변경이 필요
-                dispatch(setState1(temp));
+                // dispatch(setState1(temp));
                 axios
                   .post(
                     // 'http://localhost:3003/disconnect',
                     // 'http://localhost:3001/disconnect',
                     `https://${sendTo}/disconnect`,
-                    { reqUserInfo: JSON.stringify(state) },
+                    { reqUserInfo: JSON.stringify(temp) },
                     { withCredentials: true }
                   )
                   .then(res => {
@@ -153,6 +153,8 @@ const Main = () => {
                 dispatch(userStateCreator(res.data));
                 dispatch(comparisonStateCreator(''));
               } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
+                let initial = userState.stores.game.steam;
+
                 dispatch(userStateCreator(res.data));
               }
             } else {
@@ -161,6 +163,8 @@ const Main = () => {
                 dispatch(userStateCreator(res.data));
                 dispatch(comparisonStateCreator(''));
               } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
+                let initial = userState.stores.game.steam;
+
                 dispatch(userStateCreator(res.data));
               }
             }
