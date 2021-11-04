@@ -152,12 +152,16 @@ const Main = () => {
               if (userState.nickname === undefined) {
                 dispatch(userStateCreator(res.data));
                 dispatch(comparisonStateCreator(''));
+              } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
+                dispatch(userStateCreator(res.data));
               }
             } else {
               dispatch(loginStatusCreator(res.data.isLoginSuccessful));
               if (userState.nickname === undefined) {
                 dispatch(userStateCreator(res.data));
                 dispatch(comparisonStateCreator(''));
+              } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
+                dispatch(userStateCreator(res.data));
               }
             }
           } else if (res.data === 'session_expired' || res.data === 'check_failed') {
