@@ -77,20 +77,20 @@ const modalContents = (...args) => {
                 const temp = state;
                 temp.stores.game.steam = false;
                 // 반영을 위해서는 comparisonState 변경이 필요
-                // dispatch(setState1(temp));
                 axios
-                  .post(
-                    // 'http://localhost:3003/disconnect',
-                    // 'http://localhost:3001/disconnect',
-                    `https://${sendTo}/disconnect`,
-                    { reqUserInfo: JSON.stringify(temp) },
-                    { withCredentials: true }
+                .post(
+                  // 'http://localhost:3003/disconnect',
+                  // 'http://localhost:3001/disconnect',
+                  `https://${sendTo}/disconnect`,
+                  { reqUserInfo: JSON.stringify(temp) },
+                  { withCredentials: true }
                   )
                   .then(res => {
                     if (res) {
                       dispatch(setState2(false));
                       setLibs('');
                       dispatch(setItem({}));
+                      dispatch(setState1(temp));
                     }
                   });
               }}
@@ -145,7 +145,6 @@ const Main = () => {
           { withCredentials: true }
         )
         .then(res => {
-          console.log(res.data)
           if (res.data.isLoginSuccessful) {
             if (!res.data.isGuest) {
               dispatch(loginStatusCreator(res.data.isLoginSuccessful));
@@ -153,8 +152,6 @@ const Main = () => {
                 dispatch(userStateCreator(res.data));
                 dispatch(comparisonStateCreator(''));
               } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
-                let initial = userState.stores.game.steam;
-
                 dispatch(userStateCreator(res.data));
               }
             } else {
@@ -163,8 +160,6 @@ const Main = () => {
                 dispatch(userStateCreator(res.data));
                 dispatch(comparisonStateCreator(''));
               } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
-                let initial = userState.stores.game.steam;
-
                 dispatch(userStateCreator(res.data));
               }
             }
