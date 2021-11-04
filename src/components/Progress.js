@@ -50,9 +50,11 @@ const Progress = () => {
           .then(res => {
             if (res.data.result) {
               dispatch(comparisonStateCreator(res.data.newInfo));
-              setTimeout(() => history.push('/main'), 3000);
+              console.log('finished');
+              setTimeout(() => history.push('/main'), 1500);
             }
-          });
+          })
+          .catch(err => console.log('err occured', err));
       });
     return () => abortCon.abort();
   }, []);
@@ -77,6 +79,9 @@ const Progress = () => {
           setCount(res.data.count);
           setTotal(res.data.total);
           setStatus(res.data.status);
+        }
+        if (status === '5') {
+          clearInterval(requestStatus);
         }
       });
     }, 100);
