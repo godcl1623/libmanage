@@ -84,7 +84,7 @@ const Progress = () => {
           clearInterval(requestStatus);
         }
       });
-    }, 100);
+    }, 1000);
     return () => {
       clearInterval(requestStatus);
       abortCon.abort();
