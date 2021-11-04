@@ -13,7 +13,8 @@ import {
   userStateCreator,
   balloonStateCreator,
   comparisonStateCreator,
-  modalStateCreator
+  modalStateCreator,
+  selectedItemDataCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 
@@ -29,7 +30,15 @@ const modalOption = {
 };
 
 const modalContents = (...args) => {
-  const [state, dispatch, setState1, setState2, origin, setLibs] = args;
+  const [
+    state,
+    dispatch,
+    setState1,
+    setState2,
+    origin,
+    setLibs,
+    setItem
+  ] = args;
   if (origin !== 'Library') {
     // 모든 스토어에 대응 가능하도록 개선 필요
     if (
@@ -81,6 +90,7 @@ const modalContents = (...args) => {
                     if (res) {
                       dispatch(setState2(false));
                       setLibs('');
+                      dispatch(setItem({}));
                     }
                   });
               }}
@@ -300,7 +310,8 @@ const Main = () => {
             comparisonStateCreator,
             modalStateCreator,
             modalOrigin,
-            setUserLibrary
+            setUserLibrary,
+            selectedItemDataCreator
           )
         }
         origin={modalOrigin}
