@@ -34,21 +34,27 @@ const Progress = () => {
       comparisonState,
       million: localStorage.getItem('frog')
     };
+    const forceAbort = () => setTimeout(() => {
+      abortCon.abort();
+      history.push('/main');
+    }, 30000);
     axios
       // .post('http://localhost:3002/check_login', { message: '' }, { withCredentials: true })
-      // .post('http://localhost:3001/check_login', { message: '' }, { withCredentials: true })
+      // .post('http://localhost:3001/check_login', { message }, { withCredentials: true })
       .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
       .then(res => {
         const reqUserInfo = res.data;
         return new Promise((resolve, reject) => resolve(reqUserInfo));
       })
       .then(res => {
+        forceAbort();
         axios
           // .post('http://localhost:3003/api/search', { reqUserInfo: res }, { withCredentials: true })
           // .post('http://localhost:3001/api/search', { reqUserInfo: res }, { withCredentials: true })
           .post(`https://${sendTo}/api/search`, { reqUserInfo: res }, { withCredentials: true })
           .then(res => {
             if (res.data.result) {
+              clearTimeout(forceAbort);
               dispatch(comparisonStateCreator(res.data.newInfo));
               console.log('finished');
               setTimeout(() => history.push('/main'), 1500);
