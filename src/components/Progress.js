@@ -17,24 +17,25 @@ const Progress = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const abortCon = new AbortController();
+  const additionalString = `(${currApiCall+1}회차 / 전체 ${maxApiCall}회)`;
   const forceAbort = (aborter, history) => setTimeout(() => {
     aborter.abort();
     history.push('/main');
   }, 30000);
-  const statusText = status => {
+  const statusText = (status, addStr) => {
     switch (status) {
       case '1':
-        return '보유 중인 라이브러리를 IGDB 서비스에 검색 중입니다';
+        return `보유 중인 라이브러리를 IGDB 서비스에 검색 중입니다.`;
       case '2':
-        return '누락된 항목을 IGDB 서비스에 재검색 중입니다';
+        return `누락된 항목을 IGDB 서비스에 재검색 중입니다. ${addStr}`;
       case '3':
-        return 'IGDB 서비스로부터 메타데이터를 수신하는 중입니다';
+        return `IGDB 서비스로부터 메타데이터를 수신하는 중입니다. ${addStr}`;
       case '4':
-        return '수신한 메타데이터를 가공하는 중입니다';
+        return `수신한 메타데이터를 가공하는 중입니다. ${addStr}`;
       case '5':
-        return '메타데이터의 저장이 완료됐습니다';
+        return `메타데이터의 저장이 완료됐습니다.`;
       default:
-        return '오류가 발생했습니다';
+        return `오류가 발생했습니다.`;
     }
   };
   useEffect(() => {
@@ -134,11 +135,11 @@ const Progress = () => {
       clearInterval(requestStatus);
       abortCon.abort();
     };
-  }, [total]);
+  }, [count]);
   return (
     <>
       <h1>Progress</h1>
-      <p>{`${statusText(status)} (${count}/${total})`}</p>
+      <p>{`${statusText(status, additionalString)} (${count}/${total})`}</p>
     </>
   );
 };
