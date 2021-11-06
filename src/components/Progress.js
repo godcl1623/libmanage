@@ -10,12 +10,10 @@ const Progress = () => {
   const [count, setCount] = useState('');
   const [total, setTotal] = useState('');
   const [status, setStatus] = useState('1');
-  // #################### 임시 작성 시작 ####################
   const [userInfo, setUserInfo] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [maxApiCall, setMaxApiCall] = useState('');
   const [currApiCall, setCurrApiCall] = useState('');
-  // #################### 임시 작성 끝 ####################
   const history = useHistory();
   const dispatch = useDispatch();
   const abortCon = new AbortController();
@@ -39,77 +37,6 @@ const Progress = () => {
         return '오류가 발생했습니다';
     }
   };
-  /* #################### 원본 코드 시작 ####################
-  useEffect(() => {
-    const abortCon = new AbortController();
-    const message = {
-      comparisonState,
-      million: localStorage.getItem('frog')
-    };
-    const forceAbort = () => setTimeout(() => {
-      abortCon.abort();
-      history.push('/main');
-    }, 30000);
-    axios
-      // .post('http://localhost:3002/check_login', { message: '' }, { withCredentials: true })
-      .post('http://localhost:3001/check_login', { message }, { withCredentials: true })
-      // .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
-      .then(res => {
-        const reqUserInfo = res.data;
-        return new Promise((resolve, reject) => resolve(reqUserInfo));
-      })
-      .then(res => {
-        forceAbort();
-        axios
-          // .post('http://localhost:3003/api/search', { reqUserInfo: res }, { withCredentials: true })
-          .post('http://localhost:3001/api/search', { reqUserInfo: res }, { withCredentials: true })
-          // .post(`https://${sendTo}/api/search`, { reqUserInfo: res }, { withCredentials: true })
-          .then(res => {
-            if (res.data.result) {
-              clearTimeout(forceAbort);
-              dispatch(comparisonStateCreator(res.data.newInfo));
-              console.log('finished');
-              setTimeout(() => history.push('/main'), 1500);
-            }
-          })
-          .catch(err => console.log('err occured', err));
-      });
-    return () => abortCon.abort();
-  }, []);
-  // useEffect(() => {
-  //   axios.post('http://localhost:3003/api/search', {}, {withCredentials: ƒtrue})
-  //     .then(res => {
-  //       if (res.data) {
-  //         setTimeout(() => history.push('/main'), 3000);
-  //       }
-  //     })
-  //   }, []);
-  useEffect(() => {
-    const abortCon = new AbortController();
-    const requestStatus = setInterval(() => {
-      // axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
-      axios.post('http://localhost:3001/stat/track', {}, { withCredentials: true }).then(res => {
-      // axios.post(`https://${sendTo}/stat/track`, {}, { withCredentials: true }).then(res => {
-        if (res.data.status === status) {
-          setCount(res.data.count);
-          setTotal(res.data.total);
-        } else {
-          setCount(res.data.count);
-          setTotal(res.data.total);
-          setStatus(res.data.status);
-        }
-        if (status === '5') {
-          clearInterval(requestStatus);
-        }
-      });
-    }, 1000);
-    return () => {
-      clearInterval(requestStatus);
-      abortCon.abort();
-    };
-  }, [total]);
-  #################### 원본 코드 끝 ####################
-  */
   useEffect(() => {
     const message = {
       comparisonState,
