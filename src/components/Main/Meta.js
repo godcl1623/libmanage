@@ -1,61 +1,45 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const DisplayMedia = ({ target, itemData }) => {
+const MakeMediaList = ({ target, itemData }) => {
+  let targetMedia = itemData.screenshots;
   switch (target) {
-    case 'screenshots':
-      return (
-        <>
-          {
-            itemData.screenshots
-              ?
-                <img
-                  src={`https://images.igdb.com/igdb/image/upload/t_thumb/${itemData.screenshots[0]}.jpg`}
-                  alt="screenshot"
-                />
-              : ''
-          }
-        </>
-      );
     case 'videos':
-      return (
-        <>
-          {
-            itemData.game_videos
-              ? <iframe
-                  width="560"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${itemData.game_videos[0]}`}
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                />
-              : ''
-          }
-        </>
-      );
+      targetMedia = itemData.game_videos;
+      break;
     case 'artworks':
-      return (
-        <>
-          {
-            itemData.artworks
-              ?
-                <img
-                  src={`https://images.igdb.com/igdb/image/upload/t_thumb/${itemData.artworks[0]}.jpg`}
-                  alt="artworks"
-                />
-              : ''
-          }
-        </>
-      );
+      targetMedia = itemData.artworks;
+      break;
     default:
-      return <></>;
+      targetMedia = itemData.screenshots;
   }
-}
+  if (target === 'videos') {
+    return targetMedia
+      ? targetMedia.map(media => (
+          <iframe
+            width="560"
+            height="315"
+            src={`https://www.youtube.com/embed/${media}`}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
+        ))
+      : '';
+  }
+  return targetMedia
+    ? targetMedia.map(media => (
+        <img
+          src={`https://images.igdb.com/igdb/image/upload/t_thumb/${media}.jpg`}
+          alt="artworks"
+        />
+      ))
+    : '';
+};
 
 const Meta = () => {
-  const selectedItem = useSelector(state => state.selectedItem);
+  // const selectedItem = useSelector(state => state.selectedItem);
   const selectedItemData = useSelector(state => state.selectedItemData);
   const [selectedMedia, setSelectedMedia] = React.useState('screenshots');
   const {
@@ -151,26 +135,13 @@ const Meta = () => {
                 </button>
               </div>
               <div className="media-contents">
-                <DisplayMedia
-                  target={selectedMedia}
-                  itemData={selectedItemData}
-                />
+                <MakeMediaList target={selectedMedia} itemData={selectedItemData} />
               </div>
             </div>
           </article>
           <article className="meta-wrapper-contents-info">
             <div className="info-title">
-              장르
-              시점
-              게임 모드
-              테마
-              플랫폼
-              출시일
-              개발사 등
-              시리즈
-              프랜차이즈
-              연령 제한
-              관련 링크
+              장르 시점 게임 모드 테마 플랫폼 출시일 개발사 등 시리즈 프랜차이즈 연령 제한 관련 링크
             </div>
             <div className="info-contents">
               {genres}
