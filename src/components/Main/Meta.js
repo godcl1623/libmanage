@@ -15,22 +15,28 @@ const MakeMediaList = ({ target, itemData }) => {
   }
   if (target === 'videos') {
     return targetMedia
-      ? targetMedia.map(media => (
-          <iframe
-            width="560"
-            height="315"
-            src={`https://www.youtube.com/embed/${media}`}
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
+      ? targetMedia.map((media, idx) => (
+          // <iframe
+          //   width="560"
+          //   height="315"
+          //   src={`https://www.youtube.com/embed/${media}`}
+          //   title="YouTube video player"
+          //   frameborder="0"
+          //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          //   allowfullscreen
+          // />
+          <img
+            key={`${media}_${idx}`}
+            src={`https://img.youtube.com/vi/${media}/2.jpg`}
+            alt="video_thumb"
           />
         ))
       : '';
   }
   return targetMedia
-    ? targetMedia.map(media => (
+    ? targetMedia.map((media, idx) => (
         <img
+          key={`${media}_${idx}`}
           src={`https://images.igdb.com/igdb/image/upload/t_thumb/${media}.jpg`}
           alt="artworks"
         />
