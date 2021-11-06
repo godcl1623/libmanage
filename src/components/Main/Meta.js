@@ -1,9 +1,63 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+const DisplayMedia = ({ target, itemData }) => {
+  switch (target) {
+    case 'screenshots':
+      return (
+        <>
+          {
+            itemData.screenshots
+              ?
+                <img
+                  src={`https://images.igdb.com/igdb/image/upload/t_thumb/${itemData.screenshots[0]}.jpg`}
+                  alt="screenshot"
+                />
+              : ''
+          }
+        </>
+      );
+    case 'videos':
+      return (
+        <>
+          {
+            itemData.game_videos
+              ? <iframe
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${itemData.game_videos[0]}`}
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                />
+              : ''
+          }
+        </>
+      );
+    case 'artworks':
+      return (
+        <>
+          {
+            itemData.artworks
+              ?
+                <img
+                  src={`https://images.igdb.com/igdb/image/upload/t_thumb/${itemData.artworks[0]}.jpg`}
+                  alt="artworks"
+                />
+              : ''
+          }
+        </>
+      );
+    default:
+      return <></>;
+  }
+}
+
 const Meta = () => {
   const selectedItem = useSelector(state => state.selectedItem);
   const selectedItemData = useSelector(state => state.selectedItemData);
+  const [selectedMedia, setSelectedMedia] = React.useState('screenshots');
   const {
     artworks,
     covers,
@@ -71,42 +125,36 @@ const Meta = () => {
           <article className="meta-wrapper-contents-media">
             <div className="media-contents-wrapper">
               <div className="media-tabs">
-                <button>스크린샷({selectedItemData.screenshots ? screenshots.length : 0})</button>
-                <button>동영상({videos ? videos.length : 0})</button>
-                <button>기타({selectedItemData.artworks ? artworks.length : 0})</button>
+                <button
+                  onClick={e => {
+                    e.preventDefault();
+                    setSelectedMedia('screenshots');
+                  }}
+                >
+                  스크린샷({selectedItemData.screenshots ? screenshots.length : 0})
+                </button>
+                <button
+                  onClick={e => {
+                    e.preventDefault();
+                    setSelectedMedia('videos');
+                  }}
+                >
+                  동영상({videos ? videos.length : 0})
+                </button>
+                <button
+                  onClick={e => {
+                    e.preventDefault();
+                    setSelectedMedia('artworks');
+                  }}
+                >
+                  기타({selectedItemData.artworks ? artworks.length : 0})
+                </button>
               </div>
               <div className="media-contents">
-                {
-                  selectedItemData.screenshots
-                    ?
-                      <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_thumb/${screenshots[0]}.jpg`}
-                        alt="screenshot"
-                      />
-                    : ''
-                }
-                {
-                  videos
-                    ? <iframe
-                      width="560"
-                      height="315"
-                      src={`https://www.youtube.com/embed/${videos[0]}`}
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    />
-                    : ''
-                }
-                {
-                  selectedItemData.artworks
-                    ?
-                      <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_thumb/${artworks[0]}.jpg`}
-                        alt="artworks"
-                      />
-                    : ''
-                }
+                <DisplayMedia
+                  target={selectedMedia}
+                  itemData={selectedItemData}
+                />
               </div>
             </div>
           </article>
