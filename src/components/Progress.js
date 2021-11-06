@@ -138,18 +138,19 @@ const Progress = () => {
           clearTimeout(timer);
           setApiKey(res.data.apiKey);
           setMaxApiCall(Math.ceil(res.data.maxGames/25));
-          setCurrApiCall(7);
+          setCurrApiCall(0);
         })
         .catch(err => console.log(err));
     }
     return () => abortCon.abort();
   }, [userInfo]);
   useEffect(() => {
-    if (currApiCall !== '') {
+    if (currApiCall !== '' && currApiCall !== 'done') {
       const pack = {
         apiCred: apiKey,
         maxApiCall,
-        currApiCall
+        currApiCall,
+        userInfo
       }
       const timer = forceAbort(abortCon, history);
       axios
