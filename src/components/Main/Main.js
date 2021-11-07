@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +9,7 @@ import Library from './Library';
 import Meta from './Meta';
 import Navigation from './Navigation';
 import Modal from '../Modal/Modal';
+import MemberInfoWrap from '../Member/MemberInfoWrap';
 import {
   loginStatusCreator,
   userStateCreator,
@@ -18,16 +20,16 @@ import {
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 
-const modalOption = {
+const modalOption = origin => ({
   position: 'absolute',
-  width: '50%',
-  height: '50%',
+  width: origin !== 'Header_MemInfo' ? '50%' : '45%',
+  height: origin !== 'Header_MemInfo' ? '50%' : '85%',
   background: 'white',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   zIndex: '2'
-};
+});
 
 const modalContents = (...args) => {
   const [
@@ -39,7 +41,7 @@ const modalContents = (...args) => {
     setLibs,
     setItem
   ] = args;
-  if (origin !== 'Library') {
+  if (origin === 'Header_Option') {
     // 모든 스토어에 대응 가능하도록 개선 필요
     if (
       state.stores === undefined ||
@@ -101,6 +103,8 @@ const modalContents = (...args) => {
         </article>
       );
     }
+  } else if (origin === 'Header_MemInfo') {
+    return <MemberInfoWrap />;
   }
   return (
     <article
@@ -283,7 +287,7 @@ const Main = () => {
         }}
         onClick={e => {
           // e.preventDefault();
-          // console.log(e)
+          console.log(e.target.id)
           if (balloonState !== 'none' && e.target.id === 'balloon') {
             dispatch(balloonStateCreator('none'));
           }
@@ -306,7 +310,7 @@ const Main = () => {
         </div>
       </main>
       <Modal
-        style={modalOption}
+        style={modalOption(modalOrigin)}
         contents={() =>
           modalContents(
             userState,
