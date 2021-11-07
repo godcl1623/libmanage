@@ -296,7 +296,7 @@ const Library = ({ userLib }) => {
     // 'background': 'rgba(0, 0, 0, 0.3)',
     width: '100%',
     height: '100%',
-    zIndex: '1'
+    zIndex: 2
   };
 
   const style = {
@@ -310,7 +310,7 @@ const Library = ({ userLib }) => {
     top: `calc(${btnCoords.topCoord}px + 50px)`,
     left: `calc(${btnCoords.leftCoord}px + 50px)`,
     background: 'white',
-    zIndex: '1'
+    zIndex: 2
   };
 
   const hand = {

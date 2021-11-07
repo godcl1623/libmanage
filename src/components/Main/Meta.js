@@ -45,7 +45,7 @@ const MakeMediaList = ({ target, itemData }) => {
 };
 
 const Meta = () => {
-  // const selectedItem = useSelector(state => state.selectedItem);
+  const selectedItem = useSelector(state => state.selectedItem);
   const selectedItemData = useSelector(state => state.selectedItemData);
   const [selectedMedia, setSelectedMedia] = React.useState('screenshots');
   const {
@@ -68,6 +68,21 @@ const Meta = () => {
     summary,
     totalRating
   } = selectedItemData;
+  if (selectedItem === '') {
+    return (
+      <article
+        id="meta_blank"
+        style={{
+          flex: '2',
+          zIndex: '1',
+          width: '100%',
+          height: '100%',
+          position: 'relative'
+        }}
+      >
+      </article>
+    );
+  }
   return (
     <article
       id="meta"
