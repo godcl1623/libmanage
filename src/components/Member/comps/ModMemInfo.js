@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import InputTemplate from '../../Auth/module/components/InputTemplate';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
+import { verifyPwd, verifyNick, verifyEmail } from '../../Auth/module/utils';
+import { encryptor, decryptor } from '../../../custom_modules/aeser';
+import { hasher } from '../../../custom_modules/hasher';
 
 const verifyTest = (verifyValue, verifyState) => {
   if (verifyValue !== '비밀번호') {
@@ -37,11 +42,119 @@ const ModMemInfo = () => {
   const [pwdState, setPwdState] = useState('');
   const [nickState, setNickState] = useState('');
   const [emailAuth, setEmailAuth] = useState('');
+  const history = useHistory();
+  const ref = useRef();
   return (
     <form
+      ref={ref}
       onSubmit={e => {
         e.preventDefault();
-        alert(e);
+        if (e.target.email_provider.value[0] === '@') {
+          const temp = Array.from(e.target.email_provider.value);
+          temp.shift();
+          e.target.email_provider.value = temp.join('');
+        }
+        const inputs = Array.from(ref.current.querySelectorAll('input'));
+        const typed = inputs.filter(input => input.value !== '');
+        const select = document.querySelector('select');
+        const formData = {
+          pwd: e.target.PWD.value || '',
+          nick: e.target.nickname.value || '',
+          email: e.target.email_id.value
+            ? `${e.target.email_id.value}@${e.target.email_provider.value}`
+            : ''
+        };
+        const sofo = {}
+        const checkInputVal = (targetTxt, target) => {
+          const defaultFunc = () => console.log();
+          let verifyFunc = defaultFunc;
+          let setState = defaultFunc;
+          switch (targetTxt) {
+            case 'PWD':
+              verifyFunc = verifyPwd;
+              setState = setPwdState;
+              break;
+            case 'nickname':
+              verifyFunc = verifyNick;
+              setState = setNickState;
+              break;
+            case 'email_id':
+              verifyFunc = verifyEmail;
+              setState = setEmailAuth;
+              break;
+            default:
+              verifyFunc = defaultFunc;
+              setState = defaultFunc;
+              break;
+          }
+          if (target !== '') {
+            let isValid = true;
+            if (verifyFunc(target)) {
+              setState('');
+              isValid = true;
+            } else {
+              setState('wrong');
+              isValid = false;
+            }
+            return isValid;
+          }
+        };
+        const verifyLogic = typed => {
+          typed.forEach(type => {
+            if (type.name === 'nickname') {
+              if (checkInputVal(type.name, formData.nick)) {
+                sofo.nick = formData.nick;
+              }
+            }
+            if (type.name === 'PWD') {
+              if (checkInputVal(type.name, formData.pwd)) {
+                sofo.pwd = formData.pwd;
+              }
+            }
+            if (type.name === 'email_id') {
+              if (checkInputVal(type.name, formData.email)) {
+                sofo.email = formData.email;
+              }
+            }
+          });
+          console.log(sofo)
+        }
+        const existCheck = async sofo => {
+          // await axios.post(
+          //   // 'http://localhost:3002/member/register',
+          //   // 'http://localhost:3001/member/register',
+          //   `https://${sendTo}/member/register`,
+          //   {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
+          //   { withCredentials: true })
+          // .then(res => {
+          //   if (res.data === 'success') {
+          //     alert('회원가입이 완료되었습니다.\n로그인해 주세요.');
+          //     history.push('/');
+          //   } else {
+          //     const tempObj = decryptor(res.data, process.env.REACT_APP_TRACER);
+          //     setNickState(tempObj.nick);
+          //     setEmailAuth(tempObj.email);
+          //   }
+          // })
+          // .catch(err => alert(err));
+        }
+        if (select) {
+          if (typed[0] !== undefined && select.value !== '') {
+            if (e.target.PWD.value && e.target.PWD.value !== e.target.PWD_check.value) {
+              setPwdMatch(false);
+              alert('비밀번호를 확인해주세요.');
+            } else {
+              verifyLogic(typed);
+            }
+          }
+        } else if (typed[0] !== undefined) {
+          if (e.target.PWD.value && e.target.PWD.value !== e.target.PWD_check.value) {
+            setPwdMatch(false);
+            alert('비밀번호를 확인해주세요.');
+          } else {
+            verifyLogic(typed);
+          }
+        }
       }}
     >
       <InputTemplate
