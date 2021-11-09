@@ -1,11 +1,20 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import InputTemplate from '../../Auth/module/components/InputTemplate';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { verifyPwd, verifyNick, verifyEmail } from '../../Auth/module/utils';
 import { encryptor, decryptor } from '../../../custom_modules/aeser';
 import { hasher } from '../../../custom_modules/hasher';
+import {
+  loginStatusCreator,
+  logoutClickedCreator,
+  userStateCreator,
+  comparisonStateCreator,
+  modalStateCreator
+} from '../../../actions';
+import { sendTo } from '../../../custom_modules/address';
 
 const verifyTest = (verifyValue, verifyState) => {
   if (verifyValue !== '비밀번호') {
@@ -36,12 +45,13 @@ const customOption = (state, func1, func2) => {
   );
 };
 
-const ModMemInfo = () => {
+const ModMemInfo = ({ userState }) => {
   const [pwdMatch, setPwdMatch] = useState(true);
   const [emailState, setEmailState] = useState('');
   const [pwdState, setPwdState] = useState('');
   const [nickState, setNickState] = useState('');
   const [emailAuth, setEmailAuth] = useState('');
+  const dispatch = useDispatch();
   const history = useHistory();
   const ref = useRef();
   return (
@@ -99,44 +109,113 @@ const ModMemInfo = () => {
             return isValid;
           }
         };
-        const verifyLogic = typed => {
-          typed.forEach(type => {
+        const verifyLogic = async typed => {
+          let result = false;
+          const flags = {
+            nickname: '',
+            PWD: '',
+            email_id: '',
+            loop_done: false
+          }
+          await typed.forEach((type, idx) => {
             if (type.name === 'nickname') {
               if (checkInputVal(type.name, formData.nick)) {
                 sofo.nick = formData.nick;
+                flags.nickname = true;
+              } else {
+                flags.nickname = false;
               }
             }
             if (type.name === 'PWD') {
               if (checkInputVal(type.name, formData.pwd)) {
-                sofo.pwd = formData.pwd;
+                sofo.pwd = hasher(formData.pwd);
+                flags.PWD = true;
+              } else {
+                flags.PWD = false;
               }
             }
             if (type.name === 'email_id') {
               if (checkInputVal(type.name, formData.email)) {
                 sofo.email = formData.email;
+                flags.email_id = true;
+              } else {
+                flags.email_id = false;
               }
             }
+            if (idx === typed.length - 1) {
+              flags.loop_done = true;
+            } else {
+              flags.loop_done = false;
+            }
           });
-          console.log(sofo)
+          const flagsVal = Object.values(flags)
+            .slice(0, 3)
+            .filter(val => val !== '')
+            .filter(val => val !== true);
+          if (flags.loop_done) {
+            if (flagsVal.length === 0) {
+              result = true;
+            } else {
+              result = false;
+            }
+          }
+          return result;
         }
         const existCheck = async sofo => {
-          // await axios.post(
-          //   // 'http://localhost:3002/member/register',
-          //   // 'http://localhost:3001/member/register',
-          //   `https://${sendTo}/member/register`,
-          //   {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
-          //   { withCredentials: true })
-          // .then(res => {
-          //   if (res.data === 'success') {
-          //     alert('회원가입이 완료되었습니다.\n로그인해 주세요.');
-          //     history.push('/');
-          //   } else {
-          //     const tempObj = decryptor(res.data, process.env.REACT_APP_TRACER);
-          //     setNickState(tempObj.nick);
-          //     setEmailAuth(tempObj.email);
-          //   }
-          // })
-          // .catch(err => alert(err));
+          const pack = {
+            sofo,
+            reqUser: userState.nickname
+          }
+          await axios.put(
+            // 'http://localhost:3001/member/update',
+            `https://${sendTo}/member/update`,
+            {foo: encryptor(pack, process.env.REACT_APP_TRACER)},
+            { withCredentials: true })
+          .then(res => {
+            if (res.data.result === false) {
+              if (res.data.repeatedData.length > 1) {
+                alert('중복되는 데이터가 있습니다. 다시 확인해주세요.');
+              } else {
+                switch(res.data.repeatedData[0]) {
+                  case 'nick':
+                    alert('닉네임이 중복됩니다.');
+                    break;
+                  case 'email':
+                    alert('이메일이 중복됩니다.');
+                    break;
+                  default:
+                    alert('오류가 발생했습니다.');
+                    break;
+                }
+              }
+            } else if (res.data === 'ERR') {
+              alert(`오류가 발생했습니다(${res.data})`);
+            } else if (res.data === 'success') {
+              const message = {
+                reqMsg: 'logout',
+                million: localStorage.getItem('frog')
+              }
+              axios
+                .post(
+                  // 'http://localhost:3002/logout_process',
+                  // 'http://localhost:3001/logout_process',
+                  `https://${sendTo}/logout_process`,
+                  { message },
+                  { withCredentials: true }
+                )
+                .then(res => {
+                  dispatch(logoutClickedCreator(true));
+                  dispatch(userStateCreator(null));
+                  dispatch(comparisonStateCreator(''));
+                  dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+                  dispatch(modalStateCreator(false));
+                  alert('회원 정보 변경 내역이 성공적으로 반영됐습니다. 다시 로그인 해주세요.');
+                  history.push('/');
+                })
+                .catch(err => alert(err));
+            }
+          })
+          .catch(err => alert(err));
         }
         if (select) {
           if (typed[0] !== undefined && select.value !== '') {
@@ -144,7 +223,12 @@ const ModMemInfo = () => {
               setPwdMatch(false);
               alert('비밀번호를 확인해주세요.');
             } else {
-              verifyLogic(typed);
+              verifyLogic(typed)
+                .then(res => {
+                  if (res) {
+                    existCheck(sofo);
+                  }
+                });
             }
           }
         } else if (typed[0] !== undefined) {
@@ -152,7 +236,12 @@ const ModMemInfo = () => {
             setPwdMatch(false);
             alert('비밀번호를 확인해주세요.');
           } else {
-            verifyLogic(typed);
+            verifyLogic(typed)
+              .then(res => {
+                if (res) {
+                  existCheck(sofo);
+                }
+              });
           }
         }
       }}
