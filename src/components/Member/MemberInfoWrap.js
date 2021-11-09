@@ -36,7 +36,11 @@ const MemberInfoWrap = () => {
                 <div
                   className='member-info-contents'
                 >
-                  {tabState === 'modify' ? <ModMemInfo /> : <h1>차가운무</h1>}
+                  {
+                    tabState === 'modify'
+                      ? <ModMemInfo userState={userState} />
+                      : <h1>차가운무</h1>
+                  }
                 </div>
               </>
             :
