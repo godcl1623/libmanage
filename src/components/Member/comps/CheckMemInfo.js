@@ -19,8 +19,8 @@ const CheckMemInfo = ({ userState, setState}) => (
       }
       axios
         .post(
-          // 'http://localhost:3001/verify',
-          `https://${sendTo}/verify`,
+          'http://localhost:3001/verify',
+          // `https://${sendTo}/verify`,
           { sofo: encryptor(verificationData, process.env.REACT_APP_TRACER) },
           { withCredentials: true }
         )
@@ -41,7 +41,7 @@ const CheckMemInfo = ({ userState, setState}) => (
       <label htmlFor="PWD">PW: </label>
       <input type="password" name="PWD" />
     </div>
-    <FormSubmit />
+    <FormSubmit formOrigin="Main" />
   </form>
 );
 
