@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import TabBtn from './parts/TabBtn';
 import ModMemInfo from './comps/ModMemInfo';
 import CheckMemInfo from './comps/CheckMemInfo';
+import DelMemInfo from './comps/DelMemInfo';
 
 const MemberInfoWrap = () => {
   const modalState = useSelector(state => state.modalState);
@@ -39,7 +40,7 @@ const MemberInfoWrap = () => {
                   {
                     tabState === 'modify'
                       ? <ModMemInfo userState={userState} />
-                      : <h1>차가운무</h1>
+                      : <DelMemInfo userState={userState} />
                   }
                 </div>
               </>
