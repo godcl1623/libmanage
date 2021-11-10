@@ -287,7 +287,6 @@ const Main = () => {
         }}
         onClick={e => {
           // e.preventDefault();
-          console.log(e.target.id)
           if (balloonState !== 'none' && e.target.id === 'balloon') {
             dispatch(balloonStateCreator('none'));
           }
