@@ -125,6 +125,14 @@ const Meta = () => {
             <button>정보</button>
             <button>사용자 입력 정보</button>
           </nav> */}
+        <div class="donut-boundary instalment1">
+          <div class="donut-outline"></div>
+          <div class="donut-graph-border"></div>
+          <div class="donut-text">
+            <h3>{selectedItemData.totalRating ? parseInt(totalRating, 10) : ''}</h3>
+          </div>
+          <div class="donut-case"></div>
+        </div>
         <article className="meta-wrapper-contents">
           <p>{summary}</p>
           <article className="meta-wrapper-contents-media">
