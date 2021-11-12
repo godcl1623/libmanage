@@ -2,14 +2,15 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { modalStateCreator } from '../../../../actions';
+import { Button } from '../../../../styles/elementsPreset';
 
 const FormSubmit = ({ formOrigin }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   return (
     <>
-      <button type="submit" name="confirm">확인</button>
-      <button
+      <Button type="submit" name="confirm">확인</Button>
+      <Button
         name="cancel"
         onClick={e => {
           e.preventDefault();
@@ -18,7 +19,7 @@ const FormSubmit = ({ formOrigin }) => {
               ? dispatch(modalStateCreator(false))
               : history.push('/');
           }
-        }}>취소</button>
+        }}>취소</Button>
     </>
   );
 };

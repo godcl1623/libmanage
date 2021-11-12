@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { encryptor, decryptor } from '../../custom_modules/aeser';
 import { hasher } from '../../custom_modules/hasher';
 import FormSubmit from './module/components/FormSubmit';
 import InputTemplate from './module/components/InputTemplate';
 import { verifyId, verifyPwd, verifyNick, verifyEmail } from './module/utils';
 import { sendTo } from '../../custom_modules/address';
+import { sizes, flex, border } from '../../styles';
 
 const Register = () => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -24,9 +27,9 @@ const Register = () => {
     return (
       <select name="email_provider" onChange={e => func(e.target.value)} >
         <option value="">선택</option>
-        <option value="gmail.com">@gmail.com</option>
-        <option value="naver.com">@naver.com</option>
-        <option value="hanmail.net">@hanmail.net</option>
+        <option value="gmail.com">gmail.com</option>
+        <option value="naver.com">naver.com</option>
+        <option value="hanmail.net">hanmail.net</option>
         <option value="others">직접 입력</option>
       </select>
     );
@@ -49,20 +52,87 @@ const Register = () => {
   return (
     <article
       id="register"
-      style={{
-        'display': 'flex',
-        'flexDirection': 'column',
-        'justifyContent': 'center',
-        'alignContent': 'center'
-      }}
+      css={css`
+        margin: var(--gap-standard) 0;
+        padding: var(--gap-standard);
+        ${border}
+        border-radius: var(--border-rad-big);
+        ${flex.vertical}
+        ${sizes.free('40vw', '100%')}
+
+        * {
+          // ${border}
+        }
+
+        #register-form {
+          ${flex.vertical}
+          justify-content: space-around;
+          ${sizes.full}
+        }
+
+        #register-form .input-wrapper {
+          ${flex.vertical}
+          align-items: flex-start;
+          ${sizes.free('100%')}
+          font-size: var(--font-size-normal);
+        }
+
+        #register-form .input-wrapper * {
+          ${sizes.free('100%')}
+        }
+
+        #register-form .input-wrapper input {
+          margin: calc(var(--gap-multiply-small) * 2) 0;
+        }
+
+        #register-form .input-wrapper .verify-error {
+          color: red;
+          font-weight: bold;
+          opacity: ${idState !== 1 && idState !== 'wrong' ? '0' : '100%'}
+        }
+
+        #register-form .input-wrapper #input-email label {
+          ${sizes.free('100%')}
+          display: block;
+        }
+
+        #register-form .input-wrapper #input-email input {
+          ${sizes.free('48%')}
+          display: inline-block;
+        }
+
+        #register-form .input-wrapper #input-email p {
+          ${sizes.free('4%')}
+          display: inline-block;
+          text-align: center;
+        }
+
+        #register-form .input-wrapper #input-email select {
+          ${border}
+          border-radius: 7px;
+          padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
+          ${sizes.free('48%')}
+          display: inline-block;
+          font-size: var(--font-size-normal);
+        }
+
+        #register-form .submit-wrapper {
+          ${flex.horizontal}
+          ${sizes.free('100%', '50px')}
+        }
+
+        #register-form .submit-wrapper button:first-of-type {
+          margin-right: var(--gap-multiply-small);
+        }
+
+        #register-form .submit-wrapper button:last-of-type {
+          margin-left: var(--gap-multiply-small);
+        }
+      `}
     >
+      <h1>Register</h1>
       <form
-        style={{
-          'display': 'flex',
-          'flexDirection': 'column',
-          'justifyContent': 'center',
-          'alignContent': 'center'
-        }}
+        id="register-form"
         onSubmit={e => {
           e.preventDefault();
           if (e.target.PWD.value !== e.target.PWD_check.value) {
@@ -155,78 +225,65 @@ const Register = () => {
           }
         }}
       >
-        <InputTemplate
-          inputType="text"
-          labelText="아이디: "
-          inputFor="ID"
-          handler={() => setIdState('')}
-          placeholder='아이디 (6~12자 이내, 영문, 숫자 사용)'
-        />
-        <p
-          style={{
-            'color': 'red',
-            'fontWeight': 'bold',
-            'opacity': (idState !== 1 && idState !== 'wrong') ? '0' : '100%'
-          }}
-        >{verifyTest('ID', idState)}</p>
-        <InputTemplate
-          inputType="password"
-          labelText="비밀번호: "
-          inputFor="PWD"
-          handler={() => {
-            setPwdMatch(true);
-            setPwdState('');
-          }}
-          placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
-        />
-        <p
-          style={{
-            'color': 'red',
-            'fontWeight': 'bold',
-            'opacity': pwdState !== 'wrong' ? '0' : '100%'
-          }}
-        >{verifyTest('비밀번호', pwdState)}</p>
-        <InputTemplate
-          inputType="password"
-          labelText="비밀번호 확인: "
-          inputFor="PWD_check"
-          handler={() => setPwdMatch(true)}
-          placeholder='비밀번호를 한 번 더 입력해주세요.'
-        />
-        <p
-          style={{
-            'color': 'red',
-            'fontWeight': 'bold',
-            'opacity': pwdMatch ? '0' : '100%'
-          }}
-        >※ 비밀번호가 일치하지 않습니다.</p>
-        <InputTemplate
-          inputType="text"
-          labelText="별명: "
-          inputFor="nickname"
-          handler={() => setNickState('')}
-          placeholder='별명 (2~10자 이내, 한글,영문, 숫자 사용)'
-        />
-        <p
-          style={{
-            'color': 'red',
-            'fontWeight': 'bold',
-            'opacity': (nickState !== 1 && nickState !== 'wrong') ? '0' : '100%'
-          }}
-        >{ verifyTest('별명', nickState) }</p>
-        {/* <label htmlFor="email_id">이메일: </label>
-        <input type="text" name="email_id" onChange={() => setEmailAuth('')} /> */}
-        <InputTemplate inputType="text" labelText="이메일: " inputFor="email_id" handler={() => setEmailAuth('')} />
-        <p>@</p>
-        { customOption(emailState, setEmailState) }
-        <p
-          style={{
-            'color': 'red',
-            'fontWeight': 'bold',
-            'opacity': (emailAuth !== 1 && emailAuth !== 'wrong') ? '0' : '100%'
-          }}
-        >{ verifyTest('이메일 주소', emailAuth) }</p>
-        <FormSubmit />
+        <div className="input-wrapper">
+          <InputTemplate
+            inputType="text"
+            labelText="아이디"
+            inputFor="ID"
+            handler={() => setIdState('')}
+            placeholder='아이디 (6~12자 이내, 영문, 숫자 사용)'
+          />
+          <p className="verify-error">{verifyTest('ID', idState)}</p>
+        </div>
+        <div className="input-wrapper">
+          <InputTemplate
+            inputType="password"
+            labelText="비밀번호"
+            inputFor="PWD"
+            handler={() => {
+              setPwdMatch(true);
+              setPwdState('');
+            }}
+            placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
+          />
+          <p className="verify-error">{verifyTest('비밀번호', pwdState)}</p>
+        </div>
+        <div className="input-wrapper">
+          <InputTemplate
+            inputType="password"
+            labelText="비밀번호 확인"
+            inputFor="PWD_check"
+            handler={() => setPwdMatch(true)}
+            placeholder='비밀번호를 한 번 더 입력해주세요.'
+          />
+          <p className="verify-error">※ 비밀번호가 일치하지 않습니다.</p>
+        </div>
+        <div className="input-wrapper">
+          <InputTemplate
+            inputType="text"
+            labelText="별명"
+            inputFor="nickname"
+            handler={() => setNickState('')}
+            placeholder='별명 (2~10자 이내, 한글,영문, 숫자 사용)'
+          />
+          <p className="verify-error">{ verifyTest('별명', nickState) }</p>
+        </div>
+        <div className="input-wrapper">
+          <div id="input-email">
+            <InputTemplate
+              inputType="text"
+              labelText="이메일"
+              inputFor="email_id"
+              handler={() => setEmailAuth('')}
+            />
+            <p>@</p>
+            { customOption(emailState, setEmailState) }
+          </div>
+          <p className="verify-error">{ verifyTest('이메일 주소', emailAuth) }</p>
+        </div>
+        <div className="submit-wrapper">
+          <FormSubmit />
+        </div>
       </form>
     </article>
   );

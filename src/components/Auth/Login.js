@@ -14,7 +14,7 @@ import {
 import { hasher, salter } from '../../custom_modules/hasher';
 import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
-import { flex, sizes } from '../../styles';
+import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 
 const loginException = (dispatch, history) => {
@@ -24,8 +24,8 @@ const loginException = (dispatch, history) => {
   axios
     .post(
       // 'http://localhost:3002/login_process',
-      // 'http://localhost:3001/login_process',
-      `https://${sendTo}/login_process`,
+      'http://localhost:3001/login_process',
+      // `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
       { withCredentials: true }
     )
@@ -56,8 +56,8 @@ const Login = () => {
     axios
       .post(
         // 'http://localhost:3002/check_login',
-        // 'http://localhost:3001/check_login',
-        `https://${sendTo}/check_login`,
+        'http://localhost:3001/check_login',
+        // `https://${sendTo}/check_login`,
         { message },
         { withCredentials: true }
       )
@@ -105,23 +105,19 @@ const Login = () => {
     <article
       id="login"
       css={css`
-        margin: 20px 0;
-        padding: 20px;
-        border: 1px solid black;
-        border-radius: 10px;
+        margin: var(--gap-standard) 0;
+        padding: var(--gap-standard);
+        ${border}
+        border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('30vw', '100%')}
-        
-        * {
-          // border: 1px solid black;
-        }
 
         h1 {
-          margin-bottom: 75px;
+          margin-bottom: calc(var(--gap-multiply-big) * 3);
         }
 
         #login-form, hr {
-          margin-bottom: 50px;
+          margin-bottom: calc(var(--gap-multiply-big) * 2);
         }
 
         #login-form {
@@ -134,11 +130,8 @@ const Login = () => {
         }
 
         #login-form input {
-          padding: 5px 15px;
-          border: 1px solid black;
-          border-radius: 7px;
+          ${border}
           ${sizes.free('100%', '35px')}
-          font-size: 20px;
         }
 
         #login-form input:first-of-type {
@@ -151,7 +144,7 @@ const Login = () => {
         }
 
         .option {
-          margin: 25px;
+          margin: var(--gap-multiply-big);
           ${flex.horizontal}
           justify-content: space-around;
           ${sizes.free('100%', '50px')}
@@ -162,19 +155,19 @@ const Login = () => {
         }
 
         .option a:first-of-type {
-          margin-right: 5px;
+          margin-right: var(--gap-multiply-small);
         }
 
         .option a:last-of-type {
-          margin-left: 5px;
+          margin-left: var(--gap-multiply-small);
         }
 
         .option button:first-of-type {
-          margin-right: 5px;
+          margin-right: var(--gap-multiply-small);
         }
 
         .option button:last-of-type {
-          margin-left: 5px;
+          margin-left: var(--gap-multiply-small);
         }
       `}
     >
@@ -194,8 +187,8 @@ const Login = () => {
           axios
             .post(
               // 'http://localhost:3002/login_process',
-              // 'http://localhost:3001/login_process',
-              `https://${sendTo}/login_process`,
+              'http://localhost:3001/login_process',
+              // `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
               { withCredentials: true }
             )
