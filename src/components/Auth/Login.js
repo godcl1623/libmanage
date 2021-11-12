@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import {
   loginStatusCreator,
   userStateCreator,
@@ -12,6 +14,8 @@ import {
 import { hasher, salter } from '../../custom_modules/hasher';
 import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
+import { flex, sizes } from '../../styles';
+import { StyledLink, Button } from '../../styles/elementsPreset';
 
 const loginException = (dispatch, history) => {
   const formData = {
@@ -100,22 +104,83 @@ const Login = () => {
   return (
     <article
       id="login"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignContent: 'center'
-      }}
+      css={css`
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+        ${flex.vertical}
+        ${sizes.free('30vw', '100%')}
+        
+        * {
+          // border: 1px solid black;
+        }
+
+        h1 {
+          margin-bottom: 75px;
+        }
+
+        #login-form, hr {
+          margin-bottom: 50px;
+        }
+
+        #login-form {
+          ${sizes.free('100%')}
+          ${flex.vertical}
+        }
+
+        #login-form * {
+          margin: 16px;
+        }
+
+        #login-form input {
+          padding: 5px 15px;
+          border: 1px solid black;
+          border-radius: 7px;
+          ${sizes.free('100%', '35px')}
+          font-size: 20px;
+        }
+
+        #login-form input:first-of-type {
+          margin-top: 0;
+        }
+
+        #login-form button {
+          margin-bottom: 0;
+          height: 50px;
+        }
+
+        .option {
+          margin: 25px;
+          ${flex.horizontal}
+          justify-content: space-around;
+          ${sizes.free('100%', '50px')}
+        }
+
+        .option:first-of-type {
+          margin-top: 0;
+        }
+
+        .option a:first-of-type {
+          margin-right: 5px;
+        }
+
+        .option a:last-of-type {
+          margin-left: 5px;
+        }
+
+        .option button:first-of-type {
+          margin-right: 5px;
+        }
+
+        .option button:last-of-type {
+          margin-left: 5px;
+        }
+      `}
     >
-      <h2>libmanage</h2>
+      <h1>libmanage</h1>
       <form
-        // action="/test"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignContent: 'center'
-        }}
+        id="login-form"
         onSubmit={e => {
           e.preventDefault();
           const formData = {
@@ -149,20 +214,28 @@ const Login = () => {
             .catch(err => alert(err));
         }}
       >
-        <label htmlFor="ID">ID: </label>
-        <input type="text" name="ID" />
-        <label htmlFor="PWD">PW: </label>
-        <input type="password" name="PWD" />
-        <button type="submit" name="login">
+        {/* <label htmlFor="ID">ID: </label> */}
+        <input className="input-id" type="text" name="ID" placeholder="User ID"/>
+        {/* <label htmlFor="PWD">PW: </label> */}
+        <input className="input-pwd" type="password" name="PWD" placeholder="Password" />
+        <Button type="submit" name="login">
           LOGIN
-        </button>
+        </Button>
       </form>
-      <div className="member">
-        <Link to="/member/register">회원가입</Link>
-        <Link to="/member/find">ID/PW 찾기</Link>
+      <hr
+        css={css`
+          width: 100%;
+          border: 1px solid black;
+        `}
+      />
+      <div className="option man-member">
+        <StyledLink to="/member/register">회원가입</StyledLink>
+        <StyledLink to="/member/find">ID/PW 찾기</StyledLink>
       </div>
-      <button onClick={() => loginException(dispatch, history)}>게스트 로그인</button>
-      <button>오프라인으로 접속</button>
+      <div className="option other">
+        <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
+        <Button>오프라인으로 접속</Button>
+      </div>
     </article>
   );
 };
