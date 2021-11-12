@@ -26,6 +26,17 @@ const App = () => (
           list-style: none;
         }
 
+        :root {
+          /* margin, padding sizes */
+          --gap-multiply-big: 25px;
+          --gap-multiply-small: 5px;
+          --gap-standard: 20px;
+          /* border-sizes */
+          --border-rad-big: 10px;
+          /* font-sizes */
+          --font-size-normal: 20px;
+        }
+
         html {
           ${sizes.full}
           position: relative;
@@ -42,6 +53,15 @@ const App = () => (
 
         h1 {
           font-size: 60px;
+        }
+
+        button, input {
+          border-radius: 7px;
+          font-size: var(--font-size-normal);
+        }
+
+        input {
+          padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
         }
       `}
     />
