@@ -19,7 +19,7 @@
   "globals": {
     "_": false
   },
-  "plugins": ["import", "html", "@emotion"],
+  "plugins": ["import", "html"],
   "extends": ["airbnb-base", "prettier", "react-app"],
   "rules": {
     // "off" or 0 - turn the rule off
