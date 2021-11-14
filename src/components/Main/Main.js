@@ -289,12 +289,29 @@ const Main = () => {
           overflow: hidden;
 
           * {
-            // ${border}
+            ${border}
+          }
+
+          #header button, #library button {
+            background: white;
+            padding: 5px;
+            cursor: pointer;
+
+            :hover {
+              -webkit-filter: brightness(90%);
+                      filter: brightness(90%);
+            }
+          
+            :active {
+              -webkit-transform: scale(0.95);
+                  -ms-transform: scale(0.95);
+                      transform: scale(0.95);
+            }
           }
         `}
         onClick={e => {
           // e.preventDefault();
-          if (balloonState !== 'none' && e.target.id === 'balloon') {
+          if (balloonState !== 'none' && Array.from(e.target.className).slice(0, 7).join('') !== 'balloon') {
             dispatch(balloonStateCreator('none'));
           }
         }}

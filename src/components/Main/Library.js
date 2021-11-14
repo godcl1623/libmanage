@@ -1,5 +1,5 @@
 /* eslint-disable no-else-return */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -19,8 +19,11 @@ import { sizes, flex, border } from '../../styles';
 
 const Options = ({ dispatch, changeState, coverSize, setCoverSize }) => (
   <>
-    <h3>표시방식:</h3>
+    <h3
+      className="balloon-header"
+    >표시방식:</h3>
     <button
+      className="balloon-btn"
       onClick={e => {
         e.preventDefault();
         dispatch(changeState('list'));
@@ -29,6 +32,7 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize }) => (
       리스트
     </button>
     <button
+      className="balloon-btn"
       onClick={e => {
         e.preventDefault();
         dispatch(changeState('cover'));
@@ -38,7 +42,7 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize }) => (
     </button>
     <input
       type="range"
-      id="cover_size"
+      className="balloon-cover_size"
       name="cover_size"
       min="5"
       max="15"
@@ -48,39 +52,6 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize }) => (
       }}
     />
     <p>{coverSize}</p>
-  </>
-);
-
-const testBtns = (state, setState) => (
-  <>
-    <button
-      onClick={e => {
-        axios
-          .post(
-            // 'http://localhost:3003/api/connect',
-            // 'http://localhost:3001/api/connect',
-            `https://${sendTo}/api/connect`,
-            { execute: 'order66' },
-            { withCredentials: true }
-          )
-          .then(res => {
-            setState(res.data);
-          });
-      }}
-    >
-      api 인증
-    </button>
-    <button
-      onClick={e => {
-        axios
-          // .post('http://localhost:3003/meta_search', { apiCred: state }, { withCredentials: true })
-          // .post('http://localhost:3001/meta_search', { apiCred: state }, { withCredentials: true })
-          .post(`https://${sendTo}/meta_search`, { apiCred: state }, { withCredentials: true })
-          .then(res => console.log(res));
-      }}
-    >
-      검색 테스트
-    </button>
   </>
 );
 
@@ -274,7 +245,7 @@ const Library = ({ userLib }) => {
     }));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const abortCon = new AbortController();
     const { left, top, height } = ref.current.getBoundingClientRect();
     updateBtnCoords(left, top, height);
@@ -283,7 +254,7 @@ const Library = ({ userLib }) => {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const abortCon = new AbortController();
     dispatch(selectedItemCreator(localSelectedItem));
     dispatch(selectedItemDataCreator(localSelectedItemData));
@@ -296,10 +267,10 @@ const Library = ({ userLib }) => {
     display: balloonOrigin === 'Library' ? balloonState : 'none',
     position: 'absolute',
     top: '0',
-    right: '0',
+    left: '0',
     // 'background': 'rgba(0, 0, 0, 0.3)',
-    width: '100%',
-    height: '100%',
+    // width: '100%',
+    // height: '100%',
     zIndex: 2
   };
 
@@ -311,8 +282,8 @@ const Library = ({ userLib }) => {
     width: '300px',
     height: '100px',
     position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px + 50px)`,
-    left: `calc(${btnCoords.leftCoord}px + 50px)`,
+    top: `20px`,
+    left: `100px`,
     background: 'white',
     zIndex: 2
   };
@@ -332,11 +303,14 @@ const Library = ({ userLib }) => {
     <article
       id="library"
       css={css`
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        padding: 20px;
+        padding-bottom: 0;
         flex: 2;
-        // overflow-x: hidden;
-        // overflow-y: scroll;
         overflow: hidden;
-        max-height: 100%;
+        height: 100%;
+        position: relative;
       `}
     >
       <button
@@ -352,6 +326,8 @@ const Library = ({ userLib }) => {
         ref={ref}
         css={css`
           height: 30px;
+          // position: absolute;
+          // right: 30px;
         `}
       >
         옵션
@@ -373,7 +349,7 @@ const Library = ({ userLib }) => {
         id="contents-lists"
         css={css`
           display: ${libDisplay === 'cover' ? 'flex' : 'inline-block'};
-          ${sizes.free('100%', `calc(100% - ${btnCoords.btnHeight}px)`)}
+          ${sizes.free('100%', '100%')}
           flex-wrap: wrap;
           overflow: scroll;
         `}

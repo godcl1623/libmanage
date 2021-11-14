@@ -151,6 +151,7 @@ const Header = ({ headerRef, setHeight }) => {
       ref={headerRef}
       css={css`
         border-bottom: 1px solid black;
+        padding: 0 20px;
         ${flex.horizontal}
         justify-content: space-between;
         width: 100%;
@@ -192,8 +193,6 @@ const Header = ({ headerRef, setHeight }) => {
             dispatch(_TESTCREATOR(e.target.value));
           }}
         />
-        <button>검색</button>
-        <button>검색옵션</button>
       </form>
       {/* <button>로그인</button> */}
       <button
