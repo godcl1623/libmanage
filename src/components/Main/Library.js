@@ -2,6 +2,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import Balloon from '../Modal/Balloon';
 import {
   balloonStateCreator,
@@ -13,6 +15,7 @@ import {
   modalOriginCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
+import { sizes, flex, border } from '../../styles';
 
 const Options = ({ dispatch, changeState, coverSize, setCoverSize }) => (
   <>
@@ -262,18 +265,19 @@ const Library = ({ userLib }) => {
   // const [apiAuth, setApiAuth] = React.useState('');
   const dispatch = useDispatch();
   const ref = React.useRef();
-  const updateBtnCoords = (left, top) => {
+  const updateBtnCoords = (left, top, height) => {
     setBtnCoords(prevState => ({
       ...prevState,
       leftCoord: left,
-      topCoord: top
+      topCoord: top,
+      btnHeight: height
     }));
   };
 
   React.useEffect(() => {
     const abortCon = new AbortController();
-    const { left, top } = ref.current.getBoundingClientRect();
-    updateBtnCoords(left, top);
+    const { left, top, height } = ref.current.getBoundingClientRect();
+    updateBtnCoords(left, top, height);
     return () => {
       abortCon.abort();
     }
@@ -327,12 +331,13 @@ const Library = ({ userLib }) => {
   return (
     <article
       id="library"
-      style={{
-        flex: '2',
-        overflowY: 'scroll',
-        overflowX: 'hidden'
-        // 'position': 'relative'
-      }}
+      css={css`
+        flex: 2;
+        // overflow-x: hidden;
+        // overflow-y: scroll;
+        overflow: hidden;
+        max-height: 100%;
+      `}
     >
       <button
         className="option"
@@ -345,6 +350,9 @@ const Library = ({ userLib }) => {
           }
         }}
         ref={ref}
+        css={css`
+          height: 30px;
+        `}
       >
         옵션
       </button>
@@ -363,11 +371,12 @@ const Library = ({ userLib }) => {
       />
       <ul
         id="contents-lists"
-        style={{
-          display: `${libDisplay === 'cover' ? 'flex' : 'inline-block'}`,
-          width: '100%',
-          flexWrap: 'wrap'
-        }}
+        css={css`
+          display: ${libDisplay === 'cover' ? 'flex' : 'inline-block'};
+          ${sizes.free('100%', `calc(100% - ${btnCoords.btnHeight}px)`)}
+          flex-wrap: wrap;
+          overflow: scroll;
+        `}
       >
         {makeList(
           userLib,

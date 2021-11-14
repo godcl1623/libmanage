@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import Header from './Header';
 import Library from './Library';
 import Meta from './Meta';
@@ -19,6 +21,7 @@ import {
   selectedItemDataCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
+import { sizes, flex, border } from '../../styles';
 
 const modalOption = origin => ({
   position: 'absolute',
@@ -129,8 +132,10 @@ const Main = () => {
   const modalState = useSelector(state => state.modalState);
   const [storesList, setStoresList] = useState('');
   const [userLibrary, setUserLibrary] = useState('');
+  const [headerHeight, setHeaderHeight] = useState(0);
   const dispatch = useDispatch();
   const history = useHistory();
+  const headerRef = React.useRef();
 
   useEffect(() => {
     // const abortCon = new AbortController();
@@ -275,16 +280,18 @@ const Main = () => {
     <>
       <main
         id="main"
-        style={{
-          width: '100%',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignContent: 'center',
-          pointerEvents: modalState && modalOrigin === 'Library' ? 'none' : 'auto',
-          zIndex: '1'
-        }}
+        css={css`
+          ${sizes.free('100%', '100vh')}
+          ${flex.vertical}
+          pointer-events: ${modalState && modalOrigin === 'Library' ? 'none' : 'auto'};
+          z-index: 1;
+          position: relative;
+          overflow: hidden;
+
+          * {
+            // ${border}
+          }
+        `}
         onClick={e => {
           // e.preventDefault();
           if (balloonState !== 'none' && e.target.id === 'balloon') {
@@ -292,16 +299,13 @@ const Main = () => {
           }
         }}
       >
-        <Header />
+        <Header headerRef={headerRef} setHeight={setHeaderHeight} />
         <div
           id="main-contents"
-          style={{
-            width: '100%',
-            height: 'calc(100% - 30px)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center'
-          }}
+          css={css`
+            ${sizes.free('100%', `calc(100% - ${headerHeight}px)`)}
+            ${flex.horizontal}
+          `}
         >
           <Navigation storesList={storesList} />
           <Library userLib={userLibrary} />
