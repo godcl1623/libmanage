@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import Balloon from '../Modal/Balloon';
 import {
   loginStatusCreator,
@@ -15,8 +17,9 @@ import {
   _TESTCREATOR
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
+import { sizes, flex, border } from '../../styles';
 
-const Header = () => {
+const Header = ({ headerRef, setHeight }) => {
   const loginStatus = useSelector(state => state.loginStatus);
   const userState = useSelector(state => state.userState);
   const modalState = useSelector(state => state.modalState);
@@ -35,6 +38,10 @@ const Header = () => {
       topCoord: top
     }));
   };
+
+  useEffect(() => {
+    setHeight(headerRef.current.getBoundingClientRect().height);
+  }, []);
 
   const Options = () => (
     <>
@@ -141,13 +148,18 @@ const Header = () => {
   return (
     <header
       id="header"
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignContent: 'center',
-        height: '30px',
-        width: '100%'
-      }}
+      ref={headerRef}
+      css={css`
+        border-bottom: 1px solid black;
+        ${flex.horizontal}
+        justify-content: space-between;
+        width: 100%;
+        height: 50px;
+
+        * {
+          ${border}
+        }
+      `}
     >
       <button
         id="option"

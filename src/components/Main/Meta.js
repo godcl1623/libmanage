@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 
 const MakeMediaList = ({ target, itemData }) => {
   let targetMedia = itemData.screenshots;

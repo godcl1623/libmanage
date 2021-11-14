@@ -20,8 +20,6 @@ const App = () => (
         *, *::before, *::after {
           margin: 0;
           padding: 0;
-          // border: 1px solid black;
-          padding: 0;
           box-sizing: border-box;
           list-style: none;
         }

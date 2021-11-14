@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { selectedCategoryCreator, selectedStoresCreator } from '../../actions';
+import { sizes } from '../../styles';
 
 const menu = (value, storeList, dispatch, filterStores) => {
   const game = <p>game</p>;
@@ -92,9 +94,10 @@ const Navigation = ({ storesList }) => {
   return (
     <nav
       id="navigation"
-      style={{
-        flex: '1'
-      }}
+      css={css`
+        flex: 1;
+        ${sizes.full}
+      `}
     >
       <select
         name="content-type"
