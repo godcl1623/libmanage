@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { FaBars } from 'react-icons/fa';
 import Balloon from '../Modal/Balloon';
 import {
   loginStatusCreator,
@@ -31,11 +32,13 @@ const Header = ({ headerRef, setHeight }) => {
   const optionRef = useRef();
   const memberRef = useRef();
   const selectedBtn = useRef();
-  const updateBtnCoords = (left, top) => {
+  const updateBtnCoords = (left, top, bottom, width) => {
     setBtnCoords(prevState => ({
       ...prevState,
       leftCoord: left,
-      topCoord: top
+      topCoord: top,
+      botCoord: bottom,
+      btnWidth: width
     }));
   };
 
@@ -46,12 +49,16 @@ const Header = ({ headerRef, setHeight }) => {
   const Options = () => (
     <>
       <button
-        style={{
-          width: '80%',
-          height: '50%'
-        }}
+        css={css`
+          padding: 5px 20px;
+          ${sizes.free('80%', '45px')}
+        `}
         onClick={() => {
-          dispatch(modalOriginCreator(selectedBtn.current === optionRef.current ? 'Header_Option' : 'Header_MemInfo'));
+          dispatch(
+            modalOriginCreator(
+              selectedBtn.current === optionRef.current ? 'Header_Option' : 'Header_MemInfo'
+            )
+          );
           if (!modalState) {
             dispatch(modalStateCreator(true));
             dispatch(balloonStateCreator('none'));
@@ -72,7 +79,7 @@ const Header = ({ headerRef, setHeight }) => {
           const message = {
             reqMsg: 'logout',
             million: localStorage.getItem('frog')
-          }
+          };
           axios
             .post(
               // 'http://localhost:3002/logout_process',
@@ -110,13 +117,14 @@ const Header = ({ headerRef, setHeight }) => {
     top: '0',
     left: '0',
     // 'background': 'rgba(0, 0, 0, 0.3)',
-    width: '100%',
-    height: '100%',
+    // width: '100%',
+    // height: '100%',
     zIndex: 2
   };
 
   const style = {
     padding: '20px',
+    border: '1px solid black',
     display: balloonOrigin === 'Header' ? balloonState : 'none',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -126,20 +134,37 @@ const Header = ({ headerRef, setHeight }) => {
     position: 'absolute',
     // top: '0',
     // left: '200px',
-    top: `calc(${btnCoords.topCoord}px)`,
-    left: `calc(${btnCoords.leftCoord}px + 100px)`,
+    top: `${
+      selectedBtn.current === optionRef.currnet
+        ? `calc(${btnCoords.topCoord}px)`
+        : `calc(${btnCoords.botCoord}px + 40px)`
+    }`,
+    left: `${
+      selectedBtn.current === optionRef.current
+        ? `calc(${btnCoords.leftCoord}px + 100px)`
+        : `calc(${btnCoords.leftCoord}px - 100px)`
+    }`,
     background: 'white',
     zIndex: 2
   };
 
   const hand = {
+    border: '1px solid black',
     width: '50px',
     height: '50px',
     position: 'absolute',
     // top: '0',
     // left: '176px',
-    top: `calc(${btnCoords.topCoord}px)`,
-    left: `calc(${btnCoords.leftCoord}px + 100px)`,
+    top: `${
+      selectedBtn.current === optionRef.currnet
+        ? `calc(${btnCoords.topCoord}px)`
+        : `calc(${btnCoords.botCoord}px + 20px)`
+    }`,
+    left: `${
+      selectedBtn.current === optionRef.current
+        ? `calc(${btnCoords.leftCoord}px + 100px)`
+        : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
+    }`,
     transform: 'translate(-50%)',
     background: 'white',
     display: balloonOrigin === 'Header' ? balloonState : 'none'
@@ -158,16 +183,20 @@ const Header = ({ headerRef, setHeight }) => {
         height: 50px;
 
         * {
-          ${border}
+          // ${border}
         }
       `}
     >
       <button
         id="option"
         ref={optionRef}
+        css={css`
+          ${flex.vertical}
+          ${sizes.free('50px', '35px')}
+        `}
         onClick={() => {
-          const { left, top } = optionRef.current.getBoundingClientRect();
-          updateBtnCoords(left, top);
+          const { left, top, bottom } = optionRef.current.getBoundingClientRect();
+          updateBtnCoords(left, top, bottom);
           selectedBtn.current = optionRef.current;
           dispatch(balloonOriginCreator('Header'));
           if (balloonState === 'none') {
@@ -177,18 +206,20 @@ const Header = ({ headerRef, setHeight }) => {
           }
         }}
       >
-        옵션
+        {<FaBars />}
       </button>
-      <Balloon
-        contents={<Options />}
-        display={wrapper}
-        style={style}
-        hand={hand}
-      />
-      <form>
+      <Balloon contents={<Options />} display={wrapper} style={style} hand={hand} />
+      <form
+        css={css`
+          ${sizes.free('50%')}
+        `}
+      >
         <input
           type="text"
           placeholder="검색어를 입력하세요"
+          css={css`
+            ${sizes.free('100%')}
+          `}
           onChange={e => {
             dispatch(_TESTCREATOR(e.target.value));
           }}
@@ -199,8 +230,8 @@ const Header = ({ headerRef, setHeight }) => {
         id="member-info"
         ref={memberRef}
         onClick={() => {
-          const { left, top } = memberRef.current.getBoundingClientRect();
-          updateBtnCoords(left, top);
+          const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
+          updateBtnCoords(left, top, bottom, width);
           selectedBtn.current = memberRef.current;
           dispatch(balloonOriginCreator('Header'));
           if (balloonState === 'none') {
