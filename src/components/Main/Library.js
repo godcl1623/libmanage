@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { FaBars } from 'react-icons/fa';
 import Balloon from '../Modal/Balloon';
 import {
   balloonStateCreator,
@@ -17,41 +18,75 @@ import {
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 
-const Options = ({ dispatch, changeState, coverSize, setCoverSize }) => (
+const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType }) => (
   <>
-    <h3
-      className="balloon-header"
-    >표시방식:</h3>
-    <button
-      className="balloon-btn"
-      onClick={e => {
-        e.preventDefault();
-        dispatch(changeState('list'));
-      }}
+    <div
+      className="balloon-display"
+      css={css`
+        margin: 10px;
+        ${flex.horizontal}
+        ${sizes.free('100%')}
+
+        * {
+          margin: 0 5px;
+        }
+
+        .balloon-btn:first-of-type {
+          background: ${currDisplayType === 'list' ? 'grey' : 'white'};
+        }
+
+        .balloon-btn:last-of-type {
+          background: ${currDisplayType === 'cover' ? 'grey' : 'white'};
+        }
+      `}
     >
-      리스트
-    </button>
-    <button
-      className="balloon-btn"
-      onClick={e => {
-        e.preventDefault();
-        dispatch(changeState('cover'));
-      }}
+      <h3
+        className="balloon-header"
+      >표시방식:</h3>
+      <button
+        className="balloon-btn"
+        onClick={e => {
+          e.preventDefault();
+          dispatch(changeState('list'));
+        }}
+      >
+        리스트
+      </button>
+      <button
+        className="balloon-btn"
+        onClick={e => {
+          e.preventDefault();
+          dispatch(changeState('cover'));
+        }}
+      >
+        썸네일
+      </button>
+    </div>
+    <div
+      className="balloon-input"
+      css={css`
+        ${flex.horizontal}
+        ${sizes.free('100%')}
+      `}
     >
-      썸네일
-    </button>
-    <input
-      type="range"
-      className="balloon-cover_size"
-      name="cover_size"
-      min="5"
-      max="15"
-      value={coverSize}
-      onChange={e => {
-        setCoverSize(Number(e.target.value));
-      }}
-    />
-    <p>{coverSize}</p>
+      <input
+        type="range"
+        className="balloon-cover_size"
+        name="cover_size"
+        min="5"
+        max="15"
+        value={coverSize}
+        css={css`
+          margin: 10px;
+          padding: 0;
+          width: 100%;
+        `}
+        onChange={e => {
+          setCoverSize(Number(e.target.value));
+        }}
+      />
+      <p>{coverSize}</p>
+    </div>
   </>
 );
 
@@ -267,7 +302,7 @@ const Library = ({ userLib }) => {
     display: balloonOrigin === 'Library' ? balloonState : 'none',
     position: 'absolute',
     top: '0',
-    left: '0',
+    right: '0',
     // 'background': 'rgba(0, 0, 0, 0.3)',
     // width: '100%',
     // height: '100%',
@@ -275,25 +310,28 @@ const Library = ({ userLib }) => {
   };
 
   const style = {
+    border: '1px solid black',
     padding: '20px',
     display: balloonOrigin === 'Library' ? balloonState : 'none',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: '300px',
-    height: '100px',
+    height: '150px',
     position: 'absolute',
-    top: `20px`,
-    left: `100px`,
+    top: `calc(${btnCoords.topCoord}px + 40px)`,
+    right: `30px`,
     background: 'white',
     zIndex: 2
   };
 
   const hand = {
+    border: '1px solid black',
     width: '50px',
     height: '50px',
     position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px + 25px)`,
-    left: `calc(${btnCoords.leftCoord}px + 50px)`,
+    top: `calc(${btnCoords.topCoord}px + 10px)`,
+    right: `30px`,
     // 'transform': 'translate(-100%, -50%)',
     background: 'white',
     display: balloonOrigin === 'Library' ? balloonState : 'none'
@@ -306,7 +344,6 @@ const Library = ({ userLib }) => {
         border-left: 1px solid black;
         border-right: 1px solid black;
         padding: 20px;
-        padding-bottom: 0;
         flex: 2;
         overflow: hidden;
         height: 100%;
@@ -325,12 +362,13 @@ const Library = ({ userLib }) => {
         }}
         ref={ref}
         css={css`
-          height: 30px;
-          // position: absolute;
-          // right: 30px;
+          ${flex.vertical}
+          position: absolute;
+          right: 30px;
+          ${sizes.free('50px', '35px')}
         `}
       >
-        옵션
+        { <FaBars /> }
       </button>
       <Balloon
         contents={
@@ -339,6 +377,7 @@ const Library = ({ userLib }) => {
             changeState={libDisplayStateCreator}
             coverSize={coverSize}
             setCoverSize={setCoverSize}
+            currDisplayType={libDisplay}
           />
         }
         display={wrapper}
@@ -349,7 +388,7 @@ const Library = ({ userLib }) => {
         id="contents-lists"
         css={css`
           display: ${libDisplay === 'cover' ? 'flex' : 'inline-block'};
-          ${sizes.free('100%', '100%')}
+          ${sizes.free('100%', 'calc(100%)')}
           flex-wrap: wrap;
           overflow: scroll;
         `}

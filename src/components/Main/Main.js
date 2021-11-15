@@ -289,11 +289,11 @@ const Main = () => {
           overflow: hidden;
 
           * {
-            ${border}
+            // ${border}
           }
 
           #header button, #library button {
-            background: white;
+            // background: white;
             padding: 5px;
             cursor: pointer;
 
