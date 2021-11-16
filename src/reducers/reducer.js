@@ -119,6 +119,13 @@ const modalOriginReducer = (state = '', action) => {
   return state;
 };
 
+const librarySearchReducer = (state = '', action) => {
+  if (action.type === 'LIBRARY_SEARCH') {
+    return action.payload;
+  }
+  return state;
+};
+
 const _TESTREDUCER = (state = '', action) => {
   if (action.type === '__TEST__') {
     return action.payload;
@@ -142,6 +149,7 @@ const tempStore = {
   selectedItemReducer,
   selectedItemDataReducer,
   modalOriginReducer,
+  librarySearchReducer,
   _TESTREDUCER
 };
 
