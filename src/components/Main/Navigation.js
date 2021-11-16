@@ -3,61 +3,50 @@ import { useDispatch, useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { selectedCategoryCreator, selectedStoresCreator } from '../../actions';
-import { sizes } from '../../styles';
+import { border, flex, sizes } from '../../styles';
 
 const menu = (value, storeList, dispatch, filterStores) => {
-  const game = <p>game</p>;
-  const music = <p>music</p>;
-  const series = <p>series</p>;
-  const movie = <p>movie</p>;
+  const game = <h2>Game</h2>;
+  const music = <h2>Music</h2>;
+  const series = <h2>Series</h2>;
+  const movie = <h2>Movie</h2>;
   const displayMenu = (...params) =>
     params.map((param, index) => {
-      const eachCategoriesStores = storeList[param.props.children];
+      const eachCategoriesStores = storeList[param.props.children.toLowerCase()];
       if (eachCategoriesStores !== undefined) {
         return (
           <div key={`category ${index}`} className="category">
             <div
               key={`category-header ${index}`}
               className="category-header"
-              style={{
-                display: 'flex',
-                height: '100%'
-              }}
             >
               {param}
-              <label
-                htmlFor={param.props.children}
-                data-value={param.props.children}
+              <button
                 onClick={e => {
                   dispatch(filterStores('all'));
                 }}
-                style={{
-                  border: '1px solid black',
-                  borderRadius: '50%',
-                  width: '20px',
-                  height: '20px',
-                  background: 'red'
-                }}
+                css={css`
+                  ${border}
+                  border-radius: 7px;
+                  ${sizes.free('50px', '25px')}
+                  background: white;
+                  display: inline-block;
+                  text-align: center;
+                  font-size: 16px;
+                  cursor: pointer;
+                `}
               >
-                {' '}
-              </label>
-              <input
-                type="radio"
-                name={param.props.children}
-                checked={true}
-                onChange={() => {}}
-                style={{
-                  display: 'none'
-                }}
-              />
+                ALL
+              </button>
             </div>
             {eachCategoriesStores.map(store => (
               <p
+                key={store}
                 onClick={e => {
                   dispatch(filterStores(store));
                 }}
               >
-                - {store}
+                - {[store[0].toUpperCase()].concat(store.slice(1, store.length))}
               </p>
             ))}
           </div>
@@ -95,8 +84,31 @@ const Navigation = ({ storesList }) => {
     <nav
       id="navigation"
       css={css`
+        padding: 20px;
         flex: 1;
         ${sizes.full}
+
+        .category {
+          margin-bottom: 50px;
+        }
+
+        .category-header {
+          border: 4px solid black;
+          padding: 5px 10px;
+          ${flex.horizontal}
+          ${sizes.full}
+        }
+
+        h2 {
+          width: 100%;
+        }
+
+        p {
+          ${border}
+          padding: 5px;
+          font-size: var(--font-size-normal);
+          padding-left: 20px;
+        }
       `}
     >
       <select
@@ -104,6 +116,16 @@ const Navigation = ({ storesList }) => {
         className="dropdown"
         value={selectedCategory}
         onChange={e => dispatch(selectedCategoryCreator(e.target.value))}
+        css={css`
+          margin-bottom: 20px;
+          padding: 3px 15px;
+          font-size: var(--font-size-normal);
+          ${sizes.free('100%')}
+
+          option {
+            font-size: 16px;
+          }
+        `}
       >
         <option value="all">전체</option>
         <option value="game">게임</option>
@@ -112,14 +134,6 @@ const Navigation = ({ storesList }) => {
         <option value="movie">영화</option>
       </select>
       {menu(selectedCategory, storesList, dispatch, selectedStoresCreator)}
-      {/* <button
-        onClick={e => {
-          axios.post('http://localhost:3003/api/connect', {execute: 'order66'}, {withCredentials: true})
-            .then(res => console.log(res))
-        }}
-      >
-        api test
-      </button> */}
     </nav>
   );
 };
