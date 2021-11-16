@@ -113,6 +113,10 @@ const makeList = (...args) => {
           const result = steam.map((item, index) => (
             <li
               key={index}
+              css={css`
+                margin-bottom: 5px;
+                font-size: 20px;
+              `}
               onClick={e => {
                 dispatch(modalOriginCreator('Library'));
                 selectItem(e.target.innerText);
@@ -366,6 +370,7 @@ const Library = ({ userLib }) => {
           position: absolute;
           right: 30px;
           ${sizes.free('50px', '35px')}
+          z-index: 2;
         `}
       >
         { <FaBars /> }
@@ -392,6 +397,24 @@ const Library = ({ userLib }) => {
           flex-wrap: wrap;
           overflow: scroll;
         `}
+        onScroll={e => {
+          const lists = e.target.querySelectorAll('li');
+          const ulCoords = e.target.getBoundingClientRect();
+          const { top: ulTop, bottom: ulBot } = ulCoords;
+          lists.forEach(list => {
+            const listCoords = list.getBoundingClientRect();
+            const { top: liTop, height: liHeight } = listCoords;
+            if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
+              list.style.filter = 'blur(2px)';
+              list.style.color = 'lightgrey';
+              list.style.transition = 'all 0.5s';
+            } else {
+              list.style.filter = 'blur(0)';
+              list.style.color = 'black';
+              list.style.transition = 'all 0.5s';
+            }
+          });
+        }}
       >
         {makeList(
           userLib,
