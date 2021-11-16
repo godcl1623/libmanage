@@ -263,7 +263,7 @@ const Library = ({ userLib }) => {
   const selectedStores = useSelector(state => state.selectedStores);
   const userState = useSelector(state => state.userState);
   const extCredState = useSelector(state => state.extCredState);
-  const testState = useSelector(state => state._TEST);
+  const librarySearch = useSelector(state => state.librarySearch);
   const [btnCoords, setBtnCoords] = React.useState({});
   const [coverSize, setCoverSize] = React.useState(10);
   const [localSelectedItem, setLocalSelectedItem] = React.useState('');
@@ -405,7 +405,7 @@ const Library = ({ userLib }) => {
           extCredStateCreator,
           setLocalSelectedItem,
           setLocalSelectedItemData,
-          testState
+          librarySearch
         )}
       </ul>
       {/* { testBtns(apiAuth, setApiAuth) } */}

@@ -73,6 +73,11 @@ export const modalOriginCreator = string => ({
   payload: string
 });
 
+export const librarySearchCreator = string => ({
+  type: 'LIBRARY_SEARCH',
+  payload: string
+})
+
 export const _TESTCREATOR = anything => ({
   type: '__TEST__',
   payload: anything

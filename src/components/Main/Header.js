@@ -15,7 +15,7 @@ import {
   userStateCreator,
   comparisonStateCreator,
   modalOriginCreator,
-  _TESTCREATOR
+  librarySearchCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
@@ -26,6 +26,7 @@ const Header = ({ headerRef, setHeight }) => {
   const modalState = useSelector(state => state.modalState);
   const balloonState = useSelector(state => state.balloonState);
   const balloonOrigin = useSelector(state => state.balloonOrigin);
+  const librarySearch = useSelector(state => state.librarySearch);
   const [btnCoords, setBtnCoords] = useState({});
   const history = useHistory();
   const dispatch = useDispatch();
@@ -135,7 +136,7 @@ const Header = ({ headerRef, setHeight }) => {
     // top: '0',
     // left: '200px',
     top: `${
-      selectedBtn.current === optionRef.currnet
+      selectedBtn.current === optionRef.current
         ? `calc(${btnCoords.topCoord}px)`
         : `calc(${btnCoords.botCoord}px + 40px)`
     }`,
@@ -156,7 +157,7 @@ const Header = ({ headerRef, setHeight }) => {
     // top: '0',
     // left: '176px',
     top: `${
-      selectedBtn.current === optionRef.currnet
+      selectedBtn.current === optionRef.current
         ? `calc(${btnCoords.topCoord}px)`
         : `calc(${btnCoords.botCoord}px + 20px)`
     }`,
@@ -176,74 +177,139 @@ const Header = ({ headerRef, setHeight }) => {
       ref={headerRef}
       css={css`
         border-bottom: 1px solid black;
-        padding: 0 20px;
         ${flex.horizontal}
         justify-content: space-between;
         width: 100%;
         height: 50px;
-
-        * {
-          // ${border}
-        }
       `}
     >
-      <button
-        id="option"
-        ref={optionRef}
+      <div
+        className="space-divider"
         css={css`
-          ${flex.vertical}
-          ${sizes.free('50px', '35px')}
+          padding-left: 20px;
+          flex: 1;
         `}
-        onClick={() => {
-          const { left, top, bottom } = optionRef.current.getBoundingClientRect();
-          updateBtnCoords(left, top, bottom);
-          selectedBtn.current = optionRef.current;
-          dispatch(balloonOriginCreator('Header'));
-          if (balloonState === 'none') {
-            dispatch(balloonStateCreator('flex'));
-          } else if (balloonOrigin === 'Header') {
-            dispatch(balloonStateCreator('none'));
-          }
-        }}
       >
-        {<FaBars />}
-      </button>
-      <Balloon contents={<Options />} display={wrapper} style={style} hand={hand} />
+        <button
+          id="option"
+          ref={optionRef}
+          css={css`
+            ${flex.vertical}
+            ${sizes.free('50px', '35px')}
+          `}
+          onClick={e => {
+            const { left, top, bottom } = optionRef.current.getBoundingClientRect();
+            updateBtnCoords(left, top, bottom);
+            selectedBtn.current = optionRef.current;
+            dispatch(balloonOriginCreator('Header'));
+            if (balloonState === 'none') {
+              dispatch(balloonStateCreator('flex'));
+            } else if (balloonOrigin === 'Header') {
+              dispatch(balloonStateCreator('none'));
+            }
+          }}
+        >
+          {<FaBars />}
+        </button>
+        <Balloon contents={<Options />} display={wrapper} style={style} hand={hand} />
+      </div>
+      <div
+        className="space-divider"
+        css={css`
+          flex: 1.2;
+        `}
+      >
       <form
         css={css`
-          ${sizes.free('50%')}
+          ${sizes.full}
+          ${flex.horizontal}
+          position: relative;
         `}
       >
         <input
           type="text"
           placeholder="검색어를 입력하세요"
+          name="libraryFilter"
           css={css`
             ${sizes.free('100%')}
           `}
           onChange={e => {
-            dispatch(_TESTCREATOR(e.target.value));
+            dispatch(librarySearchCreator(e.target.value));
           }}
         />
+        <button
+          css={css`
+            border: none;
+            width: 30px;
+            position: absolute;
+            right: calc(var(--gap-multiply-small) * 3);
+            display: ${librarySearch === '' ? 'none' : 'block'};
+            background: white;
+            font-size: calc(var(--font-size-normal));
+
+            :hover {
+              background: none;
+            }
+          `}
+          onClick={e => {
+            e.preventDefault();
+            e.target.parentNode.libraryFilter.value = '';
+            dispatch(librarySearchCreator(''));
+          }}
+        >
+          ×
+        </button>
       </form>
+      </div>
       {/* <button>로그인</button> */}
-      <button
-        id="member-info"
-        ref={memberRef}
-        onClick={() => {
-          const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
-          updateBtnCoords(left, top, bottom, width);
-          selectedBtn.current = memberRef.current;
-          dispatch(balloonOriginCreator('Header'));
-          if (balloonState === 'none') {
-            dispatch(balloonStateCreator('flex'));
-          } else if (balloonOrigin === 'Header') {
-            dispatch(balloonStateCreator('none'));
+      <div
+        className="space-divider"
+        css={css`
+          ${sizes.full}
+          ${flex.horizontal}
+          flex: 1;
+
+          div {
+            ${flex.horizontal}
+            justify-content: flex-end;
           }
-        }}
+        `}
       >
-        {userState.nickname}
-      </button>
-      {memberStatus}
+        <div
+          css={css`
+            flex: 1;
+          `}
+        >
+          <button
+            id="member-info"
+            css={css`
+              background: none;
+            `}
+            ref={memberRef}
+            onClick={() => {
+              const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
+              updateBtnCoords(left, top, bottom, width);
+              selectedBtn.current = memberRef.current;
+              dispatch(balloonOriginCreator('Header'));
+              if (balloonState === 'none') {
+                dispatch(balloonStateCreator('flex'));
+              } else if (balloonOrigin === 'Header') {
+                dispatch(balloonStateCreator('none'));
+              }
+            }}
+          >
+            {userState.nickname}
+          </button>
+        </div>
+        <div
+          css={css`
+            padding-right: 20px;
+            flex: 1;
+          `}
+        >
+          {memberStatus}
+        </div>
+      </div>
     </header>
   );
 };
