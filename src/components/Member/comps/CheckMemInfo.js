@@ -1,12 +1,41 @@
 import React from 'react';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { hasher, salter } from '../../../custom_modules/hasher';
 import { encryptor } from '../../../custom_modules/aeser';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { sendTo } from '../../../custom_modules/address';
+import { flex, sizes } from '../../../styles';
 
 const CheckMemInfo = ({ userState, setState}) => (
   <form
+    css={css`
+      ${flex.vertical}
+      ${sizes.full}
+
+      .input_container {
+        margin: 80px 0;
+      }
+
+      .submit_container {
+        ${sizes.free('60%')}
+        ${flex.horizontal}
+
+        button {
+          ${sizes.free('100%', '50px')}
+          font-size: 20px;
+        }
+
+        button:first-of-type {
+          margin-right: 5px;
+        }
+
+        button:last-of-type {
+          margin-left: 5px;
+        }
+      }
+    `}
     onSubmit={e => {
       e.preventDefault();
       const verificationData = {
@@ -34,14 +63,18 @@ const CheckMemInfo = ({ userState, setState}) => (
         .catch(err => alert(err));
     }}
   >
-    <p>본인 인증을 위해 비밀번호를 입력해주세요.</p>
+    <h2>본인 인증을 위해 비밀번호를 입력해주세요.</h2>
     <div
       className="input_container"
     >
       <label htmlFor="PWD">PW: </label>
       <input type="password" name="PWD" />
     </div>
-    <FormSubmit formOrigin="Main" />
+    <div
+      className="submit_container"
+    >
+      <FormSubmit formOrigin="Main" />
+    </div>
   </form>
 );
 
