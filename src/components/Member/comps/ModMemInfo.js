@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import InputTemplate from '../../Auth/module/components/InputTemplate';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { verifyPwd, verifyNick, verifyEmail } from '../../Auth/module/utils';
@@ -15,6 +17,7 @@ import {
   modalStateCreator
 } from '../../../actions';
 import { sendTo } from '../../../custom_modules/address';
+import { border, flex, sizes } from '../../../styles';
 
 const verifyTest = (verifyValue, verifyState) => {
   if (verifyValue !== '비밀번호') {
@@ -57,6 +60,79 @@ const ModMemInfo = ({ userState }) => {
   return (
     <form
       ref={ref}
+      css={css`
+        ${border}
+        ${sizes.full}
+        ${flex.vertical}
+        justify-content: space-between;
+
+        * {
+          ${sizes.free('100%')}
+        }
+
+        .input_container {
+          margin-top: 20px;
+          padding: 0 20px;
+          ${flex.vertical}
+          align-items: flex-start;
+
+          label {
+            padding-left: 20px;
+            font-size: 20px;
+          }
+
+          input {
+            margin: 10px 0;
+            ${sizes.free('100%')}
+          }
+
+          p {
+            font-size: 20px;
+          }
+        }
+
+        #input-email {
+          ${sizes.free('100%')}
+
+          label {
+            ${sizes.free('100%')}
+            display: block;
+          }
+
+          input {
+            ${sizes.free('48%')}
+            display: inline-block;
+          }
+
+          p#divider {
+            ${sizes.free('4%')}
+            display: inline-block;
+            text-align: center;
+          }
+
+          select {
+            ${border}
+            border-radius: 7px;
+            padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
+            ${sizes.free('48%')}
+            display: inline-block;
+            font-size: var(--font-size-normal);
+          }
+        }
+
+        .submit-container {
+          ${flex.horizontal}
+          ${sizes.free('100%', '50px')}
+
+          button:first-of-type {
+            margin-right: var(--gap-multiply-small);
+          }
+
+          button:last-of-type {
+            margin-left: var(--gap-multiply-small);
+          }
+        }
+      `}
       onSubmit={e => {
         e.preventDefault();
         if (e.target.email_provider.value[0] === '@') {
@@ -246,62 +322,86 @@ const ModMemInfo = ({ userState }) => {
         }
       }}
     >
-      <InputTemplate
-        inputType="text"
-        labelText="별명: "
-        inputFor="nickname"
-        handler={() => setNickState('')}
-        placeholder='별명 (2~10자 이내, 한글,영문, 숫자 사용)'
-      />
-      <p
-        style={{
-          'color': 'red',
-          'fontWeight': 'bold',
-          'opacity': (nickState !== 1 && nickState !== 'wrong') ? '0' : '100%'
-        }}
-      >{ verifyTest('별명', nickState) }</p>
-      <InputTemplate
-        inputType="password"
-        labelText="비밀번호: "
-        inputFor="PWD"
-        handler={() => {
-          setPwdMatch(true);
-          setPwdState('');
-        }}
-        placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
-      />
-      <p
-        style={{
-          'color': 'red',
-          'fontWeight': 'bold',
-          'opacity': pwdState !== 'wrong' ? '0' : '100%'
-        }}
-      >{verifyTest('비밀번호', pwdState)}</p>
-      <InputTemplate
-        inputType="password"
-        labelText="비밀번호 확인: "
-        inputFor="PWD_check"
-        handler={() => setPwdMatch(true)}
-        placeholder='비밀번호를 한 번 더 입력해주세요.'
-      />
-      <p
-        style={{
-          'color': 'red',
-          'fontWeight': 'bold',
-          'opacity': pwdMatch ? '0' : '100%'
-        }}
-      >※ 비밀번호가 일치하지 않습니다.</p>
-      <InputTemplate inputType="text" labelText="이메일: " inputFor="email_id" handler={() => setEmailAuth('')} />
-      <p>@</p>
-      { customOption(emailState, setEmailState, setEmailAuth) }
-      <p
-        style={{
-          'color': 'red',
-          'fontWeight': 'bold',
-          'opacity': (emailAuth !== 1 && emailAuth !== 'wrong') ? '0' : '100%'
-        }}
-      >{ verifyTest('이메일 주소', emailAuth) }</p>
-      <FormSubmit formOrigin="Main" />
+      <div
+        id="contents-divider"
+      >
+        <div
+          className="input_container"
+        >
+          <InputTemplate
+            inputType="text"
+            labelText="별명"
+            inputFor="nickname"
+            handler={() => setNickState('')}
+            placeholder='별명 (2~10자 이내, 한글,영문, 숫자 사용)'
+          />
+          <p
+            style={{
+              'color': 'red',
+              'fontWeight': 'bold',
+              'opacity': (nickState !== 1 && nickState !== 'wrong') ? '0' : '100%'
+            }}
+          >{ verifyTest('별명', nickState) }</p>
+        </div>
+        <div
+          className="input_container"
+        >
+          <InputTemplate
+            inputType="password"
+            labelText="비밀번호"
+            inputFor="PWD"
+            handler={() => {
+              setPwdMatch(true);
+              setPwdState('');
+            }}
+            placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
+          />
+          <p
+            style={{
+              'color': 'red',
+              'fontWeight': 'bold',
+              'opacity': pwdState !== 'wrong' ? '0' : '100%'
+            }}
+          >{verifyTest('비밀번호', pwdState)}</p>
+        </div>
+        <div
+          className="input_container"
+        >
+          <InputTemplate
+            inputType="password"
+            labelText="비밀번호 확인"
+            inputFor="PWD_check"
+            handler={() => setPwdMatch(true)}
+            placeholder='비밀번호를 한 번 더 입력해주세요.'
+          />
+          <p
+            style={{
+              'color': 'red',
+              'fontWeight': 'bold',
+              'opacity': pwdMatch ? '0' : '100%'
+            }}
+          >※ 비밀번호가 일치하지 않습니다.</p>
+        </div>
+        <div
+          className="input_container"
+        >
+          <div id="input-email">
+            <InputTemplate inputType="text" labelText="이메일" inputFor="email_id" handler={() => setEmailAuth('')} />
+            <p id="divider">@</p>
+            { customOption(emailState, setEmailState, setEmailAuth) }
+          </div>
+          <p
+            style={{
+              'color': 'red',
+              'fontWeight': 'bold',
+              'opacity': (emailAuth !== 1 && emailAuth !== 'wrong') ? '0' : '100%'
+            }}
+          >{ verifyTest('이메일 주소', emailAuth) }</p>
+        </div>
+      </div>
+      <div className="submit-container">
+        <FormSubmit formOrigin="Main" />
+      </div>
     </form>
   );
 };

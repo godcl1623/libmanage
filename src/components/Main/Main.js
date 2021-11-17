@@ -44,6 +44,7 @@ const modalContents = (...args) => {
     setLibs,
     setItem
   ] = args;
+  const caution = <p>※ 현재 기술적 문제로 Steam 서비스만 지원됩니다.</p>;
   if (origin === 'Header_Option') {
     // 모든 스토어에 대응 가능하도록 개선 필요
     if (
@@ -52,31 +53,119 @@ const modalContents = (...args) => {
       state.stores.game.steam === false
     ) {
       return (
-        <article>
-          <h2>스토어 목록</h2>
+        <article
+          css={css`
+            padding: 40px 20px;
+            ${sizes.full}
+            ${flex.vertical}
+            align-items: flex-start;
+            position: relative;
+
+            h1 {
+              margin-left: 40px;
+              margin-bottom: 10px;
+              font-size: 40px;
+            }
+
+            h2, button {
+              font-size: 30px;
+            }
+
+            hr {
+              margin-bottom: 40px;
+              ${sizes.free('100%')};
+            }
+
+            p {
+              position: absolute;
+              left: 50%;
+              bottom: 30px;
+              transform: translateX(-50%);
+              font-size: 18px;
+            }
+
+            .store_container {
+              margin-bottom: auto;
+              padding: 0 80px;
+              padding-bottom: 10px;
+              ${flex.horizontal}
+              ${sizes.free('100%')};
+              justify-content: space-between;
+
+              button {
+                padding: 5px 15px;
+              }
+            }
+          `}
+        >
+          <h1>스토어 목록</h1>
           <hr />
-          <section className="store_container">
-            <h3>스팀</h3>
+          <section
+            className="store_container"
+          >
+            <h2>스팀</h2>
             <a
-              // href="http://localhost:3003/auth/steam"
               // href="http://localhost:3001/auth/steam"
               href={`https://${sendTo}/auth/steam`}
-              // target="_blank"
-              // rel="noreferrer"
             >
               스팀으로 로그인
             </a>
           </section>
+          {caution}
         </article>
       );
       // eslint-disable-next-line no-else-return
     } else {
       return (
-        <article>
-          <h2>스토어 목록</h2>
+        <article
+          css={css`
+            padding: 40px 20px;
+            ${sizes.full}
+            ${flex.vertical}
+            align-items: flex-start;
+            position: relative;
+
+            h1 {
+              margin-left: 40px;
+              margin-bottom: 10px;
+              font-size: 40px;
+            }
+
+            h2, button {
+              font-size: 30px;
+            }
+
+            hr {
+              margin-bottom: 40px;
+              ${sizes.free('100%')};
+            }
+
+            p {
+              position: absolute;
+              left: 50%;
+              bottom: 30px;
+              transform: translateX(-50%);
+              font-size: 18px;
+            }
+
+            .store_container {
+              margin-bottom: auto;
+              padding: 0 80px;
+              padding-bottom: 10px;
+              ${flex.horizontal}
+              ${sizes.free('100%')};
+              justify-content: space-between;
+
+              button {
+                padding: 5px 15px;
+              }
+            }
+          `}
+        >
+          <h1>스토어 목록</h1>
           <hr />
           <section className="store_container">
-            <h3>스팀</h3>
+            <h2>Steam</h2>
             <button
               onClick={e => {
                 const temp = state;
@@ -84,7 +173,6 @@ const modalContents = (...args) => {
                 // 반영을 위해서는 comparisonState 변경이 필요
                 axios
                 .post(
-                  // 'http://localhost:3003/disconnect',
                   // 'http://localhost:3001/disconnect',
                   `https://${sendTo}/disconnect`,
                   { reqUserInfo: JSON.stringify(temp) },
@@ -103,6 +191,7 @@ const modalContents = (...args) => {
               연동 해제
             </button>
           </section>
+          {caution}
         </article>
       );
     }
