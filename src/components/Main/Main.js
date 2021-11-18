@@ -200,9 +200,11 @@ const modalContents = (...args) => {
   }
   return (
     <article
-      style={{
-        pointerEvents: 'none'
-      }}
+      css={css`
+        pointer-events: none;
+        ${flex.vertical}
+        ${sizes.full}
+      `}
     >
       <h1>Loading...</h1>
     </article>

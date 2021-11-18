@@ -115,15 +115,23 @@ const makeList = (...args) => {
               key={index}
               css={css`
                 margin-bottom: 5px;
+                padding-left: 20px;
                 font-size: 20px;
+                cursor: pointer;
+                background: white;
               `}
+              onMouseEnter={e => {
+                e.target.style.background = '#e5e5e5';
+              }}
+              onMouseLeave={e => {
+                e.target.style.background = 'white';
+              }}
               onClick={e => {
                 dispatch(modalOriginCreator('Library'));
                 selectItem(e.target.innerText);
                 if (extCredState.cid === undefined) {
                   axios
                     .post(
-                      // 'http://localhost:3003/api/connect',
                       // 'http://localhost:3001/api/connect',
                       `https://${sendTo}/api/connect`,
                       { execute: 'order66' },
@@ -138,7 +146,6 @@ const makeList = (...args) => {
                       };
                       axios
                         .post(
-                          // 'http://localhost:3003/get/meta',
                           // 'http://localhost:3001/get/meta',
                           `https://${sendTo}/get/meta`,
                           { reqData },
@@ -155,7 +162,6 @@ const makeList = (...args) => {
                     credData: extCredState
                   };
                   axios
-                    // .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
                     // .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
                     .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
                     .then(res => {
@@ -177,14 +183,19 @@ const makeList = (...args) => {
           const result = steam.map((item, index) => (
             <li
               key={`img-${index}`}
-              style={{
-                margin: '10px',
-                height: `${size}vw`,
-                flex: '0 0 10%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
+              css={css`
+                margin: 10px;
+                height: ${size}vw;
+                flex: 0 0 10%;
+                ${flex.horizontal}
+                cursor: pointer;
+
+                :active {
+                  -webkit-transform: scale(0.95);
+                      -ms-transform: scale(0.95);
+                          transform: scale(0.95);
+                }
+              `}
             >
               <img
                 src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.cover}.png`}
@@ -193,13 +204,18 @@ const makeList = (...args) => {
                 style={{
                   height: '100%'
                 }}
+                onMouseEnter={e => {
+                  e.target.style.filter = 'brightness(0.75)';
+                }}
+                onMouseLeave={e => {
+                  e.target.style.filter = 'brightness(1)';
+                }}
                 onClick={e => {
                   dispatch(modalOriginCreator('Library'));
                   selectItem(e.target.title);
                   if (extCredState.cid === undefined) {
                     axios
                       .post(
-                        // 'http://localhost:3003/api/connect',
                         // 'http://localhost:3001/api/connect',
                         `https://${sendTo}/api/connect`,
                         { execute: 'order66' },
@@ -214,7 +230,6 @@ const makeList = (...args) => {
                         };
                         axios
                           .post(
-                            // 'http://localhost:3003/get/meta',
                             // 'http://localhost:3001/get/meta',
                             `https://${sendTo}/get/meta`,
                             { reqData },
@@ -232,7 +247,6 @@ const makeList = (...args) => {
                     };
                     axios
                       .post(
-                        // 'http://localhost:3003/get/meta',
                         // 'http://localhost:3001/get/meta',
                         `https://${sendTo}/get/meta`,
                         { reqData },
@@ -407,11 +421,11 @@ const Library = ({ userLib }) => {
             if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
               list.style.filter = 'blur(2px)';
               list.style.color = 'lightgrey';
-              list.style.transition = 'all 0.5s';
+              list.style.transition = 'filter 0.5s, color 0.5s';
             } else {
               list.style.filter = 'blur(0)';
               list.style.color = 'black';
-              list.style.transition = 'all 0.5s';
+              list.style.transition = 'filter 0.5s, color 0.5s';
             }
           });
         }}
