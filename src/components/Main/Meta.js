@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { border, flex, sizes } from '../../styles';
+import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 
 const MakeMediaList = ({ target, itemData }) => {
   let targetMedia = itemData.screenshots;
@@ -46,6 +48,39 @@ const MakeMediaList = ({ target, itemData }) => {
     : '';
 };
 
+const ageRatingDistributor = ages => (
+  ages.map(age => {
+    let targetRating = '';
+    let ageRatingsImgUrls = {};
+    const { category, rating } = age;
+    switch (category) {
+      case 1:
+        targetRating = 'esrb';
+        break;
+      case 2:
+        targetRating = 'pegi';
+        break;
+      default:
+        targetRating = '';
+        break;
+    }
+    switch (targetRating) {
+      case 'esrb':
+        ageRatingsImgUrls = esrb;
+        break;
+      case 'pegi':
+        ageRatingsImgUrls = pegi;
+        break;
+      default:
+        ageRatingsImgUrls = {};
+        break;
+    }
+    return (
+      <img src={`${ageRatingsImgUrls[rating]}`} alt={`${targetRating}-${ratings[rating]}`} />
+    );
+  })
+);
+
 const Meta = () => {
   const selectedItem = useSelector(state => state.selectedItem);
   const selectedItemData = useSelector(state => state.selectedItemData);
@@ -70,6 +105,7 @@ const Meta = () => {
     summary,
     totalRating
   } = selectedItemData;
+
   if (selectedItem === '') {
     return (
       <article
@@ -88,52 +124,110 @@ const Meta = () => {
   return (
     <article
       id="meta"
-      style={{
-        flex: '2',
-        zIndex: '1',
-        width: '100%',
-        height: '100%',
-        position: 'relative'
-      }}
+      css={css`
+        flex: 2;
+        z-index: 1;
+        ${sizes.full}
+        position: relative;
+        overflow-y: scroll;
+        
+        * {
+          ${border}
+        }
+
+        h2 {
+          // padding-left: 210px;
+          font-size: 35px;
+          text-align: center;
+        }
+
+        h3 {
+          font-size: 30px;
+        }
+
+        #background-cover {
+          position: absolute;
+          z-index: 0;
+          ${sizes.full}
+          filter: opacity(0.25) brightness(0.5);
+        }
+        
+        .meta-wrapper-top {
+          padding: 20px 40px;
+          z-index: 1;
+          position: relative;
+          background: rgba(255, 255, 255, 0.6);
+          height: 100%;
+          
+          .meta-wrapper-ratings {
+            ${flex.horizontal}
+            ${sizes.full}
+            max-height: 250px;
+            justify-content: flex-end;
+
+            #game-cover {
+              height: 250px;
+            }
+
+            #title-and-numerical {
+              ${sizes.full}
+              ${flex.vertical}
+              #numerical-data {
+                ${sizes.full}
+                ${flex.horizontal}
+  
+                #age-rating-wrapper {
+                  img {
+                    height: 100px;
+                  }
+                }
+              }
+            }
+          }
+
+        }
+      `}
     >
       <img
+        id="background-cover"
         src={
           selectedItemData.covers
             ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${covers}.png`
             : ''
         }
-        alt="test"
-        style={{
-          position: 'absolute',
-          zIndex: '0',
-          width: '100%',
-          height: '100%',
-          filter: 'opacity(0.25)'
-        }}
+        alt="cover-background"
       />
-      <article
-        className="meta-wrapper-top"
-        style={{
-          zIndex: '1',
-          position: 'relative',
-          background: 'rgba(255, 255, 255, 0.6)',
-          height: '100%'
-        }}
-      >
-        <h2>{name}</h2>
-        <h3>{selectedItemData.totalRating ? parseInt(totalRating, 10) : ''}</h3>
-        {/* <article className="meta-wrapper-tab"> */}
-        {/* <nav id="meta-tab">
-            <button>정보</button>
-            <button>사용자 입력 정보</button>
-          </nav> */}
-        <div class="donut-boundary instalment1">
-          <div class="donut-outline"></div>
-          <div class="donut-graph-border"></div>
-          <div class="donut-text">
-            <h3>{selectedItemData.totalRating ? parseInt(totalRating, 10) : ''}</h3>
+      <article className="meta-wrapper-top">
+        <div className="meta-wrapper-ratings">
+          <img
+            id="game-cover"
+            src={
+              selectedItemData.covers
+              ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${covers}.png`
+              : ''
+            }
+            alt="game-cover"
+            />
+          <div id="title-and-numerical">
+            <h2>{name}</h2>
+            <div id="numerical-data">
+              <div id="game-scores">
+                <h4>Scores</h4>
+                <div className="donut-boundary instalment1">
+                  <div className="donut-outline"></div>
+                  <div className="donut-graph-border"></div>
+                  <div className="donut-text">
+                    <h3>{selectedItemData.totalRating ? parseInt(totalRating, 10) : ''}</h3>
+                  </div>
+                  <div className="donut-case"></div>
+                </div>
+              </div>
+              <div id="age-rating-wrapper">
+                <h4>Ratings</h4>
+                {ages ? ageRatingDistributor(ages) : ''}
+              </div>
+            </div>
           </div>
-          <div class="donut-case"></div>
         </div>
         <article className="meta-wrapper-contents">
           <p>{summary}</p>

@@ -14,8 +14,8 @@ html, body {
 
 .donut-boundary {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
 }
 
 .donut-outline {
@@ -33,10 +33,11 @@ html, body {
 }
 
 .donut-text {
-  top: 25px;
-  left: 25px;
-  width: 150px;
-  height: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75px;
+  height: 75px;
   background: #fff;
   position: absolute;
   border-radius: 50%;
@@ -74,7 +75,7 @@ html, body {
   /*
     right, bottom: 200px, 100px에서 50%; 100px, 100px에서 25%
   */
-  clip: rect(0 200px 100px 0);
+  clip: rect(0 100px 50px 0);
   /* 그래프 면적을 표시하기 위해 사용 */
   -webkit-transform: rotate(90deg);
   transform: rotate(270deg); /* 1%당 3.6도 */
@@ -88,7 +89,7 @@ html, body {
 
 .instalment1 .donut-case::after {
   content: "";
-  clip: rect(0 100px 200px 0);
+  clip: rect(0 50px 100px 0);
   /* -webkit-transform: rotate(327.6deg); */
   /*360도 기준으로 12시*/
   transform: rotate(262.8deg);

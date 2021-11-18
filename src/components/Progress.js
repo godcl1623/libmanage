@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { comparisonStateCreator } from '../actions';
 import { sendTo } from '../custom_modules/address';
+import { flex, sizes } from '../styles';
 
 const Progress = () => {
   const comparisonState = useSelector(state => state.comparisonState);
@@ -137,10 +140,25 @@ const Progress = () => {
     };
   }, [count]);
   return (
-    <>
+    <article
+      css={css`
+        ${sizes.full}
+        ${flex.vertical}
+
+        h1 {
+          margin-bottom: 100px;
+          font-size: 100px;
+        }
+
+        p {
+          font-size: 24px;
+          font-weight: bold;
+        }
+      `}
+    >
       <h1>Progress</h1>
       <p>{`${statusText(status, additionalString)} (${count}/${total})`}</p>
-    </>
+    </article>
   );
 };
 

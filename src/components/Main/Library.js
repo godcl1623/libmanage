@@ -126,6 +126,12 @@ const makeList = (...args) => {
               onMouseLeave={e => {
                 e.target.style.background = 'white';
               }}
+              onMouseDown={e => {
+                e.target.style.background = 'lightgrey';
+              }}
+              onMouseUp={e => {
+                e.target.style.background = '#e5e5e5';
+              }}
               onClick={e => {
                 dispatch(modalOriginCreator('Library'));
                 selectItem(e.target.innerText);
