@@ -29,26 +29,50 @@ const DelMemInfo = ({ userState }) => {
         // justify-content: space-between;
 
         * {
-          ${border}
+          // ${border}
           ${sizes.free('100%')}
         }
 
+        h2, h3 {
+          margin-bottom: 20px;
+        }
+
         #guidance {
-          padding: 40px 20px;
+          padding: 40px;
           ${sizes.full}
           h1 {
+            margin-bottom: 20px;
+            text-align: center;
             font-size: 40px;
+          }
+
+          li {
+            padding-left: 20px;
+            list-style: disc inside;
           }
         }
 
         form {
           ${sizes.full}
           ${flex.vertical}
-
+          justify-content: space-between;
+          text-align: center;
+          
           h3, p, input {
-            ${sizes.free('calc(100% - 40px)')}
+            margin-bottom: 30px;
+          }
+
+          span {
+            color: #ff1515;
+          }
+
+          .check-delete {
+            padding: 0 40px;
+            ${flex.vertical}
+            ${sizes.free('100%', 'calc(100% - 50px)')}
           }
         }
+
 
         .submit-wrapper {
           ${flex.horizontal}
@@ -128,9 +152,13 @@ const DelMemInfo = ({ userState }) => {
           }
         }}
       >
-        <h3>회원탈퇴를 희망하시는 경우 아래 입력창에 '회원탈퇴'를 입력하신 후 확인 버튼을 눌러주세요.</h3>
-        <p>※ 탈퇴 신청이 접수된 계정은 복구가 불가합니다.</p>
-        <input type="text" name="del_info_check" />
+        <div
+          className="check-delete"
+        >
+          <h3>회원탈퇴를 희망하시는 경우 아래 입력창에 '<span>회원탈퇴</span>'를 입력하신 후 확인 버튼을 눌러주세요.</h3>
+          <p>※ 탈퇴 신청이 접수된 계정은 복구가 불가합니다.</p>
+          <input type="text" name="del_info_check" />
+        </div>
         <div
           className="submit-wrapper"
         >
