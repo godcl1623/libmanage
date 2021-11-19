@@ -114,8 +114,8 @@ const makeList = (...args) => {
             <li
               key={index}
               css={css`
-                margin-bottom: 5px;
-                padding-left: 20px;
+                // margin-bottom: 5px;
+                padding: 10px 30px;
                 font-size: 20px;
                 cursor: pointer;
                 background: white;
@@ -367,7 +367,7 @@ const Library = ({ userLib }) => {
       css={css`
         border-left: 1px solid black;
         border-right: 1px solid black;
-        padding: 20px;
+        padding: 40px 20px;
         flex: 2;
         overflow: hidden;
         height: 100%;
