@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import {AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft} from 'react-icons/ai';
 import Header from './Header';
 import Library from './Library';
 import Meta from './Meta';
@@ -18,15 +19,16 @@ import {
   balloonStateCreator,
   comparisonStateCreator,
   modalStateCreator,
-  selectedItemDataCreator
+  selectedItemDataCreator,
+  selectedMediaIdCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 
 const modalOption = origin => ({
   position: 'absolute',
-  width: origin !== 'Header_MemInfo' ? '50%' : '45%',
-  height: origin !== 'Header_MemInfo' ? '50%' : '85%',
+  width: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90%' : '50%') : '45%',
+  height: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90%' : '50%') : '85%',
   background: 'white',
   top: '50%',
   left: '50%',
@@ -42,7 +44,10 @@ const modalContents = (...args) => {
     setState2,
     origin,
     setLibs,
-    setItem
+    setItem,
+    selMedia,
+    setSelMedia,
+    selMediaList
   ] = args;
   const caution = <p>※ 현재 기술적 문제로 Steam 서비스만 지원됩니다.</p>;
   if (origin === 'Header_Option') {
@@ -197,6 +202,210 @@ const modalContents = (...args) => {
     }
   } else if (origin === 'Header_MemInfo') {
     return <MemberInfoWrap />;
+  } else if (origin.split('-')[0] === 'meta') {
+    if (origin.split('-')[1] === 'videos') {
+      return (
+        <div
+          css={css`
+            padding: 40px;
+            ${sizes.full}
+            ${flex.vertical}
+            position: relative;
+          `}
+        >
+          <span
+            css={css`
+              border-radius: 50%;
+              position: absolute;
+              top: -32px;
+              right: -32px;
+              cursor: pointer;
+              background: white;
+              ${sizes.free('32px', '32px')}
+
+                svg {
+                  font-size: 32px;
+                }
+            `}
+            onClick={e => {
+              dispatch(modalStateCreator(false));
+              dispatch(setSelMedia(''));
+            }}
+          >
+            <AiOutlineCloseCircle />
+          </span>
+          {
+            selMedia
+            ?
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${selMedia}`}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              />
+            : ''
+          }
+          <span
+            id="media-left"
+            css={css`
+              border-radius: 50%;
+              ${sizes.free('60px', '60px')}
+              background: white;
+              position: absolute;
+              top: 50%;
+              left: -70px;
+              transform: translateY(-50%);
+              cursor: pointer;
+
+              svg {
+                font-size: 60px;
+              }
+            `}
+            onClick={e => {
+              const currIdx = selMediaList.indexOf(selMedia);
+              if (currIdx === 0) {
+                dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
+              } else {
+                dispatch(setSelMedia(selMediaList[currIdx - 1]));
+              }
+            }}
+          >
+            <AiOutlineLeft />
+          </span>
+          <span
+            id="media-right"
+            css={css`
+              border-radius: 50%;
+              ${sizes.free('60px', '60px')}
+              background: white;
+              position: absolute;
+              top: 50%;
+              right: -70px;
+              transform: translateY(-50%);
+              cursor: pointer;
+
+              svg {
+                font-size: 60px;
+              }
+            `}
+            onClick={e => {
+              const currIdx = selMediaList.indexOf(selMedia);
+              if (currIdx === selMediaList.length - 1) {
+                dispatch(setSelMedia(selMediaList[0]));
+              } else {
+                dispatch(setSelMedia(selMediaList[currIdx + 1]));
+              }
+            }}
+          >
+            <AiOutlineRight />
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          css={css`
+            padding: 40px;
+            ${sizes.full}
+            ${flex.vertical}
+            position: relative;
+          `}
+        >
+          <span
+            css={css`
+              border-radius: 50%;
+              position: absolute;
+              top: -32px;
+              right: -32px;
+              cursor: pointer;
+              background: white;
+              ${sizes.free('32px', '32px')}
+
+                svg {
+                  font-size: 32px;
+                }
+            `}
+            onClick={e => {
+              dispatch(modalStateCreator(false));
+              dispatch(setSelMedia(''));
+            }}
+          >
+            <AiOutlineCloseCircle />
+          </span>
+          {
+            selMedia
+            ?
+              <img
+                src={`https://images.igdb.com/igdb/image/upload/t_original/${selMedia}.jpg`}
+                alt="media"
+                id={`img-${selMedia}`}
+                css={css`
+                  ${sizes.full}
+                  color: white;
+                `}
+              />
+            : ''
+          }
+          <span
+            id="media-left"
+            css={css`
+              border-radius: 50%;
+              ${sizes.free('60px', '60px')}
+              background: white;
+              position: absolute;
+              top: 50%;
+              left: -70px;
+              transform: translateY(-50%);
+              cursor: pointer;
+
+              svg {
+                font-size: 60px;
+              }
+            `}
+            onClick={e => {
+              const currIdx = selMediaList.indexOf(selMedia);
+              if (currIdx === 0) {
+                dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
+              } else {
+                dispatch(setSelMedia(selMediaList[currIdx - 1]));
+              }
+            }}
+          >
+            <AiOutlineLeft />
+          </span>
+          <span
+            id="media-right"
+            css={css`
+              border-radius: 50%;
+              ${sizes.free('60px', '60px')}
+              background: white;
+              position: absolute;
+              top: 50%;
+              right: -70px;
+              transform: translateY(-50%);
+              cursor: pointer;
+
+              svg {
+                font-size: 60px;
+              }
+            `}
+            onClick={e => {
+              const currIdx = selMediaList.indexOf(selMedia);
+              if (currIdx === selMediaList.length - 1) {
+                dispatch(setSelMedia(selMediaList[0]));
+              } else {
+                dispatch(setSelMedia(selMediaList[currIdx + 1]));
+              }
+            }}
+          >
+            <AiOutlineRight />
+          </span>
+        </div>
+      );
+    }
   }
   return (
     <article
@@ -221,6 +430,8 @@ const Main = () => {
   const selectedItemData = useSelector(state => state.selectedItemData);
   const modalOrigin = useSelector(state => state.modalOrigin);
   const modalState = useSelector(state => state.modalState);
+  const selectedMediaId = useSelector(state => state.selectedMediaId);
+  const selectedMediaList = useSelector(state => state.selectedMediaList);
   const [storesList, setStoresList] = useState('');
   const [userLibrary, setUserLibrary] = useState('');
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -430,7 +641,10 @@ const Main = () => {
             modalStateCreator,
             modalOrigin,
             setUserLibrary,
-            selectedItemDataCreator
+            selectedItemDataCreator,
+            selectedMediaId,
+            selectedMediaIdCreator,
+            selectedMediaList
           )
         }
         origin={modalOrigin}

@@ -18,5 +18,7 @@ export default combineReducers({
   selectedItemData: tempStore.selectedItemDataReducer,
   modalOrigin: tempStore.modalOriginReducer,
   librarySearch: tempStore.librarySearchReducer,
+  selectedMediaId: tempStore.selectedMediaIdReducer,
+  selectedMediaList: tempStore.selectedMediaListReducer,
   _TEST: tempStore._TESTREDUCER
 });

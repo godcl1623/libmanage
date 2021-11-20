@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { modalStateCreator } from '../../actions';
+import { modalStateCreator, selectedMediaIdCreator } from '../../actions';
 
 const Modal = ({ style, contents, origin }) => {
   const modalState = useSelector(state => state.modalState);
+  const selMediaId = useSelector(state => state.selectedMediaId);
   const dispatch = useDispatch();
   const display = !modalState ? 'none' : 'block';
   return ReactDOM.createPortal(
@@ -25,6 +26,9 @@ const Modal = ({ style, contents, origin }) => {
         // e.preventDefault();
         if (e.target.className === 'modal-bg') {
           dispatch(modalStateCreator(false));
+          if (selMediaId !== '') {
+            dispatch(selectedMediaIdCreator(''));
+          }
         }
       }}
     >
