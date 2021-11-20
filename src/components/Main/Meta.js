@@ -1,11 +1,28 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { AiOutlineZoomIn } from 'react-icons/ai';
+import {
+  modalStateCreator,
+  modalOriginCreator,
+  selectedMediaIdCreator,
+  selectedMediaListCreator
+} from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 
-const MakeMediaList = ({ target, itemData }) => {
+const MakeMediaList = ({ ...props }) => {
+  const {
+    target,
+    itemData,
+    setShowStat,
+    showStat,
+    dispatch,
+    modalStateCreator,
+    modalOriginCreator,
+    selMediaIdCreator,
+  } = props;
   let targetMedia = itemData.screenshots;
   switch (target) {
     case 'videos':
@@ -20,30 +37,87 @@ const MakeMediaList = ({ target, itemData }) => {
   if (target === 'videos') {
     return targetMedia
       ? targetMedia.map((media, idx) => (
-          // <iframe
-          //   width="560"
-          //   height="315"
-          //   src={`https://www.youtube.com/embed/${media}`}
-          //   title="YouTube video player"
-          //   frameborder="0"
-          //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          //   allowfullscreen
-          // />
-          <img
-            key={`${media}_${idx}`}
-            src={`https://img.youtube.com/vi/${media}/2.jpg`}
-            alt="video_thumb"
-          />
+          <div
+            className="media-wrapper"
+            id={`media-wrapper-${idx + 1}`}
+            key={`media-wrapper-${idx + 1}`}
+            onMouseEnter={e => {
+              e.preventDefault();
+              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
+              const currImg = currMideaWrap.querySelector('img');
+              const currPlayBtn = currMideaWrap.querySelector('.player-btn');
+              currImg.style.filter = 'brightness(70%)';
+              currPlayBtn.style.display = 'block';
+            }}
+            onMouseLeave={e => {
+              e.preventDefault();
+              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
+              const currImg = currMideaWrap.querySelector('img');
+              const currPlayBtn = currMideaWrap.querySelector('.player-btn');
+              currImg.style.filter = 'brightness(100%)';
+              currPlayBtn.style.display = 'none';
+            }}
+          >
+            <div
+              className="player-btn-wrapper"
+              key={`player-btn-wrapper-${idx + 1}`}
+              onClick={e => {
+                e.preventDefault();
+                dispatch(modalStateCreator(true));
+                dispatch(modalOriginCreator(`meta-${target}`));
+                dispatch(selMediaIdCreator(media));
+              }}
+            >
+              <div className="player-btn" key={`player-btn-${idx + 1}`} />
+            </div>
+            <img
+              key={`${media}_${idx}`}
+              src={`https://img.youtube.com/vi/${media}/2.jpg`}
+              alt={`video_thumb_${idx + 1}`}
+            />
+          </div>
         ))
       : '';
   }
   return targetMedia
     ? targetMedia.map((media, idx) => (
-        <img
-          key={`${media}_${idx}`}
-          src={`https://images.igdb.com/igdb/image/upload/t_thumb/${media}.jpg`}
-          alt="artworks"
-        />
+        <div
+          className="media-wrapper"
+          id={`media-wrapper-${idx + 1}`}
+          key={`media-wrapper-${idx + 1}`}
+          onMouseEnter={e => {
+            e.preventDefault();
+            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
+            const currImg = currMideaWrap.querySelector('img');
+            currImg.style.filter = 'brightness(70%)';
+            setShowStat(currMideaWrap.id);
+          }}
+          onMouseLeave={e => {
+            e.preventDefault();
+            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
+            const currImg = currMideaWrap.querySelector('img');
+            currImg.style.filter = 'brightness(100%)';
+            setShowStat(false);
+          }}
+        >
+          <div
+            className="player-btn-wrapper"
+            key={`player-btn-wrapper-${idx + 1}`}
+            onClick={e => {
+              e.preventDefault();
+              dispatch(modalStateCreator(true));
+              dispatch(modalOriginCreator(`meta-${target}`));
+              dispatch(selMediaIdCreator(media));
+            }}
+          >
+            {showStat === `media-wrapper-${idx + 1}` ? <AiOutlineZoomIn /> : ''}
+          </div>
+          <img
+            key={`${media}_${idx}`}
+            src={`https://images.igdb.com/igdb/image/upload/t_thumb/${media}.jpg`}
+            alt={`artworks_${idx + 1}`}
+          />
+        </div>
       ))
     : '';
 };
@@ -75,13 +149,22 @@ const ageRatingDistributor = ages =>
         ageRatingsImgUrls = {};
         break;
     }
-    return <img src={`${ageRatingsImgUrls[rating]}`} alt={`${targetRating}-${ratings[rating]}`} />;
+    return (
+      <img
+        key={`${targetRating}-${ratings[rating]}`}
+        src={`${ageRatingsImgUrls[rating]}`}
+        alt={`${targetRating}-${ratings[rating]}`}
+      />
+    );
   });
 
 const Meta = () => {
   const selectedItem = useSelector(state => state.selectedItem);
   const selectedItemData = useSelector(state => state.selectedItemData);
   const [selectedMedia, setSelectedMedia] = React.useState('screenshots');
+  const [isSpread, setIsSpread] = React.useState(false);
+  const [showStat, setShowStat] = React.useState(false);
+  const dispatch = useDispatch();
   const {
     artworks,
     covers,
@@ -102,6 +185,18 @@ const Meta = () => {
     summary,
     totalRating
   } = selectedItemData;
+
+  React.useEffect(() => {
+    if (selectedItemData.artworks !== undefined) {
+      if (selectedMedia === 'screenshots') {
+        dispatch(selectedMediaListCreator(screenshots));
+      } else if (selectedMedia === 'videos') {
+        dispatch(selectedMediaListCreator(videos));
+      } else if (selectedMedia === 'artworks') {
+        dispatch(selectedMediaListCreator(artworks));
+      }
+    }
+  }, [selectedMedia, selectedItemData])
 
   if (selectedItemData.artworks === undefined) {
     return (
@@ -207,10 +302,18 @@ const Meta = () => {
           }
 
           .meta-wrapper-contents {
-            p {
+            p#summary-container {
               margin: 30px 0;
               padding: 20px 40px;
               font-size: 20px;
+
+              button {
+                border: none;
+                background: none;
+                text-decoration: underline;
+                color: blue;
+                cursor: pointer;
+              }
             }
 
             .media-contents-wrapper {
@@ -224,15 +327,15 @@ const Meta = () => {
 
                   :hover {
                     -webkit-filter: brightness(90%);
-                            filter: brightness(90%);
+                    filter: brightness(90%);
                   }
-                
+
                   :active {
                     -webkit-filter: brightness(60%);
-                            filter: brightness(60%);
+                    filter: brightness(60%);
                   }
                 }
-                
+
                 button:first-of-type {
                   border-radius: 10px 0 0 0;
                   background: ${selectedMedia === 'screenshots' ? 'white' : 'grey'};
@@ -252,27 +355,56 @@ const Meta = () => {
                 padding: 20px;
                 ${border}
                 display: grid;
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(auto-fill, minmax(20%, auto));
                 gap: 30px 20px;
                 justify-items: center;
 
-                img {
+                .media-wrapper {
+                  position: relative;
                   cursor: pointer;
-
-                  :hover {
-                    -webkit-filter: brightness(70%);
-                            filter: brightness(70%);
-                  }
 
                   :active {
                     -webkit-transform: scale(0.98);
-                        -ms-transform: scale(0.98);
-                            transform: scale(0.98);
+                    -ms-transform: scale(0.98);
+                    transform: scale(0.98);
+                  }
+
+                  .player-btn-wrapper {
+                    ${sizes.full}
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 2;
+
+                    .player-btn {
+                      display: none;
+                      border: 15px solid transparent;
+                      border-left: 25px solid white;
+                      border-right: 5px solid transparent;
+                      position: absolute;
+                      top: 50%;
+                      left: calc(50% + 5px);
+                      transform: translate(-50%, -50%);
+                      z-index: 1;
+                    }
+
+                    svg {
+                      color: white;
+                      ${sizes.free('30px', '30px')}
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      z-index: 2;
+                    }
+                  }
+
+                  img {
+                    ${sizes.free('120px', '90px')}
                   }
                 }
               }
             }
-
           }
         }
       `}
@@ -319,20 +451,39 @@ const Meta = () => {
           </div>
         </div>
         <article className="meta-wrapper-contents">
-          {/*
-            #################### 규칙 ####################
-            1. 더 보기 버튼을 누르지 않은 상태면 slice로 429번 인덱스까지 잘라낸다
-            2. 430번 인덱스에 ...와 더 보기 버튼을 삽입한다 -> 더 보기, 줄이기 버튼 추가
-            3. 이 때 \n을 <br/>로 바꾸지 않는다
-            4. 더 보기 버튼을 누르면 slice를 해제하고 모든 텍스트를 표시한다
-            5. 이 때 \n을 <br />로 바꾼다
-          */}
-          <p>
-            {summary
-              .replace(/\n/g, '\n\n')
-              .replace(/\n\n\n/g, '\n\n')
-              .split('\n')
-              .map(line => (line.length !== 0 ? line : <br />))}
+          <p id="summary-container">
+            {isSpread ? (
+              <>
+                {summary
+                  .replace(/\n/g, '\n\n')
+                  .replace(/\n\n\n/g, '\n\n')
+                  .split('\n')
+                  .map((line, idx) => (line.length !== 0 ? line : <br key={`br ${idx + 1}`} />))}
+                <br />
+                <button
+                  id="read-less"
+                  onClick={e => {
+                    e.preventDefault();
+                    setIsSpread(false);
+                  }}
+                >
+                  접기
+                </button>
+              </>
+            ) : (
+              <>
+                {Array.from(summary).slice(0, 430).concat(['... ']).join('')}
+                <button
+                  id="read-more"
+                  onClick={e => {
+                    e.preventDefault();
+                    setIsSpread(true);
+                  }}
+                >
+                  더 보기
+                </button>
+              </>
+            )}
           </p>
           <article className="meta-wrapper-contents-media">
             <div className="media-contents-wrapper">
@@ -362,21 +513,17 @@ const Meta = () => {
                   기타({selectedItemData.artworks ? artworks.length : 0})
                 </button>
               </div>
-              {/* 재생버튼 예제 -> 동영상에 적용, 나머지는 react-icons로 돋보기 아이콘? */}
-              <div
-                css={css`
-                  ${sizes.free('100px', '100px')}
-                `}
-              >
-                <div
-                  css={css`
-                    border: 50px solid transparent;
-                    border-left: 100px solid tomato;
-                  `}
-                />
-              </div>
               <div className="media-contents">
-                <MakeMediaList target={selectedMedia} itemData={selectedItemData} />
+                <MakeMediaList
+                  target={selectedMedia}
+                  itemData={selectedItemData}
+                  setShowStat={setShowStat}
+                  showStat={showStat}
+                  dispatch={dispatch}
+                  modalStateCreator={modalStateCreator}
+                  modalOriginCreator={modalOriginCreator}
+                  selMediaIdCreator={selectedMediaIdCreator}
+                />
               </div>
             </div>
           </article>
@@ -394,7 +541,6 @@ const Meta = () => {
               {companies ? companies[0].company_name : ''}
               {collections}
               {franchises}
-              {ages ? ages[0].rating : ''}
               {selectedItemData.websites ? websites[0] : ''}
             </div>
           </article>

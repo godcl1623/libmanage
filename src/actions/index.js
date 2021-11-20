@@ -78,6 +78,16 @@ export const librarySearchCreator = string => ({
   payload: string
 })
 
+export const selectedMediaIdCreator = string => ({
+  type: 'SELECTED_MEDIA_ID',
+  payload: string
+})
+
+export const selectedMediaListCreator = array => ({
+  type: 'SELECTED_MEDIA_LIST',
+  payload: array
+})
+
 export const _TESTCREATOR = anything => ({
   type: '__TEST__',
   payload: anything

@@ -126,6 +126,20 @@ const librarySearchReducer = (state = '', action) => {
   return state;
 };
 
+const selectedMediaIdReducer = (state = '', action) => {
+  if (action.type === 'SELECTED_MEDIA_ID') {
+    return action.payload;
+  }
+  return state;
+}
+
+const selectedMediaListReducer = (state = [], action) => {
+  if (action.type === 'SELECTED_MEDIA_LIST') {
+    return action.payload;
+  }
+  return state;
+}
+
 const _TESTREDUCER = (state = '', action) => {
   if (action.type === '__TEST__') {
     return action.payload;
@@ -150,6 +164,8 @@ const tempStore = {
   selectedItemDataReducer,
   modalOriginReducer,
   librarySearchReducer,
+  selectedMediaIdReducer,
+  selectedMediaListReducer,
   _TESTREDUCER
 };
 
