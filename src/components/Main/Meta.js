@@ -21,7 +21,7 @@ const MakeMediaList = ({ ...props }) => {
     dispatch,
     modalStateCreator,
     modalOriginCreator,
-    selMediaIdCreator,
+    selMediaIdCreator
   } = props;
   let targetMedia = itemData.screenshots;
   switch (target) {
@@ -185,7 +185,29 @@ const Meta = () => {
     summary,
     totalRating
   } = selectedItemData;
-
+  const titles = [
+    '장르',
+    '시점',
+    '게임 모드',
+    '테마',
+    '플랫폼',
+    '출시일',
+    '개발사 등',
+    '시리즈',
+    '관련 링크'
+  ];
+  const titleVals = [
+    genres,
+    perspectives,
+    modes,
+    themes,
+    platforms,
+    release,
+    companies,
+    collections,
+    websites
+  ];
+  let releaseCheckList = {};
   React.useEffect(() => {
     if (selectedItemData.artworks !== undefined) {
       if (selectedMedia === 'screenshots') {
@@ -196,7 +218,7 @@ const Meta = () => {
         dispatch(selectedMediaListCreator(artworks));
       }
     }
-  }, [selectedMedia, selectedItemData])
+  }, [selectedMedia, selectedItemData]);
 
   if (selectedItemData.artworks === undefined) {
     return (
@@ -527,8 +549,51 @@ const Meta = () => {
               </div>
             </div>
           </article>
-          <article className="meta-wrapper-contents-info">
-            <div className="info-title">
+          <article className="meta-wrapper-contents-info"
+            css={css`
+              display: grid;
+              grid-template-rows: repeat(1, 1fr);
+              * {
+                ${border}
+              }
+            `}
+          >
+            <div
+              css={css`
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+              `}
+            >
+              {/* <div>출시일</div>
+              <div
+                css={css`
+                  display: grid;
+                  grid-template-columns: repeat(2, 1fr);
+                `}
+              >
+                {release.map((set, idx) => {
+                  let result = '';
+                  if (releaseCheckList[set.platform_name] !== true) {
+                    releaseCheckList[set.platform_name] = true;
+                    console.log(releaseCheckList)
+                    result = (
+                      <>
+                        <div>{set.platform_name}</div>
+                        <div>{set.human}</div>
+                      </>
+                    );
+                  }
+                  if (idx === release.length - 1) {
+                    releaseCheckList = {};
+                  }
+                  return result;
+                })}
+              </div> */}
+              {titleVals.map((val, idx) => {
+                console.log(val)
+              })}
+            </div>
+            {/* <div className="info-title">
               장르 시점 게임 모드 테마 플랫폼 출시일 개발사 등 시리즈 프랜차이즈 연령 제한 관련 링크
             </div>
             <div className="info-contents">
@@ -542,7 +607,7 @@ const Meta = () => {
               {collections}
               {franchises}
               {selectedItemData.websites ? websites[0] : ''}
-            </div>
+            </div> */}
           </article>
         </article>
         {/* </article> */}
