@@ -110,8 +110,8 @@ const modalContents = (...args) => {
           >
             <h2>스팀</h2>
             <a
-              // href="http://localhost:3001/auth/steam"
-              href={`https://${sendTo}/auth/steam`}
+              href="http://localhost:3001/auth/steam"
+              // href={`https://${sendTo}/auth/steam`}
             >
               스팀으로 로그인
             </a>
@@ -178,8 +178,8 @@ const modalContents = (...args) => {
                 // 반영을 위해서는 comparisonState 변경이 필요
                 axios
                 .post(
-                  // 'http://localhost:3001/disconnect',
-                  `https://${sendTo}/disconnect`,
+                  'http://localhost:3001/disconnect',
+                  // `https://${sendTo}/disconnect`,
                   { reqUserInfo: JSON.stringify(temp) },
                   { withCredentials: true }
                   )
@@ -214,6 +214,7 @@ const modalContents = (...args) => {
           `}
         >
           <span
+            className="modal-close"
             css={css`
               border-radius: 50%;
               position: absolute;
@@ -234,74 +235,86 @@ const modalContents = (...args) => {
           >
             <AiOutlineCloseCircle />
           </span>
-          {
-            selMedia
-            ?
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${selMedia}`}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              />
-            : ''
-          }
-          <span
-            id="media-left"
+          <div
+            className="contents-wrapper"
             css={css`
-              border-radius: 50%;
-              ${sizes.free('60px', '60px')}
-              background: white;
-              position: absolute;
-              top: 50%;
-              left: -70px;
-              transform: translateY(-50%);
-              cursor: pointer;
-
-              svg {
-                font-size: 60px;
-              }
+              ${sizes.full}
             `}
-            onClick={e => {
-              const currIdx = selMediaList.indexOf(selMedia);
-              if (currIdx === 0) {
-                dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
-              } else {
-                dispatch(setSelMedia(selMediaList[currIdx - 1]));
-              }
-            }}
           >
-            <AiOutlineLeft />
-          </span>
-          <span
-            id="media-right"
-            css={css`
-              border-radius: 50%;
-              ${sizes.free('60px', '60px')}
-              background: white;
-              position: absolute;
-              top: 50%;
-              right: -70px;
-              transform: translateY(-50%);
-              cursor: pointer;
+            {
+              selMedia
+              ?
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${selMedia}`}
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                />
+              : ''
+            }
+            <div
+              className="btn-wrapper"
+              css={css`
+                ${sizes.free('calc(100% - 80px)', 'calc(100% - 80px)')}
+                ${flex.horizontal}
+                justify-content: space-between;
+                position: absolute;
+                top: 40px;
+                left: 40px;
 
-              svg {
-                font-size: 60px;
-              }
-            `}
-            onClick={e => {
-              const currIdx = selMediaList.indexOf(selMedia);
-              if (currIdx === selMediaList.length - 1) {
-                dispatch(setSelMedia(selMediaList[0]));
-              } else {
-                dispatch(setSelMedia(selMediaList[currIdx + 1]));
-              }
-            }}
-          >
-            <AiOutlineRight />
-          </span>
+                span {
+                  ${flex.vertical}
+                  ${sizes.free('15%', '100%')}
+                  background: rgba(0, 0, 0, 0.5);
+                  opacity: 0;
+                  color: white;
+                  font-size: 100px;
+                  text-weight: 900;
+                  transition: all 0.3s;
+
+                  :hover {
+                    opacity: 100%;
+                    cursor: pointer;
+                  }
+
+                  :active {
+                    -webkit-filter: brightness(0.3);
+                            filter: brightness(0.3);
+                  }
+                }
+              `}
+            >
+              <span
+                id="media-left"
+                onClick={e => {
+                  const currIdx = selMediaList.indexOf(selMedia);
+                  if (currIdx === 0) {
+                    dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
+                  } else {
+                    dispatch(setSelMedia(selMediaList[currIdx - 1]));
+                  }
+                }}
+              >
+                <AiOutlineLeft />
+              </span>
+              <span
+                id="media-right"
+                onClick={e => {
+                  const currIdx = selMediaList.indexOf(selMedia);
+                  if (currIdx === selMediaList.length - 1) {
+                    dispatch(setSelMedia(selMediaList[0]));
+                  } else {
+                    dispatch(setSelMedia(selMediaList[currIdx + 1]));
+                  }
+                }}
+              >
+                <AiOutlineRight />
+              </span>
+            </div>
+          </div>
         </div>
       );
     } else {
@@ -315,6 +328,7 @@ const modalContents = (...args) => {
           `}
         >
           <span
+            className="modal-close"
             css={css`
               border-radius: 50%;
               position: absolute;
@@ -335,74 +349,86 @@ const modalContents = (...args) => {
           >
             <AiOutlineCloseCircle />
           </span>
-          {
-            selMedia
-            ?
-              <img
-                src={`https://images.igdb.com/igdb/image/upload/t_original/${selMedia}.jpg`}
-                alt="media"
-                id={`img-${selMedia}`}
-                css={css`
-                  ${sizes.full}
+          <div
+            className="contents-wrapper"
+            css={css`
+              ${sizes.full}
+            `}
+          >
+            {
+              selMedia
+              ?
+                <img
+                  src={`https://images.igdb.com/igdb/image/upload/t_original/${selMedia}.jpg`}
+                  alt="media"
+                  id={`img-${selMedia}`}
+                  css={css`
+                    ${sizes.full}
+                    color: white;
+                  `}
+                />
+              : ''
+            }
+            <div
+              className="btn-wrapper"
+              css={css`
+                ${sizes.free('calc(100% - 80px)', 'calc(100% - 80px)')}
+                ${flex.horizontal}
+                justify-content: space-between;
+                position: absolute;
+                top: 40px;
+                left: 40px;
+
+                span {
+                  ${flex.vertical}
+                  ${sizes.free('15%', '100%')}
+                  background: rgba(0, 0, 0, 0.5);
+                  opacity: 0;
                   color: white;
-                `}
-              />
-            : ''
-          }
-          <span
-            id="media-left"
-            css={css`
-              border-radius: 50%;
-              ${sizes.free('60px', '60px')}
-              background: white;
-              position: absolute;
-              top: 50%;
-              left: -70px;
-              transform: translateY(-50%);
-              cursor: pointer;
+                  font-size: 100px;
+                  text-weight: 900;
+                  transition: all 0.3s;
 
-              svg {
-                font-size: 60px;
-              }
-            `}
-            onClick={e => {
-              const currIdx = selMediaList.indexOf(selMedia);
-              if (currIdx === 0) {
-                dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
-              } else {
-                dispatch(setSelMedia(selMediaList[currIdx - 1]));
-              }
-            }}
-          >
-            <AiOutlineLeft />
-          </span>
-          <span
-            id="media-right"
-            css={css`
-              border-radius: 50%;
-              ${sizes.free('60px', '60px')}
-              background: white;
-              position: absolute;
-              top: 50%;
-              right: -70px;
-              transform: translateY(-50%);
-              cursor: pointer;
+                  :hover {
+                    opacity: 100%;
+                    cursor: pointer;
+                  }
 
-              svg {
-                font-size: 60px;
-              }
-            `}
-            onClick={e => {
-              const currIdx = selMediaList.indexOf(selMedia);
-              if (currIdx === selMediaList.length - 1) {
-                dispatch(setSelMedia(selMediaList[0]));
-              } else {
-                dispatch(setSelMedia(selMediaList[currIdx + 1]));
-              }
-            }}
-          >
-            <AiOutlineRight />
-          </span>
+                  :active {
+                    -webkit-filter: brightness(0.3);
+                            filter: brightness(0.3);
+                  }
+                }
+              `}
+            >
+              <span
+                id="media-left"
+                onClick={e => {
+                  const currIdx = selMediaList.indexOf(selMedia);
+                  if (currIdx === 0) {
+                    dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
+                  } else {
+                    dispatch(setSelMedia(selMediaList[currIdx - 1]));
+                  }
+                }}
+              >
+                <AiOutlineLeft />
+              </span>
+              <span
+                id="media-right"
+                onClick={e => {
+                  const currIdx = selMediaList.indexOf(selMedia);
+                  if (currIdx === selMediaList.length - 1) {
+                    dispatch(setSelMedia(selMediaList[0]));
+                  } else {
+                    dispatch(setSelMedia(selMediaList[currIdx + 1]));
+                  }
+                }}
+              >
+                <AiOutlineRight />
+              </span>
+            </div>
+          </div>
         </div>
       );
     }
@@ -449,8 +475,8 @@ const Main = () => {
       await axios
         .post(
           // 'http://localhost:3002/check_login',
-          // 'http://localhost:3001/check_login',
-          `https://${sendTo}/check_login`,
+          'http://localhost:3001/check_login',
+          // `https://${sendTo}/check_login`,
           // { message: comparisonState },
           { message },
           { withCredentials: true }
@@ -543,8 +569,8 @@ const Main = () => {
     if (dataToSend.reqLibs !== '') {
       axios
         // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {

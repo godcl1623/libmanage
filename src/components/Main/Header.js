@@ -84,8 +84,8 @@ const Header = ({ headerRef, setHeight }) => {
           axios
             .post(
               // 'http://localhost:3002/logout_process',
-              // 'http://localhost:3001/logout_process',
-              `https://${sendTo}/logout_process`,
+              'http://localhost:3001/logout_process',
+              // `https://${sendTo}/logout_process`,
               { message },
               { withCredentials: true }
             )
