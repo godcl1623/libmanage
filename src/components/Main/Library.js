@@ -138,8 +138,8 @@ const makeList = (...args) => {
                 if (extCredState.cid === undefined) {
                   axios
                     .post(
-                      // 'http://localhost:3001/api/connect',
-                      `https://${sendTo}/api/connect`,
+                      'http://localhost:3001/api/connect',
+                      // `https://${sendTo}/api/connect`,
                       { execute: 'order66' },
                       { withCredentials: true }
                     )
@@ -152,8 +152,8 @@ const makeList = (...args) => {
                       };
                       axios
                         .post(
-                          // 'http://localhost:3001/get/meta',
-                          `https://${sendTo}/get/meta`,
+                          'http://localhost:3001/get/meta',
+                          // `https://${sendTo}/get/meta`,
                           { reqData },
                           { withCredentials: true }
                         )
@@ -168,8 +168,8 @@ const makeList = (...args) => {
                     credData: extCredState
                   };
                   axios
-                    // .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
-                    .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
+                    .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
+                    // .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
                     .then(res => {
                       selItemData(res.data);
                     });
@@ -222,8 +222,8 @@ const makeList = (...args) => {
                   if (extCredState.cid === undefined) {
                     axios
                       .post(
-                        // 'http://localhost:3001/api/connect',
-                        `https://${sendTo}/api/connect`,
+                        'http://localhost:3001/api/connect',
+                        // `https://${sendTo}/api/connect`,
                         { execute: 'order66' },
                         { withCredentials: true }
                       )
@@ -236,8 +236,8 @@ const makeList = (...args) => {
                         };
                         axios
                           .post(
-                            // 'http://localhost:3001/get/meta',
-                            `https://${sendTo}/get/meta`,
+                            'http://localhost:3001/get/meta',
+                            // `https://${sendTo}/get/meta`,
                             { reqData },
                             { withCredentials: true }
                           )
@@ -253,8 +253,8 @@ const makeList = (...args) => {
                     };
                     axios
                       .post(
-                        // 'http://localhost:3001/get/meta',
-                        `https://${sendTo}/get/meta`,
+                        'http://localhost:3001/get/meta',
+                        // `https://${sendTo}/get/meta`,
                         { reqData },
                         { withCredentials: true }
                       )
