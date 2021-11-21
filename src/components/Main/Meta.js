@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, Fragment} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -159,11 +159,10 @@ const ageRatingDistributor = ages =>
   });
 
 const Meta = () => {
-  const selectedItem = useSelector(state => state.selectedItem);
   const selectedItemData = useSelector(state => state.selectedItemData);
-  const [selectedMedia, setSelectedMedia] = React.useState('screenshots');
-  const [isSpread, setIsSpread] = React.useState(false);
-  const [showStat, setShowStat] = React.useState(false);
+  const [selectedMedia, setSelectedMedia] = useState('screenshots');
+  const [isSpread, setIsSpread] = useState(false);
+  const [showStat, setShowStat] = useState(false);
   const dispatch = useDispatch();
   const {
     artworks,
@@ -171,7 +170,6 @@ const Meta = () => {
     collections,
     genres,
     player_perspectives: perspectives,
-    franchises,
     platforms,
     game_modes: modes,
     game_videos: videos,
@@ -186,6 +184,7 @@ const Meta = () => {
     totalRating
   } = selectedItemData;
   const titles = [
+    '시리즈',
     '장르',
     '시점',
     '게임 모드',
@@ -193,10 +192,10 @@ const Meta = () => {
     '플랫폼',
     '출시일',
     '개발사 등',
-    '시리즈',
     '관련 링크'
   ];
   const titleVals = [
+    collections,
     genres,
     perspectives,
     modes,
@@ -204,11 +203,28 @@ const Meta = () => {
     platforms,
     release,
     companies,
-    collections,
     websites
   ];
-  let releaseCheckList = {};
-  React.useEffect(() => {
+  const websitesCategory = [
+    '공식 사이트',
+    'Wikia',
+    'Wikipedia',
+    'Facebook',
+    'Twitter',
+    'Twitch',
+    'Instagram',
+    'Youtube',
+    'iPhone',
+    'iPad',
+    'Android',
+    'Steam',
+    'Reddit',
+    'itch',
+    'EpicGames',
+    'GoG',
+    'Discord'
+  ];
+  useEffect(() => {
     if (selectedItemData.artworks !== undefined) {
       if (selectedMedia === 'screenshots') {
         dispatch(selectedMediaListCreator(screenshots));
@@ -338,6 +354,10 @@ const Meta = () => {
               }
             }
 
+            .meta-wrapper-contents-media {
+              margin-top: 30px;
+              margin-bottom: 50px;
+            }
             .media-contents-wrapper {
               .media-tabs {
                 button {
@@ -455,7 +475,6 @@ const Meta = () => {
             <h2>{name}</h2>
             <div id="numerical-data">
               <div id="game-scores">
-                {/* <h4>Scores</h4> */}
                 <div className="donut-boundary instalment1">
                   <div className="donut-outline"></div>
                   <div className="donut-graph-border"></div>
@@ -466,7 +485,6 @@ const Meta = () => {
                 </div>
               </div>
               <div id="age-rating-wrapper">
-                {/* <h4>Ratings</h4> */}
                 <div id="rating-imgs">{ages ? ageRatingDistributor(ages) : ''}</div>
               </div>
             </div>
@@ -549,68 +567,234 @@ const Meta = () => {
               </div>
             </div>
           </article>
-          <article className="meta-wrapper-contents-info"
+          <article
+            className="meta-wrapper-contents-info"
             css={css`
               display: grid;
-              grid-template-rows: repeat(1, 1fr);
-              * {
-                ${border}
+              grid-template-rows: repeat(auto-fill, 1fr);
+              ${border}
+              border-bottom: none;
+
+              .table-title {
+                border-bottom: 1px solid black;
+                border-right: 3px double black;
+                padding: 20px 0;
+                ${flex.vertical}
+              }
+              .table-contents {
+                display: grid;
+                grid-template-rows: repeat(auto-fill, 1fr);
+
+                div {
+                  border-bottom: 1px solid black;
+                  padding: 5px 0;
+                  ${sizes.full}
+                  ${flex.vertical}
+                }
+              }
+              .table-sub-title, .table-sub-contents {
+                border-bottom: 1px solid black;
+                border-right: 1px solid black;
+                padding: 5px 0;
+                ${flex.vertical}
+              }
+
+              .table-sub-contents {
+                border-right: none;
               }
             `}
           >
             <div
               css={css`
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(1, 1fr 3fr);
               `}
             >
-              {/* <div>출시일</div>
-              <div
-                css={css`
-                  display: grid;
-                  grid-template-columns: repeat(2, 1fr);
-                `}
-              >
-                {release.map((set, idx) => {
-                  let result = '';
-                  if (releaseCheckList[set.platform_name] !== true) {
-                    releaseCheckList[set.platform_name] = true;
-                    console.log(releaseCheckList)
-                    result = (
-                      <>
-                        <div>{set.platform_name}</div>
-                        <div>{set.human}</div>
-                      </>
-                    );
-                  }
-                  if (idx === release.length - 1) {
-                    releaseCheckList = {};
-                  }
-                  return result;
-                })}
-              </div> */}
-              {titleVals.map((val, idx) => {
-                console.log(val)
+              {titleVals.map((vals, idx) => {
+                let result = '';
+                if (titles[idx] === '출시일') {
+                  let releaseCheckList = {};
+                  vals.sort((prev, next) => prev.platform_name[0] < next.platform_name[0] ? -1 : 1);
+                  result = (
+                    <Fragment key={`frag-${titles[idx]}`}>
+                      <div
+                        key={`${titles[idx]}-title-${idx+1}`}
+                        className="table-title"
+                      >{titles[idx]}</div>
+                      <div
+                        key={`${titles[idx]}-value-${idx+1}`}
+                        css={css`
+                          display: grid;
+                          grid-template-columns: repeat(2, 1fr);
+                        `}
+                      >
+                        {vals.map((val, subidx) => {
+                          let res = '';
+                          if (releaseCheckList[val.platform_name] !== true) {
+                            releaseCheckList[val.platform_name] = true;
+                            res = (
+                              <Fragment key={`release_info-${subidx+1}`}>
+                                <div
+                                  key={`release_platform_name-${subidx+1}`}
+                                  className="table-sub-title"
+                                >
+                                  {val.platform_name}
+                                </div>
+                                <div
+                                  key={`date-${subidx+1}`}
+                                  className="table-sub-contents"
+                                >
+                                  {val.human}
+                                </div>
+                              </Fragment>
+                            );
+                          }
+                          if (subidx === vals.length - 1) {
+                            releaseCheckList = {};
+                          }
+                          return res;
+                        })}
+                      </div>
+                    </Fragment>
+                  );
+                } else if (titles[idx] === '개발사 등') {
+                  vals.reverse();
+                  result = (
+                    <Fragment key={`frag-${titles[idx]}`}>
+                      <div
+                        key={`${titles[idx]}-title-${idx+1}`}
+                        className="table-title"
+                      >{titles[idx]}</div>
+                      <div
+                        key={`${titles[idx]}-ext_cont-${idx+1}`}
+                        css={css`
+                          display: grid;
+                          grid-template-rows: repeat(auto-fill, 1fr);
+                        `}
+                      >
+                        <div
+                          key={`${titles[idx]}-inn_cont_1-${idx+1}`}
+                          css={css`
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                          `}
+                        >
+                          <div
+                            key={`dev-${idx+1}`}
+                            className="table-sub-title"
+                          >
+                            개발사
+                          </div>
+                          <div key={`dev_comp_cont-${idx+1}`}>
+                            {vals.map((val, subidx) => {
+                              let res = '';
+                              if (val.developer === true) {
+                                res = (
+                                  <div
+                                    key={`dev_comp-${subidx+1}`}
+                                    className="table-sub-contents"
+                                  >
+                                    {val.company_name}
+                                  </div>
+                                );
+                              }
+                              return res;
+                            })}
+                          </div>
+                        </div>
+                        <div
+                          key={`${titles[idx]}-inn_cont_2-${idx+1}`}
+                          css={css`
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                          `}
+                        >
+                          <div
+                            key={`prod-${idx+1}`}
+                            className="table-sub-title"
+                          >
+                            배급사
+                          </div>
+                          <div key={`prod_comp_cont-${idx+1}`}>
+                            {vals.map((val, subidx) => {
+                              let res = '';
+                              if (val.publisher === true) {
+                                res = (
+                                  <div
+                                    key={`prod_comp-${subidx}`}
+                                    className="table-sub-contents"
+                                  >
+                                    {val.company_name}
+                                  </div>
+                                );
+                              }
+                              return res;
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </Fragment>
+                  );
+                } else if (titles[idx] === '관련 링크') {
+                  vals.sort((prev, next) => prev.category < next.category ? -1 : 1);
+                  result = (
+                    <Fragment key={`frag-${titles[idx]}`}>
+                      <div
+                        key={`${titles[idx]}-title-${idx+1}`}
+                        className="table-title"
+                      >{titles[idx]}</div>
+                      <div
+                        key={`${titles[idx]}-ext_cont-${idx+1}`}
+                        css={css`
+                          display: grid;
+                          grid-template-columns: repeat(2, 1fr);
+                        `}
+                      >
+                        {vals.map((val, subidx) => {
+                          let res = '';
+                          const categoryIdx = val.category < 7 ? val.category : val.category - 1;
+                          res = (
+                            <Fragment key={`web_frag-${subidx+1}`}>
+                              <div
+                                key={`web_title-${subidx+1}`}
+                                className="table-sub-title"
+                              >
+                                {websitesCategory[categoryIdx - 1]}
+                              </div>
+                              <div
+                                key={`web_link-${subidx+1}`}
+                                className="table-sub-contents"
+                              >
+                                <a key={`link-${subidx+1}`} href={val.url}>링크</a>
+                              </div>
+                            </Fragment>
+                          );
+                          return res;
+                        })}
+                      </div>
+                    </Fragment>
+                  );
+                } else {
+                  result = (
+                    <Fragment key={`frag-${titles[idx]}`}>
+                      <div
+                        key={`${titles[idx]}-title-${idx+1}`}
+                        className="table-title"
+                      >{titles[idx]}</div>
+                      <div
+                        key={`${titles[idx]}-val_wrap-${idx+1}`}
+                        className="table-contents"
+                      >
+                        {vals.map((val, subidx) => (<div key={`${titles[idx]}-val-${subidx+1}`}>{val}</div>))}
+                      </div>
+                    </Fragment>
+                  );
+                }
+                return result;
               })}
             </div>
-            {/* <div className="info-title">
-              장르 시점 게임 모드 테마 플랫폼 출시일 개발사 등 시리즈 프랜차이즈 연령 제한 관련 링크
-            </div>
-            <div className="info-contents">
-              {genres}
-              {perspectives}
-              {modes}
-              {themes}
-              {platforms}
-              {release ? release[0].human : '0000-00-00'}
-              {companies ? companies[0].company_name : ''}
-              {collections}
-              {franchises}
-              {selectedItemData.websites ? websites[0] : ''}
-            </div> */}
           </article>
         </article>
-        {/* </article> */}
       </article>
     </article>
   );
