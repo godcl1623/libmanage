@@ -26,14 +26,24 @@ const menu = (value, storeList, dispatch, filterStores) => {
                   dispatch(filterStores('all'));
                 }}
                 css={css`
-                  ${border}
                   border-radius: 7px;
+                  box-shadow: 0 0 1px 1px var(--grey-dark);
                   ${sizes.free('50px', '25px')}
-                  background: white;
                   display: inline-block;
                   text-align: center;
                   font-size: 16px;
                   cursor: pointer;
+
+                  :hover {
+                    -webkit-filter: brightness(90%);
+                            filter: brightness(90%);
+                  }
+                
+                  :active {
+                    -webkit-transform: scale(0.95);
+                        -ms-transform: scale(0.95);
+                            transform: scale(0.95);
+                  }
                 `}
               >
                 ALL
@@ -45,6 +55,19 @@ const menu = (value, storeList, dispatch, filterStores) => {
                 onClick={e => {
                   dispatch(filterStores(store));
                 }}
+                css={css`
+                  cursor: pointer;
+                  background: white;
+                  :hover {
+                    -webkit-filter: brightness(90%);
+                            filter: brightness(90%);
+                  }
+                
+                  :active {
+                    -webkit-filter: brightness(70%);
+                            filter: brightness(70%);
+                  }
+                `}
               >
                 - {[store[0].toUpperCase()].concat(store.slice(1, store.length))}
               </p>
@@ -121,6 +144,8 @@ const Navigation = ({ storesList }) => {
           padding: 3px 15px;
           font-size: var(--font-size-normal);
           ${sizes.free('100%')}
+          background: var(--white);
+          cursor: pointer;
 
           option {
             font-size: 16px;

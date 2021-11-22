@@ -76,6 +76,10 @@ const Header = ({ headerRef, setHeight }) => {
   const memberStatus =
     loginStatus === true ? (
       <button
+        css={css`
+          background: var(--btn-alert);
+          color: var(--white);
+        `}
         onClick={() => {
           const message = {
             reqMsg: 'logout',
@@ -83,7 +87,6 @@ const Header = ({ headerRef, setHeight }) => {
           };
           axios
             .post(
-              // 'http://localhost:3002/logout_process',
               // 'http://localhost:3001/logout_process',
               `https://${sendTo}/logout_process`,
               { message },
@@ -104,6 +107,10 @@ const Header = ({ headerRef, setHeight }) => {
       </button>
     ) : (
       <button
+        css={css`
+          background: var(--btn-active);
+          color: var(--white);
+        `}
         onClick={() => {
           history.push('/');
         }}
@@ -117,15 +124,11 @@ const Header = ({ headerRef, setHeight }) => {
     position: 'absolute',
     top: '0',
     left: '0',
-    // 'background': 'rgba(0, 0, 0, 0.3)',
-    // width: '100%',
-    // height: '100%',
     zIndex: 2
   };
 
   const style = {
     padding: '20px',
-    border: '1px solid black',
     display: balloonOrigin === 'Header' ? balloonState : 'none',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -133,8 +136,6 @@ const Header = ({ headerRef, setHeight }) => {
     width: '300px',
     height: '100px',
     position: 'absolute',
-    // top: '0',
-    // left: '200px',
     top: `${
       selectedBtn.current === optionRef.current
         ? `calc(${btnCoords.topCoord}px)`
@@ -145,29 +146,35 @@ const Header = ({ headerRef, setHeight }) => {
         ? `calc(${btnCoords.leftCoord}px + 100px)`
         : `calc(${btnCoords.leftCoord}px - 100px)`
     }`,
-    background: 'white',
+    background: 'var(--btn-active)',
     zIndex: 2
   };
 
   const hand = {
-    border: '1px solid black',
-    width: '50px',
-    height: '50px',
+    borderTop: selectedBtn.current === optionRef.current
+      ? '20px solid transparent'
+      : 'none', 
+    borderBottom: selectedBtn.current === optionRef.current
+      ? '20px solid transparent'
+      : '40px solid var(--btn-active)',
+    borderRight: selectedBtn.current === optionRef.current
+      ? '40px solid var(--btn-active)'
+      : '20px solid transparent',
+    borderLeft: selectedBtn.current === optionRef.current
+      ? 'none'
+      : '20px solid transparent',
     position: 'absolute',
-    // top: '0',
-    // left: '176px',
     top: `${
       selectedBtn.current === optionRef.current
         ? `calc(${btnCoords.topCoord}px)`
-        : `calc(${btnCoords.botCoord}px + 20px)`
+        : `calc(${btnCoords.botCoord}px + 10px)`
     }`,
     left: `${
       selectedBtn.current === optionRef.current
-        ? `calc(${btnCoords.leftCoord}px + 100px)`
+        ? `calc(${btnCoords.leftCoord}px + 80px)`
         : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
     }`,
     transform: 'translate(-50%)',
-    background: 'white',
     display: balloonOrigin === 'Header' ? balloonState : 'none'
   };
 
@@ -176,11 +183,27 @@ const Header = ({ headerRef, setHeight }) => {
       id="header"
       ref={headerRef}
       css={css`
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--grey-dark);
+        padding: 5px 0;
         ${flex.horizontal}
         justify-content: space-between;
-        width: 100%;
-        height: 50px;
+        ${sizes.free('100%', '50px')}
+
+        button {
+          padding: 5px 15px;
+          cursor: pointer;
+
+            :hover {
+              -webkit-filter: brightness(90%);
+                      filter: brightness(90%);
+            }
+          
+            :active {
+              -webkit-transform: scale(0.95);
+                  -ms-transform: scale(0.95);
+                      transform: scale(0.95);
+            }
+        }
       `}
     >
       <div
@@ -195,7 +218,7 @@ const Header = ({ headerRef, setHeight }) => {
           ref={optionRef}
           css={css`
             ${flex.vertical}
-            ${sizes.free('50px', '35px')}
+            ${sizes.free('auto', '35px')}
           `}
           onClick={e => {
             const { left, top, bottom } = optionRef.current.getBoundingClientRect();
@@ -240,11 +263,13 @@ const Header = ({ headerRef, setHeight }) => {
         <button
           css={css`
             border: none;
-            width: 30px;
+            box-shadow: none;
+            ${sizes.free('30px')};
             position: absolute;
             right: calc(var(--gap-multiply-small) * 3);
             display: ${librarySearch === '' ? 'none' : 'block'};
-            background: white;
+            background: var(--white);
+            color: var(--grey-dark);
             font-size: calc(var(--font-size-normal));
 
             :hover {
@@ -261,7 +286,6 @@ const Header = ({ headerRef, setHeight }) => {
         </button>
       </form>
       </div>
-      {/* <button>로그인</button> */}
       <div
         className="space-divider"
         css={css`
@@ -283,7 +307,7 @@ const Header = ({ headerRef, setHeight }) => {
           <button
             id="member-info"
             css={css`
-              background: none;
+              padding: 0 20px;
             `}
             ref={memberRef}
             onClick={() => {

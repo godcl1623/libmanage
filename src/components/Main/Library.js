@@ -25,42 +25,70 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
       css={css`
         margin: 10px;
         ${flex.horizontal}
+        justify-content: space-between;
         ${sizes.free('100%')}
 
         * {
           margin: 0 5px;
         }
 
-        .balloon-btn:first-of-type {
-          background: ${currDisplayType === 'list' ? 'grey' : 'white'};
+        .balloon-header {
+          flex: 1;
         }
 
-        .balloon-btn:last-of-type {
-          background: ${currDisplayType === 'cover' ? 'grey' : 'white'};
+        .btn-container {
+          flex: 2;
+          ${flex.horizontal}
+          justify-content: space-around;
+
+          .balloon-btn {
+            padding: 5px;
+            cursor: pointer;
+            :hover {
+              -webkit-filter: brightness(90%);
+                      filter: brightness(90%);
+            }
+          
+            :active {
+              -webkit-transform: scale(0.95);
+                  -ms-transform: scale(0.95);
+                      transform: scale(0.95);
+            }
+          }
+
+          .balloon-btn:first-of-type {
+            background: ${currDisplayType === 'list' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
+          }
+  
+          .balloon-btn:last-of-type {
+            background: ${currDisplayType === 'cover' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
+          }
         }
       `}
     >
       <h3
         className="balloon-header"
       >표시방식:</h3>
-      <button
-        className="balloon-btn"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(changeState('list'));
-        }}
-      >
-        리스트
-      </button>
-      <button
-        className="balloon-btn"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(changeState('cover'));
-        }}
-      >
-        썸네일
-      </button>
+      <div className="btn-container">
+        <button
+          className="balloon-btn"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(changeState('list'));
+          }}
+        >
+          리스트
+        </button>
+        <button
+          className="balloon-btn"
+          onClick={e => {
+            e.preventDefault();
+            dispatch(changeState('cover'));
+          }}
+        >
+          썸네일
+        </button>
+      </div>
     </div>
     <div
       className="balloon-input"
@@ -114,23 +142,22 @@ const makeList = (...args) => {
             <li
               key={index}
               css={css`
-                // margin-bottom: 5px;
                 padding: 10px 30px;
                 font-size: 20px;
                 cursor: pointer;
                 background: white;
               `}
               onMouseEnter={e => {
-                e.target.style.background = '#e5e5e5';
+                e.target.style.background = 'var(--highlight-light)';
               }}
               onMouseLeave={e => {
                 e.target.style.background = 'white';
               }}
               onMouseDown={e => {
-                e.target.style.background = 'lightgrey';
+                e.target.style.background = 'var(--btn-active)';
               }}
               onMouseUp={e => {
-                e.target.style.background = '#e5e5e5';
+                e.target.style.background = 'var(--highlight-light)';
               }}
               onClick={e => {
                 dispatch(modalOriginCreator('Library'));
@@ -334,7 +361,6 @@ const Library = ({ userLib }) => {
   };
 
   const style = {
-    border: '1px solid black',
     padding: '20px',
     display: balloonOrigin === 'Library' ? balloonState : 'none',
     flexDirection: 'column',
@@ -345,19 +371,17 @@ const Library = ({ userLib }) => {
     position: 'absolute',
     top: `calc(${btnCoords.topCoord}px + 40px)`,
     right: `30px`,
-    background: 'white',
+    background: 'var(--btn-active)',
     zIndex: 2
   };
 
   const hand = {
-    border: '1px solid black',
-    width: '50px',
-    height: '50px',
+    borderLeft: '20px solid transparent',
+    borderRight: '20px solid transparent',
+    borderBottom: '40px solid var(--btn-active)',
     position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px + 10px)`,
+    top: `calc(${btnCoords.topCoord}px)`,
     right: `30px`,
-    // 'transform': 'translate(-100%, -50%)',
-    background: 'white',
     display: balloonOrigin === 'Library' ? balloonState : 'none'
   };
 
@@ -391,6 +415,17 @@ const Library = ({ userLib }) => {
           right: 30px;
           ${sizes.free('50px', '35px')}
           z-index: 2;
+          cursor: pointer;
+          :hover {
+            -webkit-filter: brightness(90%);
+                    filter: brightness(90%);
+          }
+        
+          :active {
+            -webkit-transform: scale(0.98);
+                -ms-transform: scale(0.98);
+                    transform: scale(0.98);
+          }
         `}
       >
         { <FaBars /> }
