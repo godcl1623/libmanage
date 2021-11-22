@@ -188,6 +188,7 @@ const Header = ({ headerRef, setHeight }) => {
         ${flex.horizontal}
         justify-content: space-between;
         ${sizes.free('100%', '50px')}
+        background: white;
 
         button {
           padding: 5px 15px;

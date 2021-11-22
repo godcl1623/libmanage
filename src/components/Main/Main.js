@@ -129,6 +129,7 @@ const modalContents = (...args) => {
             ${flex.vertical}
             align-items: flex-start;
             position: relative;
+            background: white;
 
             h1 {
               margin-left: 40px;

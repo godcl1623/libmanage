@@ -110,6 +110,7 @@ const Navigation = ({ storesList }) => {
         padding: 20px;
         flex: 1;
         ${sizes.full}
+        background: white;
 
         .category {
           margin-bottom: 50px;

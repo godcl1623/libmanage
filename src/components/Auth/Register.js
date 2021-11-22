@@ -59,6 +59,7 @@ const Register = () => {
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
+        background: white;
 
         * {
           // ${border}
@@ -114,6 +115,7 @@ const Register = () => {
           ${sizes.free('48%')}
           display: inline-block;
           font-size: var(--font-size-normal);
+          background: white;
         }
 
         #register-form .submit-wrapper {
@@ -123,10 +125,12 @@ const Register = () => {
 
         #register-form .submit-wrapper button:first-of-type {
           margin-right: var(--gap-multiply-small);
+          background: var(--btn-active);
         }
 
         #register-form .submit-wrapper button:last-of-type {
           margin-left: var(--gap-multiply-small);
+          background: var(--btn-active);
         }
       `}
     >
