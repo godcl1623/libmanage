@@ -247,6 +247,7 @@ const Meta = () => {
           z-index: 1;
           ${sizes.full}
           position: relative;
+          background: white;
         `}
       ></article>
     );
@@ -260,6 +261,7 @@ const Meta = () => {
         ${sizes.full}
         position: relative;
         overflow-y: scroll;
+        background: white;
 
         * {
           // ${border}

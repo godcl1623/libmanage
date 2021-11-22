@@ -109,9 +109,15 @@ const Login = () => {
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('30vw', '100%')}
+        background: white;
 
         h1 {
           margin-bottom: calc(var(--gap-multiply-big) * 3);
+        }
+
+        button {
+          background: var(--btn-active);
+          color: var(--grey-dark);
         }
 
         #login-form, hr {
@@ -146,6 +152,12 @@ const Login = () => {
           ${flex.horizontal}
           justify-content: space-around;
           ${sizes.free('100%', '50px')}
+
+          a {
+            background: var(--btn-active);
+            box-shadow: 0 0 2px 1px var(--grey-dark);
+            color: var(--grey-dark);
+          }
         }
 
         .option:first-of-type {

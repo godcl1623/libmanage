@@ -29,10 +29,10 @@ const Find = ({ mode }) => {
       css={css`
         margin: var(--gap-standard) 0;
         padding: var(--gap-standard);
-        ${border}
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
+        background: white;
 
         * {
           // ${border}
@@ -73,16 +73,15 @@ const Find = ({ mode }) => {
         .tab-wrapper a#find_id {
           border-right: none;
           border-radius: var(--border-rad-big) 0 0 0;
-          background: ${tabState === 'id' ? '#EFEFEF' : 'gray'};
+          background: ${tabState === 'id' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
         }
         
         .tab-wrapper a#find_pwd {
           border-radius: 0 var(--border-rad-big) 0 0;
-          background: ${tabState === 'pwd' ? '#EFEFEF' : 'gray'};
+          background: ${tabState === 'pwd' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
         }
 
         .form-wrapper {
-          ${border}
           border-radius: 0 var(--border-rad-big) var(--border-rad-big);
           ${flex.vertical}
           ${sizes.free('100%', '50%')}
@@ -93,6 +92,8 @@ const Find = ({ mode }) => {
         }
         
         .form-wrapper .input-wrapper {
+          margin-bottom: 50px;
+          ${border}
           padding: 20px 10px;
           ${flex.vertical}
           ${sizes.free('100%', 'calc(100% - 50px)')}
@@ -121,10 +122,12 @@ const Find = ({ mode }) => {
 
         .form-wrapper .submit-wrapper button:first-of-type {
           margin-right: 5px;
+          background: var(--btn-active);
         }
 
         .form-wrapper .submit-wrapper button:last-of-type {
           margin-left: 5px;
+          background: var(--btn-active);
         }
       `}
     >
@@ -168,7 +171,6 @@ const Find = ({ mode }) => {
                 return result;
               };
               const infoCheck = async infoObj => {
-                // await axios.post(`http://localhost:3002/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
               // await axios.post(`http://localhost:3001/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
               await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
                   .then(res => alert(res.data))

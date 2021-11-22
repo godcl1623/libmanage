@@ -48,14 +48,16 @@ const App = () => (
           ${sizes.full}
           position: relative;
         }
-
+        
         body, #root {
           ${sizes.full}
         }
-
+        
         #App {
           ${flex.vertical}
           ${sizes.full}
+          background: var(--highlight-light);
+          z-index: 0;
         }
 
         h1 {

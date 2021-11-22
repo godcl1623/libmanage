@@ -396,6 +396,7 @@ const Library = ({ userLib }) => {
         overflow: hidden;
         height: 100%;
         position: relative;
+        background: white;
       `}
     >
       <button
