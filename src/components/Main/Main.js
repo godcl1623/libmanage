@@ -163,6 +163,8 @@ const modalContents = (...args) => {
 
               button {
                 padding: 5px 15px;
+                background: var(--btn-alert);
+                color: var(--white);
               }
             }
           `}
@@ -616,26 +618,21 @@ const Main = () => {
           position: relative;
           overflow: hidden;
 
-          * {
-            // ${border}
-          }
+          // #header button, #library button {
+          //   padding: 5px;
+          //   cursor: pointer;
 
-          #header button, #library button {
-            // background: white;
-            padding: 5px;
-            cursor: pointer;
-
-            :hover {
-              -webkit-filter: brightness(90%);
-                      filter: brightness(90%);
-            }
+          //   :hover {
+          //     -webkit-filter: brightness(90%);
+          //             filter: brightness(90%);
+          //   }
           
-            :active {
-              -webkit-transform: scale(0.95);
-                  -ms-transform: scale(0.95);
-                      transform: scale(0.95);
-            }
-          }
+          //   :active {
+          //     -webkit-transform: scale(0.95);
+          //         -ms-transform: scale(0.95);
+          //             transform: scale(0.95);
+          //   }
+          // }
         `}
         onClick={e => {
           // e.preventDefault();

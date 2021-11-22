@@ -8,7 +8,6 @@ import Register from './Auth/Register';
 import Find from './Auth/Find';
 import Reset from './Auth/Reset';
 import Progress from './Progress';
-import '../styles/temp.css';
 import { sizes, flex } from '../styles';
 
 const App = () => (
@@ -17,23 +16,33 @@ const App = () => (
   >
     <Global
       styles={css`
-        *, *::before, *::after {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          list-style: none;
-        }
+      :root {
+        /* margin, padding sizes */
+        --gap-multiply-big: 25px;
+        --gap-multiply-small: 5px;
+        --gap-standard: 20px;
+        /* border-sizes */
+        --border-rad-big: 10px;
+        /* font-sizes */
+        --font-size-normal: 20px;
+        /* colors */
+        --btn-alert: #F26101;
+        --btn-disable: #8AA8B0;
+        --btn-active: #91BED4;
+        --white: #FFFFFF;
+        --grey-light: #DEDEDE;
+        --grey-dark: #313732;
+        --highlight-light: #D9E8F5;
+        --graph: #304269;
+      }
 
-        :root {
-          /* margin, padding sizes */
-          --gap-multiply-big: 25px;
-          --gap-multiply-small: 5px;
-          --gap-standard: 20px;
-          /* border-sizes */
-          --border-rad-big: 10px;
-          /* font-sizes */
-          --font-size-normal: 20px;
-        }
+      *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        list-style: none;
+        color: var(--grey-dark);
+      }
 
         html {
           ${sizes.full}
@@ -58,8 +67,16 @@ const App = () => (
           font-size: var(--font-size-normal);
         }
 
+        button {
+          border: none;
+          box-shadow: 0 0 2px 1px var(--grey-dark);
+          background: var(--highlight-light);
+          color: var(--grey-dark);
+        }
+
         input {
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
+          background: var(--white);
         }
       `}
     />

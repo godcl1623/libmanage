@@ -183,6 +183,8 @@ const Meta = () => {
     summary,
     totalRating
   } = selectedItemData;
+  const metaScore = !totalRating ? 0 : totalRating;
+
   const titles = [
     '시리즈',
     '장르',
@@ -315,6 +317,106 @@ const Meta = () => {
                   padding: 20px 0;
                   ${sizes.full}
                   ${flex.vertical}
+
+                  .donut-boundary {
+                    position: relative;
+                    width: 120px;
+                    height: 120px;
+                  }
+                  
+                  .donut-outline {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                  }
+                  
+                  .donut-graph-border {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  }
+
+                  .donut-text {
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 75px;
+                    height: 75px;
+                    background: var(--white);
+                    position: absolute;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 3;
+                  }
+
+                  .instalment1 .donut-case {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background: var(--grey-dark);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    background-clip: border-box;
+                    overflow: hidden;
+                  }
+
+                  .instalment1 .donut-case::before {
+                    content: "";
+                    clip: rect(0 120px 60px 0);
+                    transform: rotate(${metaScore <= 50 ? `${450 - (metaScore)*3.6}deg` : '270deg'});
+                    background: var(--btn-active);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    transition: transform 1s;
+                  }
+
+                  .instalment1 .donut-case::after {
+                    content: "";
+                    clip: rect(0 60px 120px 0);
+                    transform: rotate(${metaScore > 50 ? `${360 - (metaScore - 50)*3.6}deg` : '180deg'});
+                    background: ${metaScore > 50 ? 'var(--btn-active)' : 'var(--grey-dark)'};
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    transition: transform 1s;
+                  }
+
+                  .instalment1 .donut-graph-border::before {
+                    content: "";
+                    width: 50%;
+                    height: 2px;
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    background: var(--white);
+                    z-index: 2;
+                    transform: rotate(90deg);
+                    transform-origin: 100%;
+                  }
+
+                  .instalment1 .donut-graph-border::after {
+                    content: "";
+                    width: 50%;
+                    height: 2px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    background: var(--white);
+                    z-index: 2;
+                    transform: rotate(${270 - metaScore*3.6}deg);
+                    transform-origin: 0;
+                    transition: transform 1s;
+                  }
                 }
 
                 #age-rating-wrapper {
@@ -347,6 +449,7 @@ const Meta = () => {
 
               button {
                 border: none;
+                box-shadow: none;
                 background: none;
                 text-decoration: underline;
                 color: blue;
@@ -362,7 +465,9 @@ const Meta = () => {
               .media-tabs {
                 button {
                   border-radius: 0;
-                  ${border}
+                  // ${border}
+                  // box-shadow: none;
+                  box-shadow: 0 -1px 2px 1px var(--grey-dark);
                   border-bottom: none;
                   padding: 5px 10px;
                   cursor: pointer;
@@ -380,22 +485,22 @@ const Meta = () => {
 
                 button:first-of-type {
                   border-radius: 10px 0 0 0;
-                  background: ${selectedMedia === 'screenshots' ? 'white' : 'grey'};
+                  background: ${selectedMedia === 'screenshots' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                 }
 
                 button:nth-of-type(2) {
-                  background: ${selectedMedia === 'videos' ? 'white' : 'grey'};
+                  background: ${selectedMedia === 'videos' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                 }
 
                 button:last-of-type {
                   border-radius: 0 10px 0 0;
-                  background: ${selectedMedia === 'artworks' ? 'white' : 'grey'};
+                  background: ${selectedMedia === 'artworks' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                 }
               }
 
               .media-contents {
                 padding: 20px;
-                ${border}
+                box-shadow: 0 0 2px 1px var(--grey-dark);
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(20%, auto));
                 gap: 30px 20px;
@@ -479,7 +584,7 @@ const Meta = () => {
                   <div className="donut-outline"></div>
                   <div className="donut-graph-border"></div>
                   <div className="donut-text">
-                    <h3>{selectedItemData.totalRating ? parseInt(totalRating, 10) : ''}</h3>
+                    <h3>{selectedItemData.totalRating ? parseInt(metaScore, 10) : 'N/A'}</h3>
                   </div>
                   <div className="donut-case"></div>
                 </div>
@@ -580,6 +685,8 @@ const Meta = () => {
                 border-right: 3px double black;
                 padding: 20px 0;
                 ${flex.vertical}
+                background: var(--btn-disable);
+                color: var(--white);
               }
               .table-contents {
                 display: grid;
@@ -686,20 +793,28 @@ const Meta = () => {
                             개발사
                           </div>
                           <div key={`dev_comp_cont-${idx+1}`}>
-                            {vals.map((val, subidx) => {
-                              let res = '';
-                              if (val.developer === true) {
-                                res = (
-                                  <div
-                                    key={`dev_comp-${subidx+1}`}
-                                    className="table-sub-contents"
-                                  >
-                                    {val.company_name}
-                                  </div>
-                                );
-                              }
-                              return res;
-                            })}
+                            {vals.filter(val => val.developer === true).length !== 0
+                            ? vals.map((val, subidx) => {
+                                let res = '';
+                                if (val.developer === true) {
+                                  res = (
+                                    <div
+                                      key={`dev_comp-${subidx+1}`}
+                                      className="table-sub-contents"
+                                    >
+                                      {val.company_name}
+                                    </div>
+                                  );
+                                }
+                                return res;
+                              })
+                            : <div
+                                key={`dev_comp-${idx+1}`}
+                                className="table-sub-contents"
+                              >
+                                N/A
+                              </div>
+                          }
                           </div>
                         </div>
                         <div
@@ -716,20 +831,28 @@ const Meta = () => {
                             배급사
                           </div>
                           <div key={`prod_comp_cont-${idx+1}`}>
-                            {vals.map((val, subidx) => {
-                              let res = '';
-                              if (val.publisher === true) {
-                                res = (
-                                  <div
-                                    key={`prod_comp-${subidx}`}
-                                    className="table-sub-contents"
-                                  >
-                                    {val.company_name}
-                                  </div>
-                                );
-                              }
-                              return res;
-                            })}
+                            {vals.filter(val => val.publisher === true).length !== 0
+                            ? vals.map((val, subidx) => {
+                                let res = '';
+                                if (val.publisher === true) {
+                                  res = (
+                                    <div
+                                      key={`prod_comp-${subidx+1}`}
+                                      className="table-sub-contents"
+                                    >
+                                      {val.company_name}
+                                    </div>
+                                  );
+                                }
+                                return res;
+                              })
+                            : <div
+                                key={`prod_comp-${idx+1}`}
+                                className="table-sub-contents"
+                              >
+                                N/A
+                              </div>
+                          }
                           </div>
                         </div>
                       </div>
