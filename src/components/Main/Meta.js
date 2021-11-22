@@ -465,8 +465,6 @@ const Meta = () => {
               .media-tabs {
                 button {
                   border-radius: 0;
-                  // ${border}
-                  // box-shadow: none;
                   box-shadow: 0 -1px 2px 1px var(--grey-dark);
                   border-bottom: none;
                   padding: 5px 10px;

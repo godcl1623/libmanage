@@ -40,9 +40,9 @@ const customOption = (state, func1, func2) => {
   return (
     <select name="email_provider" onChange={e => func1(e.target.value)} >
       <option value="">선택</option>
-      <option value="gmail.com">@gmail.com</option>
-      <option value="naver.com">@naver.com</option>
-      <option value="hanmail.net">@hanmail.net</option>
+      <option value="gmail.com">gmail.com</option>
+      <option value="naver.com">naver.com</option>
+      <option value="hanmail.net">hanmail.net</option>
       <option value="others">직접 입력</option>
     </select>
   );
@@ -61,13 +61,17 @@ const ModMemInfo = ({ userState }) => {
     <form
       ref={ref}
       css={css`
-        ${border}
         ${sizes.full}
         ${flex.vertical}
         justify-content: space-between;
 
         * {
           ${sizes.free('100%')}
+        }
+
+        #contents-divider {
+          padding: 20px 0;
+          ${border}
         }
 
         .input_container {
@@ -116,6 +120,7 @@ const ModMemInfo = ({ userState }) => {
             padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
             ${sizes.free('48%')}
             display: inline-block;
+            background: var(--white);
             font-size: var(--font-size-normal);
           }
         }
@@ -321,9 +326,7 @@ const ModMemInfo = ({ userState }) => {
         }
       }}
     >
-      <div
-        id="contents-divider"
-      >
+      <div id="contents-divider">
         <div
           className="input_container"
         >
