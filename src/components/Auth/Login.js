@@ -23,7 +23,6 @@ const loginException = (dispatch, history) => {
   };
   axios
     .post(
-      // 'http://localhost:3002/login_process',
       // 'http://localhost:3001/login_process',
       `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
@@ -55,7 +54,6 @@ const Login = () => {
     }
     axios
       .post(
-        // 'http://localhost:3002/check_login',
         // 'http://localhost:3001/check_login',
         `https://${sendTo}/check_login`,
         { message },
@@ -186,7 +184,6 @@ const Login = () => {
           }
           axios
             .post(
-              // 'http://localhost:3002/login_process',
               // 'http://localhost:3001/login_process',
               `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },

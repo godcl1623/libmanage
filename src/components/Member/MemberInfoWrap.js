@@ -28,11 +28,13 @@ const MemberInfoWrap = () => {
         css={css`
           padding: 40px 20px;
           ${sizes.full}
+          * {
+            // ${border}
+          }
           .member-info-contents {
             ${sizes.free('100%', 'calc(100% - 40px)')}
           }
         `}
-        f
       >
         {
           verifyState
@@ -43,8 +45,9 @@ const MemberInfoWrap = () => {
                   css={css`
                     button {
                       padding: 5px 15px;
-                      border: none;
-                      border-top: 1px solid black;
+                      ${border}
+                      border-bottom: none;
+                      box-shadow: none;
                       cursor: pointer;
 
                       :hover {
@@ -61,14 +64,13 @@ const MemberInfoWrap = () => {
 
                     button:first-of-type {
                       border-radius: 7px 0 0 0;
-                      border-left: 1px solid black;
-                      background: ${tabState === 'modify' ? 'white' : 'grey'};
+                      border-right: none;
+                      background: ${tabState === 'modify' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                     }
 
                     button:last-of-type {
                       border-radius: 0 7px 0 0;
-                      border-right: 1px solid black;
-                      background: ${tabState === 'modify' ? 'grey' : 'white'};
+                      background: ${tabState === 'modify' ? 'var(--btn-disable)' : 'var(--highlight-light)'};
                     }
                   `}
                 >

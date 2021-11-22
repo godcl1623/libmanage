@@ -251,9 +251,9 @@ const modalContents = (...args) => {
                   height="100%"
                   src={`https://www.youtube.com/embed/${selMedia}`}
                   title="YouTube video player"
-                  frameborder="0"
+                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
+                  allowFullScreen
                 />
               : ''
             }
@@ -276,6 +276,9 @@ const modalContents = (...args) => {
                   font-size: 100px;
                   text-weight: 900;
                   transition: all 0.3s;
+                  * {
+                    color: white;
+                  }
 
                   :hover {
                     opacity: 100%;
@@ -390,6 +393,9 @@ const modalContents = (...args) => {
                   font-size: 100px;
                   text-weight: 900;
                   transition: all 0.3s;
+                  * {
+                    color: white;
+                  }
 
                   :hover {
                     opacity: 100%;
@@ -476,10 +482,8 @@ const Main = () => {
       };
       await axios
         .post(
-          // 'http://localhost:3002/check_login',
           // 'http://localhost:3001/check_login',
           `https://${sendTo}/check_login`,
-          // { message: comparisonState },
           { message },
           { withCredentials: true }
         )
@@ -570,7 +574,6 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
         // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
         .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {

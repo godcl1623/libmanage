@@ -23,13 +23,10 @@ const DelMemInfo = ({ userState }) => {
     <article
       id="Del-Mem-Info"
       css={css`
-        ${border}
         ${sizes.full}
         ${flex.vertical}
-        // justify-content: space-between;
 
         * {
-          // ${border}
           ${sizes.free('100%')}
         }
 
@@ -38,6 +35,8 @@ const DelMemInfo = ({ userState }) => {
         }
 
         #guidance {
+          ${border}
+          border-bottom: 0;
           padding: 40px;
           ${sizes.full}
           h1 {
@@ -59,7 +58,7 @@ const DelMemInfo = ({ userState }) => {
           text-align: center;
           
           h3, p, input {
-            margin-bottom: 30px;
+            margin: 20px 0;
           }
 
           span {
@@ -67,9 +66,11 @@ const DelMemInfo = ({ userState }) => {
           }
 
           .check-delete {
+            ${border}
+            border-top: 0;
             padding: 0 40px;
             ${flex.vertical}
-            ${sizes.free('100%', 'calc(100% - 50px)')}
+            ${sizes.free('100%', 'calc(100% - 90px)')}
           }
         }
 
