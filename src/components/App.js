@@ -64,9 +64,12 @@ const App = () => (
           font-size: 60px;
         }
 
-        button, input {
+        button, input, a {
           border-radius: 7px;
-          font-size: var(--font-size-normal);
+          font-size: 1.042vw;
+          @media (min-width: 2880px) {
+            font-size: 30px;
+          }
         }
 
         button {

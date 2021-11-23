@@ -31,7 +31,6 @@ export const A = styled.a`
   border-radius: 7px;
   background: #EFEFEF;
   ${sizes.full}
-  font-size: 18px;
   ${flex.horizontal}
   text-decoration: none;
 
@@ -51,7 +50,6 @@ export const Button = styled.button`
   border: 1px solid transparent;
   border-radius: 7px;
   ${sizes.full}
-  font-size: 18px;
   cursor: pointer;
 
   :hover {
