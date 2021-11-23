@@ -154,10 +154,20 @@ const Progress = () => {
           font-size: 24px;
           font-weight: bold;
         }
+
+        .contents-wrapper {
+          border-radius: 7px;
+          ${sizes.free('40%', '50%')}
+          background: white;
+          ${flex.vertical}
+          box-shadow: 0 0 10px 1px var(--grey-dark);
+        }
       `}
     >
-      <h1>Progress</h1>
-      <p>{`${statusText(status, additionalString)} (${count}/${total})`}</p>
+      <div className="contents-wrapper">
+        <h1>Progress</h1>
+        <p>{`${statusText(status, additionalString)} (${count}/${total})`}</p>
+      </div>
     </article>
   );
 };

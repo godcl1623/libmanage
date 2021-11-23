@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import InputTemplate from './InputTemplate';
 import FormSubmit from './FormSubmit';
 import { tokenStateCreator } from '../../../../actions';
@@ -10,6 +12,7 @@ import { encryptor } from '../../../../custom_modules/aeser';
 import { hasher } from '../../../../custom_modules/hasher';
 import { verifyPwd } from '../utils';
 import { sendTo } from '../../../../custom_modules/address';
+import { flex, sizes } from '../../../../styles';
 
 const ChangePwd = ({ token, reqTime }) => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -40,6 +43,58 @@ const ChangePwd = ({ token, reqTime }) => {
   };
   return (
     <form
+      css={css`
+        border-radius: var(--border-rad-big);
+        padding: 40px;
+        background: white;
+        ${sizes.free('40%', '50%')}
+        ${flex.vertical}
+        justify-content: space-between;
+        box-shadow: 0 0 10px 1px var(--grey-dark);
+
+        .input-wrapper {
+          ${flex.vertical}
+          align-items: flex-start;
+          ${sizes.free('100%')}
+          font-size: var(--font-size-normal);
+
+          * {
+            ${sizes.free('100%')}
+          }
+
+          input {
+            margin: calc(var(--gap-multiply-small) * 2) 0;
+          }
+
+          .verify-error {
+            color: red;
+            font-weight: bold;
+          }
+
+          .verify-error#input-pwd {
+            opacity: ${isValid ? '0' : '100%'};
+          }
+
+          .verify-error#input-pwd-check {
+            opacity: ${pwdMatch ? '0' : '100%'};
+          }
+        }
+
+        .submit-wrapper {
+          ${flex.horizontal}
+          ${sizes.free('100%', '50px')}
+
+          button:first-of-type {
+            margin-right: var(--gap-multiply-small);
+            background: var(--btn-active);
+          }
+
+          button:last-of-type {
+            margin-left: var(--gap-multiply-small);
+            background: var(--btn-active);
+          }
+        }
+      `}
       onSubmit={e => {
         e.preventDefault();
         const pwd = e.target.PWD.value;
@@ -56,7 +111,6 @@ const ChangePwd = ({ token, reqTime }) => {
           formData.ttl = ttl;
           formData.reqTime = reqTime();
           formData.originTime = originTime;
-          // axios.post('http://localhost:3002/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
           // axios.post('http://localhost:3001/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
           axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
             .then(res => {
@@ -73,37 +127,35 @@ const ChangePwd = ({ token, reqTime }) => {
         }
       }}
     >
-      <InputTemplate
-        inputType="password"
-        labelText="비밀번호: "
-        inputFor="PWD"
-        handler={() => {
-          setIsValid(true);
-        }}
-        placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
-      />
-      <p
-        style={{
-          'color': 'red',
-          'fontWeight': 'bold',
-          'opacity': isValid ? '0' : '100%'
-        }}
-      >※ 비밀번호 형식과 맞지 않습니다.</p>
-      <InputTemplate
-        inputType="password"
-        labelText="비밀번호 확인: "
-        inputFor="PWD_check"
-        handler={() => setPwdMatch(true)}
-        placeholder='비밀번호를 한 번 더 입력해주세요.'
-      />
-      <p
-        style={{
-          'color': 'red',
-          'fontWeight': 'bold',
-          'opacity': pwdMatch ? '0' : '100%'
-        }}
-      >※ 비밀번호가 일치하지 않습니다.</p>
-      <FormSubmit />
+      <div className="input-wrapper">
+        <InputTemplate
+          inputType="password"
+          labelText="비밀번호"
+          inputFor="PWD"
+          handler={() => {
+            setIsValid(true);
+          }}
+          placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
+        />
+        <p
+          className="verify-error"
+          id="input-pwd"
+        >※ 비밀번호 형식과 맞지 않습니다.</p>
+        <InputTemplate
+          inputType="password"
+          labelText="비밀번호 확인"
+          inputFor="PWD_check"
+          handler={() => setPwdMatch(true)}
+          placeholder='비밀번호를 한 번 더 입력해주세요.'
+        />
+        <p
+          className="verify-error"
+          id="input-pwd-check"
+        >※ 비밀번호가 일치하지 않습니다.</p>
+      </div>
+      <div className="submit-wrapper">
+        <FormSubmit />
+      </div>
     </form>
   );
 };
