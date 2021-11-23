@@ -24,6 +24,7 @@ import {
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
+import signin from '../../assets/sits_large_noborder.png';
 
 const modalOption = origin => ({
   position: 'absolute',
@@ -108,12 +109,16 @@ const modalContents = (...args) => {
           <section
             className="store_container"
           >
-            <h2>스팀</h2>
+            <h2>Steam</h2>
             <a
               // href="http://localhost:3001/auth/steam"
               href={`https://${sendTo}/auth/steam`}
             >
-              스팀으로 로그인
+              <img
+                src={signin}
+                alt="sign_in_through_steam"
+                title="sign_in_through_steam"
+              />
             </a>
           </section>
           {caution}

@@ -33,10 +33,7 @@ const Find = ({ mode }) => {
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
         background: white;
-
-        * {
-          // ${border}
-        }
+        box-shadow: 0 0 10px 1px var(--grey-dark);
 
         .contents-wrapper {
           ${flex.vertical}

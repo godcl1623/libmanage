@@ -4,10 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import { FaHome } from "react-icons/fa";
 import ChangePwd from './module/components/ChangePwd';
 import { tokenStateCreator as setTokenState } from '../../actions';
 import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
+import { border, flex, sizes } from '../../styles';
 
 const now = () => {
   const date = new Date();
@@ -37,7 +41,6 @@ const Reset = () => {
       tokenTail,
       requestedTime
     }
-    // axios.post('http://localhost:3002/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
     // axios.post('http://localhost:3001/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
     axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
       .then(res => {
@@ -48,17 +51,64 @@ const Reset = () => {
     return () => abortCon.abort();
   }, []);
 
+  const errors = tokenState => {
+    switch(tokenState) {
+      case false:
+        return '요청이 만료되었습니다.';
+      case 'no_token':
+        return '요청이 존재하지 않습니다.';
+      default:
+        return '잘못된 접근입니다.';
+    }
+  }
+
   switch(tokenState) {
     case true:
-      return (<ChangePwd token={requestedToken} reqTime={now} />);
-    case false:
-      return(<h1>요청이 만료되었습니다.</h1>);
-    case 'abnormal':
-      return(<h1>잘못된 접근입니다.</h1>)
-    case 'no_token':
-      return(<h1>요청이 존재하지 않습니다.</h1>)
+      return (
+        <div id="change-pwd"
+          css={css`
+            ${sizes.full}
+            ${flex.vertical}
+          `}
+        >
+          <ChangePwd token={requestedToken} reqTime={now} />
+        </div>
+      );
     default:
-      return (<></>);
+      return(
+        <div id="token-expired"
+          css={css`
+            border-radius: var(--border-rad-big);
+            ${sizes.free('40%', '50%')}
+            ${flex.vertical}
+            background: white;
+            box-shadow: 0 0 10px 1px var(--grey-dark);
+
+            #to_home {
+              margin-top: 100px;
+              ${flex.horizontal}
+              font-size: 40px;
+              text-decoration: none;
+              color: var(--grey-dark);
+
+              :active {
+                -webkit-transform: scale(0.98);
+                    -ms-transform: scale(0.98);
+                        transform: scale(0.98);
+              }
+            }
+          `}
+        >
+          <h1>{errors(tokenState)}</h1>
+          <a
+            id="to_home"
+            title="메인화면"
+            href="https://godcl1623-libmanage.herokuapp.com"
+          >
+            <FaHome />
+          </a>
+        </div>
+      );
   }
 };
 

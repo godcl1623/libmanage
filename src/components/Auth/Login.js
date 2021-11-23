@@ -105,11 +105,11 @@ const Login = () => {
       css={css`
         margin: var(--gap-standard) 0;
         padding: var(--gap-standard);
-        ${border}
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('30vw', '100%')}
         background: white;
+        box-shadow: 0 0 10px 1px var(--grey-dark);
 
         h1 {
           margin-bottom: calc(var(--gap-multiply-big) * 3);

@@ -55,15 +55,11 @@ const Register = () => {
       css={css`
         margin: var(--gap-standard) 0;
         padding: var(--gap-standard);
-        ${border}
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
         background: white;
-
-        * {
-          // ${border}
-        }
+        box-shadow: 0 0 10px 1px var(--grey-dark);
 
         #register-form {
           ${flex.vertical}

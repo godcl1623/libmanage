@@ -74,6 +74,7 @@ const App = () => (
           box-shadow: 0 0 2px 1px var(--grey-dark);
           background: var(--highlight-light);
           color: var(--grey-dark);
+          cursor: pointer;
         }
 
         input {
