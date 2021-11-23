@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -104,12 +104,25 @@ const Login = () => {
       id="login"
       css={css`
         margin: var(--gap-standard) 0;
-        padding: var(--gap-standard);
+        padding: calc(var(--gap-standard) + 50px);
         border-radius: var(--border-rad-big);
         ${flex.vertical}
-        ${sizes.free('30vw', '100%')}
+        width: 30vw;
+        height: -webkit-max-content;
+        height: -moz-max-content;
+        height: max-content;
         background: white;
         box-shadow: 0 0 10px 1px var(--grey-dark);
+
+        @media (orientation: portrait) {
+          height: -webkit-max-content;
+          height: -moz-max-content;
+          height: max-content;
+        }
+
+        @media (max-height: 749px) {
+          height: calc(100% - 40px);
+        }
 
         h1 {
           margin-bottom: calc(var(--gap-multiply-big) * 3);
@@ -152,6 +165,10 @@ const Login = () => {
           ${flex.horizontal}
           justify-content: space-around;
           ${sizes.free('100%', '50px')}
+
+          button, a {
+            height: 50px;
+          }
 
           a {
             background: var(--btn-active);
