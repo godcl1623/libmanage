@@ -26,12 +26,15 @@ const menu = (value, storeList, dispatch, filterStores) => {
                   dispatch(filterStores('all'));
                 }}
                 css={css`
-                  border-radius: 7px;
-                  box-shadow: 0 0 1px 1px var(--grey-dark);
-                  ${sizes.free('50px', '25px')}
+                  // border-radius: 7px;
+                  // box-shadow: 0 0 1px 1px var(--grey-dark);
+                  border-radius: 0.365vw;
+                  box-shadow: 0 0 0.052vw 0.052vw var(--grey-dark);
+                  ${sizes.free('2.604vw', '1.302vw')}
                   display: inline-block;
                   text-align: center;
-                  font-size: 16px;
+                  // font-size: 16px;
+                  font-size: 0.833vw;
                   cursor: pointer;
 
                   :hover {
@@ -107,18 +110,22 @@ const Navigation = ({ storesList }) => {
     <nav
       id="navigation"
       css={css`
-        padding: 20px;
+        // padding: 20px;
+        padding: 1.042vw;
         flex: 1;
         ${sizes.full}
         background: white;
 
         .category {
-          margin-bottom: 50px;
+          // margin-bottom: 50px;
+          margin-bottom: 2.604vw;
         }
 
         .category-header {
-          border: 4px solid black;
-          padding: 5px 10px;
+          // border: 4px solid black;
+          // padding: 5px 10px;
+          border: 0.208vw solid black;
+          padding: 0.26vw 0.521vw;
           ${flex.horizontal}
           ${sizes.full}
         }
@@ -129,9 +136,11 @@ const Navigation = ({ storesList }) => {
 
         p {
           ${border}
-          padding: 5px;
+          // padding: 5px;
+          padding: 0.26vw;
           font-size: var(--font-size-normal);
-          padding-left: 20px;
+          // padding-left: 20px;
+          padding-left: 1.042vw;
         }
       `}
     >
@@ -141,15 +150,18 @@ const Navigation = ({ storesList }) => {
         value={selectedCategory}
         onChange={e => dispatch(selectedCategoryCreator(e.target.value))}
         css={css`
-          margin-bottom: 20px;
-          padding: 3px 15px;
+          // margin-bottom: 20px;
+          // padding: 3px 15px;
+          margin-bottom: 1.042vw;
+          padding: 0.156vw 0.781vw;
           font-size: var(--font-size-normal);
           ${sizes.free('100%')}
           background: var(--white);
           cursor: pointer;
 
           option {
-            font-size: 16px;
+            // font-size: 16px;
+            font-size: 0.833vw;
           }
         `}
       >

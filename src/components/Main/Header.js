@@ -51,8 +51,9 @@ const Header = ({ headerRef, setHeight }) => {
     <>
       <button
         css={css`
-          padding: 5px 20px;
-          ${sizes.free('80%', '45px')}
+          // padding: 5px 20px;
+          padding: 0.26vw 1.042vw;
+          ${sizes.free('80%', '2.344vw')}
         `}
         onClick={() => {
           dispatch(
@@ -128,23 +129,30 @@ const Header = ({ headerRef, setHeight }) => {
   };
 
   const style = {
-    padding: '20px',
+    // padding: '20px',
+    padding: '1.042vw',
     display: balloonOrigin === 'Header' ? balloonState : 'none',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '300px',
-    height: '100px',
+    // width: '300px',
+    // height: '100px',
+    width: '15.625vw',
+    height: '5.208vw',
     position: 'absolute',
     top: `${
       selectedBtn.current === optionRef.current
-        ? `calc(${btnCoords.topCoord}px)`
-        : `calc(${btnCoords.botCoord}px + 40px)`
+        // ? `calc(${btnCoords.topCoord}px)`
+        // : `calc(${btnCoords.botCoord}px + 40px)`
+        ? `calc(${btnCoords.topCoord / 19.2}vw)`
+        : `calc(${btnCoords.botCoord / 19.2}vw + 2.083vw)`
     }`,
     left: `${
       selectedBtn.current === optionRef.current
-        ? `calc(${btnCoords.leftCoord}px + 100px)`
-        : `calc(${btnCoords.leftCoord}px - 100px)`
+        // ? `calc(${btnCoords.leftCoord}px + 100px)`
+        // : `calc(${btnCoords.leftCoord}px - 100px)`
+        ? `calc(${btnCoords.leftCoord / 19.2}vw + 5.208vw)`
+        : `calc(${btnCoords.leftCoord / 19.2}vw - 5.208vw)`
     }`,
     background: 'var(--btn-active)',
     zIndex: 2
@@ -152,27 +160,37 @@ const Header = ({ headerRef, setHeight }) => {
 
   const hand = {
     borderTop: selectedBtn.current === optionRef.current
-      ? '20px solid transparent'
+      // ? '20px solid transparent'
+      ? '1.042vw solid transparent'
       : 'none', 
     borderBottom: selectedBtn.current === optionRef.current
-      ? '20px solid transparent'
-      : '40px solid var(--btn-active)',
+      // ? '20px solid transparent'
+      ? '1.042vw solid transparent'
+      // : '40px solid var(--btn-active)',
+      : '2.083vw solid var(--btn-active)',
     borderRight: selectedBtn.current === optionRef.current
-      ? '40px solid var(--btn-active)'
-      : '20px solid transparent',
+      // ? '40px solid var(--btn-active)'
+      ? '2.083vw solid var(--btn-active)'
+      // : '20px solid transparent',
+      : '1.042vw solid transparent',
     borderLeft: selectedBtn.current === optionRef.current
       ? 'none'
-      : '20px solid transparent',
+      // : '20px solid transparent',
+      : '1.042vw solid transparent',
     position: 'absolute',
     top: `${
       selectedBtn.current === optionRef.current
-        ? `calc(${btnCoords.topCoord}px)`
-        : `calc(${btnCoords.botCoord}px + 10px)`
+        // ? `calc(${btnCoords.topCoord}px)`
+        // : `calc(${btnCoords.botCoord}px + 10px)`
+        ? `calc(${btnCoords.topCoord / 19.2}vw)`
+        : `calc(${btnCoords.botCoord / 19.2}vw + 0.521vw)`
     }`,
     left: `${
       selectedBtn.current === optionRef.current
-        ? `calc(${btnCoords.leftCoord}px + 80px)`
-        : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
+        // ? `calc(${btnCoords.leftCoord}px + 80px)`
+        // : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
+        ? `calc(${btnCoords.leftCoord / 19.2}vw + 4.167vw)`
+        : `calc(${btnCoords.leftCoord / 19.2}vw + ${(btnCoords.btnWidth / 2) / 19.2}vw)`
     }`,
     transform: 'translate(-50%)',
     display: balloonOrigin === 'Header' ? balloonState : 'none'
@@ -183,15 +201,18 @@ const Header = ({ headerRef, setHeight }) => {
       id="header"
       ref={headerRef}
       css={css`
-        border-bottom: 1px solid var(--grey-dark);
-        padding: 5px 0;
+        // border-bottom: 1px solid var(--grey-dark);
+        border-bottom: 0.052vw solid var(--grey-dark);
+        // padding: 5px 0;
+        padding: 0.26vw 0;
         ${flex.horizontal}
         justify-content: space-between;
-        ${sizes.free('100%', '50px')}
+        ${sizes.free('100%', '2.604vw')}
         background: white;
 
         button {
-          padding: 5px 15px;
+          // padding: 5px 15px;
+          padding: 0.26vw 0.781vw;
           cursor: pointer;
 
             :hover {
@@ -210,7 +231,8 @@ const Header = ({ headerRef, setHeight }) => {
       <div
         className="space-divider"
         css={css`
-          padding-left: 20px;
+          // padding-left: 20px;
+          padding-left: 1.042vw;
           flex: 1;
         `}
       >
@@ -219,7 +241,7 @@ const Header = ({ headerRef, setHeight }) => {
           ref={optionRef}
           css={css`
             ${flex.vertical}
-            ${sizes.free('auto', '35px')}
+            ${sizes.free('auto', '1.823vw')}
           `}
           onClick={e => {
             const { left, top, bottom } = optionRef.current.getBoundingClientRect();
@@ -265,7 +287,7 @@ const Header = ({ headerRef, setHeight }) => {
           css={css`
             border: none;
             box-shadow: none;
-            ${sizes.free('30px')};
+            ${sizes.free('1.563vw')};
             position: absolute;
             right: calc(var(--gap-multiply-small) * 3);
             display: ${librarySearch === '' ? 'none' : 'block'};
@@ -308,7 +330,8 @@ const Header = ({ headerRef, setHeight }) => {
           <button
             id="member-info"
             css={css`
-              padding: 0 20px;
+              // padding: 0 20px;
+              padding: 0 1.042vw;
             `}
             ref={memberRef}
             onClick={() => {
@@ -328,7 +351,8 @@ const Header = ({ headerRef, setHeight }) => {
         </div>
         <div
           css={css`
-            padding-right: 20px;
+            // padding-right: 20px;
+            padding-right: 1.042vw;
             flex: 1;
           `}
         >

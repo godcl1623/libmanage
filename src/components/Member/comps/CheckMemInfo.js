@@ -15,7 +15,8 @@ const CheckMemInfo = ({ userState, setState}) => (
       ${sizes.full}
 
       .input_container {
-        margin: 80px 0;
+        // margin: 80px 0;
+        margin: 4.167vw 0;
       }
 
       .submit_container {
@@ -23,16 +24,19 @@ const CheckMemInfo = ({ userState, setState}) => (
         ${flex.horizontal}
 
         button {
-          ${sizes.free('100%', '50px')}
-          font-size: 20px;
+          ${sizes.free('100%', '2.604vw')}
+          // font-size: 20px;
+          font-size: 1.042vw;
         }
 
         button:first-of-type {
-          margin-right: 5px;
+          // margin-right: 5px;
+          margin-right: 0.26vw;
         }
 
         button:last-of-type {
-          margin-left: 5px;
+          // margin-left: 5px;
+          margin-left: 0.26vw;
         }
       }
     `}

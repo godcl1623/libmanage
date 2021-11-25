@@ -31,22 +31,27 @@ const DelMemInfo = ({ userState }) => {
         }
 
         h2, h3 {
-          margin-bottom: 20px;
+          // margin-bottom: 20px;
+          margin-bottom: 1.042vw;
         }
 
         #guidance {
           ${border}
           border-bottom: 0;
-          padding: 40px;
+          // padding: 40px;
+          padding: 2.083vw;
           ${sizes.full}
           h1 {
-            margin-bottom: 20px;
+            // margin-bottom: 20px;
+            margin-bottom: 1.042vw;
             text-align: center;
-            font-size: 40px;
+            // font-size: 40px;
+            font-size: 2.083vw;
           }
 
           li {
-            padding-left: 20px;
+            // padding-left: 20px;
+            padding-left: 1.042vw;
             list-style: disc inside;
           }
         }
@@ -58,7 +63,8 @@ const DelMemInfo = ({ userState }) => {
           text-align: center;
           
           h3, p, input {
-            margin: 20px 0;
+            // margin: 20px 0;
+            margin: 1.042vw 0;
           }
 
           span {
@@ -68,16 +74,17 @@ const DelMemInfo = ({ userState }) => {
           .check-delete {
             ${border}
             border-top: 0;
-            padding: 0 40px;
+            // padding: 0 40px;
+            padding: 0 2.083vw;
             ${flex.vertical}
-            ${sizes.free('100%', 'calc(100% - 90px)')}
+            ${sizes.free('100%', 'calc(100% - 4.688vw)')}
           }
         }
 
 
         .submit-wrapper {
           ${flex.horizontal}
-          ${sizes.free('100%', '50px')}
+          ${sizes.free('100%', '2.604vw')}
 
           button:first-of-type {
             margin-right: var(--gap-multiply-small);
