@@ -18,8 +18,10 @@ const MetaMod = () => (
       <div
         className="container-img"
         style={{
-          'width': '50px',
-          'height': '50px'
+          // 'width': '50px',
+          'width': '2.604vw',
+          // 'height': '50px'
+          'height': '2.604vw'
         }}
       ></div>
       <div

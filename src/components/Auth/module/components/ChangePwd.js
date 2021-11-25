@@ -45,12 +45,14 @@ const ChangePwd = ({ token, reqTime }) => {
     <form
       css={css`
         border-radius: var(--border-rad-big);
-        padding: 40px;
+        // padding: 40px;
+        padding: 2.083vw;
         background: white;
         ${sizes.free('40%', '50%')}
         ${flex.vertical}
         justify-content: space-between;
-        box-shadow: 0 0 10px 1px var(--grey-dark);
+        // box-shadow: 0 0 10px 1px var(--grey-dark);
+        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         .input-wrapper {
           ${flex.vertical}
@@ -82,7 +84,7 @@ const ChangePwd = ({ token, reqTime }) => {
 
         .submit-wrapper {
           ${flex.horizontal}
-          ${sizes.free('100%', '50px')}
+          ${sizes.free('100%', '2.604vw')}
 
           button:first-of-type {
             margin-right: var(--gap-multiply-small);

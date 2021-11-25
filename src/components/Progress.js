@@ -146,21 +146,26 @@ const Progress = () => {
         ${flex.vertical}
 
         h1 {
-          margin-bottom: 100px;
-          font-size: 100px;
+          // margin-bottom: 100px;
+          // font-size: 100px;
+          margin-bottom: 5.208vw;
+          font-size: 5.208vw;
         }
 
         p {
-          font-size: 24px;
+          // font-size: 24px;
+          font-size: 1.25vw;
           font-weight: bold;
         }
 
         .contents-wrapper {
-          border-radius: 7px;
+          // border-radius: 7px;
+          border-radius: 0.365vw;
           ${sizes.free('40%', '50%')}
           background: white;
           ${flex.vertical}
-          box-shadow: 0 0 10px 1px var(--grey-dark);
+          // box-shadow: 0 0 10px 1px var(--grey-dark);
+          box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
         }
       `}
     >

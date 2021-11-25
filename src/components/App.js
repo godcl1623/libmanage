@@ -82,7 +82,8 @@ const App = () => (
 
         button {
           border: none;
-          box-shadow: 0 0 2px 1px var(--grey-dark);
+          // box-shadow: 0 0 2px 1px var(--grey-dark);
+          box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
           background: var(--highlight-light);
           color: var(--grey-dark);
           cursor: pointer;

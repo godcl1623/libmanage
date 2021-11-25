@@ -23,13 +23,15 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
     <div
       className="balloon-display"
       css={css`
-        margin: 10px;
+        // margin: 10px;
+        margin: 0.521vw;
         ${flex.horizontal}
         justify-content: space-between;
         ${sizes.free('100%')}
 
         * {
-          margin: 0 5px;
+          // margin: 0 5px;
+          margin: 0 0.26vw;
         }
 
         .balloon-header {
@@ -42,7 +44,8 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
           justify-content: space-around;
 
           .balloon-btn {
-            padding: 5px;
+            // padding: 5px;
+            padding: 0.26vw;
             cursor: pointer;
             :hover {
               -webkit-filter: brightness(90%);
@@ -105,7 +108,8 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
         max="15"
         value={coverSize}
         css={css`
-          margin: 10px;
+          // margin: 10px;
+          margin: 0.521vw;
           padding: 0;
           width: 100%;
         `}
@@ -142,8 +146,10 @@ const makeList = (...args) => {
             <li
               key={index}
               css={css`
-                padding: 10px 30px;
-                font-size: 20px;
+                // padding: 10px 30px;
+                // font-size: 20px;
+                padding: 0.521vw 1.563vw;
+                font-size: 1.042vw;
                 cursor: pointer;
                 background: white;
               `}
@@ -217,7 +223,8 @@ const makeList = (...args) => {
             <li
               key={`img-${index}`}
               css={css`
-                margin: 10px;
+                // margin: 10px;
+                margin: 0.521vw;
                 height: ${size}vw;
                 flex: 0 0 10%;
                 ${flex.horizontal}
@@ -354,34 +361,41 @@ const Library = ({ userLib }) => {
     position: 'absolute',
     top: '0',
     right: '0',
-    // 'background': 'rgba(0, 0, 0, 0.3)',
-    // width: '100%',
-    // height: '100%',
     zIndex: 2
   };
 
   const style = {
-    padding: '20px',
+    // padding: '20px',
+    padding: '1.042vw',
     display: balloonOrigin === 'Library' ? balloonState : 'none',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '300px',
-    height: '150px',
+    // width: '300px',
+    // height: '150px',
+    width: '15.625vw',
+    height: '7.813vw',
     position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px + 40px)`,
-    right: `30px`,
+    // top: `calc(${btnCoords.topCoord}px + 40px)`,
+    top: `calc(${btnCoords.topCoord / 19.2}vw + 2.083vw)`,
+    // right: `30px`,
+    right: `1.563vw`,
     background: 'var(--btn-active)',
     zIndex: 2
   };
 
   const hand = {
-    borderLeft: '20px solid transparent',
-    borderRight: '20px solid transparent',
-    borderBottom: '40px solid var(--btn-active)',
+    // borderLeft: '20px solid transparent',
+    // borderRight: '20px solid transparent',
+    // borderBottom: '40px solid var(--btn-active)',
+    borderLeft: '1.042vw solid transparent',
+    borderRight: '1.042vw solid transparent',
+    borderBottom: '2.083vw solid var(--btn-active)',
     position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px)`,
-    right: `30px`,
+    // top: `calc(${btnCoords.topCoord}px)`,
+    // right: `30px`,
+    top: `calc(${btnCoords.topCoord / 19.2}vw)`,
+    right: `1.563vw`,
     display: balloonOrigin === 'Library' ? balloonState : 'none'
   };
 
@@ -389,9 +403,12 @@ const Library = ({ userLib }) => {
     <article
       id="library"
       css={css`
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        padding: 40px 20px;
+        // border-left: 1px solid black;
+        // border-right: 1px solid black;
+        // padding: 40px 20px;
+        border-left: 0.052vw solid black;
+        border-right: 0.052vw solid black;
+        padding: 2.083vw 1.042vw;
         flex: 2;
         overflow: hidden;
         height: 100%;
@@ -413,8 +430,9 @@ const Library = ({ userLib }) => {
         css={css`
           ${flex.vertical}
           position: absolute;
-          right: 30px;
-          ${sizes.free('50px', '35px')}
+          // right: 30px;
+          right: 1.563vw;
+          ${sizes.free('2.604vw', '1.823vw')}
           z-index: 2;
           cursor: pointer;
           :hover {
@@ -461,7 +479,8 @@ const Library = ({ userLib }) => {
             const listCoords = list.getBoundingClientRect();
             const { top: liTop, height: liHeight } = listCoords;
             if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
-              list.style.filter = 'blur(2px)';
+              // list.style.filter = 'blur(2px)';
+              list.style.filter = 'blur(0.104vw)';
               list.style.color = 'lightgrey';
               list.style.transition = 'filter 0.5s, color 0.5s';
             } else {

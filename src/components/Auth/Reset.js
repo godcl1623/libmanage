@@ -82,12 +82,15 @@ const Reset = () => {
             ${sizes.free('40%', '50%')}
             ${flex.vertical}
             background: white;
-            box-shadow: 0 0 10px 1px var(--grey-dark);
+            // box-shadow: 0 0 10px 1px var(--grey-dark);
+            box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
             #to_home {
-              margin-top: 100px;
+              // margin-top: 100px;
+              margin-top: 5.208vw;
               ${flex.horizontal}
-              font-size: 40px;
+              // font-size: 40px;
+              font-size: 2.083vw;
               text-decoration: none;
               color: var(--grey-dark);
 

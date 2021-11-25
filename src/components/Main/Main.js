@@ -61,45 +61,56 @@ const modalContents = (...args) => {
       return (
         <article
           css={css`
-            padding: 40px 20px;
+            // padding: 40px 20px;
+            padding: 2.083vw 1.042vw;
             ${sizes.full}
             ${flex.vertical}
             align-items: flex-start;
             position: relative;
 
             h1 {
-              margin-left: 40px;
-              margin-bottom: 10px;
-              font-size: 40px;
+              // margin-left: 40px;
+              // margin-bottom: 10px;
+              // font-size: 40px;
+              margin-left: 2.083vw;
+              margin-bottom: 0.521vw;
+              font-size: 2.083vw;
             }
 
             h2, button {
-              font-size: 30px;
+              // font-size: 30px;
+              font-size: 1.563vw;
             }
 
             hr {
-              margin-bottom: 40px;
+              // margin-bottom: 40px;
+              margin-bottom: 2.083vw;
               ${sizes.free('100%')};
             }
 
             p {
               position: absolute;
               left: 50%;
-              bottom: 30px;
+              // bottom: 30px;
+              bottom: 1.563vw;
               transform: translateX(-50%);
-              font-size: 18px;
+              // font-size: 18px;
+              font-size: 0.938vw;
             }
 
             .store_container {
               margin-bottom: auto;
-              padding: 0 80px;
-              padding-bottom: 10px;
+              // padding: 0 80px;
+              padding: 0 4.167vw;
+              // padding-bottom: 10px;
+              padding-bottom: 0.521vw;
               ${flex.horizontal}
               ${sizes.free('100%')};
               justify-content: space-between;
 
               button {
-                padding: 5px 15px;
+                // padding: 5px 15px;
+                padding: 0.26vw 0.781vw;
               }
             }
           `}
@@ -129,7 +140,8 @@ const modalContents = (...args) => {
       return (
         <article
           css={css`
-            padding: 40px 20px;
+            // padding: 40px 20px;
+            padding: 2.083vw 1.042vw;
             ${sizes.full}
             ${flex.vertical}
             align-items: flex-start;
@@ -137,38 +149,48 @@ const modalContents = (...args) => {
             background: white;
 
             h1 {
-              margin-left: 40px;
-              margin-bottom: 10px;
-              font-size: 40px;
+              // margin-left: 40px;
+              // margin-bottom: 10px;
+              // font-size: 40px;
+              margin-left: 2.083vw;
+              margin-bottom: 0.521vw;
+              font-size: 2.083vw;
             }
 
             h2, button {
-              font-size: 30px;
+              // font-size: 30px;
+              font-size: 1.563vw;
             }
 
             hr {
-              margin-bottom: 40px;
+              // margin-bottom: 40px;
+              margin-bottom: 2.083vw;
               ${sizes.free('100%')};
             }
 
             p {
               position: absolute;
               left: 50%;
-              bottom: 30px;
+              // bottom: 30px;
+              bottom: 1.563vw;
               transform: translateX(-50%);
-              font-size: 18px;
+              // font-size: 18px;
+              font-size: 0.938vw;
             }
 
             .store_container {
               margin-bottom: auto;
-              padding: 0 80px;
-              padding-bottom: 10px;
+              // padding: 0 80px;
+              padding: 0 4.167vw;
+              // padding-bottom: 10px;
+              padding-bottom: 0.521vw;
               ${flex.horizontal}
               ${sizes.free('100%')};
               justify-content: space-between;
 
               button {
-                padding: 5px 15px;
+                // padding: 5px 15px;
+                padding: 0.26vw 0.781vw;
                 background: var(--btn-alert);
                 color: var(--white);
               }
@@ -215,7 +237,8 @@ const modalContents = (...args) => {
       return (
         <div
           css={css`
-            padding: 40px;
+            // padding: 40px;
+            padding: 2.083vw;
             ${sizes.full}
             ${flex.vertical}
             position: relative;
@@ -226,14 +249,17 @@ const modalContents = (...args) => {
             css={css`
               border-radius: 50%;
               position: absolute;
-              top: -32px;
-              right: -32px;
+              // top: -32px;
+              // right: -32px;
+              top: -1.667vw;
+              right: -1.667vw;
               cursor: pointer;
               background: white;
-              ${sizes.free('32px', '32px')}
+              ${sizes.free('1.667vw', '1.667vw')}
 
                 svg {
-                  font-size: 32px;
+                  // font-size: 32px;
+                  font-size: 1.667vw;
                 }
             `}
             onClick={e => {
@@ -266,12 +292,14 @@ const modalContents = (...args) => {
             <div
               className="btn-wrapper"
               css={css`
-                ${sizes.free('calc(100% - 80px)', 'calc(100% - 80px)')}
+                ${sizes.free('calc(100% - 4.167vw)', 'calc(100% - 4.167vw)')}
                 ${flex.horizontal}
                 justify-content: space-between;
                 position: absolute;
-                top: 40px;
-                left: 40px;
+                // top: 40px;
+                // left: 40px;
+                top: 2.083vw;
+                left: 2.083vw;
 
                 span {
                   ${flex.vertical}
@@ -279,9 +307,11 @@ const modalContents = (...args) => {
                   background: rgba(0, 0, 0, 0.5);
                   opacity: 0;
                   color: white;
-                  font-size: 100px;
+                  // font-size: 100px;
+                  font-size: 5.208vw;
                   text-weight: 900;
                   transition: all 0.3s;
+
                   * {
                     color: white;
                   }
@@ -332,7 +362,8 @@ const modalContents = (...args) => {
       return (
         <div
           css={css`
-            padding: 40px;
+            // padding: 40px;
+            padding: 2.083vw;
             ${sizes.full}
             ${flex.vertical}
             position: relative;
@@ -343,14 +374,17 @@ const modalContents = (...args) => {
             css={css`
               border-radius: 50%;
               position: absolute;
-              top: -32px;
-              right: -32px;
+              // top: -32px;
+              // right: -32px;
+              top: -1.667vw;
+              right: -1.667vw;
               cursor: pointer;
               background: white;
-              ${sizes.free('32px', '32px')}
+              ${sizes.free('1.667vw', '1.667vw')}
 
                 svg {
-                  font-size: 32px;
+                  // font-size: 32px;
+                  font-size: 1.667vw;
                 }
             `}
             onClick={e => {
@@ -383,12 +417,14 @@ const modalContents = (...args) => {
             <div
               className="btn-wrapper"
               css={css`
-                ${sizes.free('calc(100% - 80px)', 'calc(100% - 80px)')}
+                ${sizes.free('calc(100% - 4.167vw)', 'calc(100% - 4.167vw)')}
                 ${flex.horizontal}
                 justify-content: space-between;
                 position: absolute;
-                top: 40px;
-                left: 40px;
+                // top: 40px;
+                // left: 40px;
+                top: 2.083vw;
+                left: 2.083vw;
 
                 span {
                   ${flex.vertical}
@@ -396,9 +432,11 @@ const modalContents = (...args) => {
                   background: rgba(0, 0, 0, 0.5);
                   opacity: 0;
                   color: white;
-                  font-size: 100px;
+                  // font-size: 100px;
+                  font-size: 5.208vw;
                   text-weight: 900;
                   transition: all 0.3s;
+
                   * {
                     color: white;
                   }
@@ -638,7 +676,7 @@ const Main = () => {
         <div
           id="main-contents"
           css={css`
-            ${sizes.free('100%', `calc(100% - ${headerHeight}px)`)}
+            ${sizes.free('100%', `calc(100% - ${headerHeight / 19.2}vw)`)}
             ${flex.horizontal}
           `}
         >

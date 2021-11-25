@@ -70,28 +70,35 @@ const ModMemInfo = ({ userState }) => {
         }
 
         #contents-divider {
-          padding: 20px 0;
+          // padding: 20px 0;
+          padding: 1.042vw 0;
           ${border}
         }
 
         .input_container {
-          margin-top: 20px;
-          padding: 0 20px;
+          // margin-top: 20px;
+          // padding: 0 20px;
+          margin-top: 1.042vw;
+          padding: 0 1.042vw;
           ${flex.vertical}
           align-items: flex-start;
 
           label {
-            padding-left: 20px;
-            font-size: 20px;
+            // padding-left: 20px;
+            // font-size: 20px;
+            padding-left: 1.042vw;
+            font-size: 1.042vw;
           }
 
           input {
-            margin: 10px 0;
+            // margin: 10px 0;
+            margin: 0.521vw 0;
             ${sizes.free('100%')}
           }
 
           p {
-            font-size: 20px;
+            // font-size: 20px;
+            font-size: 1.042vw;
           }
         }
 
@@ -116,7 +123,8 @@ const ModMemInfo = ({ userState }) => {
 
           select {
             ${border}
-            border-radius: 7px;
+            // border-radius: 7px;
+            border-radius: 0.365vw;
             padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
             ${sizes.free('48%')}
             display: inline-block;
@@ -127,7 +135,7 @@ const ModMemInfo = ({ userState }) => {
 
         .submit-container {
           ${flex.horizontal}
-          ${sizes.free('100%', '50px')}
+          ${sizes.free('100%', '2.604vw')}
 
           button:first-of-type {
             margin-right: var(--gap-multiply-small);
