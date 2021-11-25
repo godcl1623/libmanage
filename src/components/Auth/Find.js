@@ -33,7 +33,8 @@ const Find = ({ mode }) => {
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
         background: white;
-        box-shadow: 0 0 10px 1px var(--grey-dark);
+        // box-shadow: 0 0 10px 1px var(--grey-dark);
+        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         .contents-wrapper {
           ${flex.vertical}
@@ -49,9 +50,11 @@ const Find = ({ mode }) => {
         .tab-wrapper a {
           ${border}
           border-bottom: none;
-          border-radius: 7px;
-          ${sizes.free('20%', '30px')}
-          font-size: 18px;
+          // border-radius: 7px;
+          border-radius: 0.365vw;
+          ${sizes.free('20%', '1.563vw')}
+          // font-size: 18px;
+          font-size: 0.938vw;
           ${flex.horizontal}
           text-decoration: none;
         
@@ -89,22 +92,27 @@ const Find = ({ mode }) => {
         }
         
         .form-wrapper .input-wrapper {
-          margin-bottom: 50px;
+          // margin-bottom: 50px;
+          margin-bottom: 2.604vw;
           ${border}
-          padding: 20px 10px;
+          // padding: 20px 10px;
+          padding: 1.042vw 0.521vw;
           ${flex.vertical}
-          ${sizes.free('100%', 'calc(100% - 50px)')}
+          ${sizes.free('100%', 'calc(100% - 2.604vw)')}
+          font-size: var(--font-size-normal);
         }
         
         .form-wrapper .input-wrapper > div {
-          margin-bottom: 40px;
+          // margin-bottom: 40px;
+          margin-bottom: 2.083vw;
           ${flex.vertical}
           align-items: flex-start;
           ${sizes.free('100%')}
         }
 
         .form-wrapper .input-wrapper > div label {
-          margin-bottom: 10px;
+          // margin-bottom: 10px;
+          margin-bottom: 0.521vw;
           ${sizes.free('30%')}
         }
 
@@ -114,16 +122,18 @@ const Find = ({ mode }) => {
 
         .form-wrapper .submit-wrapper {
           ${flex.horizontal}
-          ${sizes.free('100%', '50px')}
+          ${sizes.free('100%', '2.604vw')}
         }
 
         .form-wrapper .submit-wrapper button:first-of-type {
-          margin-right: 5px;
+          // margin-right: 5px;
+          margin-right: 0.26vw;
           background: var(--btn-active);
         }
 
         .form-wrapper .submit-wrapper button:last-of-type {
-          margin-left: 5px;
+          // margin-left: 5px;
+          margin-left: 0.26vw;
           background: var(--btn-active);
         }
       `}

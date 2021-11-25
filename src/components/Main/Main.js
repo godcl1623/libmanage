@@ -626,22 +626,6 @@ const Main = () => {
           z-index: 1;
           position: relative;
           overflow: hidden;
-
-          // #header button, #library button {
-          //   padding: 5px;
-          //   cursor: pointer;
-
-          //   :hover {
-          //     -webkit-filter: brightness(90%);
-          //             filter: brightness(90%);
-          //   }
-          
-          //   :active {
-          //     -webkit-transform: scale(0.95);
-          //         -ms-transform: scale(0.95);
-          //             transform: scale(0.95);
-          //   }
-          // }
         `}
         onClick={e => {
           // e.preventDefault();

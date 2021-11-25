@@ -104,7 +104,8 @@ const Login = () => {
       id="login"
       css={css`
         margin: var(--gap-standard) 0;
-        padding: calc(var(--gap-standard) + 50px);
+        // padding: calc(var(--gap-standard) + 50px);
+        padding: calc(var(--gap-standard) + 2.604vw);
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         width: 30vw;
@@ -112,7 +113,8 @@ const Login = () => {
         height: -moz-max-content;
         height: max-content;
         background: white;
-        box-shadow: 0 0 10px 1px var(--grey-dark);
+        // box-shadow: 0 0 10px 1px var(--grey-dark);
+        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         @media (orientation: portrait) {
           height: -webkit-max-content;
@@ -121,7 +123,8 @@ const Login = () => {
         }
 
         @media (max-height: 749px) {
-          height: calc(100% - 40px);
+          // height: calc(100% - 40px);
+          // height: calc(100% - 2.083vw);
         }
 
         h1 {
@@ -143,12 +146,12 @@ const Login = () => {
         }
 
         #login-form * {
-          margin: 16px;
+          margin: 0.833vw;
         }
 
         #login-form input {
           ${border}
-          ${sizes.free('100%', '35px')}
+          ${sizes.free('100%', '1.823vw')}
         }
 
         #login-form input:first-of-type {
@@ -157,22 +160,25 @@ const Login = () => {
 
         #login-form button {
           margin-bottom: 0;
-          height: 50px;
+          // height: 50px;
+          height: 2.604vw;
         }
 
         .option {
           margin: var(--gap-multiply-big);
           ${flex.horizontal}
           justify-content: space-around;
-          ${sizes.free('100%', '50px')}
+          ${sizes.free('100%', '2.604vw')}
 
           button, a {
-            height: 50px;
+            // height: 50px;
+            height: 2.604vw;
           }
 
           a {
             background: var(--btn-active);
-            box-shadow: 0 0 2px 1px var(--grey-dark);
+            // box-shadow: 0 0 2px 1px var(--grey-dark);
+            box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
             color: var(--grey-dark);
           }
         }
