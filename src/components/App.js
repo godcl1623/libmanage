@@ -18,13 +18,18 @@ const App = () => (
       styles={css`
       :root {
         /* margin, padding sizes */
-        --gap-multiply-big: 25px;
-        --gap-multiply-small: 5px;
-        --gap-standard: 20px;
+        // --gap-multiply-big: 25px;
+        --gap-multiply-big: 1.302vw;
+        // --gap-multiply-small: 5px;
+        --gap-multiply-small: 0.26vw;
+        // --gap-standard: 20px;
+        --gap-standard: 1.042vw;
         /* border-sizes */
-        --border-rad-big: 10px;
+        // --border-rad-big: 10px;
+        --border-rad-big: 0.521vw;
         /* font-sizes */
-        --font-size-normal: 20px;
+        // --font-size-normal: 20px;
+        --font-size-normal: 1.042vw;
         /* colors */
         --btn-alert: #F26101;
         --btn-disable: #8AA8B0;
@@ -61,14 +66,17 @@ const App = () => (
         }
 
         h1 {
-          font-size: 60px;
+          // font-size: 60px;
+          font-size: 3.125vw;
         }
 
         button, input, a {
-          border-radius: 7px;
+          // border-radius: 7px;
+          border-radius: 0.365vw;
           font-size: 1.042vw;
           @media (min-width: 2880px) {
-            font-size: 30px;
+            // font-size: 30px;
+            // font-size: 1.563vw;
           }
         }
 
@@ -100,6 +108,7 @@ const App = () => (
         <Route path="/member/find/pwd" exact component={ () => <Find mode='pwd' /> } />
         <Route path="/member/reset/:token" exact component={Reset} />
         <Route path="/api/progress" exact component={ Progress } />
+        <Route path="/member/test" exact component={Reset} />
         <Route component={() => <Redirect to="/" />} />
       </Switch>
     </Router>
