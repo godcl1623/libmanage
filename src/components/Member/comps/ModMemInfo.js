@@ -70,8 +70,9 @@ const ModMemInfo = ({ userState }) => {
         }
 
         #contents-divider {
+          margin-bottom: 2.083vw;
           // padding: 20px 0;
-          padding: 1.042vw 0;
+          // padding: 1.042vw 0;
           ${border}
         }
 
@@ -93,6 +94,7 @@ const ModMemInfo = ({ userState }) => {
           input {
             // margin: 10px 0;
             margin: 0.521vw 0;
+            ${border}
             ${sizes.free('100%')}
           }
 

@@ -17,6 +17,10 @@ const CheckMemInfo = ({ userState, setState}) => (
       .input_container {
         // margin: 80px 0;
         margin: 4.167vw 0;
+
+        label {
+          font-size: 0.833vw;
+        }
       }
 
       .submit_container {
@@ -71,7 +75,7 @@ const CheckMemInfo = ({ userState, setState}) => (
     <div
       className="input_container"
     >
-      <label htmlFor="PWD">PW: </label>
+      <label htmlFor="PWD">PW </label>
       <input type="password" name="PWD" />
     </div>
     <div

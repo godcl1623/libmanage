@@ -53,6 +53,7 @@ const DelMemInfo = ({ userState }) => {
             // padding-left: 20px;
             padding-left: 1.042vw;
             list-style: disc inside;
+            font-size: 0.833vw;
           }
         }
 
@@ -67,11 +68,21 @@ const DelMemInfo = ({ userState }) => {
             margin: 1.042vw 0;
           }
 
+          input {
+            ${border}
+            box-shadow: 0 0 0.052vw 0.052vw var(--grey-dark);
+          }
+
+          p {
+            font-size: 0.833vw;
+          }
+
           span {
             color: #ff1515;
           }
 
           .check-delete {
+            margin-bottom: 2.083vw;
             ${border}
             border-top: 0;
             // padding: 0 40px;
