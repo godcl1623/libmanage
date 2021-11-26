@@ -54,10 +54,11 @@ const Register = () => {
       id="register"
       css={css`
         margin: var(--gap-standard) 0;
-        padding: var(--gap-standard);
+        padding: var(--gap-standard) 2.083vw;
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
+        height: max-content;
         background: white;
         // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
@@ -81,6 +82,9 @@ const Register = () => {
 
         #register-form .input-wrapper input {
           margin: calc(var(--gap-multiply-small) * 2) 0;
+          // margin-top: 0.521vw;
+          // margin-bottom: 1.563vw;
+          ${border}
         }
 
         #register-form .input-wrapper .verify-error {

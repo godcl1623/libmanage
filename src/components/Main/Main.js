@@ -676,7 +676,7 @@ const Main = () => {
         <div
           id="main-contents"
           css={css`
-            ${sizes.free('100%', `calc(100% - ${headerHeight / 19.2}vw)`)}
+            ${sizes.free('100%', `calc(100% - ${headerHeight}px)`)}
             ${flex.horizontal}
           `}
         >

@@ -27,8 +27,10 @@ import { sizes, flex } from '.';
 // `;
 
 export const A = styled.a`
-  border: 1px solid transparent;
-  border-radius: 7px;
+  // border: 1px solid transparent;
+  // border-radius: 7px;
+  border: 0.052vw solid transparent;
+  border-radius: 0.365vw;
   background: #EFEFEF;
   ${sizes.full}
   ${flex.horizontal}
@@ -47,8 +49,10 @@ export const A = styled.a`
 `;
 
 export const Button = styled.button`
-  border: 1px solid transparent;
-  border-radius: 7px;
+  // border: 1px solid transparent;
+  // border-radius: 7px;
+  border: 0.052vw solid transparent;
+  border-radius: 0.365vw;
   ${sizes.full}
   cursor: pointer;
 
@@ -65,11 +69,16 @@ export const Button = styled.button`
 `;
 
 export const Div = styled.div`
-  padding: 0.438rem;
-  border: 0.063rem solid transparent;
-  border-radius: 0.438rem;
-  -webkit-box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.3);
-          box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.3);
+  // padding: 0.438rem;
+  // border: 0.063rem solid transparent;
+  // border-radius: 0.438rem;
+  // -webkit-box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.3);
+  //         box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.3);
+  padding: 0.365vw;
+  border: 0.052vw solid transparent;
+  border-radius: 0.365vw;
+  -webkit-box-shadow: 0 0 0.104vw 0.104vw rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 0.104vw 0.104vw rgba(0, 0, 0, 0.3);
   background-color: var(--white);
   color: var(--point-dark);
   font-family: 'Gothic A1', sans-serif;
