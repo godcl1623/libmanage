@@ -32,6 +32,7 @@ const Find = ({ mode }) => {
         border-radius: var(--border-rad-big);
         ${flex.vertical}
         ${sizes.free('40vw', '100%')}
+        height: max-content;
         background: white;
         // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
@@ -85,6 +86,7 @@ const Find = ({ mode }) => {
           border-radius: 0 var(--border-rad-big) var(--border-rad-big);
           ${flex.vertical}
           ${sizes.free('100%', '50%')}
+          height: max-content;
         }
 
         .form-wrapper form {
@@ -92,22 +94,27 @@ const Find = ({ mode }) => {
         }
         
         .form-wrapper .input-wrapper {
-          // margin-bottom: 50px;
-          margin-bottom: 2.604vw;
+          // margin-bottom: 80px;
+          margin-bottom: 4.167vw;
           ${border}
           // padding: 20px 10px;
           padding: 1.042vw 0.521vw;
           ${flex.vertical}
           ${sizes.free('100%', 'calc(100% - 2.604vw)')}
+          height: max-content;
           font-size: var(--font-size-normal);
         }
         
         .form-wrapper .input-wrapper > div {
-          // margin-bottom: 40px;
-          margin-bottom: 2.083vw;
+          // margin-bottom: 80px;
+          margin-bottom: 4.167vw;
           ${flex.vertical}
           align-items: flex-start;
           ${sizes.free('100%')}
+        }
+
+        .form-wrapper .input-wrapper > div:last-of-type {
+          margin-bottom: 0;
         }
 
         .form-wrapper .input-wrapper > div label {
@@ -117,6 +124,7 @@ const Find = ({ mode }) => {
         }
 
         .form-wrapper .input-wrapper > div input {
+          ${border}
           ${sizes.free('100%')}
         }
 

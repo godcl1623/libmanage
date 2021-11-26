@@ -116,17 +116,6 @@ const Login = () => {
         // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
-        @media (orientation: portrait) {
-          height: -webkit-max-content;
-          height: -moz-max-content;
-          height: max-content;
-        }
-
-        @media (max-height: 749px) {
-          // height: calc(100% - 40px);
-          // height: calc(100% - 2.083vw);
-        }
-
         h1 {
           margin-bottom: calc(var(--gap-multiply-big) * 3);
         }

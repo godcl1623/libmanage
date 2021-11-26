@@ -27,6 +27,8 @@ const App = () => (
         /* border-sizes */
         // --border-rad-big: 10px;
         --border-rad-big: 0.521vw;
+        // --border-rad-normal: 7px;
+        --border-rad-normal: 0.365vw;
         /* font-sizes */
         // --font-size-normal: 20px;
         --font-size-normal: 1.042vw;
@@ -74,10 +76,6 @@ const App = () => (
           // border-radius: 7px;
           border-radius: 0.365vw;
           font-size: 1.042vw;
-          @media (min-width: 2880px) {
-            // font-size: 30px;
-            // font-size: 1.563vw;
-          }
         }
 
         button {
