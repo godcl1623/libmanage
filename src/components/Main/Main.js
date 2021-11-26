@@ -28,8 +28,8 @@ import signin from '../../assets/sits_large_noborder.png';
 
 const modalOption = origin => ({
   position: 'absolute',
-  width: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90%' : '50%') : '45%',
-  height: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90%' : '50%') : '85%',
+  width: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '60vw' : '50%') : '45%',
+  height: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? `${60 * 9 / 16}vw` : '50%') : 'max-content',
   background: 'white',
   top: '50%',
   left: '50%',
@@ -255,6 +255,7 @@ const modalContents = (...args) => {
               right: -1.667vw;
               cursor: pointer;
               background: white;
+              ${flex.vertical}
               ${sizes.free('1.667vw', '1.667vw')}
 
                 svg {
@@ -380,6 +381,7 @@ const modalContents = (...args) => {
               right: -1.667vw;
               cursor: pointer;
               background: white;
+              ${flex.vertical}
               ${sizes.free('1.667vw', '1.667vw')}
 
                 svg {

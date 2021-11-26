@@ -49,6 +49,7 @@ const ChangePwd = ({ token, reqTime }) => {
         padding: 2.083vw;
         background: white;
         ${sizes.free('40%', '50%')}
+        height: max-content;
         ${flex.vertical}
         justify-content: space-between;
         // box-shadow: 0 0 10px 1px var(--grey-dark);

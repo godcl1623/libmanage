@@ -382,7 +382,7 @@ const Meta = () => {
                   .instalment1 .donut-case::before {
                     content: "";
                     // clip: rect(0 120px 60px 0);
-                    clip: rect(0 6.25vw 3.125vw 0);
+                    clip: rect(0 6.302vw 3.177vw 0);
                     transform: rotate(${metaScore <= 50 ? `${450 - (metaScore)*3.6}deg` : '270deg'});
                     background: var(--btn-active);
                     position: absolute;
@@ -396,7 +396,7 @@ const Meta = () => {
                   .instalment1 .donut-case::after {
                     content: "";
                     // clip: rect(0 60px 120px 0);
-                    clip: rect(0 3.125vw 6.25vw 0);
+                    clip: rect(0 3.177vw 6.302vw 0);
                     transform: rotate(${metaScore > 50 ? `${360 - (metaScore - 50)*3.6}deg` : '180deg'});
                     background: ${metaScore > 50 ? 'var(--btn-active)' : 'var(--grey-dark)'};
                     position: absolute;
@@ -410,7 +410,8 @@ const Meta = () => {
                   .instalment1 .donut-graph-border::before {
                     content: "";
                     width: 50%;
-                    height: 2px;
+                    // height: 2px;
+                    height: 0.104vw;
                     position: absolute;
                     top: 50%;
                     left: 0;
@@ -447,7 +448,8 @@ const Meta = () => {
                     ${flex.horizontal}
 
                     img {
-                      height: 100px;
+                      // height: 100px;
+                      height: 5.208vw;
                     }
 
                     img:first-of-type {
@@ -727,10 +729,14 @@ const Meta = () => {
                 ${flex.vertical}
                 background: var(--btn-disable);
                 color: var(--white);
+                font-size: 0.938vw;
+                font-weight: bold;
               }
+
               .table-contents {
                 display: grid;
                 grid-template-rows: repeat(auto-fill, 1fr);
+                font-size: 0.833vw;
 
                 div {
                   // border-bottom: 1px solid black;
@@ -749,10 +755,13 @@ const Meta = () => {
                 border-right: 0.052vw solid black;
                 padding: 0.26vw 0;
                 ${flex.vertical}
+                font-size: 0.833vw;
+                font-weight: bold;
               }
 
               .table-sub-contents {
                 border-right: none;
+                font-weight: normal;
               }
             `}
           >

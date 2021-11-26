@@ -68,6 +68,7 @@ const Reset = () => {
         <div id="change-pwd"
           css={css`
             ${sizes.full}
+            height: max-content;
             ${flex.vertical}
           `}
         >
