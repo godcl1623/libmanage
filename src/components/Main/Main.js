@@ -208,8 +208,8 @@ const modalContents = (...args) => {
                 // 반영을 위해서는 comparisonState 변경이 필요
                 axios
                 .post(
-                  // 'http://localhost:3001/disconnect',
-                  `https://${sendTo}/disconnect`,
+                  'http://localhost:3001/disconnect',
+                  // `https://${sendTo}/disconnect`,
                   { reqUserInfo: JSON.stringify(temp) },
                   { withCredentials: true }
                   )
@@ -515,6 +515,7 @@ const Main = () => {
   const [storesList, setStoresList] = useState('');
   const [userLibrary, setUserLibrary] = useState('');
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [isPortrait, setIsPortrait] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const headerRef = React.useRef();
@@ -528,8 +529,8 @@ const Main = () => {
       };
       await axios
         .post(
-          // 'http://localhost:3001/check_login',
-          `https://${sendTo}/check_login`,
+          'http://localhost:3001/check_login',
+          // `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -620,8 +621,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -650,6 +651,26 @@ const Main = () => {
       abortCon.abort();
     };
   }, [selectedItem, selectedItemData]);
+
+  useEffect(() => {
+    const detector = () => {
+      if (window.matchMedia('(orientation: portrait)').matches) {
+        setIsPortrait(true);
+      } else {
+        setIsPortrait(false);
+      }
+    };
+    window.addEventListener('resize', detector);
+    return () => window.removeEventListener('resize', detector);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(orientation: portrait)').matches) {
+      setIsPortrait(true);
+    } else {
+      setIsPortrait(false);
+    }
+  }, [])
 
   if (loginStatus === false && logoutClicked === false) {
     return <></>;
@@ -682,9 +703,29 @@ const Main = () => {
             ${flex.horizontal}
           `}
         >
-          <Navigation storesList={storesList} />
+          {
+            !isPortrait
+              ?
+                <>
+                  <Navigation storesList={storesList} />
+                  <Library userLib={userLibrary} />
+                  <Meta />
+                </>
+              :
+                <>
+                  <Navigation storesList={storesList} />
+                  {
+                    selectedItemData.name === undefined
+                      ?
+                        <Library userLib={userLibrary} />
+                      :
+                        <Meta />
+                  }
+                </>
+          }
+          {/* <Navigation storesList={storesList} />
           <Library userLib={userLibrary} />
-          <Meta />
+          <Meta /> */}
         </div>
       </main>
       <Modal
