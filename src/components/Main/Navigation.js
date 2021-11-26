@@ -153,6 +153,7 @@ const Navigation = ({ storesList }) => {
           // margin-bottom: 20px;
           // padding: 3px 15px;
           margin-bottom: 1.042vw;
+          ${border}
           padding: 0.156vw 0.781vw;
           font-size: var(--font-size-normal);
           ${sizes.free('100%')}

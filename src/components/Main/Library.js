@@ -98,6 +98,9 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
       css={css`
         ${flex.horizontal}
         ${sizes.free('100%')}
+        p {
+          font-size: 0.833vw;
+        }
       `}
     >
       <input
@@ -112,6 +115,7 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
           margin: 0.521vw;
           padding: 0;
           width: 100%;
+          cursor: pointer;
         `}
         onChange={e => {
           setCoverSize(Number(e.target.value));
@@ -376,8 +380,8 @@ const Library = ({ userLib }) => {
     width: '15.625vw',
     height: '7.813vw',
     position: 'absolute',
-    // top: `calc(${btnCoords.topCoord}px + 40px)`,
-    top: `calc(${btnCoords.topCoord / 19.2}vw + 2.083vw)`,
+    top: `calc(${btnCoords.topCoord}px + 3.241vh)`,
+    // top: `calc(${btnCoords.topCoord / 19.2}vw + 2.083vw)`,
     // right: `30px`,
     right: `1.563vw`,
     background: 'var(--btn-active)',
@@ -392,9 +396,9 @@ const Library = ({ userLib }) => {
     borderRight: '1.042vw solid transparent',
     borderBottom: '2.083vw solid var(--btn-active)',
     position: 'absolute',
-    // top: `calc(${btnCoords.topCoord}px)`,
+    top: `calc(${btnCoords.topCoord}px + 0.463vh)`,
     // right: `30px`,
-    top: `calc(${btnCoords.topCoord / 19.2}vw)`,
+    // top: `calc(${btnCoords.topCoord / 19.2}vw)`,
     right: `1.563vw`,
     display: balloonOrigin === 'Library' ? balloonState : 'none'
   };
