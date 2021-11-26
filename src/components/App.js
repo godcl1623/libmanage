@@ -17,21 +17,28 @@ const App = () => (
     <Global
       styles={css`
       :root {
-        /* margin, padding sizes */
-        // --gap-multiply-big: 25px;
-        --gap-multiply-big: 1.302vw;
-        // --gap-multiply-small: 5px;
-        --gap-multiply-small: 0.26vw;
-        // --gap-standard: 20px;
-        --gap-standard: 1.042vw;
-        /* border-sizes */
-        // --border-rad-big: 10px;
-        --border-rad-big: 0.521vw;
-        // --border-rad-normal: 7px;
-        --border-rad-normal: 0.365vw;
-        /* font-sizes */
-        // --font-size-normal: 20px;
-        --font-size-normal: 1.042vw;
+        @media (orientation: landscape) {
+          /* margin, padding sizes */
+          --gap-multiply-big: 1.302vw;
+          --gap-multiply-small: 0.26vw;
+          --gap-standard: 1.042vw;
+          /* border-sizes */
+          --border-rad-big: 0.521vw;
+          --border-rad-normal: 0.365vw;
+          /* font-sizes */
+          --font-size-normal: 1.042vw;
+        }
+        @media (orientation: portrait) {
+          /* margin, padding sizes */
+          --gap-multiply-big: ${1.302 * 1.778}vw;
+          --gap-multiply-small: ${0.26 * 1.778}vw;
+          --gap-standard: ${1.042 * 1.778}vw;
+          /* border-sizes */
+          --border-rad-big: ${0.521 * 1.778}vw;
+          --border-rad-normal: ${0.365 * 1.778}vw;
+          /* font-sizes */
+          --font-size-normal: ${1.042 * 1.778}vw;
+        }
         /* colors */
         --btn-alert: #F26101;
         --btn-disable: #8AA8B0;
@@ -67,32 +74,64 @@ const App = () => (
           z-index: 0;
         }
 
-        h1 {
-          // font-size: 60px;
-          font-size: 3.125vw;
+        @media (orientation: landscape) {
+          h1 {
+            // font-size: 60px;
+            font-size: 3.125vw;
+          }
+  
+          h2 {
+            font-size: 1.25vw;
+          }
+  
+          h3 {
+            font-size: 0.99vw;
+          }
+  
+          button, input, a {
+            // border-radius: 7px;
+            border-radius: 0.365vw;
+            font-size: 1.042vw;
+          }
+  
+          button {
+            border: none;
+            // box-shadow: 0 0 2px 1px var(--grey-dark);
+            box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
+            background: var(--highlight-light);
+            color: var(--grey-dark);
+            cursor: pointer;
+          }
         }
 
-        h2 {
-          font-size: 1.25vw;
-        }
-
-        h3 {
-          font-size: 0.99vw;
-        }
-
-        button, input, a {
-          // border-radius: 7px;
-          border-radius: 0.365vw;
-          font-size: 1.042vw;
-        }
-
-        button {
-          border: none;
-          // box-shadow: 0 0 2px 1px var(--grey-dark);
-          box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
-          background: var(--highlight-light);
-          color: var(--grey-dark);
-          cursor: pointer;
+        @media (orientation: portrait) {
+          h1 {
+            // font-size: 60px;
+            font-size: ${3.125 * 1.778}vw;
+          }
+  
+          h2 {
+            font-size: ${1.25 * 1.778}vw;
+          }
+  
+          h3 {
+            font-size: ${0.99 * 1.778}vw;
+          }
+  
+          button, input, a {
+            // border-radius: 7px;
+            border-radius: ${0.365 * 1.778}vw;
+            font-size: ${1.042 * 1.778}vw;
+          }
+  
+          button {
+            border: none;
+            // box-shadow: 0 0 2px 1px var(--grey-dark);
+            box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+            background: var(--highlight-light);
+            color: var(--grey-dark);
+            cursor: pointer;
+          }  
         }
 
         input {

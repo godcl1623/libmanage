@@ -57,10 +57,8 @@ const Register = () => {
         padding: var(--gap-standard) 2.083vw;
         border-radius: var(--border-rad-big);
         ${flex.vertical}
-        ${sizes.free('40vw', '100%')}
-        height: max-content;
+        ${sizes.free('40vw', 'max-content')}
         background: white;
-        // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         #register-form {
@@ -133,6 +131,20 @@ const Register = () => {
         #register-form .submit-wrapper button:last-of-type {
           margin-left: var(--gap-multiply-small);
           background: var(--btn-active);
+        }
+
+        @media (orientation: portrait) {
+          padding: var(--gap-standard) ${2.083 * 1.778}vw;
+          ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
+          box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+
+          #register-form .input-wrapper #input-email select {
+            border-radius: ${0.365 * 1.778}vw;
+          }
+
+          #register-form .submit-wrapper {
+            ${sizes.free('100%', '${2.604 * 1.778}vw')}
+          }
         }
       `}
     >
