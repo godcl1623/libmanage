@@ -115,55 +115,55 @@ const Login = () => {
         background: white;
         // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
-
+        
         h1 {
           margin-bottom: calc(var(--gap-multiply-big) * 3);
         }
-
+        
         button {
           background: var(--btn-active);
           color: var(--grey-dark);
         }
-
+        
         #login-form, hr {
           margin-bottom: calc(var(--gap-multiply-big) * 2);
         }
-
+        
         #login-form {
           ${sizes.free('100%')}
           ${flex.vertical}
         }
-
+        
         #login-form * {
           margin: 0.833vw;
         }
-
+        
         #login-form input {
           ${border}
           ${sizes.free('100%', '1.823vw')}
         }
-
+        
         #login-form input:first-of-type {
           margin-top: 0;
         }
-
+        
         #login-form button {
           margin-bottom: 0;
           // height: 50px;
           height: 2.604vw;
         }
-
+        
         .option {
           margin: var(--gap-multiply-big);
           ${flex.horizontal}
           justify-content: space-around;
           ${sizes.free('100%', '2.604vw')}
-
+          
           button, a {
             // height: 50px;
             height: 2.604vw;
           }
-
+          
           a {
             background: var(--btn-active);
             // box-shadow: 0 0 2px 1px var(--grey-dark);
@@ -171,25 +171,60 @@ const Login = () => {
             color: var(--grey-dark);
           }
         }
-
+        
         .option:first-of-type {
           margin-top: 0;
         }
-
+        
         .option a:first-of-type {
           margin-right: var(--gap-multiply-small);
         }
-
+        
         .option a:last-of-type {
           margin-left: var(--gap-multiply-small);
         }
-
+        
         .option button:first-of-type {
           margin-right: var(--gap-multiply-small);
         }
-
+        
         .option button:last-of-type {
           margin-left: var(--gap-multiply-small);
+        }
+        
+        @media (orientation: portrait) {
+          @media (min-width: 720px) {
+            width: ${30 * 1.778}vw;
+            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+  
+            #login-form * {
+              margin: ${0.833 * 1.778}vw;
+            }
+  
+            #login-form input {
+              ${sizes.free('100%', `${1.823 * 1.778}vw`)}
+            }
+  
+            #login-form button {
+              height: ${2.604 * 1.778}vw;
+            }
+  
+            .option {
+              ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+              
+              button, a {
+                height: ${2.604 * 1.778}vw;
+              }
+              
+              a {
+                box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+              }
+            }
+          }
+
+          @media (max-width: 719px) {
+            ${sizes.full}
+          }
         }
       `}
     >

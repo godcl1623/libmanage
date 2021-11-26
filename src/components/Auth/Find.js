@@ -31,8 +31,7 @@ const Find = ({ mode }) => {
         padding: var(--gap-standard);
         border-radius: var(--border-rad-big);
         ${flex.vertical}
-        ${sizes.free('40vw', '100%')}
-        height: max-content;
+        ${sizes.free('40vw', 'max-content')}
         background: white;
         // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
@@ -85,8 +84,7 @@ const Find = ({ mode }) => {
         .form-wrapper {
           border-radius: 0 var(--border-rad-big) var(--border-rad-big);
           ${flex.vertical}
-          ${sizes.free('100%', '50%')}
-          height: max-content;
+          ${sizes.free('100%', 'max-content')}
         }
 
         .form-wrapper form {
@@ -94,19 +92,15 @@ const Find = ({ mode }) => {
         }
         
         .form-wrapper .input-wrapper {
-          // margin-bottom: 80px;
           margin-bottom: 4.167vw;
           ${border}
-          // padding: 20px 10px;
           padding: 1.042vw 0.521vw;
           ${flex.vertical}
-          ${sizes.free('100%', 'calc(100% - 2.604vw)')}
-          height: max-content;
+          ${sizes.free('100%', 'max-content')}
           font-size: var(--font-size-normal);
         }
         
         .form-wrapper .input-wrapper > div {
-          // margin-bottom: 80px;
           margin-bottom: 4.167vw;
           ${flex.vertical}
           align-items: flex-start;
@@ -118,7 +112,6 @@ const Find = ({ mode }) => {
         }
 
         .form-wrapper .input-wrapper > div label {
-          // margin-bottom: 10px;
           margin-bottom: 0.521vw;
           ${sizes.free('30%')}
         }
@@ -143,6 +136,42 @@ const Find = ({ mode }) => {
           // margin-left: 5px;
           margin-left: 0.26vw;
           background: var(--btn-active);
+        }
+
+        @media (orientation: portrait) {
+          ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
+          box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+
+          .tab-wrapper a {
+            border-radius: ${0.365 * 1.778}vw;
+            ${sizes.free('20%', `${1.563 * 1.778}vw`)}
+            font-size: ${0.938 * 1.778}vw;
+          }
+
+          .form-wrapper .input-wrapper {
+            margin-bottom: ${4.167 * 1.778}vw;
+            padding: ${1.042 * 1.778}vw ${0.521 * 1.778}vw;
+          }
+          
+          .form-wrapper .input-wrapper > div {
+            margin-bottom: ${4.167 * 1.778}vw;
+          }
+
+          .form-wrapper .input-wrapper > div label {
+            margin-bottom: ${0.521 * 1.778}vw;
+          }
+
+          .form-wrapper .submit-wrapper {
+            ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+          }
+
+          .form-wrapper .submit-wrapper button:first-of-type {
+            margin-right: ${0.26 * 1.778}vw;
+          }
+
+          .form-wrapper .submit-wrapper button:last-of-type {
+            margin-left: ${0.26 * 1.778}vw;
+          }
         }
       `}
     >
