@@ -145,14 +145,14 @@ const Header = ({ headerRef, setHeight }) => {
         // ? `calc(${btnCoords.topCoord}px)`
         // : `calc(${btnCoords.botCoord}px + 40px)`
         ? `calc(${btnCoords.topCoord / 19.2}vw)`
-        : `calc(${btnCoords.botCoord / 19.2}vw + 2.083vw)`
+        : `calc(${btnCoords.botCoord}px + 3.703vh)`
     }`,
     left: `${
       selectedBtn.current === optionRef.current
         // ? `calc(${btnCoords.leftCoord}px + 100px)`
         // : `calc(${btnCoords.leftCoord}px - 100px)`
         ? `calc(${btnCoords.leftCoord / 19.2}vw + 5.208vw)`
-        : `calc(${btnCoords.leftCoord / 19.2}vw - 5.208vw)`
+        : `calc(${btnCoords.leftCoord}px)`
     }`,
     background: 'var(--btn-active)',
     zIndex: 2
@@ -183,14 +183,14 @@ const Header = ({ headerRef, setHeight }) => {
         // ? `calc(${btnCoords.topCoord}px)`
         // : `calc(${btnCoords.botCoord}px + 10px)`
         ? `calc(${btnCoords.topCoord / 19.2}vw)`
-        : `calc(${btnCoords.botCoord / 19.2}vw + 0.521vw)`
+        : `calc(${btnCoords.botCoord}px + 0.926vh)`
     }`,
     left: `${
       selectedBtn.current === optionRef.current
         // ? `calc(${btnCoords.leftCoord}px + 80px)`
         // : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
-        ? `calc(${btnCoords.leftCoord / 19.2}vw + 4.167vw)`
-        : `calc(${btnCoords.leftCoord / 19.2}vw + ${(btnCoords.btnWidth / 2) / 19.2}vw)`
+        ? `calc(${btnCoords.leftCoord / 19.2}vw + 4.271vw)`
+        : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
     }`,
     transform: 'translate(-50%)',
     display: balloonOrigin === 'Header' ? balloonState : 'none'
@@ -270,6 +270,10 @@ const Header = ({ headerRef, setHeight }) => {
           ${sizes.full}
           ${flex.horizontal}
           position: relative;
+
+          input {
+            ${border}
+          }
         `}
       >
         <input

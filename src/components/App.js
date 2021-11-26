@@ -72,6 +72,14 @@ const App = () => (
           font-size: 3.125vw;
         }
 
+        h2 {
+          font-size: 1.25vw;
+        }
+
+        h3 {
+          font-size: 0.99vw;
+        }
+
         button, input, a {
           // border-radius: 7px;
           border-radius: 0.365vw;
