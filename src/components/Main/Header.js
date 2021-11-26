@@ -51,9 +51,15 @@ const Header = ({ headerRef, setHeight }) => {
     <>
       <button
         css={css`
-          // padding: 5px 20px;
-          padding: 0.26vw 1.042vw;
-          ${sizes.free('80%', '2.344vw')}
+          @media (orientation: landscape) {
+            padding: 0.26vw 1.042vw;
+            ${sizes.free('80%', '2.344vw')}
+          }
+
+          @media (orientation: portrait) {
+            padding: ${0.26 * 1.778}vw ${1.042 * 1.778}vw;
+            ${sizes.free('80%', `${2.344 * 1.778}vw`)}
+          }
         `}
         onClick={() => {
           dispatch(
@@ -120,99 +126,145 @@ const Header = ({ headerRef, setHeight }) => {
       </button>
     );
 
-  const wrapper = {
-    display: balloonOrigin === 'Header' ? balloonState : 'none',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    zIndex: 2
-  };
+  const wrapper = `
+    display: ${balloonOrigin === 'Header' ? balloonState : 'none'};
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  `;
 
-  const style = {
-    // padding: '20px',
-    padding: '1.042vw',
-    display: balloonOrigin === 'Header' ? balloonState : 'none',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // width: '300px',
-    // height: '100px',
-    width: '15.625vw',
-    height: '5.208vw',
-    position: 'absolute',
-    top: `${
+  const style = `
+    padding: var(--gap-standard);
+    display: ${balloonOrigin === 'Header' ? balloonState : 'none'};
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    ${sizes.free('15.625vw', '5.208vw')}
+    position: absolute;
+    top: ${
       selectedBtn.current === optionRef.current
         // ? `calc(${btnCoords.topCoord}px)`
         // : `calc(${btnCoords.botCoord}px + 40px)`
         ? `calc(${btnCoords.topCoord / 19.2}vw)`
         : `calc(${btnCoords.botCoord}px + 3.703vh)`
-    }`,
-    left: `${
+    };
+    left: ${
       selectedBtn.current === optionRef.current
         // ? `calc(${btnCoords.leftCoord}px + 100px)`
         // : `calc(${btnCoords.leftCoord}px - 100px)`
         ? `calc(${btnCoords.leftCoord / 19.2}vw + 5.208vw)`
         : `calc(${btnCoords.leftCoord}px)`
-    }`,
-    background: 'var(--btn-active)',
-    zIndex: 2
-  };
+    };
+    background: var(--btn-active);
+    z-index: 2;
 
-  const hand = {
-    borderTop: selectedBtn.current === optionRef.current
-      // ? '20px solid transparent'
+    @media (orientation: portrait) {
+      ${sizes.free(`${15.625 * 1.778}vw`, `${5.208 * 1.778}vw`)}
+      top: ${
+        selectedBtn.current === optionRef.current
+          // ? `calc(${btnCoords.topCoord}px)`
+          // : `calc(${btnCoords.botCoord}px + 40px)`
+          ? `calc(${(btnCoords.topCoord / 19.2) * 1.778}vw)`
+          : `calc(${btnCoords.botCoord}px + ${3.703 / 1.778}vh)`
+      };
+      left: ${
+        selectedBtn.current === optionRef.current
+          // ? `calc(${btnCoords.leftCoord}px + 100px)`
+          // : `calc(${btnCoords.leftCoord}px - 100px)`
+          ? `calc(${(btnCoords.leftCoord / 19.2) * 1.778}vw + ${5.208 * 1.778}vw)`
+          : `calc(${btnCoords.leftCoord}px - 50px)`
+      };
+    }
+  `;
+
+  const hand = `
+    border-top: ${selectedBtn.current === optionRef.current
+      // ? 20px solid transparent
       ? '1.042vw solid transparent'
-      : 'none', 
-    borderBottom: selectedBtn.current === optionRef.current
-      // ? '20px solid transparent'
+      : 'none'}; 
+    border-bottom: ${selectedBtn.current === optionRef.current
+      // ? 20px solid transparent
       ? '1.042vw solid transparent'
-      // : '40px solid var(--btn-active)',
-      : '2.083vw solid var(--btn-active)',
-    borderRight: selectedBtn.current === optionRef.current
-      // ? '40px solid var(--btn-active)'
+      // : 40px solid var(--btn-active);
+      : '2.083vw solid var(--btn-active)'};
+    border-right: ${selectedBtn.current === optionRef.current
+      // ? 40px solid var(--btn-active)
       ? '2.083vw solid var(--btn-active)'
-      // : '20px solid transparent',
-      : '1.042vw solid transparent',
-    borderLeft: selectedBtn.current === optionRef.current
+      // : 20px solid transparent;
+      : '1.042vw solid transparent'};
+    border-left: ${selectedBtn.current === optionRef.current
       ? 'none'
-      // : '20px solid transparent',
-      : '1.042vw solid transparent',
-    position: 'absolute',
-    top: `${
+      // : 20px solid transparent;
+      : '1.042vw solid transparent'};
+    position: absolute;
+    top: ${
       selectedBtn.current === optionRef.current
         // ? `calc(${btnCoords.topCoord}px)`
         // : `calc(${btnCoords.botCoord}px + 10px)`
         ? `calc(${btnCoords.topCoord / 19.2}vw)`
         : `calc(${btnCoords.botCoord}px + 0.926vh)`
-    }`,
-    left: `${
+    };
+    left: ${
       selectedBtn.current === optionRef.current
         // ? `calc(${btnCoords.leftCoord}px + 80px)`
         // : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
         ? `calc(${btnCoords.leftCoord / 19.2}vw + 4.271vw)`
         : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
-    }`,
-    transform: 'translate(-50%)',
-    display: balloonOrigin === 'Header' ? balloonState : 'none'
-  };
+    };
+    transform: translate(-50%);
+    display: ${balloonOrigin === 'Header' ? balloonState : 'none'};
+
+    @media (orientation: portrait) {
+      border-top: ${selectedBtn.current === optionRef.current
+        // ? 20px solid transparent
+        ? 'var(--gap-standard) solid transparent'
+        : 'none'}; 
+      border-bottom: ${selectedBtn.current === optionRef.current
+        // ? 20px solid transparent
+        ? 'var(--gap-standard) solid transparent'
+        // : 40px solid var(--btn-active);
+        : 'calc(var(--gap-standard) * 2) solid var(--btn-active)'};
+      border-right: ${selectedBtn.current === optionRef.current
+        // ? 40px solid var(--btn-active)
+        ? 'calc(var(--gap-standard) * 2) solid var(--btn-active)'
+        // : 20px solid transparent;
+        : 'var(--gap-standard) solid transparent'};
+      border-left: ${selectedBtn.current === optionRef.current
+        ? 'none'
+        // : 20px solid transparent;
+        : 'var(--gap-standard) solid transparent'};
+      top: ${
+        selectedBtn.current === optionRef.current
+          // ? `calc(${btnCoords.topCoord}px)`
+          // : `calc(${btnCoords.botCoord}px + 10px)`
+          ? `calc(${(btnCoords.topCoord / 19.2) * 1.778}vw)`
+          : `calc(${btnCoords.botCoord}px + ${0.926 / 1.778}vh)`
+      };
+      left: ${
+        selectedBtn.current === optionRef.current
+          // ? `calc(${btnCoords.leftCoord}px + 80px)`
+          // : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
+          ? `calc(${(btnCoords.leftCoord / 19.2) * 1.778}vw + ${4.271 * 1.778}vw)`
+          : `calc(${btnCoords.leftCoord}px + ${btnCoords.btnWidth / 2}px)`
+      };
+    }
+  `;
 
   return (
     <header
       id="header"
       ref={headerRef}
       css={css`
-        // border-bottom: 1px solid var(--grey-dark);
         border-bottom: 0.052vw solid var(--grey-dark);
-        // padding: 5px 0;
-        padding: 0.26vw 0;
+        padding: var(--gap-multiply-small) 0;
         ${flex.horizontal}
         justify-content: space-between;
         ${sizes.free('100%', '2.604vw')}
         background: white;
 
         button {
-          // padding: 5px 15px;
-          padding: 0.26vw 0.781vw;
+          padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
           cursor: pointer;
 
             :hover {
@@ -226,14 +278,22 @@ const Header = ({ headerRef, setHeight }) => {
                       transform: scale(0.95);
             }
         }
+
+        @media (orientation: portrait) {
+          border-bottom: ${0.052 * 1.778}vw solid var(--grey-dark);
+          ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+        }
       `}
     >
       <div
         className="space-divider"
         css={css`
-          // padding-left: 20px;
           padding-left: 1.042vw;
           flex: 1;
+
+          @media (orientation: portrait) {
+            padding-left: ${1.042 * 1.778}vw;
+          }
         `}
       >
         <button
@@ -242,6 +302,10 @@ const Header = ({ headerRef, setHeight }) => {
           css={css`
             ${flex.vertical}
             ${sizes.free('auto', '1.823vw')}
+
+            @media (orientation: portrait) {
+              ${sizes.free('auto', `${1.823 * 1.778}vw`)}
+            }
           `}
           onClick={e => {
             const { left, top, bottom } = optionRef.current.getBoundingClientRect();
@@ -302,6 +366,10 @@ const Header = ({ headerRef, setHeight }) => {
             :hover {
               background: none;
             }
+
+            @media (orientation: portrait) {
+              ${sizes.free(`${1.563 * 1.778}vw`)};
+            }
           `}
           onClick={e => {
             e.preventDefault();
@@ -334,8 +402,7 @@ const Header = ({ headerRef, setHeight }) => {
           <button
             id="member-info"
             css={css`
-              // padding: 0 20px;
-              padding: 0 1.042vw;
+              padding: 0 var(--gap-standard);
             `}
             ref={memberRef}
             onClick={() => {
@@ -355,8 +422,7 @@ const Header = ({ headerRef, setHeight }) => {
         </div>
         <div
           css={css`
-            // padding-right: 20px;
-            padding-right: 1.042vw;
+            padding-right: var(--gap-standard);
             flex: 1;
           `}
         >
