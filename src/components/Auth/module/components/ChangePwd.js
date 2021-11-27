@@ -45,14 +45,11 @@ const ChangePwd = ({ token, reqTime }) => {
     <form
       css={css`
         border-radius: var(--border-rad-big);
-        // padding: 40px;
-        padding: 2.083vw;
+        padding: calc(var(--gap-standard) * 2);
         background: white;
-        ${sizes.free('40%', '50%')}
-        height: max-content;
+        ${sizes.free('40%', 'max-content')}
         ${flex.vertical}
         justify-content: space-between;
-        // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         .input-wrapper {
@@ -70,6 +67,7 @@ const ChangePwd = ({ token, reqTime }) => {
           }
 
           .verify-error {
+            margin-bottom: calc(var(--gap-multiply-big) * 2);
             color: red;
             font-weight: bold;
           }
@@ -95,6 +93,23 @@ const ChangePwd = ({ token, reqTime }) => {
           button:last-of-type {
             margin-left: var(--gap-multiply-small);
             background: var(--btn-active);
+          }
+        }
+
+        @media (orientation: portrait) {
+          ${sizes.free('60%', 'max-content')}
+          box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
+
+          .submit-wrapper {
+            ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+
+            button:first-of-type {
+              margin-right: calc(var(--gap-multiply-small) * 2);
+            }
+
+            button:last-of-type {
+              margin-left: calc(var(--gap-multiply-small) * 2);
+            }
           }
         }
       `}

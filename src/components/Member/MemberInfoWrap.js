@@ -26,14 +26,11 @@ const MemberInfoWrap = () => {
       <div
         className='member-info-contents-wrap'
         css={css`
-          // padding: 40px 20px;
-          padding: 2.083vw 1.042vw;
+          padding: calc(var(--gap-standard) * 2) var(--gap-standard);
           ${sizes.full}
-          * {
-            // ${border}
-          }
+
           .member-info-contents {
-            ${sizes.free('100%', 'calc(100% - 2.083vw)')}
+            ${sizes.free('100%', 'calc(100% - calc(var(--gap-standard) * 2))')}
           }
         `}
       >
@@ -45,8 +42,7 @@ const MemberInfoWrap = () => {
                   className='member-info-contents-tab-wrap'
                   css={css`
                     button {
-                      // padding: 5px 15px;
-                      padding: 0.26vw 0.781vw;
+                      padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
                       ${border}
                       border-bottom: none;
                       box-shadow: none;
@@ -65,15 +61,13 @@ const MemberInfoWrap = () => {
                     }
 
                     button:first-of-type {
-                      // border-radius: 7px 0 0 0;
-                      border-radius: 0.365vw 0 0 0;
+                      border-radius: var(--border-rad-normal) 0 0 0;
                       border-right: none;
                       background: ${tabState === 'modify' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                     }
 
                     button:last-of-type {
-                      // border-radius: 0 7px 0 0;
-                      border-radius: 0 0.365vw 0 0;
+                      border-radius: 0 var(--border-rad-normal) 0 0;
                       background: ${tabState === 'modify' ? 'var(--btn-disable)' : 'var(--highlight-light)'};
                     }
                   `}

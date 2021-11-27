@@ -70,37 +70,29 @@ const ModMemInfo = ({ userState }) => {
         }
 
         #contents-divider {
-          margin-bottom: 2.083vw;
-          // padding: 20px 0;
-          // padding: 1.042vw 0;
+          margin-bottom: calc(var(--gap-standard) * 2);
           ${border}
         }
 
         .input_container {
-          // margin-top: 20px;
-          // padding: 0 20px;
-          margin-top: 1.042vw;
-          padding: 0 1.042vw;
+          margin-top: var(--gap-standard);
+          padding: 0 var(--gap-standard);
           ${flex.vertical}
           align-items: flex-start;
 
           label {
-            // padding-left: 20px;
-            // font-size: 20px;
-            padding-left: 1.042vw;
-            font-size: 1.042vw;
+            padding-left: var(--gap-standard);
+            font-size: var(--font-size-normal);
           }
 
           input {
-            // margin: 10px 0;
-            margin: 0.521vw 0;
+            margin: calc(var(--gap-standard) / 2) 0;
             ${border}
             ${sizes.free('100%')}
           }
 
           p {
-            // font-size: 20px;
-            font-size: 1.042vw;
+            font-size: var(--font-size-normal);
           }
         }
 
@@ -125,8 +117,7 @@ const ModMemInfo = ({ userState }) => {
 
           select {
             ${border}
-            // border-radius: 7px;
-            border-radius: 0.365vw;
+            border-radius: var(--border-rad-normal);
             padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
             ${sizes.free('48%')}
             display: inline-block;
@@ -137,7 +128,7 @@ const ModMemInfo = ({ userState }) => {
 
         .submit-container {
           ${flex.horizontal}
-          ${sizes.free('100%', '2.604vw')}
+          ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
 
           button:first-of-type {
             margin-right: var(--gap-multiply-small);
@@ -145,6 +136,18 @@ const ModMemInfo = ({ userState }) => {
 
           button:last-of-type {
             margin-left: var(--gap-multiply-small);
+          }
+        }
+
+        @media (orientation: portrait) {
+          .submit-container {
+            button:first-of-type {
+              margin-right: calc(var(--gap-multiply-small) * 2);
+            }
+  
+            button:last-of-type {
+              margin-left: calc(var(--gap-multiply-small) * 2);
+            }
           }
         }
       `}

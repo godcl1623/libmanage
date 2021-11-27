@@ -26,15 +26,12 @@ const menu = (value, storeList, dispatch, filterStores) => {
                   dispatch(filterStores('all'));
                 }}
                 css={css`
-                  // border-radius: 7px;
-                  // box-shadow: 0 0 1px 1px var(--grey-dark);
-                  border-radius: 0.365vw;
+                  border-radius: var(--border-rad-normal);
                   box-shadow: 0 0 0.052vw 0.052vw var(--grey-dark);
-                  ${sizes.free('2.604vw', '1.302vw')}
+                  ${sizes.free('calc(var(--gap-multiply-big) * 2)', 'var(--gap-multiply-big)')}
                   display: inline-block;
                   text-align: center;
-                  // font-size: 16px;
-                  font-size: 0.833vw;
+                  font-size: var(--font-size-standard);
                   cursor: pointer;
 
                   :hover {
@@ -110,24 +107,24 @@ const Navigation = ({ storesList }) => {
     <nav
       id="navigation"
       css={css`
-        // padding: 20px;
-        padding: 1.042vw;
+        padding: var(--gap-standard);
         flex: 1;
         ${sizes.full}
         background: white;
 
         .category {
-          // margin-bottom: 50px;
-          margin-bottom: 2.604vw;
+          margin-bottom: calc(var(--gap-multiply-big) * 2);
         }
 
         .category-header {
-          // border: 4px solid black;
-          // padding: 5px 10px;
           border: 0.208vw solid black;
-          padding: 0.26vw 0.521vw;
+          padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
           ${flex.horizontal}
           ${sizes.full}
+
+          @media (orientation: portrait) {
+            border: ${0.208 * 1.778}vw solid black;
+          }
         }
 
         h2 {
@@ -136,11 +133,9 @@ const Navigation = ({ storesList }) => {
 
         p {
           ${border}
-          // padding: 5px;
-          padding: 0.26vw;
+          padding: var(--gap-multiply-small);
           font-size: var(--font-size-normal);
-          // padding-left: 20px;
-          padding-left: 1.042vw;
+          padding-left: var(--gap-standard);
         }
       `}
     >
@@ -150,9 +145,7 @@ const Navigation = ({ storesList }) => {
         value={selectedCategory}
         onChange={e => dispatch(selectedCategoryCreator(e.target.value))}
         css={css`
-          // margin-bottom: 20px;
-          // padding: 3px 15px;
-          margin-bottom: 1.042vw;
+          margin-bottom: var(--gap-standard);
           ${border}
           padding: 0.156vw 0.781vw;
           font-size: var(--font-size-normal);
@@ -161,8 +154,11 @@ const Navigation = ({ storesList }) => {
           cursor: pointer;
 
           option {
-            // font-size: 16px;
-            font-size: 0.833vw;
+            font-size: var(--font-size-standard);
+          }
+
+          @media (orientation: portrait) {
+            padding: ${0.156 * 1.778}vw ${0.781 * 1.778}vw;
           }
         `}
       >

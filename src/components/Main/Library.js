@@ -23,15 +23,13 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
     <div
       className="balloon-display"
       css={css`
-        // margin: 10px;
-        margin: 0.521vw;
+        margin: calc(var(--gap-multiply-small) * 2);
         ${flex.horizontal}
         justify-content: space-between;
         ${sizes.free('100%')}
 
         * {
-          // margin: 0 5px;
-          margin: 0 0.26vw;
+          margin: 0 var(--gap-multiply-small);
         }
 
         .balloon-header {
@@ -44,8 +42,7 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
           justify-content: space-around;
 
           .balloon-btn {
-            // padding: 5px;
-            padding: 0.26vw;
+            padding: var(--gap-multiply-small);
             cursor: pointer;
             :hover {
               -webkit-filter: brightness(90%);
@@ -99,7 +96,7 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
         ${flex.horizontal}
         ${sizes.free('100%')}
         p {
-          font-size: 0.833vw;
+          font-size: var(--font-size-standard);
         }
       `}
     >
@@ -111,8 +108,7 @@ const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayTy
         max="15"
         value={coverSize}
         css={css`
-          // margin: 10px;
-          margin: 0.521vw;
+          margin: calc(var(--gap-multiply-small) * 2);
           padding: 0;
           width: 100%;
           cursor: pointer;
@@ -150,10 +146,8 @@ const makeList = (...args) => {
             <li
               key={index}
               css={css`
-                // padding: 10px 30px;
-                // font-size: 20px;
-                padding: 0.521vw 1.563vw;
-                font-size: 1.042vw;
+                padding: calc(var(--gap-multiply-small) * 2) calc(var(--gap-multiply-small) * 6);
+                font-size: var(--font-size-normal);
                 cursor: pointer;
                 background: white;
               `}
@@ -227,8 +221,7 @@ const makeList = (...args) => {
             <li
               key={`img-${index}`}
               css={css`
-                // margin: 10px;
-                margin: 0.521vw;
+                margin: calc(var(--gap-multiply-small) * 2);
                 height: ${size}vw;
                 flex: 0 0 10%;
                 ${flex.horizontal}
@@ -316,8 +309,7 @@ const makeList = (...args) => {
   }
 };
 
-const Library = ({ userLib }) => {
-  // const [balloonState, setBalloonState] = React.useState('none');
+const Library = ({ userLib, coverSize, setCoverSize }) => {
   const balloonState = useSelector(state => state.balloonState);
   const balloonOrigin = useSelector(state => state.balloonOrigin);
   const libDisplay = useSelector(state => state.libDisplay);
@@ -327,10 +319,8 @@ const Library = ({ userLib }) => {
   const extCredState = useSelector(state => state.extCredState);
   const librarySearch = useSelector(state => state.librarySearch);
   const [btnCoords, setBtnCoords] = React.useState({});
-  const [coverSize, setCoverSize] = React.useState(10);
   const [localSelectedItem, setLocalSelectedItem] = React.useState('');
   const [localSelectedItemData, setLocalSelectedItemData] = React.useState({});
-  // const [apiAuth, setApiAuth] = React.useState('');
   const dispatch = useDispatch();
   const ref = React.useRef();
   const updateBtnCoords = (left, top, height) => {
@@ -360,59 +350,56 @@ const Library = ({ userLib }) => {
     }
   }, [localSelectedItem, localSelectedItemData]);
 
-  const wrapper = {
-    display: balloonOrigin === 'Library' ? balloonState : 'none',
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    zIndex: 2
-  };
+  const wrapper = `
+    display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+  `;
 
-  const style = {
-    // padding: '20px',
-    padding: '1.042vw',
-    display: balloonOrigin === 'Library' ? balloonState : 'none',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    // width: '300px',
-    // height: '150px',
-    width: '15.625vw',
-    height: '7.813vw',
-    position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px + 3.241vh)`,
-    // top: `calc(${btnCoords.topCoord / 19.2}vw + 2.083vw)`,
-    // right: `30px`,
-    right: `1.563vw`,
-    background: 'var(--btn-active)',
-    zIndex: 2
-  };
+  const style = `
+    padding: var(--gap-standard);
+    display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    ${sizes.free('15.625vw', '7.813vw')}
+    position: absolute;
+    top: calc(${btnCoords.topCoord}px + 3.241vh);
+    right: 1.563vw;
+    background: var(--btn-active);
+    z-index: 2;
 
-  const hand = {
-    // borderLeft: '20px solid transparent',
-    // borderRight: '20px solid transparent',
-    // borderBottom: '40px solid var(--btn-active)',
-    borderLeft: '1.042vw solid transparent',
-    borderRight: '1.042vw solid transparent',
-    borderBottom: '2.083vw solid var(--btn-active)',
-    position: 'absolute',
-    top: `calc(${btnCoords.topCoord}px + 0.463vh)`,
-    // right: `30px`,
-    // top: `calc(${btnCoords.topCoord / 19.2}vw)`,
-    right: `1.563vw`,
-    display: balloonOrigin === 'Library' ? balloonState : 'none'
-  };
+    @media (orientation: portrait) {
+      ${sizes.free(`${15.625 * 1.778}vw`, `${7.813 * 1.778}vw`)}
+      top: calc(${btnCoords.topCoord}px + ${3.241 / 1.778}vh);
+      right: ${1.563 * 1.778}vw;
+    }
+  `;
+
+  const hand = `
+    border-left: var(--gap-standard) solid transparent;
+    border-right: var(--gap-standard) solid transparent;
+    border-bottom: calc(var(--gap-standard) * 2) solid var(--btn-active);
+    position: absolute;
+    top: calc(${btnCoords.topCoord}px + 0.463vh);
+    right: 1.563vw;
+    display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
+
+    @media (orientation: portrait) {
+      top: calc(${btnCoords.topCoord}px + ${0.463 / 1.778}vh);
+      right: ${1.563 * 1.778}vw;
+    }
+  `;
 
   return (
     <article
       id="library"
       css={css`
-        // border-left: 1px solid black;
-        // border-right: 1px solid black;
-        // padding: 40px 20px;
         border-left: 0.052vw solid black;
         border-right: 0.052vw solid black;
-        padding: 2.083vw 1.042vw;
+        padding: calc(var(--gap-standard) * 2) var(--gap-standard);
         flex: 2;
         overflow: hidden;
         height: 100%;
@@ -434,10 +421,9 @@ const Library = ({ userLib }) => {
         css={css`
           ${flex.vertical}
           position: absolute;
-          // right: 30px;
           right: 1.563vw;
           ${sizes.free('2.604vw', '1.823vw')}
-          z-index: 2;
+          z-index: 1;
           cursor: pointer;
           :hover {
             -webkit-filter: brightness(90%);
@@ -448,6 +434,11 @@ const Library = ({ userLib }) => {
             -webkit-transform: scale(0.98);
                 -ms-transform: scale(0.98);
                     transform: scale(0.98);
+          }
+
+          @media (orientation: portrait) {
+            right: ${1.563 * 1.778}vw;
+            ${sizes.free(`${2.604 * 1.778}vw`, `${1.823 * 1.778}vw`)}
           }
         `}
       >
@@ -471,7 +462,7 @@ const Library = ({ userLib }) => {
         id="contents-lists"
         css={css`
           display: ${libDisplay === 'cover' ? 'flex' : 'inline-block'};
-          ${sizes.free('100%', 'calc(100%)')}
+          ${sizes.full}
           flex-wrap: wrap;
           overflow: scroll;
         `}
