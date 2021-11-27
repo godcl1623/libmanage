@@ -27,6 +27,7 @@ const App = () => (
           --border-rad-normal: 0.365vw;
           /* font-sizes */
           --font-size-normal: 1.042vw;
+          --font-size-standard: 0.833vw;
         }
         @media (orientation: portrait) {
           /* margin, padding sizes */
@@ -38,6 +39,7 @@ const App = () => (
           --border-rad-normal: ${0.365 * 1.778}vw;
           /* font-sizes */
           --font-size-normal: ${1.042 * 1.778}vw;
+          --font-size-standard: ${0.833 * 1.778}vw;
         }
         /* colors */
         --btn-alert: #F26101;

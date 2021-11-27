@@ -15,11 +15,10 @@ const CheckMemInfo = ({ userState, setState}) => (
       ${sizes.full}
 
       .input_container {
-        // margin: 80px 0;
         margin: 4.167vw 0;
 
         label {
-          font-size: 0.833vw;
+          font-size: var(--font-size-standard);
         }
       }
 
@@ -28,19 +27,32 @@ const CheckMemInfo = ({ userState, setState}) => (
         ${flex.horizontal}
 
         button {
-          ${sizes.free('100%', '2.604vw')}
-          // font-size: 20px;
-          font-size: 1.042vw;
+          ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
+          font-size: var(--font-size-normal);
         }
 
         button:first-of-type {
-          // margin-right: 5px;
-          margin-right: 0.26vw;
+          margin-right: var(--gap-multiply-small);
         }
 
         button:last-of-type {
-          // margin-left: 5px;
-          margin-left: 0.26vw;
+          margin-left: var(--gap-multiply-small);
+        }
+      }
+
+      @media (orientation: portrait) {
+        .input_container {
+          margin: ${4.167 * 1.778}vw 0;
+        }
+
+        .submit_container {
+          button:first-of-type {
+            margin-right: calc(var(--gap-multiply-small) * 2);
+          }
+  
+          button:last-of-type {
+            margin-left: calc(var(--gap-multiply-small) * 2);
+          }
         }
       }
     `}

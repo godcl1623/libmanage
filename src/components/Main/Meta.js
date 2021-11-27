@@ -11,6 +11,7 @@ import {
 } from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
+import ToBack from './utils/ToBack';
 
 const MakeMediaList = ({ ...props }) => {
   const {
@@ -263,20 +264,13 @@ const Meta = () => {
         overflow-y: scroll;
         background: white;
 
-        * {
-          // ${border}
-        }
-
         h2 {
-          // padding-top: 20px;
-          // font-size: 35px;
-          padding-top: 1.042vw;
+          padding-top: var(--gap-standard);
           font-size: 1.823vw;
           text-align: center;
         }
 
         h3 {
-          // font-size: 30px;
           font-size: 1.563vw;
         }
 
@@ -288,8 +282,7 @@ const Meta = () => {
         }
 
         .meta-wrapper-top {
-          // padding: 20px 40px;
-          padding: 1.042vw 2.083vw;
+          padding: var(--gap-standard) calc(var(--gap-standard) * 2);
           z-index: 1;
           position: relative;
           background: rgba(255, 255, 255, 0.6);
@@ -299,12 +292,10 @@ const Meta = () => {
           .meta-wrapper-ratings {
             ${flex.horizontal}
             ${sizes.full}
-            // max-height: 250px;
             max-height: 13.021vw;
             justify-content: flex-end;
 
             #game-cover {
-              // height: 250px;
               height: 13.021vw;
             }
 
@@ -313,7 +304,6 @@ const Meta = () => {
               ${flex.vertical}
               
               h4 {
-                // font-size: 18px;
                 font-size: 0.938vw;
               }
 
@@ -323,17 +313,13 @@ const Meta = () => {
                 justify-content: space-around;
 
                 #game-scores {
-                  // padding: 20px 0;
-                  padding: 1.042vw 0;
+                  padding: var(--gap-standard) 0;
                   ${sizes.full}
                   ${flex.vertical}
 
                   .donut-boundary {
                     position: relative;
-                    // width: 120px;
-                    // height: 120px;
-                    width: 6.25vw;
-                    height: 6.25vw;
+                    ${sizes.free(`6.25vw`, `6.25vw`)}
                   }
                   
                   .donut-outline {
@@ -354,10 +340,7 @@ const Meta = () => {
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    // width: 75px;
-                    // height: 75px;
-                    width: 3.906vw;
-                    height: 3.906vw;
+                    ${sizes.free(`3.906vw`, `3.906vw`)}
                     background: var(--white);
                     position: absolute;
                     border-radius: 50%;
@@ -381,7 +364,6 @@ const Meta = () => {
 
                   .instalment1 .donut-case::before {
                     content: "";
-                    // clip: rect(0 120px 60px 0);
                     clip: rect(0 6.302vw 3.177vw 0);
                     transform: rotate(${metaScore <= 50 ? `${450 - (metaScore)*3.6}deg` : '270deg'});
                     background: var(--btn-active);
@@ -395,7 +377,6 @@ const Meta = () => {
 
                   .instalment1 .donut-case::after {
                     content: "";
-                    // clip: rect(0 60px 120px 0);
                     clip: rect(0 3.177vw 6.302vw 0);
                     transform: rotate(${metaScore > 50 ? `${360 - (metaScore - 50)*3.6}deg` : '180deg'});
                     background: ${metaScore > 50 ? 'var(--btn-active)' : 'var(--grey-dark)'};
@@ -410,7 +391,6 @@ const Meta = () => {
                   .instalment1 .donut-graph-border::before {
                     content: "";
                     width: 50%;
-                    // height: 2px;
                     height: 0.104vw;
                     position: absolute;
                     top: 50%;
@@ -424,7 +404,6 @@ const Meta = () => {
                   .instalment1 .donut-graph-border::after {
                     content: "";
                     width: 50%;
-                    // height: 2px;
                     height: 0.104vw;
                     position: absolute;
                     top: 50%;
@@ -438,8 +417,7 @@ const Meta = () => {
                 }
 
                 #age-rating-wrapper {
-                  // padding: 20px 0;
-                  padding: 1.042vw 0;
+                  padding: var(--gap-standard) 0;
                   ${sizes.full}
                   ${flex.vertical}
 
@@ -448,13 +426,11 @@ const Meta = () => {
                     ${flex.horizontal}
 
                     img {
-                      // height: 100px;
                       height: 5.208vw;
                     }
 
                     img:first-of-type {
-                      // margin-right: 20px;
-                      margin-right: 1.042vw;
+                      margin-right: var(--gap-standard);
                     }
                   }
                 }
@@ -464,12 +440,9 @@ const Meta = () => {
 
           .meta-wrapper-contents {
             p#summary-container {
-              // margin: 30px 0;
-              // padding: 20px 40px;
-              // font-size: 20px;
               margin: 1.563vw 0;
-              padding: 1.042vw 2.083vw;
-              font-size: 1.042vw;
+              padding: var(--gap-standard) calc(var(--gap-standard) * 2);
+              font-size: var(--font-size-normal);
 
               button {
                 border: none;
@@ -482,8 +455,6 @@ const Meta = () => {
             }
 
             .meta-wrapper-contents-media {
-              // margin-top: 30px;
-              // margin-bottom: 50px;
               margin-top: 1.563vw;
               margin-bottom: 2.604vw;
             }
@@ -491,11 +462,9 @@ const Meta = () => {
               .media-tabs {
                 button {
                   border-radius: 0;
-                  // box-shadow: 0 -1px 2px 1px var(--grey-dark);
                   box-shadow: 0 -0.052vw 0.104vw 0.052vw var(--grey-dark);
                   border-bottom: none;
-                  // padding: 5px 10px;
-                  padding: 0.26vw 0.521vw;
+                  padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
                   cursor: pointer;
 
                   :hover {
@@ -510,8 +479,7 @@ const Meta = () => {
                 }
 
                 button:first-of-type {
-                  // border-radius: 10px 0 0 0;
-                  border-radius: 0.521vw 0 0 0;
+                  border-radius: var(--border-rad-big) 0 0 0;
                   background: ${selectedMedia === 'screenshots' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                 }
 
@@ -520,21 +488,17 @@ const Meta = () => {
                 }
 
                 button:last-of-type {
-                  // border-radius: 0 10px 0 0;
-                  border-radius: 0 0.521vw 0 0;
+                  border-radius: 0 var(--border-rad-big) 0 0;
                   background: ${selectedMedia === 'artworks' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
                 }
               }
 
               .media-contents {
-                // padding: 20px;
-                // box-shadow: 0 0 2px 1px var(--grey-dark);
-                padding: 1.042vw;
+                padding: var(--gap-standard);
                 box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(20%, auto));
-                // gap: 30px 20px;
-                gap: 1.563vw 1.042vw;
+                gap: calc(var(--gap-standard) * 1.5) var(--gap-standard);
                 justify-items: center;
 
                 .media-wrapper {
@@ -556,15 +520,11 @@ const Meta = () => {
 
                     .player-btn {
                       display: none;
-                      // border: 15px solid transparent;
-                      // border-left: 25px solid white;
-                      // border-right: 5px solid transparent;
                       border: 0.781vw solid transparent;
                       border-left: 1.302vw solid white;
                       border-right: 0.26vw solid transparent;
                       position: absolute;
                       top: 50%;
-                      // left: calc(50% + 5px);
                       left: calc(50% + 0.26vw);
                       transform: translate(-50%, -50%);
                       z-index: 1;
@@ -587,6 +547,108 @@ const Meta = () => {
 
                   img {
                     ${sizes.free('6.25vw', '4.688vw')}
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        @media (orientation: portrait) {
+          h2 {
+            font-size: ${1.823 * 1.778}vw;
+          }
+
+          h3 {
+            font-size: ${1.563 * 1.778}vw;
+          }
+
+          .meta-wrapper-top {
+            .meta-wrapper-ratings {
+              max-height: ${13.021 * 1.778}vw;
+
+              #game-cover {
+                height: ${13.021 * 1.778}vw;
+              }
+
+              #title-and-numerical {
+                h4 {
+                  font-size: ${0.938 * 1.778}vw;
+                }
+  
+                #numerical-data {
+                  #game-scores {
+                    .donut-boundary {
+                      ${sizes.free(`${6.25 * 1.778}vw`, `${6.25 * 1.778}vw`)}
+                    }
+
+                    .donut-text {
+                      ${sizes.free(`${3.906 * 1.778}vw`, `${3.906 * 1.778}vw`)}
+                    }
+
+                    .instalment1 .donut-case::before {
+                      clip: rect(0 ${6.302 * 1.778}vw ${3.177 * 1.778}vw 0);
+                    }
+  
+                    .instalment1 .donut-case::after {
+                      clip: rect(0 ${3.177 * 1.778}vw ${6.302 * 1.778}vw 0);
+                    }
+  
+                    .instalment1 .donut-graph-border::before {
+                      height: ${0.104 * 1.778}vw;
+                    }
+  
+                    .instalment1 .donut-graph-border::after {
+                      height: ${0.104 * 1.778}vw;
+                    }
+                  }
+  
+                  #age-rating-wrapper {
+                    #rating-imgs {
+                      img {
+                        height: ${5.208 * 1.778}vw;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+  
+            .meta-wrapper-contents {
+              p#summary-container {
+                margin: ${1.563 * 1.778}vw 0;
+
+              .meta-wrapper-contents-media {
+                margin-top: ${1.563 * 1.778}vw;
+                margin-bottom: ${2.604 * 1.778}vw;
+              }
+
+              .media-contents-wrapper {
+                .media-tabs {
+                  button {
+                    box-shadow: 0 -${0.052 * 1.778}vw ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+                  }
+                }
+  
+                .media-contents {
+                  box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+
+                  .media-wrapper {
+                    .player-btn-wrapper {
+                      .player-btn {
+                        border: ${0.781 * 1.778}vw solid transparent;
+                        border-left: ${1.302 * 1.778}vw solid white;
+                        border-right: ${0.26 * 1.778}vw solid transparent;
+                      }
+  
+                      svg {
+                        ${sizes.free(`${1.563 * 1.778}vw`, `${1.563 * 1.778}vw`)}
+                      }
+                    }
+  
+                    img {
+                      ${sizes.free(`${6.25 * 1.778}vw`, `${4.688 * 1.778}vw`)}
+                    }
                   }
                 }
               }
@@ -720,12 +782,9 @@ const Meta = () => {
               border-bottom: none;
 
               .table-title {
-                // border-bottom: 1px solid black;
-                // border-right: 3px double black;
-                // padding: 20px 0;
                 border-bottom: 0.052vw solid black;
                 border-right: 0.156vw double black;
-                padding: 1.042vw 0;
+                padding: var(--gap-standard) 0;
                 ${flex.vertical}
                 background: var(--btn-disable);
                 color: var(--white);
@@ -739,21 +798,16 @@ const Meta = () => {
                 font-size: 0.833vw;
 
                 div {
-                  // border-bottom: 1px solid black;
-                  // padding: 5px 0;
                   border-bottom: 0.052vw solid black;
-                  padding: 0.26vw 0;
+                  padding: var(--gap-multiply-small) 0;
                   ${sizes.full}
                   ${flex.vertical}
                 }
               }
               .table-sub-title, .table-sub-contents {
-                // border-bottom: 1px solid black;
-                // border-right: 1px solid black;
-                // padding: 5px 0;
                 border-bottom: 0.052vw solid black;
                 border-right: 0.052vw solid black;
-                padding: 0.26vw 0;
+                padding: var(--gap-multiply-small) 0;
                 ${flex.vertical}
                 font-size: 0.833vw;
                 font-weight: bold;
@@ -762,6 +816,28 @@ const Meta = () => {
               .table-sub-contents {
                 border-right: none;
                 font-weight: normal;
+              }
+
+              @media (orientation: portrait) {
+                .table-title {
+                  border-bottom: ${0.052 * 1.778}vw solid black;
+                  border-right: ${0.156 * 1.778}vw double black;
+                  font-size: ${0.938 * 1.778}vw;
+                }
+
+                .table-contents {
+                  font-size: ${0.833 * 1.778}vw;
+
+                  div {
+                    border-bottom: ${0.052 * 1.778}vw solid black;
+                  }
+                }
+
+                .table-sub-title, .table-sub-contents {
+                  border-bottom: ${0.052 * 1.778}vw solid black;
+                  border-right: ${0.052 * 1.778}vw solid black;
+                  font-size: ${0.833 * 1.778}vw;
+                }
               }
             `}
           >
@@ -973,6 +1049,7 @@ const Meta = () => {
           </article>
         </article>
       </article>
+      <ToBack />
     </article>
   );
 };

@@ -36,6 +36,10 @@ const Reset = () => {
   const requestedTime = now();
 
   useEffect(() => {
+    dispatch(setTokenState(false))
+  }, [])
+
+  useEffect(() => {
     const abortCon = new AbortController();
     const postData = {
       tokenTail,
@@ -83,15 +87,12 @@ const Reset = () => {
             ${sizes.free('40%', '50%')}
             ${flex.vertical}
             background: white;
-            // box-shadow: 0 0 10px 1px var(--grey-dark);
             box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
             #to_home {
-              // margin-top: 100px;
-              margin-top: 5.208vw;
+              margin-top: calc(var(--gap-multiply-big) * 4);
               ${flex.horizontal}
-              // font-size: 40px;
-              font-size: 2.083vw;
+              font-size: calc(var(--font-size-normal) * 2);
               text-decoration: none;
               color: var(--grey-dark);
 
@@ -100,6 +101,11 @@ const Reset = () => {
                     -ms-transform: scale(0.98);
                         transform: scale(0.98);
               }
+            }
+
+            @media (orientation: portrait) {
+              ${sizes.free('70%', '35%')}
+              box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
             }
           `}
         >

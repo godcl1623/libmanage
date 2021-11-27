@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, useDispatch } from 'react-redux';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { modalStateCreator, selectedMediaIdCreator } from '../../actions';
 
 const Modal = ({ style, contents, origin }) => {
@@ -34,9 +36,9 @@ const Modal = ({ style, contents, origin }) => {
     >
       <div
         className="modal-body"
-        style={{
-          ...style
-        }}
+        css={css`
+          ${style}
+        `}
       >
         { contents() }
       </div>

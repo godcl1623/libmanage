@@ -26,16 +26,17 @@ import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 import signin from '../../assets/sits_large_noborder.png';
 
-const modalOption = origin => ({
-  position: 'absolute',
-  width: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '60vw' : '50%') : '45%',
-  height: origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? `${60 * 9 / 16}vw` : '50%') : 'max-content',
-  background: 'white',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  zIndex: '2'
-});
+const modalOption = origin => (`
+  position: absolute;
+  width: ${origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90vw' : '50%') : '45%'};
+  height: ${origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? `${90 * 9 / 16}vw` : 'max-content') : 'max-content'};
+  ${flex.vertical}
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+`);
 
 const modalContents = (...args) => {
   const [
@@ -61,56 +62,58 @@ const modalContents = (...args) => {
       return (
         <article
           css={css`
-            // padding: 40px 20px;
-            padding: 2.083vw 1.042vw;
+            padding: calc(var(--gap-standard) * 2) var(--gap-standard);
             ${sizes.full}
             ${flex.vertical}
             align-items: flex-start;
             position: relative;
 
             h1 {
-              // margin-left: 40px;
-              // margin-bottom: 10px;
-              // font-size: 40px;
-              margin-left: 2.083vw;
-              margin-bottom: 0.521vw;
-              font-size: 2.083vw;
+              margin-left: calc(var(--gap-standard) * 2);
+              margin-bottom: calc(var(--gap-standard) / 2);
+              font-size: calc(var(--font-size-normal) * 2);
             }
 
             h2, button {
-              // font-size: 30px;
               font-size: 1.563vw;
             }
 
             hr {
-              // margin-bottom: 40px;
-              margin-bottom: 2.083vw;
+              margin-bottom: calc(var(--gap-standard) * 2);
               ${sizes.free('100%')};
             }
 
             p {
-              position: absolute;
-              left: 50%;
-              // bottom: 30px;
               bottom: 1.563vw;
-              transform: translateX(-50%);
-              // font-size: 18px;
-              font-size: 0.938vw;
+              font-size: var(--font-size-standard);
+              width: 100%;
+              text-align: center;
             }
 
             .store_container {
-              margin-bottom: auto;
-              // padding: 0 80px;
+              margin-bottom: 5.208vw;
               padding: 0 4.167vw;
-              // padding-bottom: 10px;
-              padding-bottom: 0.521vw;
+              padding-bottom: calc(var(--gap-standard) / 2);
               ${flex.horizontal}
               ${sizes.free('100%')};
               justify-content: space-between;
 
               button {
-                // padding: 5px 15px;
-                padding: 0.26vw 0.781vw;
+                padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
+              }
+            }
+
+            @media (orientation: portrait) {
+              h2, button {
+                font-size: ${1.563 * 1.778}vw;
+              }
+
+              p {
+                bottom: ${1.563 * 1.778}vw;
+              }
+
+              .store_container {
+                padding: 0 ${4.167 * 1.778}vw;
               }
             }
           `}
@@ -140,8 +143,7 @@ const modalContents = (...args) => {
       return (
         <article
           css={css`
-            // padding: 40px 20px;
-            padding: 2.083vw 1.042vw;
+            padding: var(--gap-standard) calc(var(--gap-standard) / 2);
             ${sizes.full}
             ${flex.vertical}
             align-items: flex-start;
@@ -149,50 +151,53 @@ const modalContents = (...args) => {
             background: white;
 
             h1 {
-              // margin-left: 40px;
-              // margin-bottom: 10px;
-              // font-size: 40px;
-              margin-left: 2.083vw;
-              margin-bottom: 0.521vw;
-              font-size: 2.083vw;
+              margin-left: calc(var(--gap-standard) * 2);
+              margin-bottom: calc(var(--gap-standard) / 2);
+              font-size: calc(var(--font-size-normal) * 2);
             }
 
             h2, button {
-              // font-size: 30px;
               font-size: 1.563vw;
             }
 
             hr {
-              // margin-bottom: 40px;
-              margin-bottom: 2.083vw;
+              margin-bottom: calc(var(--gap-standard) * 2);
               ${sizes.free('100%')};
             }
 
             p {
-              position: absolute;
-              left: 50%;
-              // bottom: 30px;
               bottom: 1.563vw;
-              transform: translateX(-50%);
-              // font-size: 18px;
-              font-size: 0.938vw;
+              font-size: var(--font-size-standard);
+              width: 100%;
+              text-align: center;
             }
 
             .store_container {
-              margin-bottom: auto;
-              // padding: 0 80px;
+              margin-bottom: 5.208vw;
               padding: 0 4.167vw;
-              // padding-bottom: 10px;
-              padding-bottom: 0.521vw;
+              padding-bottom: calc(var(--gap-standard) / 2);
               ${flex.horizontal}
               ${sizes.free('100%')};
               justify-content: space-between;
 
               button {
-                // padding: 5px 15px;
-                padding: 0.26vw 0.781vw;
+                padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
                 background: var(--btn-alert);
                 color: var(--white);
+              }
+            }
+
+            @media (orientation: portrait) {
+              h2, button {
+                font-size: ${1.563 * 1.778}vw;
+              }
+
+              p {
+                bottom: ${1.563 * 1.778}vw;
+              }
+
+              .store_container {
+                margin-bottom: ${5.208 * 1.778}vw;
               }
             }
           `}
@@ -208,8 +213,8 @@ const modalContents = (...args) => {
                 // 반영을 위해서는 comparisonState 변경이 필요
                 axios
                 .post(
-                  'http://localhost:3001/disconnect',
-                  // `https://${sendTo}/disconnect`,
+                  // 'http://localhost:3001/disconnect',
+                  `https://${sendTo}/disconnect`,
                   { reqUserInfo: JSON.stringify(temp) },
                   { withCredentials: true }
                   )
@@ -237,8 +242,7 @@ const modalContents = (...args) => {
       return (
         <div
           css={css`
-            // padding: 40px;
-            padding: 2.083vw;
+            padding: calc(var(--gap-standard) * 2);
             ${sizes.full}
             ${flex.vertical}
             position: relative;
@@ -249,8 +253,6 @@ const modalContents = (...args) => {
             css={css`
               border-radius: 50%;
               position: absolute;
-              // top: -32px;
-              // right: -32px;
               top: -1.667vw;
               right: -1.667vw;
               cursor: pointer;
@@ -258,10 +260,19 @@ const modalContents = (...args) => {
               ${flex.vertical}
               ${sizes.free('1.667vw', '1.667vw')}
 
+              svg {
+                font-size: 1.667vw;
+              }
+
+              @media (orientation: portrait) {
+                top: -${1.667 * 1.778}vw;
+                right: -${1.667 * 1.778}vw;
+                ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
+
                 svg {
-                  // font-size: 32px;
-                  font-size: 1.667vw;
+                  font-size: ${1.667 * 1.778}vw;
                 }
+              }
             `}
             onClick={e => {
               dispatch(modalStateCreator(false));
@@ -297,10 +308,8 @@ const modalContents = (...args) => {
                 ${flex.horizontal}
                 justify-content: space-between;
                 position: absolute;
-                // top: 40px;
-                // left: 40px;
-                top: 2.083vw;
-                left: 2.083vw;
+                top: calc(var(--gap-standard) * 2);
+                left: calc(var(--gap-standard) * 2);
 
                 span {
                   ${flex.vertical}
@@ -308,7 +317,6 @@ const modalContents = (...args) => {
                   background: rgba(0, 0, 0, 0.5);
                   opacity: 0;
                   color: white;
-                  // font-size: 100px;
                   font-size: 5.208vw;
                   text-weight: 900;
                   transition: all 0.3s;
@@ -325,6 +333,14 @@ const modalContents = (...args) => {
                   :active {
                     -webkit-filter: brightness(0.3);
                             filter: brightness(0.3);
+                  }
+                }
+
+                @media (orientation: portrait) {
+                  ${sizes.free(`calc(100% - ${4.167 * 1.778}vw)`, `calc(100% - ${4.167 * 1.778}vw)`)}
+
+                  span {
+                    font-size: ${5.208 * 1.778}vw;
                   }
                 }
               `}
@@ -363,8 +379,7 @@ const modalContents = (...args) => {
       return (
         <div
           css={css`
-            // padding: 40px;
-            padding: 2.083vw;
+            padding: calc(var(--gap-standard) * 2);
             ${sizes.full}
             ${flex.vertical}
             position: relative;
@@ -375,8 +390,6 @@ const modalContents = (...args) => {
             css={css`
               border-radius: 50%;
               position: absolute;
-              // top: -32px;
-              // right: -32px;
               top: -1.667vw;
               right: -1.667vw;
               cursor: pointer;
@@ -384,10 +397,19 @@ const modalContents = (...args) => {
               ${flex.vertical}
               ${sizes.free('1.667vw', '1.667vw')}
 
+              svg {
+                font-size: 1.667vw;
+              }
+
+              @media (orientation: portrait) {
+                top: -${1.667 * 1.778}vw;
+                right: -${1.667 * 1.778}vw;
+                ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
+
                 svg {
-                  // font-size: 32px;
-                  font-size: 1.667vw;
+                  font-size: ${1.667 * 1.778}vw;
                 }
+              }
             `}
             onClick={e => {
               dispatch(modalStateCreator(false));
@@ -423,10 +445,8 @@ const modalContents = (...args) => {
                 ${flex.horizontal}
                 justify-content: space-between;
                 position: absolute;
-                // top: 40px;
-                // left: 40px;
-                top: 2.083vw;
-                left: 2.083vw;
+                top: calc(var(--gap-standard) * 2);
+                left: calc(var(--gap-standard) * 2);
 
                 span {
                   ${flex.vertical}
@@ -434,7 +454,6 @@ const modalContents = (...args) => {
                   background: rgba(0, 0, 0, 0.5);
                   opacity: 0;
                   color: white;
-                  // font-size: 100px;
                   font-size: 5.208vw;
                   text-weight: 900;
                   transition: all 0.3s;
@@ -451,6 +470,14 @@ const modalContents = (...args) => {
                   :active {
                     -webkit-filter: brightness(0.3);
                             filter: brightness(0.3);
+                  }
+                }
+
+                @media (orientation: portrait) {
+                  ${sizes.free(`calc(100% - ${4.167 * 1.778}vw)`, `calc(100% - ${4.167 * 1.778}vw)`)}
+
+                  span {
+                    font-size: ${5.208 * 1.778}vw;
                   }
                 }
               `}
@@ -490,6 +517,7 @@ const modalContents = (...args) => {
   return (
     <article
       css={css`
+        margin: 10.417vw;
         pointer-events: none;
         ${flex.vertical}
         ${sizes.full}
@@ -516,6 +544,7 @@ const Main = () => {
   const [userLibrary, setUserLibrary] = useState('');
   const [headerHeight, setHeaderHeight] = useState(0);
   const [isPortrait, setIsPortrait] = useState(false);
+  const [coverSize, setCoverSize] = React.useState(10);
   const dispatch = useDispatch();
   const history = useHistory();
   const headerRef = React.useRef();
@@ -529,8 +558,8 @@ const Main = () => {
       };
       await axios
         .post(
-          'http://localhost:3001/check_login',
-          // `https://${sendTo}/check_login`,
+          // 'http://localhost:3001/check_login',
+          `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -621,8 +650,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -717,15 +746,16 @@ const Main = () => {
                   {
                     selectedItemData.name === undefined
                       ?
-                        <Library userLib={userLibrary} />
+                        <Library
+                          userLib={userLibrary}
+                          coverSize={coverSize}
+                          setCoverSize={setCoverSize}
+                        />
                       :
                         <Meta />
                   }
                 </>
           }
-          {/* <Navigation storesList={storesList} />
-          <Library userLib={userLibrary} />
-          <Meta /> */}
         </div>
       </main>
       <Modal

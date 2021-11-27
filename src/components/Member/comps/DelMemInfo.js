@@ -31,29 +31,25 @@ const DelMemInfo = ({ userState }) => {
         }
 
         h2, h3 {
-          // margin-bottom: 20px;
-          margin-bottom: 1.042vw;
+          margin-bottom: var(--gap-standard);
         }
 
         #guidance {
           ${border}
           border-bottom: 0;
-          // padding: 40px;
-          padding: 2.083vw;
+          padding: calc(var(--gap-standard) * 2);
           ${sizes.full}
+
           h1 {
-            // margin-bottom: 20px;
-            margin-bottom: 1.042vw;
+            margin-bottom: var(--gap-standard);
             text-align: center;
-            // font-size: 40px;
-            font-size: 2.083vw;
+            font-size: calc(var(--font-size-normal) * 2);
           }
 
           li {
-            // padding-left: 20px;
-            padding-left: 1.042vw;
+            padding-left: var(--gap-standard);
             list-style: disc inside;
-            font-size: 0.833vw;
+            font-size: var(--font-size-standard);
           }
         }
 
@@ -64,8 +60,7 @@ const DelMemInfo = ({ userState }) => {
           text-align: center;
           
           h3, p, input {
-            // margin: 20px 0;
-            margin: 1.042vw 0;
+            margin: var(--gap-standard) 0;
           }
 
           input {
@@ -74,7 +69,7 @@ const DelMemInfo = ({ userState }) => {
           }
 
           p {
-            font-size: 0.833vw;
+            font-size: var(--font-size-standard);
           }
 
           span {
@@ -82,11 +77,10 @@ const DelMemInfo = ({ userState }) => {
           }
 
           .check-delete {
-            margin-bottom: 2.083vw;
+            margin-bottom: calc(var(--gap-standard) * 2);
             ${border}
             border-top: 0;
-            // padding: 0 40px;
-            padding: 0 2.083vw;
+            padding: 0 calc(var(--gap-standard) * 2);
             ${flex.vertical}
             ${sizes.free('100%', 'calc(100% - 4.688vw)')}
           }
@@ -95,7 +89,7 @@ const DelMemInfo = ({ userState }) => {
 
         .submit-wrapper {
           ${flex.horizontal}
-          ${sizes.free('100%', '2.604vw')}
+          ${sizes.free('100%', 'calc(var(--gap-standard) * 2)')}
 
           button:first-of-type {
             margin-right: var(--gap-multiply-small);
@@ -103,6 +97,28 @@ const DelMemInfo = ({ userState }) => {
 
           button:last-of-type {
             margin-left: var(--gap-multiply-small);
+          }
+        }
+
+        @media (orientation: portrait) {
+          form {
+            input {
+              box-shadow: 0 0 ${0.052 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+            }
+
+            .check-delete {
+              ${sizes.free('100%', `calc(100% - ${4.688 * 1.778}vw)`)}
+            }
+          }
+
+          .submit-wrapper {
+            button:first-of-type {
+              margin-right: calc(var(--gap-multiply-small) * 2);
+            }
+  
+            button:last-of-type {
+              margin-left: calc(var(--gap-multiply-small) * 2);
+            }
           }
         }
       `}
