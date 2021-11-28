@@ -80,8 +80,6 @@ const Register = () => {
 
         #register-form .input-wrapper input {
           margin: calc(var(--gap-multiply-small) * 2) 0;
-          // margin-top: 0.521vw;
-          // margin-bottom: 1.563vw;
           ${border}
         }
 
@@ -109,7 +107,6 @@ const Register = () => {
 
         #register-form .input-wrapper #input-email select {
           ${border}
-          // border-radius: 7px;
           border-radius: 0.365vw;
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
           ${sizes.free('48%')}
@@ -134,16 +131,59 @@ const Register = () => {
         }
 
         @media (orientation: portrait) {
-          padding: var(--gap-standard) ${2.083 * 1.778}vw;
-          ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
-          box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-
-          #register-form .input-wrapper #input-email select {
-            border-radius: ${0.365 * 1.778}vw;
+          @media (min-width: 720px) {
+            padding: var(--gap-standard) ${2.083 * 1.778}vw;
+            ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
+            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+  
+            #register-form .input-wrapper #input-email select {
+              border-radius: ${0.365 * 1.778}vw;
+            }
+  
+            #register-form .submit-wrapper {
+              ${sizes.free('100%', '${2.604 * 1.778}vw')}
+            }
           }
 
-          #register-form .submit-wrapper {
-            ${sizes.free('100%', '${2.604 * 1.778}vw')}
+          @media (max-width: 719px) {
+            margin: 0;
+            padding: var(--gap-standard) 20px;
+            border-radius: 0;
+            ${sizes.full}
+
+            #register-form {
+              justify-content: center;
+              height: 85%;
+            }
+
+            #register-form .input-wrapper {
+              margin-bottom: 20px;
+              font-size: 12px;
+            }
+
+            #register-form .input-wrapper input {
+              margin: calc(var(--gap-multiply-small)) 0;
+              padding: 5px calc(var(--gap-multiply-small) * 1.2);
+            }
+
+            #register-form .input-wrapper #input-email input {
+              ${sizes.free('47%', '27px')}
+              display: inline-block;
+            }
+
+            #register-form .input-wrapper #input-email p {
+              margin: 0 2.4px;
+            }
+
+            #register-form .input-wrapper #input-email select {
+              padding: 5px calc(var(--gap-multiply-small) * 1.2);
+              ${sizes.free('47%')}
+              font-size: 12px;
+            }
+
+            #register-form .submit-wrapper {
+              ${sizes.free('100%', '30px')}
+            }
           }
         }
       `}

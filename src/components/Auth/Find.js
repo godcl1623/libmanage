@@ -33,7 +33,6 @@ const Find = ({ mode }) => {
         ${flex.vertical}
         ${sizes.free('40vw', 'max-content')}
         background: white;
-        // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         .contents-wrapper {
@@ -50,10 +49,8 @@ const Find = ({ mode }) => {
         .tab-wrapper a {
           ${border}
           border-bottom: none;
-          // border-radius: 7px;
           border-radius: 0.365vw;
           ${sizes.free('20%', '1.563vw')}
-          // font-size: 18px;
           font-size: 0.938vw;
           ${flex.horizontal}
           text-decoration: none;
@@ -127,50 +124,112 @@ const Find = ({ mode }) => {
         }
 
         .form-wrapper .submit-wrapper button:first-of-type {
-          // margin-right: 5px;
           margin-right: 0.26vw;
           background: var(--btn-active);
         }
 
         .form-wrapper .submit-wrapper button:last-of-type {
-          // margin-left: 5px;
           margin-left: 0.26vw;
           background: var(--btn-active);
         }
 
         @media (orientation: portrait) {
-          ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
-          box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-
-          .tab-wrapper a {
-            border-radius: ${0.365 * 1.778}vw;
-            ${sizes.free('20%', `${1.563 * 1.778}vw`)}
-            font-size: ${0.938 * 1.778}vw;
+          @media (min-width: 720px) {
+            ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
+            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+  
+            .tab-wrapper a {
+              border-radius: ${0.365 * 1.778}vw;
+              ${sizes.free('20%', `${1.563 * 1.778}vw`)}
+              font-size: ${0.938 * 1.778}vw;
+            }
+  
+            .form-wrapper .input-wrapper {
+              margin-bottom: ${4.167 * 1.778}vw;
+              padding: ${1.042 * 1.778}vw ${0.521 * 1.778}vw;
+            }
+            
+            .form-wrapper .input-wrapper > div {
+              margin-bottom: ${4.167 * 1.778}vw;
+            }
+  
+            .form-wrapper .input-wrapper > div label {
+              margin-bottom: ${0.521 * 1.778}vw;
+            }
+  
+            .form-wrapper .submit-wrapper {
+              ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+            }
+  
+            .form-wrapper .submit-wrapper button:first-of-type {
+              margin-right: ${0.26 * 1.778}vw;
+            }
+  
+            .form-wrapper .submit-wrapper button:last-of-type {
+              margin-left: ${0.26 * 1.778}vw;
+            }
           }
 
-          .form-wrapper .input-wrapper {
-            margin-bottom: ${4.167 * 1.778}vw;
-            padding: ${1.042 * 1.778}vw ${0.521 * 1.778}vw;
-          }
-          
-          .form-wrapper .input-wrapper > div {
-            margin-bottom: ${4.167 * 1.778}vw;
-          }
+          @media (max-width: 719px) {
+            margin: 0;
+            border-radius: 0;
+            ${sizes.full}
 
-          .form-wrapper .input-wrapper > div label {
-            margin-bottom: ${0.521 * 1.778}vw;
-          }
+            .tab-wrapper a {
+              ${sizes.free('30%', '20px')}
+              font-size: 12px;
+            }
+    
+            .tab-wrapper a#find_id {
+              border-radius: 10px 0 0 0;
+            }
+            
+            .tab-wrapper a#find_pwd {
+              border-radius: 0 10px 0 0;
+            }
+    
+            .form-wrapper {
+              ${sizes.free('100%', 'max-content')}
+            }
+    
+            .form-wrapper form {
+              ${sizes.full}
+            }
+            
+            .form-wrapper .input-wrapper {
+              margin-bottom: 40px;
+              padding: 20px 10px;
+              ${sizes.free('100%', 'max-content')}
+              font-size: 14px;
+            }
 
-          .form-wrapper .submit-wrapper {
-            ${sizes.free('100%', `${2.604 * 1.778}vw`)}
-          }
+            .form-wrapper .input-wrapper > div {
+              margin-bottom: 40px;
+            }
 
-          .form-wrapper .submit-wrapper button:first-of-type {
-            margin-right: ${0.26 * 1.778}vw;
-          }
+            .form-wrapper .input-wrapper > div label {
+              margin-bottom: 10px;
+              width: 100%;
+            }
 
-          .form-wrapper .submit-wrapper button:last-of-type {
-            margin-left: ${0.26 * 1.778}vw;
+            .form-wrapper .input-wrapper > div input {
+              padding: 5px calc(var(--gap-multiply-small) * 1.2);
+            }
+
+            .form-wrapper .submit-wrapper {
+              ${sizes.free('100%', '30px')}
+              button {
+                font-size: 14px;
+              }
+            }
+    
+            .form-wrapper .submit-wrapper button:first-of-type {
+              margin-right: 5px;
+            }
+    
+            .form-wrapper .submit-wrapper button:last-of-type {
+              margin-left: 5px;
+            }
           }
         }
       `}
