@@ -104,7 +104,6 @@ const Login = () => {
       id="login"
       css={css`
         margin: var(--gap-standard) 0;
-        // padding: calc(var(--gap-standard) + 50px);
         padding: calc(var(--gap-standard) + 2.604vw);
         border-radius: var(--border-rad-big);
         ${flex.vertical}
@@ -113,7 +112,6 @@ const Login = () => {
         height: -moz-max-content;
         height: max-content;
         background: white;
-        // box-shadow: 0 0 10px 1px var(--grey-dark);
         box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
         
         h1 {
@@ -149,7 +147,6 @@ const Login = () => {
         
         #login-form button {
           margin-bottom: 0;
-          // height: 50px;
           height: 2.604vw;
         }
         
@@ -160,13 +157,11 @@ const Login = () => {
           ${sizes.free('100%', '2.604vw')}
           
           button, a {
-            // height: 50px;
             height: 2.604vw;
           }
           
           a {
             background: var(--btn-active);
-            // box-shadow: 0 0 2px 1px var(--grey-dark);
             box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
             color: var(--grey-dark);
           }
@@ -223,7 +218,43 @@ const Login = () => {
           }
 
           @media (max-width: 719px) {
+            margin: 0;
+            padding: calc(var(--gap-standard));
+            border-radius: 0;
+            ${flex.vertical}
             ${sizes.full}
+
+            h1 {
+              margin-bottom: calc(var(--gap-multiply-big) * 3);
+            }
+
+            #login-form, hr {
+              margin-bottom: calc(var(--gap-multiply-big) * 2);
+            }
+
+            #login-form * {
+              margin: 8px;
+            }
+            
+            #login-form input {
+              ${sizes.free('100%', '30px')}
+            }
+
+            #login-form button {
+              height: 25px;
+            }
+            
+            .option {
+              ${sizes.free('100%', '30px')}
+              
+              button, a {
+                height: 30px;
+              }
+              
+              a {
+                box-shadow: 0 0 2px 1px var(--grey-dark);
+              }
+            }
           }
         }
       `}

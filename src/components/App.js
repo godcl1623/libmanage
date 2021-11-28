@@ -30,16 +30,31 @@ const App = () => (
           --font-size-standard: 0.833vw;
         }
         @media (orientation: portrait) {
-          /* margin, padding sizes */
-          --gap-multiply-big: ${1.302 * 1.778}vw;
-          --gap-multiply-small: ${0.26 * 1.778}vw;
-          --gap-standard: ${1.042 * 1.778}vw;
-          /* border-sizes */
-          --border-rad-big: ${0.521 * 1.778}vw;
-          --border-rad-normal: ${0.365 * 1.778}vw;
-          /* font-sizes */
-          --font-size-normal: ${1.042 * 1.778}vw;
-          --font-size-standard: ${0.833 * 1.778}vw;
+          @media (min-width: 720px) {
+            /* margin, padding sizes */
+            --gap-multiply-big: ${1.302 * 1.778}vw;
+            --gap-multiply-small: ${0.26 * 1.778}vw;
+            --gap-standard: ${1.042 * 1.778}vw;
+            /* border-sizes */
+            --border-rad-big: ${0.521 * 1.778}vw;
+            --border-rad-normal: ${0.365 * 1.778}vw;
+            /* font-sizes */
+            --font-size-normal: ${1.042 * 1.778}vw;
+            --font-size-standard: ${0.833 * 1.778}vw;
+          }
+
+          @media (max-width: 719px) {
+            /* margin, padding sizes */
+            --gap-multiply-big: 12.5px;
+            --gap-multiply-small: ${5 * 1.778}px;
+            --gap-standard: ${10 * 1.778}px;
+            /* border-sizes */
+            --border-rad-big: ${10 * 1.778}px;
+            --border-rad-normal: ${7 * 1.778}px;
+            /* font-sizes */
+            --font-size-normal: ${20 * 1.778}px;
+            --font-size-standard: ${16 * 1.778}px;
+          }
         }
         /* colors */
         --btn-alert: #F26101;
@@ -78,7 +93,6 @@ const App = () => (
 
         @media (orientation: landscape) {
           h1 {
-            // font-size: 60px;
             font-size: 3.125vw;
           }
   
@@ -91,14 +105,12 @@ const App = () => (
           }
   
           button, input, a {
-            // border-radius: 7px;
             border-radius: 0.365vw;
             font-size: 1.042vw;
           }
   
           button {
             border: none;
-            // box-shadow: 0 0 2px 1px var(--grey-dark);
             box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
             background: var(--highlight-light);
             color: var(--grey-dark);
@@ -106,39 +118,76 @@ const App = () => (
           }
         }
 
-        @media (orientation: portrait) {
-          h1 {
-            // font-size: 60px;
-            font-size: ${3.125 * 1.778}vw;
-          }
-  
-          h2 {
-            font-size: ${1.25 * 1.778}vw;
-          }
-  
-          h3 {
-            font-size: ${0.99 * 1.778}vw;
-          }
-  
-          button, input, a {
-            // border-radius: 7px;
-            border-radius: ${0.365 * 1.778}vw;
-            font-size: ${1.042 * 1.778}vw;
-          }
-  
-          button {
-            border: none;
-            // box-shadow: 0 0 2px 1px var(--grey-dark);
-            box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-            background: var(--highlight-light);
-            color: var(--grey-dark);
-            cursor: pointer;
-          }  
-        }
-
         input {
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
           background: var(--white);
+        }
+
+        @media (orientation: portrait) {
+          @media (min-width: 720px) {
+            h1 {
+              font-size: ${3.125 * 1.778}vw;
+            }
+    
+            h2 {
+              font-size: ${1.25 * 1.778}vw;
+            }
+    
+            h3 {
+              font-size: ${0.99 * 1.778}vw;
+            }
+    
+            button, input, a {
+              border-radius: ${0.365 * 1.778}vw;
+              font-size: ${1.042 * 1.778}vw;
+            }
+
+            button, a {
+              box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+            }
+
+            button {
+              border: none;
+              background: var(--highlight-light);
+              color: var(--grey-dark);
+              cursor: pointer;
+            }
+          }
+
+          @media (max-width: 719px) {
+            h1 {
+              font-size: 35px;
+            }
+
+            h2 {
+              font-size: ${1.25 * 1.778}vw;
+            }
+
+            h3 {
+              font-size: ${0.99 * 1.778}vw;
+            }
+
+            button, input, a {
+              border-radius: ${0.365 * 1.778}vw;
+              font-size: 10px;
+            }
+
+            button, a {
+              box-shadow: 0 0 2px 1px var(--grey-dark);
+            }
+
+            button {
+              border: none;
+              background: var(--highlight-light);
+              color: var(--grey-dark);
+              cursor: pointer;
+            }
+
+            input {
+              padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 1.5);
+              background: var(--white);
+            }
+          }
         }
       `}
     />
