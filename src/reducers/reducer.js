@@ -79,13 +79,27 @@ const selectedStoresReducer = (state = ['all'], action) => {
   if (action.type === 'SELECTED_STORES') {
     const result = [...state];
     if (action.payload !== 'all') {
-      if (!result.includes(action.payload)) {
-        return [...result.filter(ele => ele !== 'all'), action.payload];
+      if (action.payload === '') {
+        const temp = [...result.filter(ele => ele !== 'all'), action.payload];
+        return [...temp.filter(ele => ele === action.payload)];
+      } else if (!result.includes(action.payload)) {
+        return [...result.filter(ele => ele !== 'all' && ele !== ''), action.payload];
       } else {
-        return [...result.filter(ele => ele !== action.payload)];
+        const temp = [...result.filter(ele => ele !== action.payload)];
+        if (temp.length !== 0) {
+          return temp;
+        }
+        return [...temp.filter(ele => ele !== action.payload), ''];
       }
     } else {
-      return [...result.filter(ele => ele === 'all'), action.payload];
+      const temp = [...result];
+      if (temp.length === 1 && temp[0] === 'all') {
+        return [...result.filter(ele => ele !== 'all'), ''];
+      } else if (temp.length === 1 && temp[0] === '') {
+        return [...result.filter(ele => ele === 'all'), action.payload];
+      } else {
+        return [...result.filter(ele => ele === 'superCaliFragilisticEspialiDocious'), action.payload];
+      }
     }
   }
   return state;
@@ -140,6 +154,13 @@ const selectedMediaListReducer = (state = [], action) => {
   return state;
 }
 
+const mobileStateReducer = (state = false, action) => {
+  if (action.type === 'IS_MOBILE') {
+    return action.payload;
+  }
+  return state;
+}
+
 const _TESTREDUCER = (state = '', action) => {
   if (action.type === '__TEST__') {
     return action.payload;
@@ -166,6 +187,7 @@ const tempStore = {
   librarySearchReducer,
   selectedMediaIdReducer,
   selectedMediaListReducer,
+  mobileStateReducer,
   _TESTREDUCER
 };
 

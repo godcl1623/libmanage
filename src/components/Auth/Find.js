@@ -134,7 +134,7 @@ const Find = ({ mode }) => {
         }
 
         @media (orientation: portrait) {
-          @media (min-width: 720px) {
+          @media (min-width: 600px) {
             ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
             box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   
@@ -170,7 +170,7 @@ const Find = ({ mode }) => {
             }
           }
 
-          @media (max-width: 719px) {
+          @media (max-width: 599px) {
             margin: 0;
             border-radius: 0;
             ${sizes.full}

@@ -188,7 +188,7 @@ const Login = () => {
         }
         
         @media (orientation: portrait) {
-          @media (min-width: 720px) {
+          @media (min-width: 600px) {
             width: ${30 * 1.778}vw;
             box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   
@@ -217,7 +217,7 @@ const Login = () => {
             }
           }
 
-          @media (max-width: 719px) {
+          @media (max-width: 599px) {
             margin: 0;
             padding: calc(var(--gap-standard));
             border-radius: 0;

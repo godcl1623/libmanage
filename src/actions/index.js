@@ -88,6 +88,11 @@ export const selectedMediaListCreator = array => ({
   payload: array
 })
 
+export const isMobileCreator = boolean => ({
+  type: 'IS_MOBILE',
+  payload: boolean
+})
+
 export const _TESTCREATOR = anything => ({
   type: '__TEST__',
   payload: anything

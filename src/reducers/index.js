@@ -20,5 +20,6 @@ export default combineReducers({
   librarySearch: tempStore.librarySearchReducer,
   selectedMediaId: tempStore.selectedMediaIdReducer,
   selectedMediaList: tempStore.selectedMediaListReducer,
+  isMobile: tempStore.mobileStateReducer,
   _TEST: tempStore._TESTREDUCER
 });

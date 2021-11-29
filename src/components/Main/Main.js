@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft} from 'react-icons/ai';
+import { AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import Header from './Header';
 import Library from './Library';
 import Meta from './Meta';
@@ -19,24 +19,36 @@ import {
   balloonStateCreator,
   comparisonStateCreator,
   modalStateCreator,
+  selectedItemCreator,
   selectedItemDataCreator,
-  selectedMediaIdCreator
+  selectedMediaIdCreator,
+  isMobileCreator,
+  selectedStoresCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 import signin from '../../assets/sits_large_noborder.png';
+import SelectedStoresList from './utils/Main/SelectedStoresList';
 
-const modalOption = origin => (`
+const modalOption = origin => `
   position: absolute;
-  width: ${origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90vw' : '50%') : '45%'};
-  height: ${origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? `${90 * 9 / 16}vw` : 'max-content') : 'max-content'};
+  width: ${
+    origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90vw' : '50%') : '45%'
+  };
+  height: ${
+    origin !== 'Header_MemInfo'
+      ? origin.split('-')[0] === 'meta'
+        ? `${(90 * 9) / 16}vw`
+        : 'max-content'
+      : 'max-content'
+  };
   ${flex.vertical}
   background: white;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-`);
+`;
 
 const modalContents = (...args) => {
   const [
@@ -74,7 +86,8 @@ const modalContents = (...args) => {
               font-size: calc(var(--font-size-normal) * 2);
             }
 
-            h2, button {
+            h2,
+            button {
               font-size: 1.563vw;
             }
 
@@ -104,7 +117,8 @@ const modalContents = (...args) => {
             }
 
             @media (orientation: portrait) {
-              h2, button {
+              h2,
+              button {
                 font-size: ${1.563 * 1.778}vw;
               }
 
@@ -120,19 +134,13 @@ const modalContents = (...args) => {
         >
           <h1>스토어 목록</h1>
           <hr />
-          <section
-            className="store_container"
-          >
+          <section className="store_container">
             <h2>Steam</h2>
             <a
               // href="http://localhost:3001/auth/steam"
               href={`https://${sendTo}/auth/steam`}
             >
-              <img
-                src={signin}
-                alt="sign_in_through_steam"
-                title="sign_in_through_steam"
-              />
+              <img src={signin} alt="sign_in_through_steam" title="sign_in_through_steam" />
             </a>
           </section>
           {caution}
@@ -156,7 +164,8 @@ const modalContents = (...args) => {
               font-size: calc(var(--font-size-normal) * 2);
             }
 
-            h2, button {
+            h2,
+            button {
               font-size: 1.563vw;
             }
 
@@ -188,7 +197,8 @@ const modalContents = (...args) => {
             }
 
             @media (orientation: portrait) {
-              h2, button {
+              h2,
+              button {
                 font-size: ${1.563 * 1.778}vw;
               }
 
@@ -212,11 +222,11 @@ const modalContents = (...args) => {
                 temp.stores.game.steam = false;
                 // 반영을 위해서는 comparisonState 변경이 필요
                 axios
-                .post(
-                  // 'http://localhost:3001/disconnect',
-                  `https://${sendTo}/disconnect`,
-                  { reqUserInfo: JSON.stringify(temp) },
-                  { withCredentials: true }
+                  .post(
+                    // 'http://localhost:3001/disconnect',
+                    `https://${sendTo}/disconnect`,
+                    { reqUserInfo: JSON.stringify(temp) },
+                    { withCredentials: true }
                   )
                   .then(res => {
                     if (res) {
@@ -287,20 +297,19 @@ const modalContents = (...args) => {
               ${sizes.full}
             `}
           >
-            {
-              selMedia
-              ?
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${selMedia}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              : ''
-            }
+            {selMedia ? (
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${selMedia}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              ''
+            )}
             <div
               className="btn-wrapper"
               css={css`
@@ -332,12 +341,15 @@ const modalContents = (...args) => {
 
                   :active {
                     -webkit-filter: brightness(0.3);
-                            filter: brightness(0.3);
+                    filter: brightness(0.3);
                   }
                 }
 
                 @media (orientation: portrait) {
-                  ${sizes.free(`calc(100% - ${4.167 * 1.778}vw)`, `calc(100% - ${4.167 * 1.778}vw)`)}
+                  ${sizes.free(
+                    `calc(100% - ${4.167 * 1.778}vw)`,
+                    `calc(100% - ${4.167 * 1.778}vw)`
+                  )}
 
                   span {
                     font-size: ${5.208 * 1.778}vw;
@@ -424,20 +436,19 @@ const modalContents = (...args) => {
               ${sizes.full}
             `}
           >
-            {
-              selMedia
-              ?
-                <img
-                  src={`https://images.igdb.com/igdb/image/upload/t_original/${selMedia}.jpg`}
-                  alt="media"
-                  id={`img-${selMedia}`}
-                  css={css`
-                    ${sizes.full}
-                    color: white;
-                  `}
-                />
-              : ''
-            }
+            {selMedia ? (
+              <img
+                src={`https://images.igdb.com/igdb/image/upload/t_original/${selMedia}.jpg`}
+                alt="media"
+                id={`img-${selMedia}`}
+                css={css`
+                  ${sizes.full}
+                  color: white;
+                `}
+              />
+            ) : (
+              ''
+            )}
             <div
               className="btn-wrapper"
               css={css`
@@ -469,12 +480,15 @@ const modalContents = (...args) => {
 
                   :active {
                     -webkit-filter: brightness(0.3);
-                            filter: brightness(0.3);
+                    filter: brightness(0.3);
                   }
                 }
 
                 @media (orientation: portrait) {
-                  ${sizes.free(`calc(100% - ${4.167 * 1.778}vw)`, `calc(100% - ${4.167 * 1.778}vw)`)}
+                  ${sizes.free(
+                    `calc(100% - ${4.167 * 1.778}vw)`,
+                    `calc(100% - ${4.167 * 1.778}vw)`
+                  )}
 
                   span {
                     font-size: ${5.208 * 1.778}vw;
@@ -540,6 +554,8 @@ const Main = () => {
   const modalState = useSelector(state => state.modalState);
   const selectedMediaId = useSelector(state => state.selectedMediaId);
   const selectedMediaList = useSelector(state => state.selectedMediaList);
+  const isMobile = useSelector(state => state.isMobile);
+  const selectedStores = useSelector(state => state.selectedStores);
   const [storesList, setStoresList] = useState('');
   const [userLibrary, setUserLibrary] = useState('');
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -685,8 +701,14 @@ const Main = () => {
     const detector = () => {
       if (window.matchMedia('(orientation: portrait)').matches) {
         setIsPortrait(true);
+        if (window.innerWidth < 600) {
+          dispatch(isMobileCreator(true));
+          // dispatch(selectedStoresCreator(''));
+        }
       } else {
         setIsPortrait(false);
+        dispatch(isMobileCreator(false));
+        dispatch(selectedStoresCreator('all'));
       }
     };
     window.addEventListener('resize', detector);
@@ -696,10 +718,15 @@ const Main = () => {
   useEffect(() => {
     if (window.matchMedia('(orientation: portrait)').matches) {
       setIsPortrait(true);
+      if (window.innerWidth < 600) {
+        dispatch(isMobileCreator(true));
+        dispatch(selectedStoresCreator(''));
+      }
     } else {
       setIsPortrait(false);
+      dispatch(isMobileCreator(false));
     }
-  }, [])
+  }, []);
 
   if (loginStatus === false && logoutClicked === false) {
     return <></>;
@@ -719,7 +746,19 @@ const Main = () => {
         `}
         onClick={e => {
           // e.preventDefault();
-          if (balloonState !== 'none' && Array.from(e.target.className).slice(0, 7).join('') !== 'balloon') {
+          if (!isMobile) {
+            if (
+              balloonState !== 'none' &&
+              Array.from(e.target.className).slice(0, 7).join('') !== 'balloon'
+            ) {
+              dispatch(balloonStateCreator('none'));
+            }
+          } else if (
+            balloonState !== 'none' &&
+            Array.from(e.target.className).slice(0, 7).join('') !== 'balloon' &&
+            e.target.name !== 'libraryFilter' &&
+            e.target.name !== 'delete-input'
+          ) {
             dispatch(balloonStateCreator('none'));
           }
         }}
@@ -730,32 +769,51 @@ const Main = () => {
           css={css`
             ${sizes.free('100%', `calc(100% - ${headerHeight}px)`)}
             ${flex.horizontal}
+
+            @media (orientation: portrait) and (max-width: 599px) {
+              ${flex.vertical}
+            }
           `}
         >
-          {
-            !isPortrait
-              ?
-                <>
-                  <Navigation storesList={storesList} />
-                  <Library userLib={userLibrary} />
-                  <Meta />
-                </>
-              :
-                <>
-                  <Navigation storesList={storesList} />
-                  {
-                    selectedItemData.name === undefined
-                      ?
-                        <Library
-                          userLib={userLibrary}
-                          coverSize={coverSize}
-                          setCoverSize={setCoverSize}
-                        />
-                      :
-                        <Meta />
-                  }
-                </>
-          }
+          {isPortrait && isMobile ? (
+            <SelectedStoresList
+              selStores={selectedStores}
+              funcs={{
+                dispatch,
+                selectedStoresCreator,
+                selectedItemCreator,
+                selectedItemDataCreator
+              }}
+            />
+          ) : (
+            ''
+          )}
+          {!isPortrait ? (
+            <>
+              <Navigation storesList={storesList} />
+              <Library userLib={userLibrary} />
+              <Meta />
+            </>
+          ) : isMobile ? (
+            <>
+              {selectedStores[0] === '' ? (
+                <Navigation storesList={storesList} />
+              ) : selectedItemData.name === undefined ? (
+                <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
+              ) : (
+                <Meta />
+              )}
+            </>
+          ) : (
+            <>
+              <Navigation storesList={storesList} />
+              {selectedItemData.name === undefined ? (
+                <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
+              ) : (
+                <Meta />
+              )}
+            </>
+          )}
         </div>
       </main>
       <Modal
