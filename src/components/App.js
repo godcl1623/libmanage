@@ -30,7 +30,7 @@ const App = () => (
           --font-size-standard: 0.833vw;
         }
         @media (orientation: portrait) {
-          @media (min-width: 720px) {
+          @media (min-width: 600px) {
             /* margin, padding sizes */
             --gap-multiply-big: ${1.302 * 1.778}vw;
             --gap-multiply-small: ${0.26 * 1.778}vw;
@@ -43,7 +43,7 @@ const App = () => (
             --font-size-standard: ${0.833 * 1.778}vw;
           }
 
-          @media (max-width: 719px) {
+          @media (max-width: 599px) {
             /* margin, padding sizes */
             --gap-multiply-big: 12.5px;
             --gap-multiply-small: ${5 * 1.778}px;
@@ -124,7 +124,7 @@ const App = () => (
         }
 
         @media (orientation: portrait) {
-          @media (min-width: 720px) {
+          @media (min-width: 600px) {
             h1 {
               font-size: ${3.125 * 1.778}vw;
             }
@@ -154,7 +154,7 @@ const App = () => (
             }
           }
 
-          @media (max-width: 719px) {
+          @media (max-width: 599px) {
             h1 {
               font-size: 35px;
             }

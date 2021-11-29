@@ -44,6 +44,12 @@ const menu = (value, storeList, dispatch, filterStores) => {
                         -ms-transform: scale(0.95);
                             transform: scale(0.95);
                   }
+
+                  @media (orientation: portrait) and (max-width: 599px) {
+                    box-shadow: 0 0 1px 1px var(--grey-dark);
+                    ${sizes.free('60px', '20px')}
+                    font-size: 10px;
+                  }
                 `}
               >
                 ALL
@@ -121,10 +127,6 @@ const Navigation = ({ storesList }) => {
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
           ${flex.horizontal}
           ${sizes.full}
-
-          @media (orientation: portrait) {
-            border: ${0.208 * 1.778}vw solid black;
-          }
         }
 
         h2 {
@@ -136,6 +138,39 @@ const Navigation = ({ storesList }) => {
           padding: var(--gap-multiply-small);
           font-size: var(--font-size-normal);
           padding-left: var(--gap-standard);
+        }
+
+        @media (orientation: portrait) {
+          @media (min-width: 600px) {
+            .category-header {
+              border: ${0.208 * 1.778}vw solid black;
+            }
+          }
+
+          @media (max-width: 599px) {
+            padding: var(--gap-standard);
+            ${sizes.full}
+            background: white;
+
+            * {
+              font-size: 16px;
+            }
+
+            .category {
+              margin-bottom: calc(var(--gap-multiply-big) * 2);
+            }
+
+            p {
+              ${border}
+              padding: var(--gap-multiply-small);
+              font-size: 14px;
+              padding-left: var(--gap-standard);
+            }
+
+            button {
+              font-size: 12px;
+            }
+          }
         }
       `}
     >
@@ -159,6 +194,14 @@ const Navigation = ({ storesList }) => {
 
           @media (orientation: portrait) {
             padding: ${0.156 * 1.778}vw ${0.781 * 1.778}vw;
+
+            @media (max-width: 599px) {
+              font-size: 16px;
+
+              option {
+                font-size: 16px;
+              }
+            }
           }
         `}
       >

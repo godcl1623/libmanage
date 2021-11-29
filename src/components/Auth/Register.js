@@ -131,7 +131,7 @@ const Register = () => {
         }
 
         @media (orientation: portrait) {
-          @media (min-width: 720px) {
+          @media (min-width: 600px) {
             padding: var(--gap-standard) ${2.083 * 1.778}vw;
             ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
             box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
@@ -145,7 +145,7 @@ const Register = () => {
             }
           }
 
-          @media (max-width: 719px) {
+          @media (max-width: 599px) {
             margin: 0;
             padding: var(--gap-standard) 20px;
             border-radius: 0;
