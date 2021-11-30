@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,7 +8,7 @@ import { css } from '@emotion/react';
 import { FaBars } from 'react-icons/fa';
 import Balloon from '../Modal/Balloon';
 import SearchField from './utils/Header/SearchField';
-import Options from './utils/Header/Options';
+import HeaderOptions from './utils/Header/HeaderOptions';
 import MemberStatus from './utils/Header/MemberStatus';
 import {
   loginStatusCreator,
@@ -21,7 +22,7 @@ import {
   librarySearchCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
-import { sizes, flex, border } from '../../styles';
+import { sizes, flex } from '../../styles';
 
 const Header = ({ headerRef, setHeight }) => {
   const loginStatus = useSelector(state => state.loginStatus);
@@ -32,7 +33,6 @@ const Header = ({ headerRef, setHeight }) => {
   const librarySearch = useSelector(state => state.librarySearch);
   const isMobile = useSelector(state => state.isMobile);
   const [btnCoords, setBtnCoords] = useState({});
-  const [searchBtnClicked, setSearchBtnClicked] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const optionRef = useRef();
@@ -242,7 +242,7 @@ const Header = ({ headerRef, setHeight }) => {
           }
 
           @media (max-width: 599px) {
-            border-bottom: 1px solid var(--grey-dark);
+            border: none;
             padding: var(--gap-multiply-small) 0;
             ${sizes.free('100%', '50px')}
 
@@ -308,7 +308,7 @@ const Header = ({ headerRef, setHeight }) => {
         </button>
         <Balloon
           contents={
-            <Options
+            <HeaderOptions
               setStates={{
                 dispatch,
                 modalOriginCreator,
@@ -356,7 +356,7 @@ const Header = ({ headerRef, setHeight }) => {
         {
           isMobile
             ?
-              ''
+              <></>
             :
               <SearchField
                 dispatch={dispatch}

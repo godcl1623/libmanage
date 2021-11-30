@@ -3,9 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sizes, flex, border } from '../../../../styles';
 
-const SearchField = ({dispatch, setState, fieldVal}) => {
-  const ref = React.useRef();
-  return (
+const SearchField = ({dispatch, setState, fieldVal}) => (
   <form
     css={css`
       ${sizes.full}
@@ -23,7 +21,6 @@ const SearchField = ({dispatch, setState, fieldVal}) => {
     `}
   >
     <input
-      ref={ref}
       type="text"
       placeholder="검색어를 입력하세요"
       name="libraryFilter"
@@ -74,6 +71,6 @@ const SearchField = ({dispatch, setState, fieldVal}) => {
       ×
     </button>
   </form>
-)};
+);
 
 export default SearchField;

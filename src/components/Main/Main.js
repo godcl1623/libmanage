@@ -560,7 +560,7 @@ const Main = () => {
   const [userLibrary, setUserLibrary] = useState('');
   const [headerHeight, setHeaderHeight] = useState(0);
   const [isPortrait, setIsPortrait] = useState(false);
-  const [coverSize, setCoverSize] = React.useState(10);
+  const [coverSize, setCoverSize] = useState(10);
   const dispatch = useDispatch();
   const history = useHistory();
   const headerRef = React.useRef();
@@ -791,7 +791,7 @@ const Main = () => {
           {!isPortrait ? (
             <>
               <Navigation storesList={storesList} />
-              <Library userLib={userLibrary} />
+              <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
               <Meta />
             </>
           ) : isMobile ? (

@@ -3,7 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
 
-const Options = ({ setStates, states, components }) => {
+const HeaderOptions = ({ setStates, states, components }) => {
   const {
     dispatch,
     modalOriginCreator,
@@ -70,4 +70,4 @@ const Options = ({ setStates, states, components }) => {
   )
 };
 
-export default Options;
+export default HeaderOptions;

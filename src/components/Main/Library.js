@@ -6,6 +6,8 @@ import axios from 'axios';
 import { css } from '@emotion/react';
 import { FaBars } from 'react-icons/fa';
 import Balloon from '../Modal/Balloon';
+import LibraryOptions from './utils/Library/LibraryOptions';
+import MakeList from './utils/Library/MakeList';
 import {
   balloonStateCreator,
   balloonOriginCreator,
@@ -15,299 +17,7 @@ import {
   selectedItemDataCreator,
   modalOriginCreator
 } from '../../actions';
-import { sendTo } from '../../custom_modules/address';
-import { sizes, flex, border } from '../../styles';
-
-const Options = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType }) => (
-  <>
-    <div
-      className="balloon-display"
-      css={css`
-        margin: calc(var(--gap-multiply-small) * 2);
-        ${flex.horizontal}
-        justify-content: space-between;
-        ${sizes.free('100%')}
-
-        * {
-          margin: 0 var(--gap-multiply-small);
-        }
-
-        .balloon-header {
-          flex: 1;
-        }
-
-        .btn-container {
-          flex: 2;
-          ${flex.horizontal}
-          justify-content: space-around;
-
-          .balloon-btn {
-            padding: var(--gap-multiply-small);
-            cursor: pointer;
-            :hover {
-              -webkit-filter: brightness(90%);
-                      filter: brightness(90%);
-            }
-          
-            :active {
-              -webkit-transform: scale(0.95);
-                  -ms-transform: scale(0.95);
-                      transform: scale(0.95);
-            }
-          }
-
-          .balloon-btn:first-of-type {
-            background: ${currDisplayType === 'list' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
-          }
-  
-          .balloon-btn:last-of-type {
-            background: ${currDisplayType === 'cover' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
-          }
-        }
-      `}
-    >
-      <h3
-        className="balloon-header"
-      >표시방식:</h3>
-      <div className="btn-container">
-        <button
-          className="balloon-btn"
-          onClick={e => {
-            e.preventDefault();
-            dispatch(changeState('list'));
-          }}
-        >
-          리스트
-        </button>
-        <button
-          className="balloon-btn"
-          onClick={e => {
-            e.preventDefault();
-            dispatch(changeState('cover'));
-          }}
-        >
-          썸네일
-        </button>
-      </div>
-    </div>
-    <div
-      className="balloon-input"
-      css={css`
-        ${flex.horizontal}
-        ${sizes.free('100%')}
-        p {
-          font-size: var(--font-size-standard);
-        }
-      `}
-    >
-      <input
-        type="range"
-        className="balloon-cover_size"
-        name="cover_size"
-        min="5"
-        max="15"
-        value={coverSize}
-        css={css`
-          margin: calc(var(--gap-multiply-small) * 2);
-          padding: 0;
-          width: 100%;
-          cursor: pointer;
-        `}
-        onChange={e => {
-          setCoverSize(Number(e.target.value));
-        }}
-      />
-      <p>{coverSize}</p>
-    </div>
-  </>
-);
-
-const makeList = (...args) => {
-  const [
-    source,
-    displayState,
-    size,
-    selectedCategory,
-    selectedStore,
-    userState,
-    extCredState,
-    dispatch,
-    setExtCred,
-    selectItem,
-    selItemData,
-    search
-  ] = args;
-  if (source !== '') {
-    if (selectedCategory === 'all' || selectedCategory === 'game') {
-      if (selectedStore.includes('all') || selectedStore.includes('steam')) {
-        const { steam } = source;
-        if (displayState === 'list') {
-          const result = steam.map((item, index) => (
-            <li
-              key={index}
-              css={css`
-                padding: calc(var(--gap-multiply-small) * 2) calc(var(--gap-multiply-small) * 6);
-                font-size: var(--font-size-normal);
-                cursor: pointer;
-                background: white;
-              `}
-              onMouseEnter={e => {
-                e.target.style.background = 'var(--highlight-light)';
-              }}
-              onMouseLeave={e => {
-                e.target.style.background = 'white';
-              }}
-              onMouseDown={e => {
-                e.target.style.background = 'var(--btn-active)';
-              }}
-              onMouseUp={e => {
-                e.target.style.background = 'var(--highlight-light)';
-              }}
-              onClick={e => {
-                dispatch(modalOriginCreator('Library'));
-                selectItem(e.target.innerText);
-                if (extCredState.cid === undefined) {
-                  axios
-                    .post(
-                      // 'http://localhost:3001/api/connect',
-                      `https://${sendTo}/api/connect`,
-                      { execute: 'order66' },
-                      { withCredentials: true }
-                    )
-                    .then(res => {
-                      dispatch(setExtCred(res.data));
-                      const reqData = {
-                        reqUser: userState.nickname,
-                        selTitle: item.title,
-                        credData: res.data
-                      };
-                      axios
-                        .post(
-                          // 'http://localhost:3001/get/meta',
-                          `https://${sendTo}/get/meta`,
-                          { reqData },
-                          { withCredentials: true }
-                        )
-                        .then(res => {
-                          selItemData(res.data);
-                        });
-                    });
-                } else {
-                  const reqData = {
-                    reqUser: userState.nickname,
-                    selTitle: item.title,
-                    credData: extCredState
-                  };
-                  axios
-                    // .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
-                    .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
-                    .then(res => {
-                      selItemData(res.data);
-                    });
-                }
-              }}
-            >
-              {item.title}
-            </li>
-          ));
-          if (search === '') {
-            return result;
-          } else {
-            const word = new RegExp(search, 'gi');
-            return result.filter(ele => ele.props.children.match(word));
-          }
-        } else if (displayState === 'cover') {
-          const result = steam.map((item, index) => (
-            <li
-              key={`img-${index}`}
-              css={css`
-                margin: calc(var(--gap-multiply-small) * 2);
-                height: ${size}vw;
-                flex: 0 0 10%;
-                ${flex.horizontal}
-                cursor: pointer;
-
-                :active {
-                  -webkit-transform: scale(0.95);
-                      -ms-transform: scale(0.95);
-                          transform: scale(0.95);
-                }
-              `}
-            >
-              <img
-                src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.cover}.png`}
-                title={`${item.title}`}
-                alt={`${item.title}-cover`}
-                style={{
-                  height: '100%'
-                }}
-                onMouseEnter={e => {
-                  e.target.style.filter = 'brightness(0.75)';
-                }}
-                onMouseLeave={e => {
-                  e.target.style.filter = 'brightness(1)';
-                }}
-                onClick={e => {
-                  dispatch(modalOriginCreator('Library'));
-                  selectItem(e.target.title);
-                  if (extCredState.cid === undefined) {
-                    axios
-                      .post(
-                        // 'http://localhost:3001/api/connect',
-                        `https://${sendTo}/api/connect`,
-                        { execute: 'order66' },
-                        { withCredentials: true }
-                      )
-                      .then(res => {
-                        dispatch(setExtCred(res.data));
-                        const reqData = {
-                          reqUser: userState.nickname,
-                          selTitle: item.title,
-                          credData: res.data
-                        };
-                        axios
-                          .post(
-                            // 'http://localhost:3001/get/meta',
-                            `https://${sendTo}/get/meta`,
-                            { reqData },
-                            { withCredentials: true }
-                          )
-                          .then(res => {
-                            selItemData(res.data);
-                          });
-                      });
-                  } else {
-                    const reqData = {
-                      reqUser: userState.nickname,
-                      selTitle: item.title,
-                      credData: extCredState
-                    };
-                    axios
-                      .post(
-                        // 'http://localhost:3001/get/meta',
-                        `https://${sendTo}/get/meta`,
-                        { reqData },
-                        { withCredentials: true }
-                      )
-                      .then(res => {
-                        selItemData(res.data);
-                      });
-                  }
-                }}
-              />
-            </li>
-          ));
-          if (search === '') {
-            return result;
-          } else {
-            const word = new RegExp(search, 'gi');
-            return result.filter(ele => ele.props.children.props.title.match(word));
-          }
-        }
-      }
-    }
-  }
-};
+import { sizes, flex } from '../../styles';
 
 const Library = ({ userLib, coverSize, setCoverSize }) => {
   const balloonState = useSelector(state => state.balloonState);
@@ -372,9 +82,18 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
     z-index: 2;
 
     @media (orientation: portrait) {
-      ${sizes.free(`${15.625 * 1.778}vw`, `${7.813 * 1.778}vw`)}
-      top: calc(${btnCoords.topCoord}px + ${3.241 / 1.778}vh);
-      right: ${1.563 * 1.778}vw;
+      @media (min-width: 600px) {
+        ${sizes.free(`${15.625 * 1.778}vw`, `${7.813 * 1.778}vw`)}
+        top: calc(${btnCoords.topCoord}px + ${3.241 / 1.778}vh);
+        right: ${1.563 * 1.778}vw;
+      }
+
+      @media (max-width: 599px) {
+        padding: var(--gap-standard);
+        ${sizes.free('100vw', '150px')}
+        top: 35px;
+        right: 0;
+      }
     }
   `;
 
@@ -388,8 +107,14 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
     display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
 
     @media (orientation: portrait) {
-      top: calc(${btnCoords.topCoord}px + ${0.463 / 1.778}vh);
-      right: ${1.563 * 1.778}vw;
+      @media (min-width: 600px) {
+        top: calc(${btnCoords.topCoord}px + ${0.463 / 1.778}vh);
+        right: ${1.563 * 1.778}vw;
+      }
+
+      @media (max-width: 599px) {
+        display: none;
+      }
     }
   `;
 
@@ -402,9 +127,16 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
         padding: calc(var(--gap-standard) * 2) var(--gap-standard);
         flex: 2;
         overflow: hidden;
-        height: 100%;
+        ${sizes.full}
         position: relative;
         background: white;
+
+        @media (orientation: portrait) {
+          @media (max-width: 599px) {
+            border: none;
+            padding: calc(var(--gap-standard) * 1.5) 0;
+          }
+        }
       `}
     >
       <button
@@ -437,8 +169,17 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
           }
 
           @media (orientation: portrait) {
-            right: ${1.563 * 1.778}vw;
-            ${sizes.free(`${2.604 * 1.778}vw`, `${1.823 * 1.778}vw`)}
+            @media (min-width: 600px) {
+              right: ${1.563 * 1.778}vw;
+              ${sizes.free(`${2.604 * 1.778}vw`, `${1.823 * 1.778}vw`)}
+            }
+
+            @media (max-width: 599px) {
+              top: 0;
+              right: 0;
+              ${sizes.free('50px', '35px')}
+              opacity: 70%;
+            }
           }
         `}
       >
@@ -446,7 +187,7 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
       </button>
       <Balloon
         contents={
-          <Options
+          <LibraryOptions
             dispatch={dispatch}
             changeState={libDisplayStateCreator}
             coverSize={coverSize}
@@ -465,6 +206,11 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
           ${sizes.full}
           flex-wrap: wrap;
           overflow: scroll;
+
+          @media (orientation: portrait) and (max-width: 599px) {
+            ${flex.horizontal}
+            justify-content: ${libDisplay === 'list' ? 'flex-start' : 'center'};
+          }
         `}
         onScroll={e => {
           const lists = e.target.querySelectorAll('li');
@@ -474,7 +220,6 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
             const listCoords = list.getBoundingClientRect();
             const { top: liTop, height: liHeight } = listCoords;
             if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
-              // list.style.filter = 'blur(2px)';
               list.style.filter = 'blur(0.104vw)';
               list.style.color = 'lightgrey';
               list.style.transition = 'filter 0.5s, color 0.5s';
@@ -486,22 +231,24 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
           });
         }}
       >
-        {makeList(
-          userLib,
-          libDisplay,
-          coverSize,
-          selectedCategory,
-          selectedStores,
-          userState,
-          extCredState,
-          dispatch,
-          extCredStateCreator,
-          setLocalSelectedItem,
-          setLocalSelectedItemData,
-          librarySearch
-        )}
+        <MakeList
+          args={{
+            userLib,
+            libDisplay,
+            coverSize,
+            selectedCategory,
+            selectedStores,
+            userState,
+            extCredState,
+            dispatch,
+            extCredStateCreator,
+            setLocalSelectedItem,
+            setLocalSelectedItemData,
+            librarySearch,
+            modalOriginCreator
+          }}
+        />
       </ul>
-      {/* { testBtns(apiAuth, setApiAuth) } */}
     </article>
   );
 };
