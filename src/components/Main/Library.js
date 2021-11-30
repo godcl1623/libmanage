@@ -28,6 +28,8 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
   const userState = useSelector(state => state.userState);
   const extCredState = useSelector(state => state.extCredState);
   const librarySearch = useSelector(state => state.librarySearch);
+  const selectedItem = useSelector(state => state.selectedItem);
+  const selectedItemData = useSelector(state => state.selectedItemData);
   const [btnCoords, setBtnCoords] = React.useState({});
   const [localSelectedItem, setLocalSelectedItem] = React.useState('');
   const [localSelectedItemData, setLocalSelectedItemData] = React.useState({});
@@ -51,14 +53,14 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
     }
   }, []);
 
-  useEffect(() => {
-    const abortCon = new AbortController();
-    dispatch(selectedItemCreator(localSelectedItem));
-    dispatch(selectedItemDataCreator(localSelectedItemData));
-    return () => {
-      abortCon.abort();
-    }
-  }, [localSelectedItem, localSelectedItemData]);
+  // useEffect(() => {
+  //   const abortCon = new AbortController();
+  //     dispatch(selectedItemCreator(localSelectedItem));
+  //     dispatch(selectedItemDataCreator(localSelectedItemData));
+  //   return () => {
+  //     abortCon.abort();
+  //   }
+  // }, [localSelectedItem, localSelectedItemData]);
 
   const wrapper = `
     display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
@@ -242,8 +244,10 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
             extCredState,
             dispatch,
             extCredStateCreator,
-            setLocalSelectedItem,
-            setLocalSelectedItemData,
+            // setLocalSelectedItem,
+            // setLocalSelectedItemData,
+            selectedItemCreator,
+            selectedItemDataCreator,
             librarySearch,
             modalOriginCreator
           }}

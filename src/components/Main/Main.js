@@ -137,8 +137,8 @@ const modalContents = (...args) => {
           <section className="store_container">
             <h2>Steam</h2>
             <a
-              // href="http://localhost:3001/auth/steam"
-              href={`https://${sendTo}/auth/steam`}
+              href="http://localhost:3001/auth/steam"
+              // href={`https://${sendTo}/auth/steam`}
             >
               <img src={signin} alt="sign_in_through_steam" title="sign_in_through_steam" />
             </a>
@@ -223,8 +223,8 @@ const modalContents = (...args) => {
                 // 반영을 위해서는 comparisonState 변경이 필요
                 axios
                   .post(
-                    // 'http://localhost:3001/disconnect',
-                    `https://${sendTo}/disconnect`,
+                    'http://localhost:3001/disconnect',
+                    // `https://${sendTo}/disconnect`,
                     { reqUserInfo: JSON.stringify(temp) },
                     { withCredentials: true }
                   )
@@ -574,8 +574,8 @@ const Main = () => {
       };
       await axios
         .post(
-          // 'http://localhost:3001/check_login',
-          `https://${sendTo}/check_login`,
+          'http://localhost:3001/check_login',
+          // `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -666,8 +666,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -708,7 +708,7 @@ const Main = () => {
       } else {
         setIsPortrait(false);
         dispatch(isMobileCreator(false));
-        dispatch(selectedStoresCreator('all'));
+        // dispatch(selectedStoresCreator('all'));
       }
     };
     window.addEventListener('resize', detector);

@@ -17,11 +17,12 @@ const MakeList = ({ args }) => {
     extCredState,
     dispatch,
     extCredStateCreator,
-    setLocalSelectedItem,
-    setLocalSelectedItemData,
+    selectedItemCreator,
+    selectedItemDataCreator,
     librarySearch,
     modalOriginCreator
   } = args;
+
   if (userLib !== '') {
     if (selectedCategory === 'all' || selectedCategory === 'game') {
       if (selectedStores.includes('all') || selectedStores.includes('steam')) {
@@ -39,6 +40,7 @@ const MakeList = ({ args }) => {
                 @media (orientation: portrait) {
                   @media (max-width: 599px) {
                     padding: calc(var(--gap-multiply-small) * 1.2) calc(var(--gap-multiply-small) * 3);
+                    width: 100%;
                     font-size: 16px;
                   }
                 }
@@ -57,12 +59,12 @@ const MakeList = ({ args }) => {
               }}
               onClick={e => {
                 dispatch(modalOriginCreator('Library'));
-                setLocalSelectedItem(e.target.innerText);
+                dispatch(selectedItemCreator(e.target.innerText));
                 if (extCredState.cid === undefined) {
                   axios
                     .post(
-                      // 'http://localhost:3001/api/connect',
-                      `https://${sendTo}/api/connect`,
+                      'http://localhost:3001/api/connect',
+                      // `https://${sendTo}/api/connect`,
                       { execute: 'order66' },
                       { withCredentials: true }
                     )
@@ -75,13 +77,13 @@ const MakeList = ({ args }) => {
                       };
                       axios
                         .post(
-                          // 'http://localhost:3001/get/meta',
-                          `https://${sendTo}/get/meta`,
+                          'http://localhost:3001/get/meta',
+                          // `https://${sendTo}/get/meta`,
                           { reqData },
                           { withCredentials: true }
                         )
                         .then(res => {
-                          setLocalSelectedItemData(res.data);
+                          dispatch(selectedItemDataCreator(res.data));
                         });
                     });
                 } else {
@@ -91,10 +93,10 @@ const MakeList = ({ args }) => {
                     credData: extCredState
                   };
                   axios
-                    // .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
-                    .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
+                    .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
+                    // .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
                     .then(res => {
-                      setLocalSelectedItemData(res.data);
+                      dispatch(selectedItemDataCreator(res.data));
                     });
                 }
               }}
@@ -147,12 +149,12 @@ const MakeList = ({ args }) => {
                 }}
                 onClick={e => {
                   dispatch(modalOriginCreator('Library'));
-                  setLocalSelectedItem(e.target.title);
+                  dispatch(selectedItemCreator(e.target.title));
                   if (extCredState.cid === undefined) {
                     axios
                       .post(
-                        // 'http://localhost:3001/api/connect',
-                        `https://${sendTo}/api/connect`,
+                        'http://localhost:3001/api/connect',
+                        // `https://${sendTo}/api/connect`,
                         { execute: 'order66' },
                         { withCredentials: true }
                       )
@@ -165,13 +167,13 @@ const MakeList = ({ args }) => {
                         };
                         axios
                           .post(
-                            // 'http://localhost:3001/get/meta',
-                            `https://${sendTo}/get/meta`,
+                            'http://localhost:3001/get/meta',
+                            // `https://${sendTo}/get/meta`,
                             { reqData },
                             { withCredentials: true }
                           )
                           .then(res => {
-                            setLocalSelectedItemData(res.data);
+                            dispatch(selectedItemDataCreator(res.data));
                           });
                       });
                   } else {
@@ -182,13 +184,13 @@ const MakeList = ({ args }) => {
                     };
                     axios
                       .post(
-                        // 'http://localhost:3001/get/meta',
-                        `https://${sendTo}/get/meta`,
+                        'http://localhost:3001/get/meta',
+                        // `https://${sendTo}/get/meta`,
                         { reqData },
                         { withCredentials: true }
                       )
                       .then(res => {
-                        setLocalSelectedItemData(res.data);
+                        dispatch(selectedItemDataCreator(res.data));
                       });
                   }
                 }}
@@ -202,8 +204,12 @@ const MakeList = ({ args }) => {
             return result.filter(ele => ele.props.children.props.title.match(word));
           }
         }
+      } else {
+        return <></>
       }
     }
+  } else {
+    return <></>
   }
 }
 
