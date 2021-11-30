@@ -6,13 +6,13 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import Header from './Header';
 import Library from './Library';
 import Meta from './Meta';
 import Navigation from './Navigation';
 import Modal from '../Modal/Modal';
-import MemberInfoWrap from '../Member/MemberInfoWrap';
+import ModalContents from './utils/Main/ModalContents';
+import SelectedStoresList from './utils/Main/SelectedStoresList';
 import {
   loginStatusCreator,
   userStateCreator,
@@ -26,14 +26,16 @@ import {
   selectedStoresCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
-import { sizes, flex, border } from '../../styles';
-import signin from '../../assets/sits_large_noborder.png';
-import SelectedStoresList from './utils/Main/SelectedStoresList';
+import { sizes, flex } from '../../styles';
 
 const modalOption = origin => `
   position: absolute;
   width: ${
-    origin !== 'Header_MemInfo' ? (origin.split('-')[0] === 'meta' ? '90vw' : '50%') : '45%'
+    origin !== 'Header_MemInfo'
+      ? origin.split('-')[0] === 'meta'
+          ? '90vw'
+          : '50%'
+      : '45%'
   };
   height: ${
     origin !== 'Header_MemInfo'
@@ -48,499 +50,24 @@ const modalOption = origin => `
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-`;
 
-const modalContents = (...args) => {
-  const [
-    state,
-    dispatch,
-    setState1,
-    setState2,
-    origin,
-    setLibs,
-    setItem,
-    selMedia,
-    setSelMedia,
-    selMediaList
-  ] = args;
-  const caution = <p>※ 현재 기술적 문제로 Steam 서비스만 지원됩니다.</p>;
-  if (origin === 'Header_Option') {
-    // 모든 스토어에 대응 가능하도록 개선 필요
-    if (
-      state.stores === undefined ||
-      state.stores.game === undefined ||
-      state.stores.game.steam === false
-    ) {
-      return (
-        <article
-          css={css`
-            padding: calc(var(--gap-standard) * 2) var(--gap-standard);
-            ${sizes.full}
-            ${flex.vertical}
-            align-items: flex-start;
-            position: relative;
-
-            h1 {
-              margin-left: calc(var(--gap-standard) * 2);
-              margin-bottom: calc(var(--gap-standard) / 2);
-              font-size: calc(var(--font-size-normal) * 2);
-            }
-
-            h2,
-            button {
-              font-size: 1.563vw;
-            }
-
-            hr {
-              margin-bottom: calc(var(--gap-standard) * 2);
-              ${sizes.free('100%')};
-            }
-
-            p {
-              bottom: 1.563vw;
-              font-size: var(--font-size-standard);
-              width: 100%;
-              text-align: center;
-            }
-
-            .store_container {
-              margin-bottom: 5.208vw;
-              padding: 0 4.167vw;
-              padding-bottom: calc(var(--gap-standard) / 2);
-              ${flex.horizontal}
-              ${sizes.free('100%')};
-              justify-content: space-between;
-
-              button {
-                padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
-              }
-            }
-
-            @media (orientation: portrait) {
-              h2,
-              button {
-                font-size: ${1.563 * 1.778}vw;
-              }
-
-              p {
-                bottom: ${1.563 * 1.778}vw;
-              }
-
-              .store_container {
-                padding: 0 ${4.167 * 1.778}vw;
-              }
-            }
-          `}
-        >
-          <h1>스토어 목록</h1>
-          <hr />
-          <section className="store_container">
-            <h2>Steam</h2>
-            <a
-              // href="http://localhost:3001/auth/steam"
-              href={`https://${sendTo}/auth/steam`}
-            >
-              <img src={signin} alt="sign_in_through_steam" title="sign_in_through_steam" />
-            </a>
-          </section>
-          {caution}
-        </article>
-      );
-      // eslint-disable-next-line no-else-return
-    } else {
-      return (
-        <article
-          css={css`
-            padding: var(--gap-standard) calc(var(--gap-standard) / 2);
-            ${sizes.full}
-            ${flex.vertical}
-            align-items: flex-start;
-            position: relative;
-            background: white;
-
-            h1 {
-              margin-left: calc(var(--gap-standard) * 2);
-              margin-bottom: calc(var(--gap-standard) / 2);
-              font-size: calc(var(--font-size-normal) * 2);
-            }
-
-            h2,
-            button {
-              font-size: 1.563vw;
-            }
-
-            hr {
-              margin-bottom: calc(var(--gap-standard) * 2);
-              ${sizes.free('100%')};
-            }
-
-            p {
-              bottom: 1.563vw;
-              font-size: var(--font-size-standard);
-              width: 100%;
-              text-align: center;
-            }
-
-            .store_container {
-              margin-bottom: 5.208vw;
-              padding: 0 4.167vw;
-              padding-bottom: calc(var(--gap-standard) / 2);
-              ${flex.horizontal}
-              ${sizes.free('100%')};
-              justify-content: space-between;
-
-              button {
-                padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
-                background: var(--btn-alert);
-                color: var(--white);
-              }
-            }
-
-            @media (orientation: portrait) {
-              h2,
-              button {
-                font-size: ${1.563 * 1.778}vw;
-              }
-
-              p {
-                bottom: ${1.563 * 1.778}vw;
-              }
-
-              .store_container {
-                margin-bottom: ${5.208 * 1.778}vw;
-              }
-            }
-          `}
-        >
-          <h1>스토어 목록</h1>
-          <hr />
-          <section className="store_container">
-            <h2>Steam</h2>
-            <button
-              onClick={e => {
-                const temp = state;
-                temp.stores.game.steam = false;
-                // 반영을 위해서는 comparisonState 변경이 필요
-                axios
-                  .post(
-                    // 'http://localhost:3001/disconnect',
-                    `https://${sendTo}/disconnect`,
-                    { reqUserInfo: JSON.stringify(temp) },
-                    { withCredentials: true }
-                  )
-                  .then(res => {
-                    if (res) {
-                      dispatch(setState2(false));
-                      setLibs('');
-                      dispatch(setItem({}));
-                      dispatch(setState1(temp));
-                    }
-                  });
-              }}
-            >
-              연동 해제
-            </button>
-          </section>
-          {caution}
-        </article>
-      );
-    }
-  } else if (origin === 'Header_MemInfo') {
-    return <MemberInfoWrap />;
-  } else if (origin.split('-')[0] === 'meta') {
-    if (origin.split('-')[1] === 'videos') {
-      return (
-        <div
-          css={css`
-            padding: calc(var(--gap-standard) * 2);
-            ${sizes.full}
-            ${flex.vertical}
-            position: relative;
-          `}
-        >
-          <span
-            className="modal-close"
-            css={css`
-              border-radius: 50%;
-              position: absolute;
-              top: -1.667vw;
-              right: -1.667vw;
-              cursor: pointer;
-              background: white;
-              ${flex.vertical}
-              ${sizes.free('1.667vw', '1.667vw')}
-
-              svg {
-                font-size: 1.667vw;
-              }
-
-              @media (orientation: portrait) {
-                top: -${1.667 * 1.778}vw;
-                right: -${1.667 * 1.778}vw;
-                ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
-
-                svg {
-                  font-size: ${1.667 * 1.778}vw;
-                }
-              }
-            `}
-            onClick={e => {
-              dispatch(modalStateCreator(false));
-              dispatch(setSelMedia(''));
-            }}
-          >
-            <AiOutlineCloseCircle />
-          </span>
-          <div
-            className="contents-wrapper"
-            css={css`
-              ${sizes.full}
-            `}
-          >
-            {selMedia ? (
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${selMedia}`}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              ''
-            )}
-            <div
-              className="btn-wrapper"
-              css={css`
-                ${sizes.free('calc(100% - 4.167vw)', 'calc(100% - 4.167vw)')}
-                ${flex.horizontal}
-                justify-content: space-between;
-                position: absolute;
-                top: calc(var(--gap-standard) * 2);
-                left: calc(var(--gap-standard) * 2);
-
-                span {
-                  ${flex.vertical}
-                  ${sizes.free('15%', '100%')}
-                  background: rgba(0, 0, 0, 0.5);
-                  opacity: 0;
-                  color: white;
-                  font-size: 5.208vw;
-                  text-weight: 900;
-                  transition: all 0.3s;
-
-                  * {
-                    color: white;
-                  }
-
-                  :hover {
-                    opacity: 100%;
-                    cursor: pointer;
-                  }
-
-                  :active {
-                    -webkit-filter: brightness(0.3);
-                    filter: brightness(0.3);
-                  }
-                }
-
-                @media (orientation: portrait) {
-                  ${sizes.free(
-                    `calc(100% - ${4.167 * 1.778}vw)`,
-                    `calc(100% - ${4.167 * 1.778}vw)`
-                  )}
-
-                  span {
-                    font-size: ${5.208 * 1.778}vw;
-                  }
-                }
-              `}
-            >
-              <span
-                id="media-left"
-                onClick={e => {
-                  const currIdx = selMediaList.indexOf(selMedia);
-                  if (currIdx === 0) {
-                    dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
-                  } else {
-                    dispatch(setSelMedia(selMediaList[currIdx - 1]));
-                  }
-                }}
-              >
-                <AiOutlineLeft />
-              </span>
-              <span
-                id="media-right"
-                onClick={e => {
-                  const currIdx = selMediaList.indexOf(selMedia);
-                  if (currIdx === selMediaList.length - 1) {
-                    dispatch(setSelMedia(selMediaList[0]));
-                  } else {
-                    dispatch(setSelMedia(selMediaList[currIdx + 1]));
-                  }
-                }}
-              >
-                <AiOutlineRight />
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div
-          css={css`
-            padding: calc(var(--gap-standard) * 2);
-            ${sizes.full}
-            ${flex.vertical}
-            position: relative;
-          `}
-        >
-          <span
-            className="modal-close"
-            css={css`
-              border-radius: 50%;
-              position: absolute;
-              top: -1.667vw;
-              right: -1.667vw;
-              cursor: pointer;
-              background: white;
-              ${flex.vertical}
-              ${sizes.free('1.667vw', '1.667vw')}
-
-              svg {
-                font-size: 1.667vw;
-              }
-
-              @media (orientation: portrait) {
-                top: -${1.667 * 1.778}vw;
-                right: -${1.667 * 1.778}vw;
-                ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
-
-                svg {
-                  font-size: ${1.667 * 1.778}vw;
-                }
-              }
-            `}
-            onClick={e => {
-              dispatch(modalStateCreator(false));
-              dispatch(setSelMedia(''));
-            }}
-          >
-            <AiOutlineCloseCircle />
-          </span>
-          <div
-            className="contents-wrapper"
-            css={css`
-              ${sizes.full}
-            `}
-          >
-            {selMedia ? (
-              <img
-                src={`https://images.igdb.com/igdb/image/upload/t_original/${selMedia}.jpg`}
-                alt="media"
-                id={`img-${selMedia}`}
-                css={css`
-                  ${sizes.full}
-                  color: white;
-                `}
-              />
-            ) : (
-              ''
-            )}
-            <div
-              className="btn-wrapper"
-              css={css`
-                ${sizes.free('calc(100% - 4.167vw)', 'calc(100% - 4.167vw)')}
-                ${flex.horizontal}
-                justify-content: space-between;
-                position: absolute;
-                top: calc(var(--gap-standard) * 2);
-                left: calc(var(--gap-standard) * 2);
-
-                span {
-                  ${flex.vertical}
-                  ${sizes.free('15%', '100%')}
-                  background: rgba(0, 0, 0, 0.5);
-                  opacity: 0;
-                  color: white;
-                  font-size: 5.208vw;
-                  text-weight: 900;
-                  transition: all 0.3s;
-
-                  * {
-                    color: white;
-                  }
-
-                  :hover {
-                    opacity: 100%;
-                    cursor: pointer;
-                  }
-
-                  :active {
-                    -webkit-filter: brightness(0.3);
-                    filter: brightness(0.3);
-                  }
-                }
-
-                @media (orientation: portrait) {
-                  ${sizes.free(
-                    `calc(100% - ${4.167 * 1.778}vw)`,
-                    `calc(100% - ${4.167 * 1.778}vw)`
-                  )}
-
-                  span {
-                    font-size: ${5.208 * 1.778}vw;
-                  }
-                }
-              `}
-            >
-              <span
-                id="media-left"
-                onClick={e => {
-                  const currIdx = selMediaList.indexOf(selMedia);
-                  if (currIdx === 0) {
-                    dispatch(setSelMedia(selMediaList[selMediaList.length - 1]));
-                  } else {
-                    dispatch(setSelMedia(selMediaList[currIdx - 1]));
-                  }
-                }}
-              >
-                <AiOutlineLeft />
-              </span>
-              <span
-                id="media-right"
-                onClick={e => {
-                  const currIdx = selMediaList.indexOf(selMedia);
-                  if (currIdx === selMediaList.length - 1) {
-                    dispatch(setSelMedia(selMediaList[0]));
-                  } else {
-                    dispatch(setSelMedia(selMediaList[currIdx + 1]));
-                  }
-                }}
-              >
-                <AiOutlineRight />
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-    }
+  @media (orientation: portrait) and (max-width: 599px) {
+    width: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+            ? '90vw'
+            : '90%'
+        : '90%'
+    };
+    height: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+          ? `${(90 * 9) / 16}vw`
+          : 'max-content'
+        : 'max-content'
+    };
   }
-  return (
-    <article
-      css={css`
-        margin: 10.417vw;
-        pointer-events: none;
-        ${flex.vertical}
-        ${sizes.full}
-      `}
-    >
-      <h1>Loading...</h1>
-    </article>
-  );
-};
+`;
 
 const Main = () => {
   const loginStatus = useSelector(state => state.loginStatus);
@@ -574,8 +101,8 @@ const Main = () => {
       };
       await axios
         .post(
-          // 'http://localhost:3001/check_login',
-          `https://${sendTo}/check_login`,
+          'http://localhost:3001/check_login',
+          // `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -666,8 +193,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -818,19 +345,21 @@ const Main = () => {
       </main>
       <Modal
         style={modalOption(modalOrigin)}
-        contents={() =>
-          modalContents(
-            userState,
-            dispatch,
-            comparisonStateCreator,
-            modalStateCreator,
-            modalOrigin,
-            setUserLibrary,
-            selectedItemDataCreator,
-            selectedMediaId,
-            selectedMediaIdCreator,
-            selectedMediaList
-          )
+        contents={
+          <ModalContents 
+            args={{
+              userState,
+              dispatch,
+              comparisonStateCreator,
+              modalStateCreator,
+              modalOrigin,
+              setUserLibrary,
+              selectedItemDataCreator,
+              selectedMediaId,
+              selectedMediaIdCreator,
+              selectedMediaList,
+            }}
+          />
         }
         origin={modalOrigin}
       />
