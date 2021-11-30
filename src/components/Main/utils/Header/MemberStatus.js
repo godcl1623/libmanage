@@ -12,7 +12,12 @@ const MemberStatus = ({ loginStatus, functions }) => {
     comparisonStateCreator,
     loginStatusCreator,
     history,
-    axios
+    axios,
+    selectedItemCreator,
+    selectedItemDataCreator,
+    selectedMediaIdCreator,
+    selectedMediaListCreator,
+    modalStateCreator
   } = functions;
   if (loginStatus === true) {
     return (
@@ -38,8 +43,8 @@ const MemberStatus = ({ loginStatus, functions }) => {
           };
           axios
             .post(
-              'http://localhost:3001/logout_process',
-              // `https://${sendTo}/logout_process`,
+              // 'http://localhost:3001/logout_process',
+              `https://${sendTo}/logout_process`,
               { message },
               { withCredentials: true }
             )
@@ -48,6 +53,11 @@ const MemberStatus = ({ loginStatus, functions }) => {
               dispatch(userStateCreator(null));
               dispatch(comparisonStateCreator(''));
               dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              dispatch(selectedItemCreator(''));
+              dispatch(selectedItemDataCreator(''));
+              dispatch(selectedMediaIdCreator(''));
+              dispatch(selectedMediaListCreator(''));
+              dispatch(modalStateCreator(false));
               alert('로그아웃 했습니다.');
               history.push('/');
             })
