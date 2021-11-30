@@ -8,10 +8,9 @@ const SelectedStoresList = ({ selStores, funcs }) => {
   return (
     <ul
       css={css`
-        border-bottom: 1px solid black;
         height: 50px;
         ${flex.horizontal}
-        background: white;
+        background: var(--btn-disable);
         ${sizes.free('100%', '50px')}
 
         button {
@@ -35,6 +34,7 @@ const SelectedStoresList = ({ selStores, funcs }) => {
           :
             selStores.map(store => 
               <button
+                key={`${store}-button`}
                 onClick={e => {
                   e.preventDefault();
                   dispatch(selectedStoresCreator(e.target.innerText.split(' ')[0]));

@@ -1,6 +1,7 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { sendTo } from '../../../../custom_modules/address';
 import { sizes } from '../../../../styles';
 
 const MemberStatus = ({ loginStatus, functions }) => {
