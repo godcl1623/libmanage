@@ -40,7 +40,7 @@ const Modal = ({ style, contents, origin }) => {
           ${style}
         `}
       >
-        { contents() }
+        { contents }
       </div>
     </div>,
     document.querySelector('#modal')
