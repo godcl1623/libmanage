@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { AiOutlineZoomIn } from 'react-icons/ai';
+import MakeMediaList from './utils/Meta/MakeMediaList'
+import ToBack from './utils/ToBack';
+import AgeRatingDistributor from './utils/Meta/AgeRatingDistributor';
 import {
   modalStateCreator,
   modalOriginCreator,
@@ -11,153 +14,6 @@ import {
 } from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
-import ToBack from './utils/ToBack';
-
-const MakeMediaList = ({ ...props }) => {
-  const {
-    target,
-    itemData,
-    setShowStat,
-    showStat,
-    dispatch,
-    modalStateCreator,
-    modalOriginCreator,
-    selMediaIdCreator
-  } = props;
-  let targetMedia = itemData.screenshots;
-  switch (target) {
-    case 'videos':
-      targetMedia = itemData.game_videos;
-      break;
-    case 'artworks':
-      targetMedia = itemData.artworks;
-      break;
-    default:
-      targetMedia = itemData.screenshots;
-  }
-  if (target === 'videos') {
-    return targetMedia
-      ? targetMedia.map((media, idx) => (
-          <div
-            className="media-wrapper"
-            id={`media-wrapper-${idx + 1}`}
-            key={`media-wrapper-${idx + 1}`}
-            onMouseEnter={e => {
-              e.preventDefault();
-              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-              const currImg = currMideaWrap.querySelector('img');
-              const currPlayBtn = currMideaWrap.querySelector('.player-btn');
-              currImg.style.filter = 'brightness(70%)';
-              currPlayBtn.style.display = 'block';
-            }}
-            onMouseLeave={e => {
-              e.preventDefault();
-              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-              const currImg = currMideaWrap.querySelector('img');
-              const currPlayBtn = currMideaWrap.querySelector('.player-btn');
-              currImg.style.filter = 'brightness(100%)';
-              currPlayBtn.style.display = 'none';
-            }}
-          >
-            <div
-              className="player-btn-wrapper"
-              key={`player-btn-wrapper-${idx + 1}`}
-              onClick={e => {
-                e.preventDefault();
-                dispatch(modalStateCreator(true));
-                dispatch(modalOriginCreator(`meta-${target}`));
-                dispatch(selMediaIdCreator(media));
-              }}
-            >
-              <div className="player-btn" key={`player-btn-${idx + 1}`} />
-            </div>
-            <img
-              key={`${media}_${idx}`}
-              src={`https://img.youtube.com/vi/${media}/2.jpg`}
-              alt={`video_thumb_${idx + 1}`}
-            />
-          </div>
-        ))
-      : '';
-  }
-  return targetMedia
-    ? targetMedia.map((media, idx) => (
-        <div
-          className="media-wrapper"
-          id={`media-wrapper-${idx + 1}`}
-          key={`media-wrapper-${idx + 1}`}
-          onMouseEnter={e => {
-            e.preventDefault();
-            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-            const currImg = currMideaWrap.querySelector('img');
-            currImg.style.filter = 'brightness(70%)';
-            setShowStat(currMideaWrap.id);
-          }}
-          onMouseLeave={e => {
-            e.preventDefault();
-            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-            const currImg = currMideaWrap.querySelector('img');
-            currImg.style.filter = 'brightness(100%)';
-            setShowStat(false);
-          }}
-        >
-          <div
-            className="player-btn-wrapper"
-            key={`player-btn-wrapper-${idx + 1}`}
-            onClick={e => {
-              e.preventDefault();
-              dispatch(modalStateCreator(true));
-              dispatch(modalOriginCreator(`meta-${target}`));
-              dispatch(selMediaIdCreator(media));
-            }}
-          >
-            {showStat === `media-wrapper-${idx + 1}` ? <AiOutlineZoomIn /> : ''}
-          </div>
-          <img
-            key={`${media}_${idx}`}
-            src={`https://images.igdb.com/igdb/image/upload/t_thumb/${media}.jpg`}
-            alt={`artworks_${idx + 1}`}
-          />
-        </div>
-      ))
-    : '';
-};
-
-const ageRatingDistributor = ages =>
-  ages.map(age => {
-    let targetRating = '';
-    let ageRatingsImgUrls = {};
-    const { category, rating } = age;
-    switch (category) {
-      case 1:
-        targetRating = 'esrb';
-        break;
-      case 2:
-        targetRating = 'pegi';
-        break;
-      default:
-        targetRating = '';
-        break;
-    }
-    switch (targetRating) {
-      case 'esrb':
-        ageRatingsImgUrls = esrb;
-        break;
-      case 'pegi':
-        ageRatingsImgUrls = pegi;
-        break;
-      default:
-        ageRatingsImgUrls = {};
-        break;
-    }
-    return (
-      <img
-        key={`${targetRating}-${ratings[rating]}`}
-        src={`${ageRatingsImgUrls[rating]}`}
-        alt={`${targetRating}-${ratings[rating]}`}
-      />
-    );
-  });
 
 const Meta = () => {
   const selectedItemData = useSelector(state => state.selectedItemData);
@@ -197,6 +53,7 @@ const Meta = () => {
     '개발사 등',
     '관련 링크'
   ];
+
   const titleVals = [
     collections,
     genres,
@@ -208,6 +65,7 @@ const Meta = () => {
     companies,
     websites
   ];
+
   const websitesCategory = [
     '공식 사이트',
     'Wikia',
@@ -227,6 +85,7 @@ const Meta = () => {
     'GoG',
     'Discord'
   ];
+
   useEffect(() => {
     if (selectedItemData.artworks !== undefined) {
       if (selectedMedia === 'screenshots') {
@@ -253,6 +112,7 @@ const Meta = () => {
       ></article>
     );
   }
+
   return (
     <article
       id="meta"
@@ -555,104 +415,110 @@ const Meta = () => {
         }
 
         @media (orientation: portrait) {
-          h2 {
-            font-size: ${1.823 * 1.778}vw;
-          }
-
-          h3 {
-            font-size: ${1.563 * 1.778}vw;
-          }
-
-          .meta-wrapper-top {
-            .meta-wrapper-ratings {
-              max-height: ${13.021 * 1.778}vw;
-
-              #game-cover {
-                height: ${13.021 * 1.778}vw;
-              }
-
-              #title-and-numerical {
-                h4 {
-                  font-size: ${0.938 * 1.778}vw;
+          @media (min-width: 600px) {
+            h2 {
+              font-size: ${1.823 * 1.778}vw;
+            }
+  
+            h3 {
+              font-size: ${1.563 * 1.778}vw;
+            }
+  
+            .meta-wrapper-top {
+              .meta-wrapper-ratings {
+                max-height: ${13.021 * 1.778}vw;
+  
+                #game-cover {
+                  height: ${13.021 * 1.778}vw;
                 }
   
-                #numerical-data {
-                  #game-scores {
-                    .donut-boundary {
-                      ${sizes.free(`${6.25 * 1.778}vw`, `${6.25 * 1.778}vw`)}
-                    }
-
-                    .donut-text {
-                      ${sizes.free(`${3.906 * 1.778}vw`, `${3.906 * 1.778}vw`)}
-                    }
-
-                    .instalment1 .donut-case::before {
-                      clip: rect(0 ${6.302 * 1.778}vw ${3.177 * 1.778}vw 0);
-                    }
+                #title-and-numerical {
+                  h4 {
+                    font-size: ${0.938 * 1.778}vw;
+                  }
+    
+                  #numerical-data {
+                    #game-scores {
+                      .donut-boundary {
+                        ${sizes.free(`${6.25 * 1.778}vw`, `${6.25 * 1.778}vw`)}
+                      }
   
-                    .instalment1 .donut-case::after {
-                      clip: rect(0 ${3.177 * 1.778}vw ${6.302 * 1.778}vw 0);
-                    }
+                      .donut-text {
+                        ${sizes.free(`${3.906 * 1.778}vw`, `${3.906 * 1.778}vw`)}
+                      }
   
-                    .instalment1 .donut-graph-border::before {
-                      height: ${0.104 * 1.778}vw;
+                      .instalment1 .donut-case::before {
+                        clip: rect(0 ${6.302 * 1.778}vw ${3.177 * 1.778}vw 0);
+                      }
+    
+                      .instalment1 .donut-case::after {
+                        clip: rect(0 ${3.177 * 1.778}vw ${6.302 * 1.778}vw 0);
+                      }
+    
+                      .instalment1 .donut-graph-border::before {
+                        height: ${0.104 * 1.778}vw;
+                      }
+    
+                      .instalment1 .donut-graph-border::after {
+                        height: ${0.104 * 1.778}vw;
+                      }
                     }
-  
-                    .instalment1 .donut-graph-border::after {
-                      height: ${0.104 * 1.778}vw;
+    
+                    #age-rating-wrapper {
+                      #rating-imgs {
+                        img {
+                          height: ${5.208 * 1.778}vw;
+                        }
+                      }
                     }
                   }
+                }
+              }
+    
+              .meta-wrapper-contents {
+                p#summary-container {
+                  margin: ${1.563 * 1.778}vw 0;
   
-                  #age-rating-wrapper {
-                    #rating-imgs {
+                .meta-wrapper-contents-media {
+                  margin-top: ${1.563 * 1.778}vw;
+                  margin-bottom: ${2.604 * 1.778}vw;
+                }
+  
+                .media-contents-wrapper {
+                  .media-tabs {
+                    button {
+                      box-shadow: 0 -${0.052 * 1.778}vw ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+                    }
+                  }
+    
+                  .media-contents {
+                    box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+  
+                    .media-wrapper {
+                      .player-btn-wrapper {
+                        .player-btn {
+                          border: ${0.781 * 1.778}vw solid transparent;
+                          border-left: ${1.302 * 1.778}vw solid white;
+                          border-right: ${0.26 * 1.778}vw solid transparent;
+                        }
+    
+                        svg {
+                          ${sizes.free(`${1.563 * 1.778}vw`, `${1.563 * 1.778}vw`)}
+                        }
+                      }
+    
                       img {
-                        height: ${5.208 * 1.778}vw;
+                        ${sizes.free(`${6.25 * 1.778}vw`, `${4.688 * 1.778}vw`)}
                       }
                     }
                   }
                 }
               }
             }
-  
-            .meta-wrapper-contents {
-              p#summary-container {
-                margin: ${1.563 * 1.778}vw 0;
+          }
 
-              .meta-wrapper-contents-media {
-                margin-top: ${1.563 * 1.778}vw;
-                margin-bottom: ${2.604 * 1.778}vw;
-              }
-
-              .media-contents-wrapper {
-                .media-tabs {
-                  button {
-                    box-shadow: 0 -${0.052 * 1.778}vw ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-                  }
-                }
-  
-                .media-contents {
-                  box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-
-                  .media-wrapper {
-                    .player-btn-wrapper {
-                      .player-btn {
-                        border: ${0.781 * 1.778}vw solid transparent;
-                        border-left: ${1.302 * 1.778}vw solid white;
-                        border-right: ${0.26 * 1.778}vw solid transparent;
-                      }
-  
-                      svg {
-                        ${sizes.free(`${1.563 * 1.778}vw`, `${1.563 * 1.778}vw`)}
-                      }
-                    }
-  
-                    img {
-                      ${sizes.free(`${6.25 * 1.778}vw`, `${4.688 * 1.778}vw`)}
-                    }
-                  }
-                }
-              }
-            }
+          @media (max-width: 599px) {
+            display: none;
           }
         }
       `}
@@ -691,7 +557,18 @@ const Meta = () => {
                 </div>
               </div>
               <div id="age-rating-wrapper">
-                <div id="rating-imgs">{ages ? ageRatingDistributor(ages) : ''}</div>
+                <div id="rating-imgs">
+                  {
+                    ages
+                      ?
+                        <AgeRatingDistributor
+                          ages={ ages }
+                          props={{ esrb, pegi, ratings }}
+                        />
+                      :
+                        ''
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -761,14 +638,17 @@ const Meta = () => {
               </div>
               <div className="media-contents">
                 <MakeMediaList
-                  target={selectedMedia}
-                  itemData={selectedItemData}
-                  setShowStat={setShowStat}
-                  showStat={showStat}
-                  dispatch={dispatch}
-                  modalStateCreator={modalStateCreator}
-                  modalOriginCreator={modalOriginCreator}
-                  selMediaIdCreator={selectedMediaIdCreator}
+                  props={{
+                    selectedMedia,
+                    selectedItemData,
+                    setShowStat,
+                    showStat,
+                    dispatch,
+                    modalStateCreator,
+                    modalOriginCreator,
+                    selectedMediaIdCreator,
+                    AiOutlineZoomIn
+                  }}
                 />
               </div>
             </div>
