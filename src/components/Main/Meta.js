@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { css } from '@emotion/react';
 import { AiOutlineZoomIn } from 'react-icons/ai';
 import MakeMediaList from './utils/Meta/MakeMediaList'
-import ToBack from './utils/ToBack';
+import ToBack from './utils/Meta/ToBack';
 import AgeRatingDistributor from './utils/Meta/AgeRatingDistributor';
 import {
   modalStateCreator,
@@ -15,8 +15,9 @@ import {
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 
-const Meta = () => {
+const Meta = ({ portrait }) => {
   const selectedItemData = useSelector(state => state.selectedItemData);
+  const isMobile = useSelector(state => state.isMobile);
   const [selectedMedia, setSelectedMedia] = useState('screenshots');
   const [isSpread, setIsSpread] = useState(false);
   const [showStat, setShowStat] = useState(false);
@@ -87,7 +88,13 @@ const Meta = () => {
   ];
 
   useEffect(() => {
-    if (selectedItemData.artworks !== undefined) {
+    if (selectedItemData.name !== undefined) {
+      dispatch(modalStateCreator(false));
+    }
+  }, [selectedItemData]);
+
+  useEffect(() => {
+    if (selectedItemData.name !== undefined) {
       if (selectedMedia === 'screenshots') {
         dispatch(selectedMediaListCreator(screenshots));
       } else if (selectedMedia === 'videos') {
@@ -98,7 +105,7 @@ const Meta = () => {
     }
   }, [selectedMedia, selectedItemData]);
 
-  if (selectedItemData.artworks === undefined) {
+  if (selectedItemData.name === undefined) {
     return (
       <article
         id="meta_blank"
@@ -516,9 +523,134 @@ const Meta = () => {
               }
             }
           }
+        }
 
-          @media (max-width: 599px) {
-            display: none;
+        @media (orientation: portrait) and (max-width: 599px) {
+          h2 {
+            padding-top: 20px;
+            font-size: 20px;
+          }
+
+          h3 {
+            font-size: 18px;
+          }
+
+          .meta-wrapper-top {
+            padding: var(--gap-standard);
+
+            .meta-wrapper-ratings {
+              ${sizes.full}
+              max-height: 125px;
+
+              #game-cover {
+                display: none;
+              }
+
+              #title-and-numerical {
+                h4 {
+                  font-size: 18px;
+                }
+  
+                #numerical-data {
+                  #game-scores {
+                    .donut-boundary {
+                      ${sizes.free(`80px`, `80px`)}
+                    }
+
+                    .donut-text {
+                      ${sizes.free(`40px`, `40px`)}
+                    }
+
+                    .instalment1 .donut-case::before {
+                      clip: rect(0 80px 40px 0);
+                    }
+  
+                    .instalment1 .donut-case::after {
+                      clip: rect(0 40px 80px 0);
+                    }
+  
+                    .instalment1 .donut-graph-border::before {
+                      height: 2px;
+                    }
+  
+                    .instalment1 .donut-graph-border::after {
+                      height: 2px;
+                    }
+                  }
+  
+                  #age-rating-wrapper {
+                    #rating-imgs {
+                      img {
+                        height: 70px;
+                      }
+  
+                      img:first-of-type {
+                        margin-right: 10px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+  
+            .meta-wrapper-contents {
+              p#summary-container {
+                margin: 20px 0;
+                padding: 20px;
+                font-size: 14px;
+              }
+  
+              .meta-wrapper-contents-media {
+                margin-top: 20px;
+                margin-bottom: 50px;
+              }
+              .media-contents-wrapper {
+                .media-tabs {
+                  button {
+                    box-shadow: 0 -1px 2px 1px var(--grey-dark);
+                    padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
+                  }
+  
+                  button:first-of-type {
+                    border-radius: 10px 0 0 0;
+                  }
+
+                  button:last-of-type {
+                    border-radius: 0 10px 0 0;
+                  }
+                }
+  
+                .media-contents {
+                  padding: 20px;
+                  box-shadow: 0 0 2px 1px var(--grey-dark);
+                  grid-template-columns: repeat(auto-fill, minmax(40%, auto));
+                  gap: 10px;
+
+                  .media-wrapper {
+                    .player-btn-wrapper {
+                      .player-btn {
+                        border: 15px solid transparent;
+                        border-left: 25px solid white;
+                        border-right: 5px solid transparent;
+                      }
+  
+                      svg {
+                        color: white;
+                        ${sizes.free('30px', '30px')}
+
+                        * {
+                          color: white;
+                        }
+                      }
+                    }
+  
+                    img {
+                      ${sizes.free('80px', '60px')}
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       `}
@@ -699,24 +831,64 @@ const Meta = () => {
               }
 
               @media (orientation: portrait) {
-                .table-title {
-                  border-bottom: ${0.052 * 1.778}vw solid black;
-                  border-right: ${0.156 * 1.778}vw double black;
-                  font-size: ${0.938 * 1.778}vw;
-                }
-
-                .table-contents {
-                  font-size: ${0.833 * 1.778}vw;
-
-                  div {
+                @media (min-width: 600px) {
+                  .table-title {
                     border-bottom: ${0.052 * 1.778}vw solid black;
+                    border-right: ${0.156 * 1.778}vw double black;
+                    font-size: ${0.938 * 1.778}vw;
+                  }
+  
+                  .table-contents {
+                    font-size: ${0.833 * 1.778}vw;
+  
+                    div {
+                      border-bottom: ${0.052 * 1.778}vw solid black;
+                    }
+                  }
+  
+                  .table-sub-title, .table-sub-contents {
+                    border-bottom: ${0.052 * 1.778}vw solid black;
+                    border-right: ${0.052 * 1.778}vw solid black;
+                    font-size: ${0.833 * 1.778}vw;
+                  }
+
+                  a {
+                    box-shadow: none;
                   }
                 }
 
-                .table-sub-title, .table-sub-contents {
-                  border-bottom: ${0.052 * 1.778}vw solid black;
-                  border-right: ${0.052 * 1.778}vw solid black;
-                  font-size: ${0.833 * 1.778}vw;
+                @media (max-width: 599px) {
+                  // grid-template-rows: repeat(auto-fill, 1fr);
+
+                  .table-title {
+                    border-bottom: 1px solid black;
+                    border-right: 3px double black;
+                    padding: 20px 0;
+                    font-size: 12px;
+                  }
+
+                  .table-contents {
+                    // grid-template-rows: repeat(auto-fill, 1fr);
+                    font-size: 10px;
+
+                    div {
+                      border-bottom: 1px solid black;
+                      padding: 5px 0;
+                    }
+                  }
+                  .table-sub-title, .table-sub-contents {
+                    border-bottom: 1px solid black;
+                    border-right: 1px solid black;
+                    padding: 5px 0;
+                    font-size: 10px;
+                    text-align: center;
+                  }
+
+                  .table-sub-contents {
+                    a {
+                      box-shadow: none
+                    }
+                  }
                 }
               }
             `}
@@ -929,7 +1101,11 @@ const Meta = () => {
           </article>
         </article>
       </article>
-      <ToBack />
+      {
+        portrait || isMobile
+          ? <ToBack />
+          : <></>
+      }
     </article>
   );
 };

@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { GrPrevious } from 'react-icons/gr';
-import { flex, sizes } from '../../../styles';
-import { selectedItemCreator, selectedItemDataCreator } from '../../../actions';
+import { flex, sizes } from '../../../../styles';
+import { selectedItemCreator, selectedItemDataCreator } from '../../../../actions';
 
 const ToBack = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,11 @@ const ToBack = () => {
         ${flex.vertical}
         cursor: pointer;
         z-index: 4;
-        opacity: 0.5;
+        opacity: 0.7;
+
+        @media (max-width: 599px) {
+          top: 90px;
+        }
       `}
       onClick={e => {
         e.preventDefault();

@@ -14,10 +14,12 @@ const SelectedStoresList = ({ selStores, funcs }) => {
         ${sizes.free('100%', '50px')}
 
         button {
-          padding: 2px 10px;
+          padding: 2px 7px;
+          ${flex.horizontal}
+          height: 20px;
           background: red;
           color: white;
-          font-size: 12px;
+          font-size: 14px;
         }
 
         button:after {

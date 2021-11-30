@@ -117,7 +117,7 @@ const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDi
         name="cover_size"
         min="5"
         max="15"
-        value={coverSize}
+        defaultValue={coverSize}
         css={css`
           margin: calc(var(--gap-multiply-small) * 2);
           padding: 0;

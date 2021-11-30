@@ -19,7 +19,11 @@ import {
   userStateCreator,
   comparisonStateCreator,
   modalOriginCreator,
-  librarySearchCreator
+  librarySearchCreator,
+  selectedItemCreator,
+  selectedItemDataCreator,
+  selectedMediaIdCreator,
+  selectedMediaListCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex } from '../../styles';
@@ -336,7 +340,12 @@ const Header = ({ headerRef, setHeight }) => {
                     comparisonStateCreator,
                     loginStatusCreator,
                     history,
-                    axios
+                    axios,
+                    selectedItemCreator,
+                    selectedItemDataCreator,
+                    selectedMediaIdCreator,
+                    selectedMediaListCreator,
+                    modalStateCreator
                   }}
                 />
               ]}
