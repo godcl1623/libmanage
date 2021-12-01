@@ -13,23 +13,25 @@ const Modal = ({ style, contents, origin }) => {
   return ReactDOM.createPortal(
     <div
       className="modal-bg"
-      style={{
-        'display': display,
-        'position': 'absolute',
-        'width': '100%',
-        'height': '100%',
-        'background': 'rgba(0, 0, 0, 0.3)',
-        'top': '0',
-        'left': '0',
-        'zIndex': '2',
-        'pointerEvents': origin === 'Library' ? 'none' : 'auto'
-      }}
+      css={css`
+        display: ${display};
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        top: 0;
+        left: 0;
+        z-index: 2;
+        pointer-events: ${origin === 'Library' ? 'none' : 'auto'};
+      `}
       onClick={e => {
         // e.preventDefault();
-        if (e.target.className === 'modal-bg') {
-          dispatch(modalStateCreator(false));
-          if (selMediaId !== '') {
-            dispatch(selectedMediaIdCreator(''));
+        if (typeof e.target.className === 'string') {
+          if (e.target.className.split(' ')[0] === 'modal-bg') {
+            dispatch(modalStateCreator(false));
+            if (selMediaId !== '') {
+              dispatch(selectedMediaIdCreator(''));
+            }
           }
         }
       }}

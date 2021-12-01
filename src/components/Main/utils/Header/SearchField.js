@@ -12,6 +12,7 @@ const SearchField = ({dispatch, setState, fieldVal}) => (
 
       input {
         ${border}
+        border-color: transparent;
       }
 
       @media (max-width: 599px) {

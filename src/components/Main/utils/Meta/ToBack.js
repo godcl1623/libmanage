@@ -6,7 +6,8 @@ import { GrPrevious } from 'react-icons/gr';
 import { flex, sizes } from '../../../../styles';
 import { selectedItemCreator, selectedItemDataCreator } from '../../../../actions';
 
-const ToBack = () => {
+const ToBack = ({ heights }) => {
+  const { headerHeight, selStoresListHeight } = heights;
   const dispatch = useDispatch();
 
   return (
@@ -15,6 +16,7 @@ const ToBack = () => {
         padding: 10px;
         position: fixed;
         top: 50px;
+        top: ${headerHeight + selStoresListHeight}px;
         right: 0;
         ${sizes.free('2.604vw')}
         min-width: 50px;
@@ -22,10 +24,6 @@ const ToBack = () => {
         cursor: pointer;
         z-index: 4;
         opacity: 0.7;
-
-        @media (max-width: 599px) {
-          top: 98px;
-        }
       `}
       onClick={e => {
         e.preventDefault();

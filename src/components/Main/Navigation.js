@@ -156,6 +156,10 @@ const Navigation = ({ storesList }) => {
               font-size: 16px;
             }
 
+            .category-header {
+              border: 2px solid black;
+            }
+
             .category {
               margin-bottom: calc(var(--gap-multiply-big) * 2);
             }
@@ -182,6 +186,8 @@ const Navigation = ({ storesList }) => {
         css={css`
           margin-bottom: var(--gap-standard);
           ${border}
+          border-color: transparent;
+          box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
           padding: 0.156vw 0.781vw;
           font-size: var(--font-size-normal);
           ${sizes.free('100%')}
@@ -194,8 +200,10 @@ const Navigation = ({ storesList }) => {
 
           @media (orientation: portrait) {
             padding: ${0.156 * 1.778}vw ${0.781 * 1.778}vw;
+            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
 
             @media (max-width: 599px) {
+              box-shadow: 0 0 2px 1px var(--grey-dark);
               font-size: 16px;
 
               option {

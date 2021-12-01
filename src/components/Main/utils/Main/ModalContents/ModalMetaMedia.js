@@ -65,10 +65,12 @@ const ModalMetaMedia = ({ props }) => {
             }
 
             @media (max-width: 599px) {
-              top: 0;
-              right: -32px;
+              top: 10px;
+              right: 50%;
               transform: translateX(50%);
               ${sizes.free('32px', '32px')}
+              opacity: 50%;
+              z-index: 9;
 
               svg {
                 font-size: 32px;

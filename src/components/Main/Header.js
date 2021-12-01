@@ -28,7 +28,7 @@ import {
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex } from '../../styles';
 
-const Header = ({ headerRef, setHeight }) => {
+const Header = ({ headerRef, setHeight, currHeight }) => {
   const loginStatus = useSelector(state => state.loginStatus);
   const userState = useSelector(state => state.userState);
   const modalState = useSelector(state => state.modalState);
@@ -53,7 +53,16 @@ const Header = ({ headerRef, setHeight }) => {
   };
 
   useEffect(() => {
-    setHeight(headerRef.current.getBoundingClientRect().height);
+    const detector = () => {
+      if (window.matchMedia('(orientation: portrait)').matches) {
+        setHeight(headerRef.current.getBoundingClientRect().height);
+      } else {
+        setHeight(headerRef.current.getBoundingClientRect().height);
+      }
+    };
+    detector();
+    window.addEventListener('resize', detector);
+    return () => window.removeEventListener('resize', detector);
   }, []);
 
   const wrapper = `
@@ -221,6 +230,7 @@ const Header = ({ headerRef, setHeight }) => {
         ${flex.horizontal}
         justify-content: space-between;
         ${sizes.free('100%', '2.604vw')}
+        min-height: 35px;
         background: white;
 
         button {
@@ -236,6 +246,14 @@ const Header = ({ headerRef, setHeight }) => {
             -webkit-transform: scale(0.95);
             -ms-transform: scale(0.95);
             transform: scale(0.95);
+          }
+        }
+
+        @media (max-width: 720px) and (orientation: landscape) {
+          ${sizes.free('100%', '25px')}
+          min-height: 25px;
+          input {
+            box-shadow: 0 0 2px 1px var(--grey-dark);
           }
         }
 
@@ -384,6 +402,11 @@ const Header = ({ headerRef, setHeight }) => {
           div {
             ${flex.horizontal}
             justify-content: flex-end;
+          }
+
+          @media (orientation: portrait) and (max-width: 599px) {
+            margin-right: 20px;
+            flex-direction: row-reverse;
           }
         `}
       >
