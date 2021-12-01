@@ -97,18 +97,57 @@ const ChangePwd = ({ token, reqTime }) => {
         }
 
         @media (orientation: portrait) {
-          ${sizes.free('60%', 'max-content')}
-          box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
+          @media (min-width: 600px) {
+            ${sizes.free('60%', 'max-content')}
+            box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
+  
+            .submit-wrapper {
+              ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+  
+              button:first-of-type {
+                margin-right: calc(var(--gap-multiply-small) * 2);
+              }
+  
+              button:last-of-type {
+                margin-left: calc(var(--gap-multiply-small) * 2);
+              }
+            }
+          }
 
-          .submit-wrapper {
-            ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+          @media (max-width: 599px) {
+            border-radius: 10px;
+            padding: 20px;
+            ${sizes.free('90%', 'max-content')}
+            box-shadow: 0 0 10px 1px var(--grey-dark);
 
-            button:first-of-type {
-              margin-right: calc(var(--gap-multiply-small) * 2);
+            .input-wrapper {
+              font-size: 16px;
+
+              input {
+                margin: 20px 0;
+                padding: 5px 10px;
+                font-size: 14px;
+              }
+
+              .verify-error {
+                margin-bottom: 20px;
+                font-size: 14px;
+              }
             }
 
-            button:last-of-type {
-              margin-left: calc(var(--gap-multiply-small) * 2);
+            .submit-wrapper {
+              ${sizes.free('100%', '30px')}
+              button {
+                font-size: 13px;
+              }
+
+              button:first-of-type {
+                margin-right: var(--gap-multiply-small);
+              }
+
+              button:last-of-type {
+                margin-left: var(--gap-multiply-small);
+              }
             }
           }
         }

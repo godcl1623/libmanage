@@ -164,19 +164,40 @@ const Progress = () => {
         }
 
         @media (orientation: portrait) {
-          h1 {
-            margin-bottom: ${5.208 * 1.778}vw;
-            font-size: ${5.208 * 1.778}vw;
+          @media (min-width: 600px) {
+            h1 {
+              margin-bottom: ${5.208 * 1.778}vw;
+              font-size: ${5.208 * 1.778}vw;
+            }
+    
+            p {
+              font-size: ${1.25 * 1.778}vw;
+              font-weight: bold;
+            }
+    
+            .contents-wrapper {
+              ${sizes.free('60%', '35%')}
+              box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+            }
           }
-  
-          p {
-            font-size: ${1.25 * 1.778}vw;
-            font-weight: bold;
-          }
-  
-          .contents-wrapper {
-            ${sizes.free('60%', '35%')}
-            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+
+          @media (max-width: 599px) {
+            h1 {
+              margin-bottom: 40px;
+              font-size: 40px;
+            }
+
+            p {
+              font-size: 16px;
+              text-align: center;
+            }
+
+            .contents-wrapper {
+              border-radius: 7px;
+              padding: 20px;
+              ${sizes.free('90%', '50%')}
+              box-shadow: 0 0 10px 1px var(--grey-dark);
+            }
           }
         }
       `}

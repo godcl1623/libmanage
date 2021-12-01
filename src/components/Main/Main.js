@@ -28,7 +28,7 @@ import {
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex } from '../../styles';
 
-const modalOption = origin => `
+const modalOption = (origin, isMobile, isPortrait) => `
   position: absolute;
   width: ${
     origin !== 'Header_MemInfo'
@@ -51,21 +51,45 @@ const modalOption = origin => `
   transform: translate(-50%, -50%);
   z-index: 2;
 
+  @media (max-width: 720px) {
+    width: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+            ? '70vw'
+            : '50%'
+        : '45%'
+    };
+    height: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+          ? `${(70 * 9) / 16}vw`
+          : 'max-content'
+        : 'max-content'
+    };
+  }
+
   @media (orientation: portrait) and (max-width: 599px) {
     width: ${
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
-            ? '90vw'
+            ? isPortrait && isMobile
+                ? `${(90 * 16) / 9}vw`
+                : '70vw'
             : '90%'
         : '90%'
     };
     height: ${
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
-          ? `${(90 * 9) / 16}vw`
+          ? isPortrait && isMobile
+              ? '90vw'
+              : `${(70 * 9) / 16}vw`
           : 'max-content'
         : 'max-content'
     };
+    transform:
+      translate(-50%, -50%)
+      ${origin.split('-')[0] === 'meta' ? 'rotate(90deg)' : ''};
   }
 `;
 
@@ -101,8 +125,8 @@ const Main = () => {
       };
       await axios
         .post(
-          'http://localhost:3001/check_login',
-          // `https://${sendTo}/check_login`,
+          // 'http://localhost:3001/check_login',
+          `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -193,8 +217,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -344,7 +368,7 @@ const Main = () => {
         </div>
       </main>
       <Modal
-        style={modalOption(modalOrigin)}
+        style={modalOption(modalOrigin, isMobile, isPortrait)}
         contents={
           <ModalContents 
             args={{
