@@ -41,17 +41,50 @@ const CheckMemInfo = ({ userState, setState}) => (
       }
 
       @media (orientation: portrait) {
-        .input_container {
-          margin: ${4.167 * 1.778}vw 0;
-        }
-
-        .submit_container {
-          button:first-of-type {
-            margin-right: calc(var(--gap-multiply-small) * 2);
+        @media (min-width: 600px) {
+          .input_container {
+            margin: ${4.167 * 1.778}vw 0;
           }
   
-          button:last-of-type {
-            margin-left: calc(var(--gap-multiply-small) * 2);
+          .submit_container {
+            button:first-of-type {
+              margin-right: calc(var(--gap-multiply-small) * 2);
+            }
+    
+            button:last-of-type {
+              margin-left: calc(var(--gap-multiply-small) * 2);
+            }
+          }
+        }
+
+        @media (max-width: 599px) {
+          h2 {
+            font-size: 16px;
+            text-align: center;
+          }
+
+          .input_container {
+            margin: 40px 0;
+
+            label {
+              margin-right: 5px;
+              font-size: 16px;
+            }
+          }
+
+          .submit_container {
+            button {
+              ${sizes.free('100%', '30px')}
+              font-size: 13px;
+            }
+
+            button:first-of-type {
+              margin-right: var(--gap-multiply-small);
+            }
+
+            button:last-of-type {
+              margin-left: var(--gap-multiply-small);
+            }
           }
         }
       }

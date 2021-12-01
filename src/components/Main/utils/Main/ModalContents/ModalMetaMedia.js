@@ -21,6 +21,10 @@ const ModalMetaMedia = ({ props }) => {
         ${sizes.full}
         ${flex.vertical}
         position: relative;
+
+        @media (orientation: portrait) and (max-width: 599px) {
+          padding: 10px;
+        }
       `}
     >
       <span
@@ -39,13 +43,36 @@ const ModalMetaMedia = ({ props }) => {
             font-size: 1.667vw;
           }
 
-          @media (orientation: portrait) {
-            top: -${1.667 * 1.778}vw;
-            right: -${1.667 * 1.778}vw;
-            ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
+          @media (max-width: 720px) {
+            top: 0;
+            right: -20px;
+            ${sizes.free('16px', '16px')}
 
             svg {
-              font-size: ${1.667 * 1.778}vw;
+              font-size: 32px;
+            }
+          }
+
+          @media (orientation: portrait) {
+            @media (min-width: 600px) {
+              top: -${1.667 * 1.778}vw;
+              right: -${1.667 * 1.778}vw;
+              ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
+  
+              svg {
+                font-size: ${1.667 * 1.778}vw;
+              }
+            }
+
+            @media (max-width: 599px) {
+              top: 0;
+              right: -32px;
+              transform: translateX(50%);
+              ${sizes.free('32px', '32px')}
+
+              svg {
+                font-size: 32px;
+              }
             }
           }
         `}
@@ -127,13 +154,26 @@ const ModalMetaMedia = ({ props }) => {
             }
 
             @media (orientation: portrait) {
-              ${sizes.free(
-                `calc(100% - ${4.167 * 1.778}vw)`,
-                `calc(100% - ${4.167 * 1.778}vw)`
-              )}
+              @media (min-width: 600px) {
+                ${sizes.free(
+                  `calc(100% - ${4.167 * 1.778}vw)`,
+                  `calc(100% - ${4.167 * 1.778}vw)`
+                )}
+  
+                span {
+                  font-size: ${5.208 * 1.778}vw;
+                }
+              }
 
-              span {
-                font-size: ${5.208 * 1.778}vw;
+              @media (max-width: 599px) {
+                ${sizes.free('calc(100% - 20px)', 'calc(100% - 20px)')}
+                top: 10px;
+                left: 10px;
+
+                span {
+                  ${sizes.free('15%', '100%')}
+                  font-size: 50px;
+                }
               }
             }
           `}

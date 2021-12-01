@@ -32,6 +32,14 @@ const MemberInfoWrap = () => {
           .member-info-contents {
             ${sizes.free('100%', 'calc(100% - calc(var(--gap-standard) * 2))')}
           }
+
+          @media (orientation: portrait) and (max-width: 599px) {
+            padding: 40px 20px;
+  
+            .member-info-contents {
+              ${sizes.free('100%', 'calc(100% - 40px)')}
+            }
+          }
         `}
       >
         {
@@ -69,6 +77,21 @@ const MemberInfoWrap = () => {
                     button:last-of-type {
                       border-radius: 0 var(--border-rad-normal) 0 0;
                       background: ${tabState === 'modify' ? 'var(--btn-disable)' : 'var(--highlight-light)'};
+                    }
+
+                    @media (orientation: portrait) and (max-width: 599px) {
+                      button {
+                        padding: 5px 15px;
+                        font-size: 12px;
+                      }
+  
+                      button:first-of-type {
+                        border-radius: 10px 0 0 0;
+                      }
+  
+                      button:last-of-type {
+                        border-radius: 0 10px 0 0;
+                      }
                     }
                   `}
                 >

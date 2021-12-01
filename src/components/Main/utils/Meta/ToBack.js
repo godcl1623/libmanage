@@ -24,7 +24,7 @@ const ToBack = () => {
         opacity: 0.7;
 
         @media (max-width: 599px) {
-          top: 90px;
+          top: 98px;
         }
       `}
       onClick={e => {

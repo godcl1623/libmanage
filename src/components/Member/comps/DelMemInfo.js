@@ -101,23 +101,94 @@ const DelMemInfo = ({ userState }) => {
         }
 
         @media (orientation: portrait) {
-          form {
-            input {
-              box-shadow: 0 0 ${0.052 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+          @media (min-width: 600px) {
+            form {
+              input {
+                box-shadow: 0 0 ${0.052 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+              }
+  
+              .check-delete {
+                ${sizes.free('100%', `calc(100% - ${4.688 * 1.778}vw)`)}
+              }
             }
-
-            .check-delete {
-              ${sizes.free('100%', `calc(100% - ${4.688 * 1.778}vw)`)}
+  
+            .submit-wrapper {
+              button:first-of-type {
+                margin-right: calc(var(--gap-multiply-small) * 2);
+              }
+    
+              button:last-of-type {
+                margin-left: calc(var(--gap-multiply-small) * 2);
+              }
             }
           }
 
-          .submit-wrapper {
-            button:first-of-type {
-              margin-right: calc(var(--gap-multiply-small) * 2);
+          @media (max-width: 599px) {
+            h2, h3 {
+              margin-bottom: 10px;
             }
-  
-            button:last-of-type {
-              margin-left: calc(var(--gap-multiply-small) * 2);
+
+            h2 {
+              font-size: 18px;
+            }
+
+            h3 {
+              font-size: 16px;
+            }
+
+            #guidance {
+              padding: 10px;
+
+              h1 {
+                margin-bottom: 10px;
+                font-size: 32px;
+              }
+
+              li {
+                padding-left: 10px;
+                font-size: 14px;
+              }
+            }
+
+            form {
+              h3, p, input {
+                margin: 10px 0;
+              }
+
+              input {
+                box-shadow: 0 0 1px 1px var(--grey-dark);
+              }
+
+              p {
+                font-size: 14px;
+              }
+
+              span {
+                color: #ff1515;
+              }
+
+              .check-delete {
+                margin-bottom: 20px;
+                padding: 0 10px;
+                ${flex.vertical}
+                ${sizes.free('100%', 'calc(100% - 4.688vw)')}
+              }
+            }
+
+            .submit-wrapper {
+              ${sizes.free('100%', '30px')}
+
+              button {
+                font-size: 14px;
+              }
+
+              button:first-of-type {
+                margin-right: var(--gap-multiply-small);
+              }
+
+              button:last-of-type {
+                margin-left: var(--gap-multiply-small);
+              }
             }
           }
         }

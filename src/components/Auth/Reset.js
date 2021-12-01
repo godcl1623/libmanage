@@ -35,9 +35,9 @@ const Reset = () => {
   const tokenTail = history.location.pathname.slice(-7,);
   const requestedTime = now();
 
-  useEffect(() => {
-    dispatch(setTokenState(false))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(setTokenState('abnormal'))
+  // }, [])
 
   useEffect(() => {
     const abortCon = new AbortController();
@@ -104,8 +104,27 @@ const Reset = () => {
             }
 
             @media (orientation: portrait) {
-              ${sizes.free('70%', '35%')}
-              box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
+              @media (min-width: 600px) {
+                ${sizes.free('70%', '35%')}
+                box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
+              }
+
+              @media (max-width: 599px) {
+                border-radius: 10px;
+                padding: 20px;
+                ${sizes.free('90%', '50%')}
+                box-shadow: 0 0 10px 1px var(--grey-dark);
+
+                h1 {
+                  font-size: 32px;
+                  text-align: center;
+                }
+
+                #to_home {
+                  margin-top: 50px;
+                  font-size: 50px;
+                }
+              }
             }
           `}
         >
