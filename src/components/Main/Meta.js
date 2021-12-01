@@ -15,7 +15,7 @@ import {
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 
-const Meta = ({ portrait }) => {
+const Meta = ({ portrait, heights }) => {
   const selectedItemData = useSelector(state => state.selectedItemData);
   const isMobile = useSelector(state => state.isMobile);
   const [selectedMedia, setSelectedMedia] = useState('screenshots');
@@ -1103,7 +1103,7 @@ const Meta = ({ portrait }) => {
       </article>
       {
         portrait || isMobile
-          ? <ToBack />
+          ? <ToBack heights={heights} />
           : <></>
       }
     </article>

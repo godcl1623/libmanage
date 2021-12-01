@@ -26,9 +26,10 @@ import {
   selectedStoresCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
-import { sizes, flex } from '../../styles';
+import { sizes, flex, border } from '../../styles';
 
 const modalOption = (origin, isMobile, isPortrait) => `
+  box-shadow: 0 0 0.521vw 0.104vw var(--grey-dark);
   position: absolute;
   width: ${
     origin !== 'Header_MemInfo'
@@ -41,8 +42,8 @@ const modalOption = (origin, isMobile, isPortrait) => `
     origin !== 'Header_MemInfo'
       ? origin.split('-')[0] === 'meta'
         ? `${(90 * 9) / 16}vw`
-        : 'max-content'
-      : 'max-content'
+        : '50%'
+      : '50%'
   };
   ${flex.vertical}
   background: white;
@@ -63,33 +64,51 @@ const modalOption = (origin, isMobile, isPortrait) => `
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
-          : 'max-content'
-        : 'max-content'
+          : '50%'
+        : '50%'
     };
   }
 
-  @media (orientation: portrait) and (max-width: 599px) {
+  @media (orientation: portrait) {
     width: ${
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
-            ? isPortrait && isMobile
-                ? `${(90 * 16) / 9}vw`
-                : '70vw'
-            : '90%'
-        : '90%'
+            ? '90vw'
+            : '50%'
+        : '45%'
     };
     height: ${
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
-          ? isPortrait && isMobile
-              ? '90vw'
-              : `${(70 * 9) / 16}vw`
-          : 'max-content'
-        : 'max-content'
+          ? `${(90 * 9) / 16}vw`
+          : '30%'
+        : '30%'
     };
-    transform:
-      translate(-50%, -50%)
-      ${origin.split('-')[0] === 'meta' ? 'rotate(90deg)' : ''};
+
+    @media (max-width: 599px) {
+      box-shadow: 0 0 10px 2px var(--grey-dark);
+      width: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+              ? isPortrait && isMobile
+                  ? `${(90 * 16) / 9}vw`
+                  : '70vw'
+              : '90%'
+          : '90%'
+      };
+      height: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+            ? isPortrait && isMobile
+                ? '90vw'
+                : `${(70 * 9) / 16}vw`
+            : 'max-content'
+          : 'max-content'
+      };
+      transform:
+        translate(-50%, -50%)
+        ${origin.split('-')[0] === 'meta' ? 'rotate(90deg)' : ''};
+    }
   }
 `;
 
@@ -110,11 +129,13 @@ const Main = () => {
   const [storesList, setStoresList] = useState('');
   const [userLibrary, setUserLibrary] = useState('');
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [selStoresListHeight, setSelStoresListHeight] = useState(0);
   const [isPortrait, setIsPortrait] = useState(false);
   const [coverSize, setCoverSize] = useState(10);
   const dispatch = useDispatch();
   const history = useHistory();
   const headerRef = React.useRef();
+  const listRef = React.useRef();
 
   useEffect(() => {
     // const abortCon = new AbortController();
@@ -125,8 +146,8 @@ const Main = () => {
       };
       await axios
         .post(
-          // 'http://localhost:3001/check_login',
-          `https://${sendTo}/check_login`,
+          'http://localhost:3001/check_login',
+          // `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -217,8 +238,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -314,7 +335,11 @@ const Main = () => {
           }
         }}
       >
-        <Header headerRef={headerRef} setHeight={setHeaderHeight} />
+        <Header
+          headerRef={headerRef}
+          setHeight={setHeaderHeight}
+          currHeight={headerHeight}
+        />
         <div
           id="main-contents"
           css={css`
@@ -328,6 +353,8 @@ const Main = () => {
         >
           {isPortrait && isMobile ? (
             <SelectedStoresList
+              listRef={listRef}
+              setHeight={setSelStoresListHeight}
               selStores={selectedStores}
               funcs={{
                 dispatch,
@@ -343,7 +370,10 @@ const Main = () => {
             <>
               <Navigation storesList={storesList} />
               <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
-              <Meta portrait={isPortrait} />
+              <Meta
+                portrait={isPortrait}
+                heights={{ headerHeight, selStoresListHeight }}
+              />
             </>
           ) : isMobile ? (
             <>
@@ -352,7 +382,10 @@ const Main = () => {
               ) : selectedItemData.name === undefined ? (
                 <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
               ) : (
-                <Meta portrait={isPortrait} />
+                <Meta
+                  portrait={isPortrait}
+                  heights={{ headerHeight, selStoresListHeight }}
+                />
               )}
             </>
           ) : (
@@ -361,7 +394,10 @@ const Main = () => {
               {selectedItemData.name === undefined ? (
                 <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
               ) : (
-                <Meta portrait={isPortrait} />
+                <Meta
+                  portrait={isPortrait}
+                  heights={{ headerHeight, selStoresListHeight }}
+                />
               )}
             </>
           )}

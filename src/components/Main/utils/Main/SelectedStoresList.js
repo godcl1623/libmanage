@@ -3,10 +3,25 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { flex, sizes } from '../../../../styles';
 
-const SelectedStoresList = ({ selStores, funcs }) => {
+const SelectedStoresList = ({ listRef, setHeight, selStores, funcs }) => {
   const { dispatch, selectedStoresCreator, selectedItemCreator, selectedItemDataCreator } = funcs;
+
+  React.useEffect(() => {
+    const detector = () => {
+      if (window.matchMedia('(orientation: portrait)').matches) {
+        setHeight(listRef.current.getBoundingClientRect().height);
+      } else {
+        setHeight(listRef.current.getBoundingClientRect().height);
+      }
+    };
+    detector();
+    window.addEventListener('resize', detector);
+    return () => window.removeEventListener('resize', detector);
+  }, []);
+
   return (
     <ul
+      ref={listRef}
       css={css`
         height: 50px;
         ${flex.horizontal}
