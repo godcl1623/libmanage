@@ -180,6 +180,7 @@ const ModMemInfo = ({ userState }) => {
               input {
                 margin: 5px 0;
                 padding: 5px 10px;
+                min-height: 30px;
                 font-size: 14px;
               }
 
@@ -201,6 +202,7 @@ const ModMemInfo = ({ userState }) => {
                 border-radius: 0;
                 padding: 5px 10px;
                 ${sizes.free('49%')}
+                min-height: 30px;
                 font-size: 14px;
               }
             }

@@ -163,6 +163,7 @@ const Login = () => {
           a {
             background: var(--btn-active);
             color: var(--grey-dark);
+            box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
           }
         }
         
@@ -249,6 +250,7 @@ const Login = () => {
               }
               
               a {
+                box-shadow: 0 0 3px 1px var(--grey-dark);
               }
             }
           }
