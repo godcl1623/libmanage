@@ -141,7 +141,7 @@ const Register = () => {
             }
   
             #register-form .submit-wrapper {
-              ${sizes.free('100%', '${2.604 * 1.778}vw')}
+              ${sizes.free('100%', `${2.604 * 1.778}vw`)}
             }
           }
 
@@ -164,10 +164,12 @@ const Register = () => {
             #register-form .input-wrapper input {
               margin: calc(var(--gap-multiply-small)) 0;
               padding: 5px calc(var(--gap-multiply-small) * 1.2);
+              min-height: 30px;
             }
 
             #register-form .input-wrapper #input-email input {
-              ${sizes.free('47%', '27px')}
+              ${sizes.free('47%')}
+              min-height: 30px;
               display: inline-block;
             }
 
@@ -178,6 +180,7 @@ const Register = () => {
             #register-form .input-wrapper #input-email select {
               padding: 5px calc(var(--gap-multiply-small) * 1.2);
               ${sizes.free('47%')}
+              min-height: 30px;
               font-size: 12px;
             }
 

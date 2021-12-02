@@ -35,25 +35,25 @@ const Reset = () => {
   const tokenTail = history.location.pathname.slice(-7,);
   const requestedTime = now();
 
-  // useEffect(() => {
-  //   dispatch(setTokenState(true))
-  // }, [])
-
   useEffect(() => {
-    const abortCon = new AbortController();
-    const postData = {
-      tokenTail,
-      requestedTime
-    }
-    // axios.post('http://localhost:3001/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
-    axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
-      .then(res => {
-        dispatch(setTokenState(res.data.tokenState));
-        setRequestToken(res.data.token);
-      })
-      .catch(err => alert(err));
-    return () => abortCon.abort();
-  }, []);
+    dispatch(setTokenState(true))
+  }, [])
+
+  // useEffect(() => {
+  //   const abortCon = new AbortController();
+  //   const postData = {
+  //     tokenTail,
+  //     requestedTime
+  //   }
+  //   // axios.post('http://localhost:3001/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+  //   axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+  //     .then(res => {
+  //       dispatch(setTokenState(res.data.tokenState));
+  //       setRequestToken(res.data.token);
+  //     })
+  //     .catch(err => alert(err));
+  //   return () => abortCon.abort();
+  // }, []);
 
   const errors = tokenState => {
     switch(tokenState) {
