@@ -39,6 +39,7 @@ const DelMemInfo = ({ userState }) => {
           border-bottom: 0;
           padding: calc(var(--gap-standard) * 2);
           ${sizes.full}
+          height: 70%;
 
           h1 {
             margin-bottom: var(--gap-standard);
@@ -65,6 +66,7 @@ const DelMemInfo = ({ userState }) => {
 
           input {
             ${border}
+            border-color: transparent;
             box-shadow: 0 0 0.052vw 0.052vw var(--grey-dark);
           }
 
@@ -82,7 +84,7 @@ const DelMemInfo = ({ userState }) => {
             border-top: 0;
             padding: 0 calc(var(--gap-standard) * 2);
             ${flex.vertical}
-            ${sizes.free('100%', 'calc(100% - 4.688vw)')}
+            ${sizes.free('100%', '70%')}
           }
         }
 
@@ -100,6 +102,14 @@ const DelMemInfo = ({ userState }) => {
           }
         }
 
+        @media (max-width: 720px) {
+          form {
+            input {
+              box-shadow: 0 0 ${0.052 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
+            }
+          }
+        }
+
         @media (orientation: portrait) {
           @media (min-width: 600px) {
             form {
@@ -108,7 +118,7 @@ const DelMemInfo = ({ userState }) => {
               }
   
               .check-delete {
-                ${sizes.free('100%', `calc(100% - ${4.688 * 1.778}vw)`)}
+                ${sizes.free('100%', `50%`)}
               }
             }
   
@@ -129,11 +139,11 @@ const DelMemInfo = ({ userState }) => {
             }
 
             h2 {
-              font-size: 18px;
+              font-size: 16px;
             }
 
             h3 {
-              font-size: 16px;
+              font-size: 14px;
             }
 
             #guidance {
@@ -141,12 +151,12 @@ const DelMemInfo = ({ userState }) => {
 
               h1 {
                 margin-bottom: 10px;
-                font-size: 32px;
+                font-size: 28px;
               }
 
               li {
                 padding-left: 10px;
-                font-size: 14px;
+                font-size: 12px;
               }
             }
 
@@ -156,11 +166,11 @@ const DelMemInfo = ({ userState }) => {
               }
 
               input {
-                box-shadow: 0 0 1px 1px var(--grey-dark);
+                box-shadow: 0 0 2px 1px var(--grey-dark);
               }
 
               p {
-                font-size: 14px;
+                font-size: 12px;
               }
 
               span {
@@ -171,7 +181,7 @@ const DelMemInfo = ({ userState }) => {
                 margin-bottom: 20px;
                 padding: 0 10px;
                 ${flex.vertical}
-                ${sizes.free('100%', 'calc(100% - 4.688vw)')}
+                ${sizes.free('100%', '50%')}
               }
             }
 
@@ -188,6 +198,14 @@ const DelMemInfo = ({ userState }) => {
 
               button:last-of-type {
                 margin-left: var(--gap-multiply-small);
+              }
+            }
+          }
+
+          @media (max-width: 299px) {
+            form {
+              .check-delete {
+                ${sizes.free('100%', '70%')}
               }
             }
           }

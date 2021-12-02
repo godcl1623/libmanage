@@ -36,7 +36,7 @@ const Reset = () => {
   const requestedTime = now();
 
   // useEffect(() => {
-  //   dispatch(setTokenState('abnormal'))
+  //   dispatch(setTokenState(true))
   // }, [])
 
   useEffect(() => {

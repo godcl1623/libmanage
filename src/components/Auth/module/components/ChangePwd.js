@@ -12,7 +12,7 @@ import { encryptor } from '../../../../custom_modules/aeser';
 import { hasher } from '../../../../custom_modules/hasher';
 import { verifyPwd } from '../utils';
 import { sendTo } from '../../../../custom_modules/address';
-import { flex, sizes } from '../../../../styles';
+import { border, flex, sizes } from '../../../../styles';
 
 const ChangePwd = ({ token, reqTime }) => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -125,6 +125,8 @@ const ChangePwd = ({ token, reqTime }) => {
 
               input {
                 margin: 20px 0;
+                ${border}
+                border-color: transparent;
                 padding: 5px 10px;
                 font-size: 14px;
               }
