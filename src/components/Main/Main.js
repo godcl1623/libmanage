@@ -43,7 +43,7 @@ const modalOption = (origin, isMobile, isPortrait) => `
       ? origin.split('-')[0] === 'meta'
         ? `${(90 * 9) / 16}vw`
         : '50%'
-      : '50%'
+      : '70%'
   };
   ${flex.vertical}
   background: white;
@@ -52,7 +52,17 @@ const modalOption = (origin, isMobile, isPortrait) => `
   transform: translate(-50%, -50%);
   z-index: 2;
 
-  @media (max-width: 720px) {
+  @media (max-width: 1079px) {
+    height: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+          ? `${(70 * 9) / 16}vw`
+          : '50%'
+        : '95%'
+    };
+  }
+
+  @media (max-width: 720px) and (min-height: 300px) {
     width: ${
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
@@ -65,7 +75,24 @@ const modalOption = (origin, isMobile, isPortrait) => `
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
           : '50%'
-        : '50%'
+        : '65%'
+    };
+  }
+
+  @media (max-width: 720px) and (max-height: 299px) {
+    width: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+            ? '70vw'
+            : '50%'
+        : '45%'
+    };
+    height: ${
+      origin !== 'Header_MemInfo'
+        ? origin.split('-')[0] === 'meta'
+          ? `${(70 * 9) / 16}vw`
+          : '50%'
+        : '95%'
     };
   }
 
@@ -82,8 +109,42 @@ const modalOption = (origin, isMobile, isPortrait) => `
         ? origin.split('-')[0] === 'meta'
           ? `${(90 * 9) / 16}vw`
           : '30%'
-        : '30%'
+        : '50%'
     };
+
+    @media (max-width: 1079px) {
+      width: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+              ? '90vw'
+              : '50%'
+          : '45%'
+      };
+      height: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+            ? `${(90 * 9) / 16}vw`
+            : '30%'
+          : '65%'
+      };
+    }
+
+    @media (max-width: 720px) {
+      width: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+              ? '70vw'
+              : '50%'
+          : '45%'
+      };
+      height: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+            ? `${(70 * 9) / 16}vw`
+            : '30%'
+          : '50%'
+      };
+    }
 
     @media (max-width: 599px) {
       box-shadow: 0 0 10px 2px var(--grey-dark);
@@ -102,12 +163,24 @@ const modalOption = (origin, isMobile, isPortrait) => `
             ? isPortrait && isMobile
                 ? '90vw'
                 : `${(70 * 9) / 16}vw`
-            : 'max-content'
-          : 'max-content'
+            : '50%'
+          : '85%'
       };
       transform:
         translate(-50%, -50%)
         ${origin.split('-')[0] === 'meta' ? 'rotate(90deg)' : ''};
+    }
+
+    @media (max-width: 299px) {
+      height: ${
+        origin !== 'Header_MemInfo'
+          ? origin.split('-')[0] === 'meta'
+            ? isPortrait && isMobile
+                ? '90vw'
+                : `${(70 * 9) / 16}vw`
+            : 'max-content'
+          : '95%'
+      };
     }
   }
 `;
@@ -146,8 +219,8 @@ const Main = () => {
       };
       await axios
         .post(
-          'http://localhost:3001/check_login',
-          // `https://${sendTo}/check_login`,
+          // 'http://localhost:3001/check_login',
+          `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -238,8 +311,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {

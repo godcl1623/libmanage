@@ -52,8 +52,8 @@ const MemberInfoWrap = () => {
                     button {
                       padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
                       ${border}
+                      border-color: transparent;
                       border-bottom: none;
-                      box-shadow: none;
                       cursor: pointer;
 
                       :hover {
