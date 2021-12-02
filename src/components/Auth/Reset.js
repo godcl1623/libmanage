@@ -87,7 +87,6 @@ const Reset = () => {
             ${sizes.free('40%', '50%')}
             ${flex.vertical}
             background: white;
-            box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
             #to_home {
               margin-top: calc(var(--gap-multiply-big) * 4);
@@ -106,14 +105,12 @@ const Reset = () => {
             @media (orientation: portrait) {
               @media (min-width: 600px) {
                 ${sizes.free('70%', '35%')}
-                box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
               }
 
               @media (max-width: 599px) {
                 border-radius: 10px;
                 padding: 20px;
                 ${sizes.free('90%', '50%')}
-                box-shadow: 0 0 10px 1px var(--grey-dark);
 
                 h1 {
                   font-size: 32px;

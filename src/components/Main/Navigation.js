@@ -27,7 +27,6 @@ const menu = (value, storeList, dispatch, filterStores) => {
                 }}
                 css={css`
                   border-radius: var(--border-rad-normal);
-                  box-shadow: 0 0 0.052vw 0.052vw var(--grey-dark);
                   ${sizes.free('calc(var(--gap-multiply-big) * 2)', 'var(--gap-multiply-big)')}
                   display: inline-block;
                   text-align: center;
@@ -46,7 +45,6 @@ const menu = (value, storeList, dispatch, filterStores) => {
                   }
 
                   @media (orientation: portrait) and (max-width: 599px) {
-                    box-shadow: 0 0 1px 1px var(--grey-dark);
                     ${sizes.free('60px', '20px')}
                     font-size: 10px;
                   }
@@ -123,7 +121,7 @@ const Navigation = ({ storesList }) => {
         }
 
         .category-header {
-          border: 0.208vw solid black;
+          border: 0.208vw solid var(--grey-dark);
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
           ${flex.horizontal}
           ${sizes.full}
@@ -135,6 +133,7 @@ const Navigation = ({ storesList }) => {
 
         p {
           ${border}
+          border-color: var(--grey-dark);
           padding: var(--gap-multiply-small);
           font-size: var(--font-size-normal);
           padding-left: var(--gap-standard);
@@ -186,8 +185,7 @@ const Navigation = ({ storesList }) => {
         css={css`
           margin-bottom: var(--gap-standard);
           ${border}
-          border-color: transparent;
-          box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
+          border-color: var(--grey-dark);
           padding: 0.156vw 0.781vw;
           font-size: var(--font-size-normal);
           ${sizes.free('100%')}
@@ -200,10 +198,8 @@ const Navigation = ({ storesList }) => {
 
           @media (orientation: portrait) {
             padding: ${0.156 * 1.778}vw ${0.781 * 1.778}vw;
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
 
             @media (max-width: 599px) {
-              box-shadow: 0 0 2px 1px var(--grey-dark);
               font-size: 16px;
 
               option {

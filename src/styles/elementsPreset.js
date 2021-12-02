@@ -7,8 +7,6 @@ import { sizes, flex } from '.';
 //   border: 0.063rem solid transparent;
 //   display: inline-block;
 //   border-radius: 0.438rem;
-//   -webkit-box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.3);
-//           box-shadow: 0 0 0.125rem 0.125rem rgba(0, 0, 0, 0.3);
 //   background-color: var(--white);
 //   color: var(--point-dark);
 //   text-decoration: none;
@@ -30,13 +28,11 @@ export const A = styled.a`
   @media (orientation: landscape) {
     border: 0.052vw solid transparent;
     border-radius: 0.365vw;
-    box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
   }
 
   @media (orientation: portrait) {
     border: ${0.052 * 1.778}vw solid transparent;
     border-radius: ${0.365 * 1.778}vw;
-    box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   }
 
   background: #EFEFEF;
@@ -87,16 +83,12 @@ export const Div = styled.div`
     padding: 0.365vw;
     border: 0.052vw solid transparent;
     border-radius: 0.365vw;
-    -webkit-box-shadow: 0 0 0.104vw 0.104vw rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 0.104vw 0.104vw rgba(0, 0, 0, 0.3);
   }
 
   @media (orientation: portrait) {
     padding: ${0.365 * 1.778}vw;
     border: ${0.052 * 1.778}vw solid transparent;
     border-radius: ${0.365 * 1.778}vw;
-    -webkit-box-shadow: 0 0 ${0.104 * 1.778}vw ${0.104 * 1.778}vw rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 ${0.104 * 1.778}vw ${0.104 * 1.778}vw rgba(0, 0, 0, 0.3);
   }
   background-color: var(--white);
   color: var(--point-dark);

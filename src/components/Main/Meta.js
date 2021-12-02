@@ -313,11 +313,11 @@ const Meta = ({ portrait, heights }) => {
 
               button {
                 border: none;
-                box-shadow: none;
                 background: none;
                 text-decoration: underline;
                 color: blue;
                 cursor: pointer;
+                box-shadow: none;
               }
             }
 
@@ -328,11 +328,13 @@ const Meta = ({ portrait, heights }) => {
             .media-contents-wrapper {
               .media-tabs {
                 button {
+                  ${border}
+                  border-color: var(--btn-disable);
                   border-radius: 0;
-                  box-shadow: 0 -0.052vw 0.104vw 0.052vw var(--grey-dark);
                   border-bottom: none;
                   padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
                   cursor: pointer;
+                  box-shadow: none;
 
                   :hover {
                     -webkit-filter: brightness(90%);
@@ -361,8 +363,9 @@ const Meta = ({ portrait, heights }) => {
               }
 
               .media-contents {
+                ${border}
+                border-color: var(--btn-disable);
                 padding: var(--gap-standard);
-                box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(20%, auto));
                 gap: calc(var(--gap-standard) * 1.5) var(--gap-standard);
@@ -494,12 +497,10 @@ const Meta = ({ portrait, heights }) => {
                 .media-contents-wrapper {
                   .media-tabs {
                     button {
-                      box-shadow: 0 -${0.052 * 1.778}vw ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
                     }
                   }
     
                   .media-contents {
-                    box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   
                     .media-wrapper {
                       .player-btn-wrapper {
@@ -598,6 +599,10 @@ const Meta = ({ portrait, heights }) => {
                 margin: 20px 0;
                 padding: 20px;
                 font-size: 14px;
+
+                button {
+                  box-shadow: none;
+                }
               }
   
               .meta-wrapper-contents-media {
@@ -607,8 +612,8 @@ const Meta = ({ portrait, heights }) => {
               .media-contents-wrapper {
                 .media-tabs {
                   button {
-                    box-shadow: 0 -1px 2px 1px var(--grey-dark);
                     padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
+                    box-shadow: none;
                   }
   
                   button:first-of-type {
@@ -622,7 +627,6 @@ const Meta = ({ portrait, heights }) => {
   
                 .media-contents {
                   padding: 20px;
-                  box-shadow: 0 0 2px 1px var(--grey-dark);
                   grid-template-columns: repeat(auto-fill, minmax(40%, auto));
                   gap: 10px;
 
@@ -853,7 +857,6 @@ const Meta = ({ portrait, heights }) => {
                   }
 
                   a {
-                    box-shadow: none;
                   }
                 }
 
@@ -886,7 +889,6 @@ const Meta = ({ portrait, heights }) => {
 
                   .table-sub-contents {
                     a {
-                      box-shadow: none
                     }
                   }
                 }

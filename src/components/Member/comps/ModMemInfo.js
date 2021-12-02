@@ -72,8 +72,7 @@ const ModMemInfo = ({ userState }) => {
         #contents-divider {
           margin-bottom: calc(var(--gap-standard) * 2);
           ${border}
-          border-color: transparent;
-          box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
+          border-color: var(--btn-disable);
         }
 
         .input_container {
@@ -90,7 +89,7 @@ const ModMemInfo = ({ userState }) => {
           input {
             margin: calc(var(--gap-standard) / 2) 0;
             ${border}
-            border-color: transparent;
+            border-color: var(--grey-dark);
             ${sizes.free('100%')}
           }
 
@@ -120,9 +119,8 @@ const ModMemInfo = ({ userState }) => {
 
           select {
             ${border}
-            border-color: transparent;
+            border-color: var(--grey-dark);
             border-radius: var(--border-rad-normal);
-            box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
             padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
             ${sizes.free('48%')}
             display: inline-block;
@@ -147,12 +145,10 @@ const ModMemInfo = ({ userState }) => {
         @media (orientation: portrait) {
           @media (min-width: 600px) {
             #contents-divider {
-              box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
             }
 
             #input-email {
               select {
-                box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
               }
             }
 
@@ -170,7 +166,6 @@ const ModMemInfo = ({ userState }) => {
           @media (max-width: 599px) {
             #contents-divider {
               margin-bottom: 40px;
-              box-shadow: 0 0 2px 1px var(--grey-dark);
             }
 
             .input_container {
@@ -205,7 +200,6 @@ const ModMemInfo = ({ userState }) => {
               select {
                 border-radius: 0;
                 padding: 5px 10px;
-                box-shadow: 0 0 2px 1px var(--grey-dark);
                 ${sizes.free('49%')}
                 font-size: 14px;
               }
