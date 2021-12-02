@@ -33,7 +33,6 @@ const Find = ({ mode }) => {
         ${flex.vertical}
         ${sizes.free('40vw', 'max-content')}
         background: white;
-        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         .contents-wrapper {
           ${flex.vertical}
@@ -48,10 +47,9 @@ const Find = ({ mode }) => {
 
         .tab-wrapper a {
           ${border}
-          border-color: transparent;
+          border-color: var(--btn-disable);
           border-bottom: none;
           border-radius: 0.365vw;
-          box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
           ${sizes.free('20%', '1.563vw')}
           font-size: 0.938vw;
           ${flex.horizontal}
@@ -93,8 +91,7 @@ const Find = ({ mode }) => {
         .form-wrapper .input-wrapper {
           margin-bottom: 4.167vw;
           ${border}
-          border-color: transparent;
-          box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
+          border-color: var(--btn-disable);
           padding: 1.042vw 0.521vw;
           ${flex.vertical}
           ${sizes.free('100%', 'max-content')}
@@ -119,7 +116,7 @@ const Find = ({ mode }) => {
 
         .form-wrapper .input-wrapper > div input {
           ${border}
-          border-color: transparent;
+          border-color: var(--grey-dark);
           ${sizes.free('100%')}
         }
 
@@ -138,42 +135,9 @@ const Find = ({ mode }) => {
           background: var(--btn-active);
         }
 
-        @media (max-width: 1079px) {
-          box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-
-          .tab-wrapper a {
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-          }
-
-          .form-wrapper .input-wrapper {
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-          }
-
-          .form-wrapper .input-wrapper > div input {
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-          }
-        }
-
-        @media (max-width: 720px) {
-          box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-
-          .tab-wrapper a {
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-          }
-
-          .form-wrapper .input-wrapper {
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-          }
-
-          .form-wrapper .input-wrapper > div input {
-            box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-          }
-        }
-
         @media (orientation: portrait) {
           @media (min-width: 600px) {
             ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
-            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   
             .tab-wrapper a {
               border-radius: ${0.365 * 1.778}vw;
@@ -215,7 +179,6 @@ const Find = ({ mode }) => {
             .tab-wrapper a {
               ${sizes.free('30%', '20px')}
               font-size: 12px;
-              box-shadow: 0 0 2px 1px var(--grey-dark);
             }
     
             .tab-wrapper a#find_id {
@@ -239,7 +202,6 @@ const Find = ({ mode }) => {
               padding: 20px 10px;
               ${sizes.free('100%', 'max-content')}
               font-size: 14px;
-              box-shadow: 0 0 2px 1px var(--grey-dark);
             }
 
             .form-wrapper .input-wrapper > div {
@@ -253,7 +215,6 @@ const Find = ({ mode }) => {
 
             .form-wrapper .input-wrapper > div input {
               padding: 5px calc(var(--gap-multiply-small) * 1.2);
-              box-shadow: 0 0 2px 1px var(--grey-dark);
             }
 
             .form-wrapper .submit-wrapper {

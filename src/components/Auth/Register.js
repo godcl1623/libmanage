@@ -59,7 +59,6 @@ const Register = () => {
         ${flex.vertical}
         ${sizes.free('40vw', 'max-content')}
         background: white;
-        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         #register-form {
           ${flex.vertical}
@@ -81,7 +80,7 @@ const Register = () => {
         #register-form .input-wrapper input {
           margin: calc(var(--gap-multiply-small) * 2) 0;
           ${border}
-          border-color: transparent;
+          border-color: var(--grey-dark);
         }
 
         #register-form .input-wrapper .verify-error {
@@ -108,9 +107,8 @@ const Register = () => {
 
         #register-form .input-wrapper #input-email select {
           ${border}
-          border-color: transparent;
+          border-color: var(--grey-dark);
           border-radius: 0.365vw;
-          box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
           ${sizes.free('48%')}
           display: inline-block;
@@ -137,11 +135,9 @@ const Register = () => {
           @media (min-width: 600px) {
             padding: var(--gap-standard) ${2.083 * 1.778}vw;
             ${sizes.free(`${40 * 1.778}vw`, 'max-content')}
-            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   
             #register-form .input-wrapper #input-email select {
               border-radius: ${0.365 * 1.778}vw;
-              box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
             }
   
             #register-form .submit-wrapper {
@@ -181,7 +177,6 @@ const Register = () => {
 
             #register-form .input-wrapper #input-email select {
               padding: 5px calc(var(--gap-multiply-small) * 1.2);
-              box-shadow: 0 0 2px 1px var(--grey-dark);
               ${sizes.free('47%')}
               font-size: 12px;
             }

@@ -160,7 +160,6 @@ const Progress = () => {
           ${sizes.free('40%', '50%')}
           background: white;
           ${flex.vertical}
-          box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
         }
 
         @media (orientation: portrait) {
@@ -177,7 +176,6 @@ const Progress = () => {
     
             .contents-wrapper {
               ${sizes.free('60%', '35%')}
-              box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
             }
           }
 
@@ -196,7 +194,6 @@ const Progress = () => {
               border-radius: 7px;
               padding: 20px;
               ${sizes.free('90%', '50%')}
-              box-shadow: 0 0 10px 1px var(--grey-dark);
             }
           }
         }

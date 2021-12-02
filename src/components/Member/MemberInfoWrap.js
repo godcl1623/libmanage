@@ -52,9 +52,10 @@ const MemberInfoWrap = () => {
                     button {
                       padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
                       ${border}
-                      border-color: transparent;
+                      border-color: var(--btn-disable);
                       border-bottom: none;
                       cursor: pointer;
+                      box-shadow: none;
 
                       :hover {
                         -webkit-filter: brightness(90%);

@@ -26,7 +26,7 @@ import {
   selectedMediaListCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
-import { sizes, flex } from '../../styles';
+import { sizes, flex, border } from '../../styles';
 
 const Header = ({ headerRef, setHeight, currHeight }) => {
   const loginStatus = useSelector(state => state.loginStatus);
@@ -234,6 +234,8 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
         background: white;
 
         button {
+          ${border}
+          border-color: transparent;
           padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
           cursor: pointer;
 
@@ -252,9 +254,6 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
         @media (max-width: 720px) and (orientation: landscape) {
           ${sizes.free('100%', '25px')}
           min-height: 25px;
-          input {
-            box-shadow: 0 0 2px 1px var(--grey-dark);
-          }
         }
 
         @media (orientation: portrait) {
@@ -270,6 +269,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
 
             button {
               padding: 5px calc(var(--gap-multiply-small) * 1.2);
+              box-shadow: 0 0 3px 1px var(--grey-dark);
             }
 
             button#delete-input {

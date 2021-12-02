@@ -6,7 +6,7 @@ import { hasher, salter } from '../../../custom_modules/hasher';
 import { encryptor } from '../../../custom_modules/aeser';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { sendTo } from '../../../custom_modules/address';
-import { flex, sizes } from '../../../styles';
+import { border, flex, sizes } from '../../../styles';
 
 const CheckMemInfo = ({ userState, setState}) => (
   <form
@@ -19,6 +19,11 @@ const CheckMemInfo = ({ userState, setState}) => (
 
         label {
           font-size: var(--font-size-standard);
+        }
+
+        input {
+          ${border}
+          border-color: var(--grey-dark);
         }
       }
 

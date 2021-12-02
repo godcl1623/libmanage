@@ -112,7 +112,6 @@ const Login = () => {
         height: -moz-max-content;
         height: max-content;
         background: white;
-        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
         
         h1 {
           margin-bottom: calc(var(--gap-multiply-big) * 3);
@@ -138,6 +137,7 @@ const Login = () => {
         
         #login-form input {
           ${border}
+          border-color: var(--grey-dark);
           ${sizes.free('100%', '1.823vw')}
         }
         
@@ -162,7 +162,6 @@ const Login = () => {
           
           a {
             background: var(--btn-active);
-            box-shadow: 0 0 0.104vw 0.052vw var(--grey-dark);
             color: var(--grey-dark);
           }
         }
@@ -190,7 +189,6 @@ const Login = () => {
         @media (orientation: portrait) {
           @media (min-width: 600px) {
             width: ${30 * 1.778}vw;
-            box-shadow: 0 0 ${0.521 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
   
             #login-form * {
               margin: ${0.833 * 1.778}vw;
@@ -212,7 +210,6 @@ const Login = () => {
               }
               
               a {
-                box-shadow: 0 0 ${0.104 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
               }
             }
           }
@@ -252,7 +249,6 @@ const Login = () => {
               }
               
               a {
-                box-shadow: 0 0 2px 1px var(--grey-dark);
               }
             }
           }

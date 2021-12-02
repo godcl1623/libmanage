@@ -29,7 +29,6 @@ import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 
 const modalOption = (origin, isMobile, isPortrait) => `
-  box-shadow: 0 0 0.521vw 0.104vw var(--grey-dark);
   position: absolute;
   width: ${
     origin !== 'Header_MemInfo'
@@ -147,7 +146,6 @@ const modalOption = (origin, isMobile, isPortrait) => `
     }
 
     @media (max-width: 599px) {
-      box-shadow: 0 0 10px 2px var(--grey-dark);
       width: ${
         origin !== 'Header_MemInfo'
           ? origin.split('-')[0] === 'meta'

@@ -37,6 +37,7 @@ const DelMemInfo = ({ userState }) => {
         #guidance {
           ${border}
           border-bottom: 0;
+          border-color: var(--btn-disable);
           padding: calc(var(--gap-standard) * 2);
           ${sizes.full}
           height: 70%;
@@ -66,8 +67,7 @@ const DelMemInfo = ({ userState }) => {
 
           input {
             ${border}
-            border-color: transparent;
-            box-shadow: 0 0 0.052vw 0.052vw var(--grey-dark);
+            border-color: var(--grey-dark);
           }
 
           p {
@@ -82,6 +82,7 @@ const DelMemInfo = ({ userState }) => {
             margin-bottom: calc(var(--gap-standard) * 2);
             ${border}
             border-top: 0;
+            border-color: var(--btn-disable);
             padding: 0 calc(var(--gap-standard) * 2);
             ${flex.vertical}
             ${sizes.free('100%', '70%')}
@@ -91,7 +92,7 @@ const DelMemInfo = ({ userState }) => {
 
         .submit-wrapper {
           ${flex.horizontal}
-          ${sizes.free('100%', 'calc(var(--gap-standard) * 2)')}
+          ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
 
           button:first-of-type {
             margin-right: var(--gap-multiply-small);
@@ -102,21 +103,8 @@ const DelMemInfo = ({ userState }) => {
           }
         }
 
-        @media (max-width: 720px) {
-          form {
-            input {
-              box-shadow: 0 0 ${0.052 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-            }
-          }
-        }
-
         @media (orientation: portrait) {
-          @media (min-width: 600px) {
-            form {
-              input {
-                box-shadow: 0 0 ${0.052 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-              }
-  
+          @media (min-width: 600px) {  
               .check-delete {
                 ${sizes.free('100%', `50%`)}
               }
@@ -166,7 +154,6 @@ const DelMemInfo = ({ userState }) => {
               }
 
               input {
-                box-shadow: 0 0 2px 1px var(--grey-dark);
               }
 
               p {

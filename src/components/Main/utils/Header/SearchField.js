@@ -12,7 +12,7 @@ const SearchField = ({dispatch, setState, fieldVal}) => (
 
       input {
         ${border}
-        border-color: transparent;
+        border-color: var(--grey-dark);
       }
 
       @media (max-width: 599px) {
@@ -38,7 +38,6 @@ const SearchField = ({dispatch, setState, fieldVal}) => (
       id="delete-input"
       css={css`
         border: none;
-        box-shadow: none;
         ${sizes.free('1.563vw')};
         position: absolute;
         right: calc(var(--gap-multiply-small) * 3);

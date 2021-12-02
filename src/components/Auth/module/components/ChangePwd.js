@@ -50,7 +50,6 @@ const ChangePwd = ({ token, reqTime }) => {
         ${sizes.free('40%', 'max-content')}
         ${flex.vertical}
         justify-content: space-between;
-        box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
 
         .input-wrapper {
           ${flex.vertical}
@@ -64,6 +63,8 @@ const ChangePwd = ({ token, reqTime }) => {
 
           input {
             margin: calc(var(--gap-multiply-small) * 2) 0;
+            ${border}
+            border-color: var(--grey-dark);
           }
 
           .verify-error {
@@ -99,7 +100,6 @@ const ChangePwd = ({ token, reqTime }) => {
         @media (orientation: portrait) {
           @media (min-width: 600px) {
             ${sizes.free('60%', 'max-content')}
-            box-shadow: 0 0 0.521vw 0.052vw var(--grey-dark);
   
             .submit-wrapper {
               ${sizes.free('100%', `${2.604 * 1.778}vw`)}
@@ -118,15 +118,12 @@ const ChangePwd = ({ token, reqTime }) => {
             border-radius: 10px;
             padding: 20px;
             ${sizes.free('90%', 'max-content')}
-            box-shadow: 0 0 10px 1px var(--grey-dark);
 
             .input-wrapper {
               font-size: 16px;
 
               input {
-                margin: 20px 0;
-                ${border}
-                border-color: transparent;
+                margin: 20px 0;;
                 padding: 5px 10px;
                 font-size: 14px;
               }

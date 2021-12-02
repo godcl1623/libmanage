@@ -8,7 +8,7 @@ import Register from './Auth/Register';
 import Find from './Auth/Find';
 import Reset from './Auth/Reset';
 import Progress from './Progress';
-import { sizes, flex } from '../styles';
+import { sizes, flex, border } from '../styles';
 
 const App = () => (
   <div
@@ -106,16 +106,22 @@ const App = () => (
   
           button, input, a {
             border-radius: 0.365vw;
-            box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
             font-size: 1.042vw;
           }
   
           button {
-            border: none;
+            ${border}
+            border-color: transparent;
             background: var(--highlight-light);
             color: var(--grey-dark);
             cursor: pointer;
+            box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
+
+            @media (max-width: 720px) {
+              box-shadow: 0 0 1px 1px var(--grey-dark);
+            }
           }
+          
         }
 
         input {
@@ -142,15 +148,12 @@ const App = () => (
               font-size: ${1.042 * 1.778}vw;
             }
 
-            button, a, input {
-              box-shadow: 0 0 ${0.156 * 1.778}vw ${0.052 * 1.778}vw var(--grey-dark);
-            }
-
             button {
               border: none;
               background: var(--highlight-light);
               color: var(--grey-dark);
               cursor: pointer;
+              box-shadow: 0 0 0.156vw 0.052vw var(--grey-dark);
             }
           }
 
@@ -172,15 +175,12 @@ const App = () => (
               font-size: 10px;
             }
 
-            button, a, input {
-              box-shadow: 0 0 2px 1px var(--grey-dark);
-            }
-
             button {
               border: none;
               background: var(--highlight-light);
               color: var(--grey-dark);
               cursor: pointer;
+              box-shadow: 0 0 3px 1px var(--grey-dark);
             }
 
             input {
