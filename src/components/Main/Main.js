@@ -217,8 +217,8 @@ const Main = () => {
       };
       await axios
         .post(
-          'http://localhost:3001/check_login',
-          // `https://${sendTo}/check_login`,
+          // 'http://localhost:3001/check_login',
+          `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -309,8 +309,8 @@ const Main = () => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3001/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {

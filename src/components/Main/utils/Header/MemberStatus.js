@@ -3,6 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../custom_modules/address';
 import { sizes } from '../../../../styles';
+import { memStatsStyle } from '../../styles/HeaderStyles';
 
 const MemberStatus = ({ loginStatus, functions }) => {
   const {
@@ -22,20 +23,7 @@ const MemberStatus = ({ loginStatus, functions }) => {
   if (loginStatus === true) {
     return (
       <button
-        css={css`
-          margin-right: calc(var(--gap-standard) * 2);
-          background: var(--btn-alert);
-          color: var(--white);
-
-          @media (orientation: portrait) {
-            margin-right: var(--gap-standard);
-            @media (max-width: 599px) {
-              margin: 0;
-              padding: 5px 20px;
-              ${sizes.free('80%', `25px`)}
-            }
-          }
-        `}
+        css={css`${memStatsStyle({ sizes }, 'logout')}`}
         onClick={() => {
           const message = {
             reqMsg: 'logout',
@@ -43,8 +31,8 @@ const MemberStatus = ({ loginStatus, functions }) => {
           };
           axios
             .post(
-              'http://localhost:3001/logout_process',
-              // `https://${sendTo}/logout_process`,
+              // 'http://localhost:3001/logout_process',
+              `https://${sendTo}/logout_process`,
               { message },
               { withCredentials: true }
             )
@@ -70,15 +58,7 @@ const MemberStatus = ({ loginStatus, functions }) => {
   }
   return (
     <button
-      css={css`
-        margin-right: calc(var(--gap-standard) * 2);
-        background: var(--btn-active);
-        color: var(--white);
-
-        @media (orientation: portrait) {
-          margin-right: var(--gap-standard);
-        }
-      `}
+      css={css`${memStatsStyle({ sizes }, 'signin')}`}
       onClick={() => {
         history.push('/');
       }}
