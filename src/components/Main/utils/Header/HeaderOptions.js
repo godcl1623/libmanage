@@ -2,6 +2,7 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
+import { optionsStyle } from '../../styles/HeaderStyles';
 
 const HeaderOptions = ({ setStates, states, components }) => {
   const {
@@ -23,24 +24,7 @@ const HeaderOptions = ({ setStates, states, components }) => {
   return (
     <>
       <button
-        css={css`
-          @media (orientation: landscape) {
-            padding: 0.26vw 1.042vw;
-            ${sizes.free('80%', '2.344vw')}
-          }
-
-          @media (orientation: portrait) {
-            @media (min-width: 600px) {
-              padding: ${0.26 * 1.778}vw ${1.042 * 1.778}vw;
-              ${sizes.free('80%', `${2.344 * 1.778}vw`)}
-            }
-
-            @media (max-width: 599px) {
-              padding: 5px 20px;
-              ${sizes.free('80%', `25px`)}
-            }
-          }
-        `}
+        css={css`${optionsStyle({ sizes })}`}
         onClick={() => {
           dispatch(
             modalOriginCreator(
