@@ -26,7 +26,7 @@ import {
   selectedStoresCreator
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
-import { sizes, flex, border } from '../../styles';
+import { sizes, flex } from '../../styles';
 import modalOption from './styles/modals/MainModalStyles';
 import { mainStyle } from './styles/MainStyles';
 

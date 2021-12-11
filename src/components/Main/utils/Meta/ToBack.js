@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { GrPrevious } from 'react-icons/gr';
 import { flex, sizes } from '../../../../styles';
 import { selectedItemCreator, selectedItemDataCreator } from '../../../../actions';
+import { backBtnStyle } from '../../styles/MetaStyles';
 
 const ToBack = ({ heights }) => {
   const { headerHeight, selStoresListHeight } = heights;
@@ -12,19 +13,7 @@ const ToBack = ({ heights }) => {
 
   return (
     <button
-      css={css`
-        padding: 10px;
-        position: fixed;
-        top: 50px;
-        top: ${headerHeight + selStoresListHeight}px;
-        right: 0;
-        ${sizes.free('2.604vw')}
-        min-width: 50px;
-        ${flex.vertical}
-        cursor: pointer;
-        z-index: 4;
-        opacity: 0.7;
-      `}
+      css={css`${backBtnStyle({ flex, sizes }, { headerHeight, selStoresListHeight })}`}
       onClick={e => {
         e.preventDefault();
         dispatch(selectedItemCreator(''));
