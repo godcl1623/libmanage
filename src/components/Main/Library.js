@@ -1,7 +1,6 @@
 /* eslint-disable no-else-return */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { FaBars } from 'react-icons/fa';
@@ -18,6 +17,8 @@ import {
   modalOriginCreator
 } from '../../actions';
 import { sizes, flex } from '../../styles';
+import { libraryStyle } from './styles/LibraryStyles';
+import { libraryBalloonWrapper, libraryBalloonStyle, libraryBalloonHand } from './styles/balloons/LibraryBalloonStyle';
 
 const Library = ({ userLib, coverSize, setCoverSize }) => {
   const balloonState = useSelector(state => state.balloonState);
@@ -49,84 +50,10 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
     }
   }, []);
 
-  const wrapper = `
-    display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-  `;
-
-  const style = `
-    padding: var(--gap-standard);
-    display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    ${sizes.free('15.625vw', '7.813vw')}
-    position: absolute;
-    top: calc(${btnCoords.topCoord}px + 3.241vh);
-    right: 1.563vw;
-    background: var(--btn-active);
-    z-index: 2;
-
-    @media (orientation: portrait) {
-      @media (min-width: 600px) {
-        ${sizes.free(`${15.625 * 1.778}vw`, `${7.813 * 1.778}vw`)}
-        top: calc(${btnCoords.topCoord}px + ${3.241 / 1.778}vh);
-        right: ${1.563 * 1.778}vw;
-      }
-
-      @media (max-width: 599px) {
-        padding: var(--gap-standard);
-        ${sizes.free('100vw', '150px')}
-        top: 35px;
-        right: 0;
-      }
-    }
-  `;
-
-  const hand = `
-    border-left: var(--gap-standard) solid transparent;
-    border-right: var(--gap-standard) solid transparent;
-    border-bottom: calc(var(--gap-standard) * 2) solid var(--btn-active);
-    position: absolute;
-    top: calc(${btnCoords.topCoord}px + 0.463vh);
-    right: 1.563vw;
-    display: ${balloonOrigin === 'Library' ? balloonState : 'none'};
-
-    @media (orientation: portrait) {
-      @media (min-width: 600px) {
-        top: calc(${btnCoords.topCoord}px + ${0.463 / 1.778}vh);
-        right: ${1.563 * 1.778}vw;
-      }
-
-      @media (max-width: 599px) {
-        display: none;
-      }
-    }
-  `;
-
   return (
     <article
       id="library"
-      css={css`
-        border-left: 0.052vw solid black;
-        border-right: 0.052vw solid black;
-        padding: calc(var(--gap-standard) * 2) var(--gap-standard);
-        flex: 2;
-        overflow: hidden;
-        ${sizes.full}
-        position: relative;
-        background: white;
-
-        @media (orientation: portrait) {
-          @media (max-width: 599px) {
-            border: none;
-            padding: calc(var(--gap-standard) * 1.5) 0;
-          }
-        }
-      `}
+      css={css`${libraryStyle({ flex, sizes }, libDisplay)}`}
     >
       <button
         className="option"
@@ -139,38 +66,6 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
           }
         }}
         ref={ref}
-        css={css`
-          ${flex.vertical}
-          position: absolute;
-          right: 1.563vw;
-          ${sizes.free('2.604vw', '1.823vw')}
-          z-index: 1;
-          cursor: pointer;
-          :hover {
-            -webkit-filter: brightness(90%);
-                    filter: brightness(90%);
-          }
-        
-          :active {
-            -webkit-transform: scale(0.98);
-                -ms-transform: scale(0.98);
-                    transform: scale(0.98);
-          }
-
-          @media (orientation: portrait) {
-            @media (min-width: 600px) {
-              right: ${1.563 * 1.778}vw;
-              ${sizes.free(`${2.604 * 1.778}vw`, `${1.823 * 1.778}vw`)}
-            }
-
-            @media (max-width: 599px) {
-              top: 0;
-              right: 0;
-              ${sizes.free('50px', '35px')}
-              opacity: 70%;
-            }
-          }
-        `}
       >
         { <FaBars /> }
       </button>
@@ -184,23 +79,12 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
             currDisplayType={libDisplay}
           />
         }
-        display={wrapper}
-        style={style}
-        hand={hand}
+        display={libraryBalloonWrapper(balloonOrigin, balloonState)}
+        style={libraryBalloonStyle({ sizes }, { balloonOrigin, balloonState, btnCoords })}
+        hand={libraryBalloonHand({ btnCoords, balloonOrigin, balloonState })}
       />
       <ul
         id="contents-lists"
-        css={css`
-          display: ${libDisplay === 'cover' ? 'flex' : 'inline-block'};
-          ${sizes.full}
-          flex-wrap: wrap;
-          overflow: scroll;
-
-          @media (orientation: portrait) and (max-width: 599px) {
-            ${flex.horizontal}
-            justify-content: ${libDisplay === 'list' ? 'flex-start' : 'center'};
-          }
-        `}
         onScroll={e => {
           const lists = e.target.querySelectorAll('li');
           const ulCoords = e.target.getBoundingClientRect();
