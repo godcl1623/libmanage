@@ -5,6 +5,7 @@ import axios from 'axios';
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../custom_modules/address';
 import { flex } from '../../../../styles';
+import { makeListStyle } from '../../styles/LibraryStyles';
 
 const MakeList = ({ args }) => {
   const {
@@ -31,20 +32,7 @@ const MakeList = ({ args }) => {
           const result = steam.map((item, index) => (
             <li
               key={index}
-              css={css`
-                padding: calc(var(--gap-multiply-small) * 2) calc(var(--gap-multiply-small) * 6);
-                font-size: var(--font-size-normal);
-                cursor: pointer;
-                background: white;
-
-                @media (orientation: portrait) {
-                  @media (max-width: 599px) {
-                    padding: calc(var(--gap-multiply-small) * 1.2) calc(var(--gap-multiply-small) * 3);
-                    width: 100%;
-                    font-size: 16px;
-                  }
-                }
-              `}
+              css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
               onMouseEnter={e => {
                 e.target.style.background = 'var(--highlight-light)';
               }}
@@ -114,25 +102,7 @@ const MakeList = ({ args }) => {
           const result = steam.map((item, index) => (
             <li
               key={`img-${index}`}
-              css={css`
-                margin: calc(var(--gap-multiply-small) * 2);
-                height: ${coverSize}vw;
-                flex: 0 0 10%;
-                ${flex.horizontal}
-                cursor: pointer;
-
-                :active {
-                  -webkit-transform: scale(0.95);
-                      -ms-transform: scale(0.95);
-                          transform: scale(0.95);
-                }
-
-                @media (orientation: portrait) and (max-width: 599px) {
-                  margin: 10px;
-                  height: ${coverSize * 2}vh;
-                  flex: 0 0 10%;
-                }
-              `}
+              css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
             >
               <img
                 src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.cover}.png`}
