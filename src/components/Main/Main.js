@@ -27,161 +27,8 @@ import {
 } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
-
-const modalOption = (origin, isMobile, isPortrait) => `
-  position: absolute;
-  width: ${
-    origin !== 'Header_MemInfo'
-      ? origin.split('-')[0] === 'meta'
-          ? '90vw'
-          : '50%'
-      : '45%'
-  };
-  height: ${
-    origin !== 'Header_MemInfo'
-      ? origin.split('-')[0] === 'meta'
-        ? `${(90 * 9) / 16}vw`
-        : '50%'
-      : '70%'
-  };
-  ${flex.vertical}
-  background: white;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-
-  @media (max-width: 1079px) {
-    height: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-          ? `${(70 * 9) / 16}vw`
-          : '50%'
-        : '95%'
-    };
-  }
-
-  @media (max-width: 720px) and (min-height: 300px) {
-    width: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-            ? '70vw'
-            : '50%'
-        : '45%'
-    };
-    height: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-          ? `${(70 * 9) / 16}vw`
-          : '50%'
-        : '65%'
-    };
-  }
-
-  @media (max-width: 720px) and (max-height: 299px) {
-    width: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-            ? '70vw'
-            : '50%'
-        : '45%'
-    };
-    height: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-          ? `${(70 * 9) / 16}vw`
-          : '50%'
-        : '95%'
-    };
-  }
-
-  @media (orientation: portrait) {
-    width: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-            ? '90vw'
-            : '50%'
-        : '45%'
-    };
-    height: ${
-      origin !== 'Header_MemInfo'
-        ? origin.split('-')[0] === 'meta'
-          ? `${(90 * 9) / 16}vw`
-          : '30%'
-        : '50%'
-    };
-
-    @media (max-width: 1079px) {
-      width: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-              ? '90vw'
-              : '50%'
-          : '45%'
-      };
-      height: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-            ? `${(90 * 9) / 16}vw`
-            : '30%'
-          : '65%'
-      };
-    }
-
-    @media (max-width: 720px) {
-      width: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-              ? '70vw'
-              : '50%'
-          : '45%'
-      };
-      height: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-            ? `${(70 * 9) / 16}vw`
-            : '30%'
-          : '50%'
-      };
-    }
-
-    @media (max-width: 599px) {
-      width: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-              ? isPortrait && isMobile
-                  ? `${(90 * 16) / 9}vw`
-                  : '70vw'
-              : '90%'
-          : '90%'
-      };
-      height: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-            ? isPortrait && isMobile
-                ? '90vw'
-                : `${(70 * 9) / 16}vw`
-            : '50%'
-          : '85%'
-      };
-      transform:
-        translate(-50%, -50%)
-        ${origin.split('-')[0] === 'meta' ? 'rotate(90deg)' : ''};
-    }
-
-    @media (max-width: 299px) {
-      height: ${
-        origin !== 'Header_MemInfo'
-          ? origin.split('-')[0] === 'meta'
-            ? isPortrait && isMobile
-                ? '90vw'
-                : `${(70 * 9) / 16}vw`
-            : 'max-content'
-          : '95%'
-      };
-    }
-  }
-`;
+import modalOption from './styles/modals/MainModalStyles';
+import { mainStyle } from './styles/MainStyles';
 
 const Main = () => {
   const loginStatus = useSelector(state => state.loginStatus);
@@ -379,14 +226,7 @@ const Main = () => {
     <>
       <main
         id="main"
-        css={css`
-          ${sizes.free('100%', '100vh')}
-          ${flex.vertical}
-          pointer-events: ${modalState && modalOrigin === 'Library' ? 'none' : 'auto'};
-          z-index: 1;
-          position: relative;
-          overflow: hidden;
-        `}
+        css={css`${mainStyle({ flex, sizes }, { modalState, modalOrigin, headerHeight})}`}
         onClick={e => {
           // e.preventDefault();
           if (!isMobile) {
@@ -411,17 +251,7 @@ const Main = () => {
           setHeight={setHeaderHeight}
           currHeight={headerHeight}
         />
-        <div
-          id="main-contents"
-          css={css`
-            ${sizes.free('100%', `calc(100% - ${headerHeight}px)`)}
-            ${flex.horizontal}
-
-            @media (orientation: portrait) and (max-width: 599px) {
-              ${flex.vertical}
-            }
-          `}
-        >
+        <div id="main-contents">
           {isPortrait && isMobile ? (
             <SelectedStoresList
               listRef={listRef}
@@ -475,7 +305,7 @@ const Main = () => {
         </div>
       </main>
       <Modal
-        style={modalOption(modalOrigin, isMobile, isPortrait)}
+        style={modalOption(modalOrigin, isMobile, isPortrait, flex)}
         contents={
           <ModalContents 
             args={{

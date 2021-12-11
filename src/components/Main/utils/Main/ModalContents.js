@@ -6,6 +6,7 @@ import MemberInfoWrap from '../../../Member/MemberInfoWrap';
 import ModalHeaderOption from './ModalContents/ModalHeaderOption';
 import ModalMetaMedia from './ModalContents/ModalMetaMedia';
 import { sizes, flex } from '../../../../styles';
+import { defaultContentsStyle } from '../../styles/modals/ModalContentsStyles';
 
 const ModalContents = ({ args }) => {
   const {
@@ -57,16 +58,7 @@ const ModalContents = ({ args }) => {
   }
   return (
     <article
-      css={css`
-        margin: 10.417vw;
-        pointer-events: none;
-        ${flex.vertical}
-        ${sizes.full}
-
-        @media (orientation: portrait) and (max-width: 599px) {
-          margin: 70px 0;
-        }
-      `}
+      css={css`${defaultContentsStyle({ flex, sizes })}`}
     >
       <h1>Loading...</h1>
     </article>
