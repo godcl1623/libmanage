@@ -7,6 +7,7 @@ import ModMemInfo from './comps/ModMemInfo';
 import CheckMemInfo from './comps/CheckMemInfo';
 import DelMemInfo from './comps/DelMemInfo';
 import { border, sizes } from '../../styles';
+import { memInfoStyle } from './styles/memInfoStyle';
 
 const MemberInfoWrap = () => {
   const modalState = useSelector(state => state.modalState);
@@ -19,83 +20,14 @@ const MemberInfoWrap = () => {
   return (
     <article
       id='member-info-wrap'
-      css={css`
-        ${sizes.full}
-      `}
+      css={css`${memInfoStyle({ sizes, border }, tabState)}`}
     >
-      <div
-        className='member-info-contents-wrap'
-        css={css`
-          padding: calc(var(--gap-standard) * 2) var(--gap-standard);
-          ${sizes.full}
-
-          .member-info-contents {
-            ${sizes.free('100%', 'calc(100% - calc(var(--gap-standard) * 2))')}
-          }
-
-          @media (orientation: portrait) and (max-width: 599px) {
-            padding: 40px 20px;
-  
-            .member-info-contents {
-              ${sizes.free('100%', 'calc(100% - 40px)')}
-            }
-          }
-        `}
-      >
+      <div className='member-info-contents-wrap'>
         {
           verifyState
             ?
               <>
-                <div
-                  className='member-info-contents-tab-wrap'
-                  css={css`
-                    button {
-                      padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
-                      ${border}
-                      border-color: var(--btn-disable);
-                      border-bottom: none;
-                      cursor: pointer;
-                      box-shadow: none;
-
-                      :hover {
-                        -webkit-filter: brightness(90%);
-                                filter: brightness(90%);
-                      }
-                    
-                      :active {
-                        -webkit-transform: scale(0.95);
-                            -ms-transform: scale(0.95);
-                                transform: scale(0.95);
-                      }
-                    }
-
-                    button:first-of-type {
-                      border-radius: var(--border-rad-normal) 0 0 0;
-                      border-right: none;
-                      background: ${tabState === 'modify' ? 'var(--highlight-light)' : 'var(--btn-disable)'};
-                    }
-
-                    button:last-of-type {
-                      border-radius: 0 var(--border-rad-normal) 0 0;
-                      background: ${tabState === 'modify' ? 'var(--btn-disable)' : 'var(--highlight-light)'};
-                    }
-
-                    @media (orientation: portrait) and (max-width: 599px) {
-                      button {
-                        padding: 5px 15px;
-                        font-size: 12px;
-                      }
-  
-                      button:first-of-type {
-                        border-radius: 10px 0 0 0;
-                      }
-  
-                      button:last-of-type {
-                        border-radius: 0 10px 0 0;
-                      }
-                    }
-                  `}
-                >
+                <div className='member-info-contents-tab-wrap'>
                   <TabBtn
                     setState={ setTabState }
                     stateVal={ ['modify', 'withdraw'] }
@@ -103,9 +35,7 @@ const MemberInfoWrap = () => {
                     { ['정보 변경', '회원 탈퇴'] }
                   </TabBtn>
                 </div>
-                <div
-                  className='member-info-contents'
-                >
+                <div className='member-info-contents'>
                   {
                     tabState === 'modify'
                       ? <ModMemInfo userState={userState} />
