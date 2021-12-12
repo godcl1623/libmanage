@@ -350,6 +350,15 @@ export const metaStyle = (styles, vars) => {
               color: var(--white);
               font-size: 0.938vw;
               font-weight: bold;
+
+              @media (orientation: portrait) {
+                @media (max-width: 599px) {
+                  border-bottom: 1px solid black;
+                  border-right: 3px double black;
+                  padding: 20px 0;
+                  font-size: 12px;
+                }
+              }
             }
 
             .table-contents {
@@ -362,6 +371,17 @@ export const metaStyle = (styles, vars) => {
                 padding: var(--gap-multiply-small) 0;
                 ${sizes.full}
                 ${flex.vertical}
+              }
+
+              @media (orientation: portrait) {
+                @media (max-width: 599px) {
+                  font-size: 10px;
+
+                  div {
+                    border-bottom: 1px solid black;
+                    padding: 5px 0;
+                  }
+                }
               }
             }
 
@@ -381,6 +401,16 @@ export const metaStyle = (styles, vars) => {
                 ${flex.vertical}
                 font-size: 0.833vw;
                 font-weight: bold;
+
+                @media (orientation: portrait) {
+                  @media (max-width: 599px) {
+                    border-bottom: 1px solid black;
+                    border-right: 1px solid black;
+                    padding: 5px 0;
+                    font-size: 10px;
+                    text-align: center;
+                  }
+                }
               }
 
               .table-sub-contents {
@@ -644,36 +674,6 @@ export const metaStyle = (styles, vars) => {
                   }
                 }
               }
-            }
-
-          }
-
-          .meta-wrapper-contents-info {
-            // grid-template-rows: repeat(auto-fill, 1fr);
-
-            .table-title {
-              border-bottom: 1px solid black;
-              border-right: 3px double black;
-              padding: 20px 0;
-              font-size: 12px;
-            }
-
-            .table-contents {
-              // grid-template-rows: repeat(auto-fill, 1fr);
-              font-size: 10px;
-
-              div {
-                border-bottom: 1px solid black;
-                padding: 5px 0;
-              }
-            }
-
-            .table-sub-title, .table-sub-contents {
-              border-bottom: 1px solid black;
-              border-right: 1px solid black;
-              padding: 5px 0;
-              font-size: 10px;
-              text-align: center;
             }
           }
         }

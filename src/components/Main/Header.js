@@ -190,7 +190,12 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
                 comparisonStateCreator,
                 loginStatusCreator,
                 history,
-                axios
+                axios,
+                selectedItemCreator,
+                selectedItemDataCreator,
+                selectedMediaIdCreator,
+                selectedMediaListCreator,
+                modalStateCreator
               }}
             />
           )}

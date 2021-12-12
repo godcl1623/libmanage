@@ -3,16 +3,16 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
   width: ${
     origin !== 'Header_MemInfo'
       ? origin.split('-')[0] === 'meta'
-          ? '90vw'
+          ? '70vw'
           : '50%'
       : '45%'
   };
   height: ${
     origin !== 'Header_MemInfo'
       ? origin.split('-')[0] === 'meta'
-        ? `${(90 * 9) / 16}vw`
+        ? `${(70 * 9) / 16}vw`
         : '50%'
-      : '70%'
+      : 'max-content'
   };
   ${flex.vertical}
   background: white;
@@ -27,7 +27,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
           : '50%'
-        : '95%'
+        : 'max-content'
     };
   }
 
@@ -44,7 +44,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
           : '50%'
-        : '65%'
+        : 'max-content'
     };
   }
 
@@ -61,7 +61,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
           : '50%'
-        : '95%'
+        : 'max-content'
     };
   }
 
@@ -78,7 +78,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
         ? origin.split('-')[0] === 'meta'
           ? `${(90 * 9) / 16}vw`
           : '30%'
-        : '50%'
+        : 'max-content'
     };
 
     @media (max-width: 1079px) {
@@ -94,7 +94,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
           ? origin.split('-')[0] === 'meta'
             ? `${(90 * 9) / 16}vw`
             : '30%'
-          : '65%'
+          : 'max-content'
       };
     }
 
@@ -111,7 +111,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
           ? origin.split('-')[0] === 'meta'
             ? `${(70 * 9) / 16}vw`
             : '30%'
-          : '50%'
+          : 'max-content'
       };
     }
 
@@ -132,7 +132,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
                 ? '90vw'
                 : `${(70 * 9) / 16}vw`
             : '50%'
-          : '85%'
+          : 'max-content'
       };
       transform:
         translate(-50%, -50%)
@@ -147,7 +147,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
                 ? '90vw'
                 : `${(70 * 9) / 16}vw`
             : 'max-content'
-          : '95%'
+          : 'max-content'
       };
     }
   }
