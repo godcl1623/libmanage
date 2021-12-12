@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { modalStateCreator, selectedMediaIdCreator } from '../../actions';
+import modalBgStyle from './styles/modalBgStyle';
 
 const Modal = ({ style, contents, origin }) => {
   const modalState = useSelector(state => state.modalState);
@@ -13,19 +14,8 @@ const Modal = ({ style, contents, origin }) => {
   return ReactDOM.createPortal(
     <div
       className="modal-bg"
-      css={css`
-        display: ${display};
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.3);
-        top: 0;
-        left: 0;
-        z-index: 2;
-        pointer-events: ${origin === 'Library' ? 'none' : 'auto'};
-      `}
+      css={css`${modalBgStyle({ display, origin })}`}
       onClick={e => {
-        // e.preventDefault();
         if (typeof e.target.className === 'string') {
           if (e.target.className.split(' ')[0] === 'modal-bg') {
             dispatch(modalStateCreator(false));
