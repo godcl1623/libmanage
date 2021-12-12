@@ -31,8 +31,11 @@ const loginException = (dispatch, history) => {
     )
     .then(res => {
       // 임시로 작성
+      console.log(res.data)
       dispatch(loginStatusCreator(true));
       dispatch(userStateCreator(res.data));
+      localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));
+      localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER));
       alert('현재 게스트로 로그인했습니다.\n데이터 보존을 위해 회원으로 로그인해 주세요.');
       history.push('/main');
     })
