@@ -52,7 +52,7 @@ export const libBalloonDisplay = (styles, vars) => {
 
         * {
           margin: 0 var(--gap-multiply-small);
-          font-size: 12px;
+          font-size: 14px;
         }
 
         .balloon-header {
@@ -191,7 +191,7 @@ export const libraryStyle = (styles, condition) => {
       display: ${condition === 'cover' ? 'flex' : 'inline-block'};
       ${sizes.full}
       flex-wrap: wrap;
-      overflow: scroll;
+      overflow-y: scroll;
 
       @media (orientation: portrait) and (max-width: 599px) {
         ${flex.horizontal.center}
