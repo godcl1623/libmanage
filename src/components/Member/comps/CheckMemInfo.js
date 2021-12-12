@@ -7,93 +7,11 @@ import { encryptor } from '../../../custom_modules/aeser';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
+import { checkInfoStyle } from '../styles/memInfoStyle';
 
 const CheckMemInfo = ({ userState, setState}) => (
   <form
-    css={css`
-      ${flex.vertical}
-      ${sizes.full}
-
-      .input_container {
-        margin: 4.167vw 0;
-
-        label {
-          font-size: var(--font-size-standard);
-        }
-
-        input {
-          ${border}
-          border-color: var(--grey-dark);
-        }
-      }
-
-      .submit_container {
-        ${sizes.free('60%')}
-        ${flex.horizontal}
-
-        button {
-          ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
-          font-size: var(--font-size-normal);
-        }
-
-        button:first-of-type {
-          margin-right: var(--gap-multiply-small);
-        }
-
-        button:last-of-type {
-          margin-left: var(--gap-multiply-small);
-        }
-      }
-
-      @media (orientation: portrait) {
-        @media (min-width: 600px) {
-          .input_container {
-            margin: ${4.167 * 1.778}vw 0;
-          }
-  
-          .submit_container {
-            button:first-of-type {
-              margin-right: calc(var(--gap-multiply-small) * 2);
-            }
-    
-            button:last-of-type {
-              margin-left: calc(var(--gap-multiply-small) * 2);
-            }
-          }
-        }
-
-        @media (max-width: 599px) {
-          h2 {
-            font-size: 16px;
-            text-align: center;
-          }
-
-          .input_container {
-            margin: 40px 0;
-
-            label {
-              margin-right: 5px;
-              font-size: 16px;
-            }
-          }
-
-          .submit_container {
-            button {
-              ${sizes.free('100%', '30px')}
-              font-size: 13px;
-            }
-
-            button:first-of-type {
-              margin-right: var(--gap-multiply-small);
-            }
-
-            button:last-of-type {
-              margin-left: var(--gap-multiply-small);
-            }
-          }
-        }
-      }
-    `}
+    css={css`${checkInfoStyle({ flex, sizes, border })}`}
     onSubmit={e => {
       e.preventDefault();
       const verificationData = {
