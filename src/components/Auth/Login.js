@@ -31,7 +31,6 @@ const loginException = (dispatch, history) => {
     )
     .then(res => {
       // 임시로 작성
-      console.log(res.data)
       dispatch(loginStatusCreator(true));
       dispatch(userStateCreator(res.data));
       localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));

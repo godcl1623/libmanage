@@ -70,7 +70,6 @@ const Main = () => {
           { withCredentials: true }
         )
         .then(res => {
-          console.log(res.data)
           if (res.data.isLoginSuccessful) {
             if (!res.data.isGuest) {
               dispatch(loginStatusCreator(res.data.isLoginSuccessful));
