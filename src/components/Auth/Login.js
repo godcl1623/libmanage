@@ -102,6 +102,10 @@ const Login = () => {
     return <></>;
   }
 
+  if (!navigator.onLine) {
+    console.log('foo')
+  }
+
   return (
     <article
       id="login"
