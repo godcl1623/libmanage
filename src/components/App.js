@@ -10,6 +10,7 @@ import Reset from './Auth/Reset';
 import Progress from './Main/Progress';
 import { sizes, flex, border } from '../styles';
 import globalStyles from '../styles/global/globalStyles';
+import Offline from './Offline';
 
 const App = () => (
   <div
@@ -18,7 +19,8 @@ const App = () => (
     <Global styles={css`${globalStyles({ sizes, flex, border })}`}/>
     <Router>
       <Switch>
-        <Route path="/" exact component={ Login } />
+        <Route path="/" exact component={ navigator.onLine ? Login : Main } />
+        {/* <Route path="/" exact component={ Main } /> */}
         <Route path="/main" exact component={ Main } />
         <Route path="/member/register" exact component={ Register } />
         <Route
