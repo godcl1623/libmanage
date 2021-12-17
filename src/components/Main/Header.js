@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -43,6 +43,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
   const isMobile = useSelector(state => state.isMobile);
   const [btnCoords, setBtnCoords] = useState({});
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const optionRef = useRef();
   const memberRef = useRef();
@@ -158,25 +159,31 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
         )}
       </div>
       <div className="space-divider">
-        <div className="sub-divider">
-          <button
-            id="member-info"
-            ref={memberRef}
-            onClick={() => {
-              const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
-              updateBtnCoords(left, top, bottom, width);
-              selectedBtn.current = memberRef.current;
-              dispatch(balloonOriginCreator('Header'));
-              if (balloonState === 'none') {
-                dispatch(balloonStateCreator('flex'));
-              } else if (balloonOrigin === 'Header') {
-                dispatch(balloonStateCreator('none'));
-              }
-            }}
-          >
-            {userState.nickname}
-          </button>
-        </div>
+          {
+            location.pathname !== '/offline'
+              ?
+                <div className="sub-divider">
+                  <button
+                    id="member-info"
+                    ref={memberRef}
+                    onClick={() => {
+                      const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
+                      updateBtnCoords(left, top, bottom, width);
+                      selectedBtn.current = memberRef.current;
+                      dispatch(balloonOriginCreator('Header'));
+                      if (balloonState === 'none') {
+                        dispatch(balloonStateCreator('flex'));
+                      } else if (balloonOrigin === 'Header') {
+                        dispatch(balloonStateCreator('none'));
+                      }
+                    }}
+                  >
+                    {userState.nickname}
+                  </button>
+                </div>
+              :
+                <></>
+          }
         <div className="sub-divider">
           {isMobile ? (
             ''

@@ -60,7 +60,11 @@ const MemberStatus = ({ loginStatus, functions }) => {
     <button
       css={css`${memStatsStyle({ sizes }, 'signin')}`}
       onClick={() => {
-        history.push('/');
+        if (navigator.onLine) {
+          history.push('/');
+        } else {
+          alert('오프라인 상태입니다.');
+        }
       }}
     >
       로그인

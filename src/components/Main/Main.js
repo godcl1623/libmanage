@@ -14,12 +14,6 @@ const Main = () => {
     } else {
       setIsOnline(false);
     }
-    // window.addEventListener('online', setIsOnline(true));
-    // window.addEventListener('offline', setIsOnline(false));
-    // return (() => {
-    //   window.removeEventListener('online', setIsOnline(true));
-    //   window.removeEventListener('offline', setIsOnline(false));
-    // });
   }, []);
 
   if (!isOnline) {
