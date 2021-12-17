@@ -20,7 +20,8 @@ const ModalContents = ({ args }) => {
     selectedMediaId,
     selectedMediaIdCreator,
     selectedMediaList,
-    axios
+    axios,
+    setStoresList
   } = args;
   const caution = <p>※ 현재 기술적 문제로 Steam 서비스만 지원됩니다.</p>;
   if (modalOrigin === 'Header_Option') {
@@ -35,7 +36,8 @@ const ModalContents = ({ args }) => {
           setUserLibrary,
           selectedItemDataCreator,
           axios,
-          caution
+          caution,
+          setStoresList
         }}
       />
     );
