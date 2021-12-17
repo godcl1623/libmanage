@@ -10,7 +10,8 @@ import Reset from './Auth/Reset';
 import Progress from './Main/Progress';
 import { sizes, flex, border } from '../styles';
 import globalStyles from '../styles/global/globalStyles';
-import Offline from './Offline';
+import OfflineWrapper from './Main/utils/Main/NetworkStatus/OfflineWrapper';
+import MainContents from './Main/utils/Main/MainContents';
 
 const App = () => (
   <div
@@ -20,7 +21,7 @@ const App = () => (
     <Router>
       <Switch>
         <Route path="/" exact component={ navigator.onLine ? Login : Main } />
-        {/* <Route path="/" exact component={ Main } /> */}
+        <Route path="/offline" exact component={ () => <OfflineWrapper Contents={ MainContents } /> } />
         <Route path="/main" exact component={ Main } />
         <Route path="/member/register" exact component={ Register } />
         <Route

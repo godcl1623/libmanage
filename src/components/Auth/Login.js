@@ -167,7 +167,7 @@ const Login = () => {
       </div>
       <div className="option other">
         <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
-        <Button>오프라인으로 접속</Button>
+        <Button onClick={() => history.push('/offline')}>오프라인으로 접속</Button>
       </div>
     </article>
   );
