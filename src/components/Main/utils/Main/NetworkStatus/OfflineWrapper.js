@@ -34,7 +34,8 @@ const OfflineWrapper = ({ Contents }) => {
   const dispatch = useDispatch();
   const headerRef = React.useRef();
   const listRef = React.useRef();
-
+console.log(userLibrary)
+console.log(storesList)
   const states = {
     balloonState,
     userState,
@@ -56,7 +57,8 @@ const OfflineWrapper = ({ Contents }) => {
     setUserLibrary,
     setHeaderHeight,
     setSelStoresListHeight,
-    setCoverSize
+    setCoverSize,
+    setStoresList
   };
   const actionCreators = {
     balloonStateCreator,
@@ -71,34 +73,34 @@ const OfflineWrapper = ({ Contents }) => {
   const moduleHooks = { dispatch };
   const styles = { mainStyle, flex, sizes };
 
-  React.useEffect(() => {
-    const abortCon = new AbortController();
-    const { stores } = userState;
-    if (stores !== undefined) {
-      const categories = Object.keys(stores);
-      const eachStoresOfCategories = categories.map(ele => Object.keys(stores[ele]));
-      const eachStatusOfStoresOfCategories = categories.map(ele => Object.values(stores[ele]));
-      const activatedStores = eachStatusOfStoresOfCategories.map(storeStat =>
-        storeStat.map((ele, index) => (ele === true ? index : '')).filter(ele => ele !== '')
-      );
-      const storesToDisplay = activatedStores.map((status, index) =>
-        status.map(iTrue => eachStoresOfCategories[index][iTrue])
-      );
-      // setStoresList(storesToDisplay);
-      const testObj = {};
-      categories.forEach((category, index) => {
-        if (storesToDisplay[index] !== undefined) {
-          testObj[category] = storesToDisplay[index];
-        } else {
-          testObj[category] = 'foo';
-        }
-      });
-      setStoresList(testObj);
-    }
-    return () => {
-      abortCon.abort();
-    };
-  }, [userState.stores]);
+  // React.useEffect(() => {
+  //   const abortCon = new AbortController();
+  //   const { stores } = userState;
+  //   if (stores !== undefined) {
+  //     const categories = Object.keys(stores);
+  //     const eachStoresOfCategories = categories.map(ele => Object.keys(stores[ele]));
+  //     const eachStatusOfStoresOfCategories = categories.map(ele => Object.values(stores[ele]));
+  //     const activatedStores = eachStatusOfStoresOfCategories.map(storeStat =>
+  //       storeStat.map((ele, index) => (ele === true ? index : '')).filter(ele => ele !== '')
+  //     );
+  //     const storesToDisplay = activatedStores.map((status, index) =>
+  //       status.map(iTrue => eachStoresOfCategories[index][iTrue])
+  //     );
+  //     // setStoresList(storesToDisplay);
+  //     const testObj = {};
+  //     categories.forEach((category, index) => {
+  //       if (storesToDisplay[index] !== undefined) {
+  //         testObj[category] = storesToDisplay[index];
+  //       } else {
+  //         testObj[category] = 'foo';
+  //       }
+  //     });
+  //     setStoresList(testObj);
+  //   }
+  //   return () => {
+  //     abortCon.abort();
+  //   };
+  // }, [userState.stores]);
 
   // React.useEffect(() => {
   //   const abortCon = new AbortController();

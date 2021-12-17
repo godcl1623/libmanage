@@ -160,7 +160,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
       </div>
       <div className="space-divider">
           {
-            location.pathname !== '/offline'
+            location.pathname !== '/offline' || !navigator.onLine                                                  
               ?
                 <div className="sub-divider">
                   <button

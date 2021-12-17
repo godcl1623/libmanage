@@ -34,7 +34,8 @@ const MainContents = ({ props }) => {
     setUserLibrary,
     setHeaderHeight,
     setSelStoresListHeight,
-    setCoverSize
+    setCoverSize,
+    setStoresList
   } = setStates;
   const {
     balloonStateCreator,
@@ -75,7 +76,11 @@ const MainContents = ({ props }) => {
           }
         }}
       >
-        <Header headerRef={headerRef} setHeight={setHeaderHeight} currHeight={headerHeight} />
+        <Header
+          headerRef={headerRef}
+          setHeight={setHeaderHeight}
+          currHeight={headerHeight}
+        />
         <div id="main-contents">
           {isPortrait && isMobile ? (
             <SelectedStoresList
@@ -134,7 +139,8 @@ const MainContents = ({ props }) => {
               selectedItemDataCreator,
               selectedMediaId,
               selectedMediaIdCreator,
-              selectedMediaList
+              selectedMediaList,
+              setStoresList
             }}
           />
         }
