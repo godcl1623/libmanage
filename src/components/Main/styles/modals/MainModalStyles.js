@@ -60,7 +60,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
-          : '50%'
+          : 'max-content'
         : 'max-content'
     };
   }

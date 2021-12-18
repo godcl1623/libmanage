@@ -34,8 +34,7 @@ const OfflineWrapper = ({ Contents }) => {
   const dispatch = useDispatch();
   const headerRef = React.useRef();
   const listRef = React.useRef();
-console.log(userLibrary)
-console.log(storesList)
+
   const states = {
     balloonState,
     userState,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { AiOutlineZoomIn } from 'react-icons/ai';
@@ -23,6 +24,7 @@ const Meta = ({ portrait, heights }) => {
   const [isSpread, setIsSpread] = useState(false);
   const [showStat, setShowStat] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation();
   const {
     artworks,
     covers,
@@ -89,8 +91,10 @@ const Meta = ({ portrait, heights }) => {
   ];
 
   useEffect(() => {
-    if (selectedItemData.name !== undefined) {
-      dispatch(modalStateCreator(false));
+    if (location.pathname !== '/offline' || !navigator.onLine) {
+      if (selectedItemData.name !== undefined) {
+        dispatch(modalStateCreator(false));
+      }
     }
   }, [selectedItemData]);
 

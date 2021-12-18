@@ -131,6 +131,11 @@ export const headerStyle = styles => {
       }
     }
 
+    button#delete-input {
+      padding: 0;
+      box-shadow: none;
+    }
+
     @media (max-width: 720px) and (orientation: landscape) {
       ${sizes.free('100%', '25px')}
       min-height: 25px;
