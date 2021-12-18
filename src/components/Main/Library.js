@@ -1,6 +1,7 @@
 /* eslint-disable no-else-return */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { FaBars } from 'react-icons/fa';
@@ -31,6 +32,7 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
   const librarySearch = useSelector(state => state.librarySearch);
   const [btnCoords, setBtnCoords] = React.useState({});
   const dispatch = useDispatch();
+  const location = useLocation();
   const ref = React.useRef();
   const updateBtnCoords = (left, top, height) => {
     setBtnCoords(prevState => ({
@@ -118,7 +120,8 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
             selectedItemCreator,
             selectedItemDataCreator,
             librarySearch,
-            modalOriginCreator
+            modalOriginCreator,
+            location
           }}
         />
       </ul>
