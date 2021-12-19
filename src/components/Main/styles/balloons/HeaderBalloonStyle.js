@@ -33,6 +33,12 @@ export const headerBalloonStyle = (styles, states, condition) => {
     background: var(--btn-active);
     z-index: 2;
 
+    @media (orientation: landscape) {
+      @media (max-width: 800px) {
+        ${sizes.free(`${15.625 * 1.778 * 0.8}vw`, `${5.208 * 1.778 * 0.8}vw`)}
+      }
+    }
+
     @media (orientation: portrait) {
       @media (min-width: 600px) {
         ${sizes.free(`${15.625 * 1.778}vw`, `${5.208 * 1.778}vw`)}
