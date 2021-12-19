@@ -52,7 +52,7 @@ export const libBalloonDisplay = (styles, vars) => {
 
         * {
           margin: 0 var(--gap-multiply-small);
-          font-size: 14px;
+          font-size: 12px;
         }
 
         .balloon-header {
