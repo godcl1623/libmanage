@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { memo } from 'react';
 import InputTemplate from './InputTemplate';
+
+const MemoedInput = memo(InputTemplate);
 
 const FindRequested = ({ mode }) => {
   if (mode === 'pwd') {
     return (
       <>
         <div className="verify_id">
-          <InputTemplate inputType="text" labelText="가입한 아이디" inputFor="ID" />
+          <MemoedInput inputType="text" labelText="가입한 아이디" inputFor="ID" />
         </div>
         <div className="verify_nickname">
-          <InputTemplate inputType="text" labelText="가입한 별명" inputFor="nickname" />
+          <MemoedInput inputType="text" labelText="가입한 별명" inputFor="nickname" />
         </div>
         <div className="verify_email">
-          <InputTemplate inputType="text" labelText="가입한 이메일 주소" inputFor="email" />
+          <MemoedInput inputType="text" labelText="가입한 이메일 주소" inputFor="email" />
         </div>
       </>
     );
@@ -20,10 +22,10 @@ const FindRequested = ({ mode }) => {
   return (
     <>
       <div className="verify_nickname">
-        <InputTemplate inputType="text" labelText="가입한 별명" inputFor="nickname" />
+        <MemoedInput inputType="text" labelText="가입한 별명" inputFor="nickname" />
       </div>
       <div className="verify_email">
-        <InputTemplate inputType="text" labelText="가입한 이메일 주소" inputFor="email" />
+        <MemoedInput inputType="text" labelText="가입한 이메일 주소" inputFor="email" />
       </div>
     </>
   );

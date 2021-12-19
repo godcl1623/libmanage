@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { memo, lazy, Suspense } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { sizes, flex } from '../../../../../styles';
 import { metaModalStyles } from '../../../styles/modals/ModalContentsStyles';
+
+const MediaContents = lazy(() => import('./MediaContents'));
+
+const MemoedCircle = memo(AiOutlineCloseCircle);
+const MemoedRight = memo(AiOutlineRight);
+const MemoedLeft = memo(AiOutlineLeft);
+const MemoedMedia = memo(MediaContents);
+
+const fallBack = () => (
+  <h1
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    }}
+  >
+    Loading
+  </h1>
+);
 
 const ModalMetaMedia = ({ props }) => {
   const {
@@ -24,33 +44,17 @@ const ModalMetaMedia = ({ props }) => {
           dispatch(selectedMediaIdCreator(''));
         }}
       >
-        <AiOutlineCloseCircle />
+        <MemoedCircle />
       </span>
       <div className="contents-wrapper">
         {
           selectedMediaId
-            ? target === 'videos'
-                ?
-                  (
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${selectedMediaId}`}
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  )
-                :
-                  (
-                    <img
-                      src={`https://images.igdb.com/igdb/image/upload/t_original/${selectedMediaId}.jpg`}
-                      alt="media"
-                      id={`img-${selectedMediaId}`}
-                    />
-                  )
-            : ''
+            ?
+              <Suspense fallback={fallBack()}>
+                <MemoedMedia type={target} id={selectedMediaId}/>
+              </Suspense>
+            :
+              ''
         }
         <div className="btn-wrapper">
           <span
@@ -64,7 +68,7 @@ const ModalMetaMedia = ({ props }) => {
               }
             }}
           >
-            <AiOutlineLeft />
+            <MemoedLeft />
           </span>
           <span
             id="media-right"
@@ -77,7 +81,7 @@ const ModalMetaMedia = ({ props }) => {
               }
             }}
           >
-            <AiOutlineRight />
+            <MemoedRight />
           </span>
         </div>
       </div>

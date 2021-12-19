@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-alert */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -11,8 +11,11 @@ import ChangePwd from './module/components/ChangePwd';
 import { tokenStateCreator as setTokenState } from '../../actions';
 import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
-import { border, flex, sizes } from '../../styles';
+import { flex, sizes } from '../../styles';
 import { changePwdRoot, tokenExpired } from './module/styles/ResetStyles';
+
+const MemoedIco = memo(FaHome);
+const MemoedPwd = memo(ChangePwd);
 
 const now = () => {
   const date = new Date();
@@ -71,7 +74,7 @@ const Reset = () => {
             ${changePwdRoot({ sizes, flex })}
           `}
         >
-          <ChangePwd token={requestedToken} reqTime={now} />
+          <MemoedPwd token={requestedToken} reqTime={now} />
         </div>
       );
     default:
@@ -87,7 +90,7 @@ const Reset = () => {
             title="메인화면"
             href="https://godcl1623-libmanage.herokuapp.com"
           >
-            <FaHome />
+            <MemoedIco />
           </a>
         </div>
       );

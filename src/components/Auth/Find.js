@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -11,6 +11,10 @@ import { sendTo } from '../../custom_modules/address';
 import { border, flex, sizes } from '../../styles';
 import { verifyId, verifyNick, verifyEmail } from './module/utils';
 import style from './module/styles/FindStyles';
+
+const MemoedSubmit = memo(FormSubmit);
+const MemoedFindReq = memo(FindRequested);
+const MemoedLink = memo(Link);
 
 const Find = ({ mode }) => {
   const [tabState, setTabState] = useState(mode);
@@ -35,8 +39,8 @@ const Find = ({ mode }) => {
         className="contents-wrapper"
       >
         <div className="tab-wrapper">
-          <Link to="/member/find/id" id="find_id" onClick={() => tabHandler('id')}>아이디 찾기</Link>
-          <Link to="/member/find/pwd" id="find_pwd" onClick={() => tabHandler('pwd')}>비밀번호 찾기</Link>
+          <MemoedLink to="/member/find/id" id="find_id" onClick={() => tabHandler('id')}>아이디 찾기</MemoedLink>
+          <MemoedLink to="/member/find/pwd" id="find_pwd" onClick={() => tabHandler('pwd')}>비밀번호 찾기</MemoedLink>
         </div>
         <div className="form-wrapper">
           <form
@@ -112,10 +116,10 @@ const Find = ({ mode }) => {
             }}
           >
             <div className="input-wrapper">
-              <FindRequested mode={mode} />
+              <MemoedFindReq mode={mode} />
             </div>
             <div className="submit-wrapper">
-              <FormSubmit />
+              <MemoedSubmit />
             </div>
           </form>
         </div>

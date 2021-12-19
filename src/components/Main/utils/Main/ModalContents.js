@@ -1,5 +1,5 @@
 /* eslint-disable no-else-return */
-import React from 'react';
+import React, { memo } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import MemberInfoWrap from '../../../Member/MemberInfoWrap';
@@ -7,6 +7,10 @@ import ModalHeaderOption from './ModalContents/ModalHeaderOption';
 import ModalMetaMedia from './ModalContents/ModalMetaMedia';
 import { sizes, flex } from '../../../../styles';
 import { defaultContentsStyle } from '../../styles/modals/ModalContentsStyles';
+
+const MemoedInfoWrap = memo(MemberInfoWrap);
+const MemoedHeaderOpt = memo(ModalHeaderOption);
+const MemoedModalMeta = memo(ModalMetaMedia);
 
 const ModalContents = ({ args }) => {
   const {
@@ -27,7 +31,7 @@ const ModalContents = ({ args }) => {
   if (modalOrigin === 'Header_Option') {
     // 모든 스토어에 대응 가능하도록 개선 필요
     return (
-      <ModalHeaderOption
+      <MemoedHeaderOpt
         props={{
           userState,
           dispatch,
@@ -42,11 +46,11 @@ const ModalContents = ({ args }) => {
       />
     );
   } else if (modalOrigin === 'Header_MemInfo') {
-    return <MemberInfoWrap />;
+    return <MemoedInfoWrap />;
   } else if (modalOrigin.split('-')[0] === 'meta') {
     const target = modalOrigin.split('-')[1];
     return (
-      <ModalMetaMedia
+      <MemoedModalMeta
         props={{
           dispatch,
           modalStateCreator,

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -32,6 +32,12 @@ import {
   headerBalloonStyle,
   headerBalloonHand
 } from './styles/balloons/HeaderBalloonStyle';
+
+const MemoedIco = memo(FaBars);
+const MemoedBalloon = memo(Balloon);
+const MemoedHeaderOpt = memo(HeaderOptions);
+const MemoedSearch = memo(SearchField);
+const MemoedMemStat = memo(MemberStatus);
 
 const Header = ({ headerRef, setHeight, currHeight }) => {
   const loginStatus = useSelector(state => state.loginStatus);
@@ -95,11 +101,11 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
             }
           }}
         >
-          {<FaBars />}
+          {<MemoedIco />}
         </button>
-        <Balloon
+        <MemoedBalloon
           contents={
-            <HeaderOptions
+            <MemoedHeaderOpt
               setStates={{
                 dispatch,
                 modalOriginCreator,
@@ -113,12 +119,12 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
                 isMobile
               }}
               components={[
-                <SearchField
+                <MemoedSearch
                   dispatch={dispatch}
                   setState={librarySearchCreator}
                   fieldVal={librarySearch}
                 />,
-                <MemberStatus
+                <MemoedMemStat
                   loginStatus={loginStatus}
                   functions={{
                     dispatch,
@@ -151,7 +157,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
         {isMobile ? (
           <></>
         ) : (
-          <SearchField
+          <MemoedSearch
             dispatch={dispatch}
             setState={librarySearchCreator}
             fieldVal={librarySearch}
@@ -188,7 +194,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
           {isMobile ? (
             ''
           ) : (
-            <MemberStatus
+            <MemoedMemStat
               loginStatus={loginStatus}
               functions={{
                 dispatch,

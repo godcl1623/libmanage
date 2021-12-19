@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -14,6 +14,9 @@ import { verifyPwd } from '../utils';
 import { sendTo } from '../../../../custom_modules/address';
 import { border, flex, sizes } from '../../../../styles';
 import style from '../styles/components/ChangePwdStyles';
+
+const MemoedInput = memo(InputTemplate);
+const MemoedSubmit = memo(FormSubmit);
 
 const ChangePwd = ({ token, reqTime }) => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -80,7 +83,7 @@ const ChangePwd = ({ token, reqTime }) => {
       }}
     >
       <div className="input-wrapper">
-        <InputTemplate
+        <MemoedInput
           inputType="password"
           labelText="비밀번호"
           inputFor="PWD"
@@ -93,7 +96,7 @@ const ChangePwd = ({ token, reqTime }) => {
           className="verify-error"
           id="input-pwd"
         >※ 비밀번호 형식과 맞지 않습니다.</p>
-        <InputTemplate
+        <MemoedInput
           inputType="password"
           labelText="비밀번호 확인"
           inputFor="PWD_check"
@@ -106,7 +109,7 @@ const ChangePwd = ({ token, reqTime }) => {
         >※ 비밀번호가 일치하지 않습니다.</p>
       </div>
       <div className="submit-wrapper">
-        <FormSubmit />
+        <MemoedSubmit />
       </div>
     </form>
   );

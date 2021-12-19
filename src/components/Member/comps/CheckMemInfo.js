@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -8,6 +8,8 @@ import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
 import { checkInfoStyle } from '../styles/memInfoStyle';
+
+const MemoedSubmit = memo(FormSubmit);
 
 const CheckMemInfo = ({ userState, setState}) => (
   <form
@@ -24,8 +26,8 @@ const CheckMemInfo = ({ userState, setState}) => (
       }
       axios
         .post(
-          'http://localhost:3001/verify',
-          // `https://${sendTo}/verify`,
+          // 'http://localhost:3001/verify',
+          `https://${sendTo}/verify`,
           { sofo: encryptor(verificationData, process.env.REACT_APP_TRACER) },
           { withCredentials: true }
         )
@@ -49,7 +51,7 @@ const CheckMemInfo = ({ userState, setState}) => (
     <div
       className="submit_container"
     >
-      <FormSubmit formOrigin="Main" />
+      <MemoedSubmit formOrigin="Main" />
     </div>
   </form>
 );

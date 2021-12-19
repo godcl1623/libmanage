@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -6,6 +6,8 @@ import { selectedCategoryCreator, selectedStoresCreator } from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
+
+const MemoedStores = memo(StoresList);
 
 const Navigation = ({ storesList }) => {
   const selectedCategory = useSelector(state => state.selectedCategory);
@@ -28,7 +30,7 @@ const Navigation = ({ storesList }) => {
         <option value="series">드라마</option>
         <option value="movie">영화</option>
       </select>
-      <StoresList
+      <MemoedStores
         props={{
           selectedCategory,
           storesList,

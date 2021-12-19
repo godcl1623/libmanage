@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useLocation } from 'react-router-dom';
 import XLSX from 'xlsx';
 /** @jsxImportSource @emotion/react */
@@ -8,6 +8,8 @@ import { sizes, flex, border } from '../../../../../styles';
 import signin from '../../../../../assets/sits_large_noborder.png';
 import { headerModalStyles, offlineHeaderModalStyle } from '../../../styles/modals/ModalContentsStyles';
 import FormSubmit from '../../../../Auth/module/components/FormSubmit';
+
+const MemoedSubmit = memo(FormSubmit);
 
 const ModalHeaderOption = ({ props }) => {
   const [uploadedData, setUploadedData] = React.useState('');
@@ -172,7 +174,7 @@ const ModalHeaderOption = ({ props }) => {
                     </section>
               } */}
               <div className="submit-wrapper">
-                <FormSubmit />
+                <MemoedSubmit />
               </div>
             </form>
           </section>

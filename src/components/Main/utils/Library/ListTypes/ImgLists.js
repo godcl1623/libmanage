@@ -64,7 +64,7 @@ const ImgLists = ({ props, filter }) => {
     return result;
   }
 
-  return (
+  const result = (
     steam.map((item, index) => (
       <li
         key={`img-${index}`}
@@ -89,8 +89,8 @@ const ImgLists = ({ props, filter }) => {
             if (extCredState.cid === undefined) {
               axios
                 .post(
-                  'http://localhost:3001/api/connect',
-                  // `https://${sendTo}/api/connect`,
+                  // 'http://localhost:3001/api/connect',
+                  `https://${sendTo}/api/connect`,
                   { execute: 'order66' },
                   { withCredentials: true }
                 )
@@ -103,8 +103,8 @@ const ImgLists = ({ props, filter }) => {
                   };
                   axios
                     .post(
-                      'http://localhost:3001/get/meta',
-                      // `https://${sendTo}/get/meta`,
+                      // 'http://localhost:3001/get/meta',
+                      `https://${sendTo}/get/meta`,
                       { reqData },
                       { withCredentials: true }
                     )
@@ -120,8 +120,8 @@ const ImgLists = ({ props, filter }) => {
               };
               axios
                 .post(
-                  'http://localhost:3001/get/meta',
-                  // `https://${sendTo}/get/meta`,
+                  // 'http://localhost:3001/get/meta',
+                  `https://${sendTo}/get/meta`,
                   { reqData },
                   { withCredentials: true }
                 )
@@ -134,6 +134,10 @@ const ImgLists = ({ props, filter }) => {
       </li>
     ))
   );
+  if (isFiltered) {
+    return result.filter(ele => ele.props.children.props.title.match(word));
+  }
+  return result;
 };
 
 export default ImgLists;

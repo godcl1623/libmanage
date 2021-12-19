@@ -33,7 +33,7 @@ const TextLists = ({props, filter}) => {
     const result = (
       steam.sort((prev, next) => prev.titles < next.titles ? -1 : 1).map((item, idx) => (
         <li
-          key={idx}
+          key={`lib-item-${idx}`}
           css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
           onMouseEnter={e => {
             e.target.style.background = 'var(--highlight-light)';
@@ -63,10 +63,10 @@ const TextLists = ({props, filter}) => {
     return result;
   }
 
-  return (
+  const result = (
     steam.map((item, index) => (
       <li
-        key={index}
+        key={`lib-item-${index}`}
         css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
         onMouseEnter={e => {
           e.target.style.background = 'var(--highlight-light)';
@@ -86,8 +86,8 @@ const TextLists = ({props, filter}) => {
           if (extCredState.cid === undefined) {
             axios
               .post(
-                'http://localhost:3001/api/connect',
-                // `https://${sendTo}/api/connect`,
+                // 'http://localhost:3001/api/connect',
+                `https://${sendTo}/api/connect`,
                 { execute: 'order66' },
                 { withCredentials: true }
               )
@@ -100,8 +100,8 @@ const TextLists = ({props, filter}) => {
                 };
                 axios
                   .post(
-                    'http://localhost:3001/get/meta',
-                    // `https://${sendTo}/get/meta`,
+                    // 'http://localhost:3001/get/meta',
+                    `https://${sendTo}/get/meta`,
                     { reqData },
                     { withCredentials: true }
                   )
@@ -116,8 +116,8 @@ const TextLists = ({props, filter}) => {
               credData: extCredState
             };
             axios
-              .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
-              // .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
+              // .post('http://localhost:3001/get/meta', { reqData }, { withCredentials: true })
+              .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
               .then(res => {
                 dispatch(selectedItemDataCreator(res.data));
               });
@@ -128,6 +128,11 @@ const TextLists = ({props, filter}) => {
       </li>
     ))
   );
+
+  if (isFiltered) {
+    return result.filter(ele => ele.props.children.match(word));
+  }
+  return result;
 };
 
 export default TextLists;
