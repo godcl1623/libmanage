@@ -492,14 +492,7 @@ export const metaStyle = (styles, vars) => {
               margin-top: ${1.563 * 1.778}vw;
               margin-bottom: ${2.604 * 1.778}vw;
 
-              .media-contents-wrapper {
-                .media-tabs {
-                  button {
-                  }
-                }
-
                 .media-contents {
-
                   .media-wrapper {
                     .player-btn-wrapper {
                       .player-btn {
