@@ -88,22 +88,28 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
       <ul
         id="contents-lists"
         onScroll={e => {
+          let timer;
           const lists = e.target.querySelectorAll('li');
           const ulCoords = e.target.getBoundingClientRect();
           const { top: ulTop, bottom: ulBot } = ulCoords;
-          lists.forEach(list => {
-            const listCoords = list.getBoundingClientRect();
-            const { top: liTop, height: liHeight } = listCoords;
-            if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
-              list.style.filter = 'blur(0.104vw)';
-              list.style.color = 'lightgrey';
-              list.style.transition = 'filter 0.5s, color 0.5s';
-            } else {
-              list.style.filter = 'blur(0)';
-              list.style.color = 'black';
-              list.style.transition = 'filter 0.5s, color 0.5s';
-            }
-          });
+          if (!timer) {
+            timer = setTimeout(() => {
+              timer = null;
+              lists.forEach(list => {
+                const listCoords = list.getBoundingClientRect();
+                const { top: liTop, height: liHeight } = listCoords;
+                if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
+                  list.style.filter = 'blur(0.104vw)';
+                  list.style.color = 'lightgrey';
+                  list.style.transition = 'filter 0.5s, color 0.5s';
+                } else {
+                  list.style.filter = 'blur(0)';
+                  list.style.color = 'black';
+                  list.style.transition = 'filter 0.5s, color 0.5s';
+                }
+              });
+            }, 200);
+          }
         }}
       >
         <MakeList

@@ -1,13 +1,24 @@
 /* eslint-disable no-else-return */
-import React from 'react';
+import React, { Suspense } from 'react';
 import axios from 'axios';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { sendTo } from '../../../../custom_modules/address';
 import { flex } from '../../../../styles';
 import { makeListStyle } from '../../styles/LibraryStyles';
-import TextLists from './ListTypes/TextLists';
-import ImgLists from './ListTypes/ImgLists';
+
+const TextLists = React.lazy(() => import('./ListTypes/TextLists'));
+const ImgLists = React.lazy(() => import('./ListTypes/ImgLists'));
+
+const fallBack = () => (
+  <h1
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    }}
+  >
+    Loading
+  </h1>
+);
 
 const MakeList = ({ args }) => {
   const {
@@ -37,17 +48,33 @@ const MakeList = ({ args }) => {
       if (selectedStores.includes('all') || selectedStores.includes('steam')) {
         if (libDisplay === 'list') {
           if (librarySearch === '') {
-            return <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />;
+            return (
+              <Suspense fallback={fallBack()}>
+                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+              </Suspense>
+            );
           } else {
             const word = new RegExp(librarySearch, 'gi');
-            return <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />;
+            return (
+              <Suspense fallback={fallBack()}>
+                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
+              </Suspense>
+            );
           }
         } else if (libDisplay === 'cover') {
           if (librarySearch === '') {
-            return <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />;
+            return (
+              <Suspense fallback={fallBack()}>
+                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+              </Suspense>
+            );
           } else {
             const word = new RegExp(librarySearch, 'gi');
-            return <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />;
+            return (
+              <Suspense fallback={fallBack()}>
+                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
+              </Suspense>
+            );
           }
         }
       } else {

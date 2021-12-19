@@ -64,9 +64,9 @@ const MemberStatus = ({ loginStatus, functions }) => {
           history.push('/');
           dispatch(modalStateCreator(false));
           dispatch(selectedItemCreator(''));
-          dispatch(selectedItemDataCreator(''));
+          dispatch(selectedItemDataCreator({}));
           dispatch(selectedMediaIdCreator(''));
-          dispatch(selectedMediaListCreator(''));
+          dispatch(selectedMediaListCreator([]));
         } else {
           alert('오프라인 상태입니다.');
         }
