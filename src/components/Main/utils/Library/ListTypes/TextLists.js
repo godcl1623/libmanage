@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';

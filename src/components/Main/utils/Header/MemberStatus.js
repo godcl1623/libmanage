@@ -62,6 +62,11 @@ const MemberStatus = ({ loginStatus, functions }) => {
       onClick={() => {
         if (navigator.onLine) {
           history.push('/');
+          dispatch(modalStateCreator(false));
+          dispatch(selectedItemCreator(''));
+          dispatch(selectedItemDataCreator(''));
+          dispatch(selectedMediaIdCreator(''));
+          dispatch(selectedMediaListCreator(''));
         } else {
           alert('오프라인 상태입니다.');
         }
