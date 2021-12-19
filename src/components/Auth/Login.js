@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -18,14 +18,17 @@ import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 import { loginTop, hrStyle } from './module/styles/LoginStyles';
 
+const MemoedLink = memo(StyledLink);
+const MemoedBtn = memo(Button);
+
 const loginException = (dispatch, history) => {
   const formData = {
     mode: 'guest'
   };
   axios
     .post(
-      'http://localhost:3001/login_process',
-      // `https://${sendTo}/login_process`,
+      // 'http://localhost:3001/login_process',
+      `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
       { withCredentials: true }
     )
@@ -57,8 +60,8 @@ const Login = () => {
     }
     axios
       .post(
-        'http://localhost:3001/check_login',
-        // `https://${sendTo}/check_login`,
+        // 'http://localhost:3001/check_login',
+        `https://${sendTo}/check_login`,
         { message },
         { withCredentials: true }
       )
@@ -128,8 +131,8 @@ const Login = () => {
           }
           axios
             .post(
-              'http://localhost:3001/login_process',
-              // `https://${sendTo}/login_process`,
+              // 'http://localhost:3001/login_process',
+              `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
               { withCredentials: true }
             )
@@ -152,9 +155,9 @@ const Login = () => {
         <input className="input-id" type="text" name="ID" placeholder="User ID"/>
         {/* <label htmlFor="PWD">PW: </label> */}
         <input className="input-pwd" type="password" name="PWD" placeholder="Password" />
-        <Button type="submit" name="login">
+        <MemoedBtn type="submit" name="login">
           LOGIN
-        </Button>
+        </MemoedBtn>
       </form>
       <hr
         css={css`
@@ -162,12 +165,12 @@ const Login = () => {
         `}
       />
       <div className="option man-member">
-        <StyledLink to="/member/register">회원가입</StyledLink>
-        <StyledLink to="/member/find">ID/PW 찾기</StyledLink>
+        <MemoedLink to="/member/register">회원가입</MemoedLink>
+        <MemoedLink to="/member/find">ID/PW 찾기</MemoedLink>
       </div>
       <div className="option other">
-        <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
-        <Button onClick={() => history.push('/offline')}>오프라인으로 접속</Button>
+        <MemoedBtn onClick={() => loginException(dispatch, history)}>게스트 로그인</MemoedBtn>
+        <MemoedBtn onClick={() => history.push('/offline')}>오프라인으로 접속</MemoedBtn>
       </div>
     </article>
   );

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { modalStateCreator } from '../../../../actions';
 import { Button } from '../../../../styles/elementsPreset';
+
+const MemoedBtn = memo(Button);
 
 const FormSubmit = ({ formOrigin }) => {
   const dispatch = useDispatch();
@@ -10,8 +12,8 @@ const FormSubmit = ({ formOrigin }) => {
   const location = useLocation();
   return (
     <>
-      <Button type="submit" name="confirm">확인</Button>
-      <Button
+      <MemoedBtn type="submit" name="confirm">확인</MemoedBtn>
+      <MemoedBtn
         name="cancel"
         onClick={e => {
           e.preventDefault();
@@ -20,7 +22,7 @@ const FormSubmit = ({ formOrigin }) => {
               ? dispatch(modalStateCreator(false))
               : history.push('/');
           }
-        }}>취소</Button>
+        }}>취소</MemoedBtn>
     </>
   );
 };

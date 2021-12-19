@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -16,6 +16,8 @@ import {
 } from '../../../actions';
 import { border, flex, sizes } from '../../../styles';
 import { delInfoStyle } from '../styles/memInfoStyle';
+
+const MemoedSubmit = memo(FormSubmit);
 
 const DelMemInfo = ({ userState }) => {
   const dispatch = useDispatch();
@@ -99,7 +101,7 @@ const DelMemInfo = ({ userState }) => {
         <div
           className="submit-wrapper"
         >
-          <FormSubmit formOrigin='Main' />
+          <MemoedSubmit formOrigin='Main' />
         </div>
       </form>
     </article>

@@ -1,5 +1,5 @@
 /* eslint-disable no-else-return */
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -20,6 +20,11 @@ import {
 import { sizes, flex } from '../../styles';
 import { libraryStyle } from './styles/LibraryStyles';
 import { libraryBalloonWrapper, libraryBalloonStyle, libraryBalloonHand } from './styles/balloons/LibraryBalloonStyle';
+
+const MemoedIco = memo(FaBars);
+const MemoedBalloon = memo(Balloon);
+const MemoedLibOpt = memo(LibraryOptions);
+const MemoedLists = memo(MakeList);
 
 const Library = ({ userLib, coverSize, setCoverSize }) => {
   const balloonState = useSelector(state => state.balloonState);
@@ -69,11 +74,11 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
         }}
         ref={ref}
       >
-        { <FaBars /> }
+        { <MemoedIco /> }
       </button>
-      <Balloon
+      <MemoedBalloon
         contents={
-          <LibraryOptions
+          <MemoedLibOpt
             dispatch={dispatch}
             changeState={libDisplayStateCreator}
             coverSize={coverSize}
@@ -112,7 +117,7 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
           }
         }}
       >
-        <MakeList
+        <MemoedLists
           args={{
             userLib,
             libDisplay,

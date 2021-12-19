@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment} from 'react';
+import React, { useState, useEffect, Fragment, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -16,6 +16,10 @@ import {
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 import { metaStyle } from './styles/MetaStyles';
+
+const MemoedMediaList = memo(MakeMediaList);
+const MemoedBackBtn = memo(ToBack);
+const MemoedAgeRates = memo(AgeRatingDistributor);
 
 const Meta = ({ portrait, heights }) => {
   const selectedItemData = useSelector(state => state.selectedItemData);
@@ -162,7 +166,7 @@ const Meta = ({ portrait, heights }) => {
                   {
                     ages
                       ?
-                        <AgeRatingDistributor
+                        <MemoedAgeRates
                           ages={ ages }
                           props={{ esrb, pegi, ratings }}
                         />
@@ -238,7 +242,7 @@ const Meta = ({ portrait, heights }) => {
                 </button>
               </div>
               <div className="media-contents">
-                <MakeMediaList
+                <MemoedMediaList
                   props={{
                     selectedMedia,
                     selectedItemData,
@@ -490,7 +494,7 @@ const Meta = ({ portrait, heights }) => {
       </article>
       {
         portrait || isMobile
-          ? <ToBack heights={heights} />
+          ? <MemoedBackBtn heights={heights} />
           : <></>
       }
     </article>

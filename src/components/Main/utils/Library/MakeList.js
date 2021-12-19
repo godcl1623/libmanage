@@ -1,11 +1,14 @@
 /* eslint-disable no-else-return */
-import React, { Suspense } from 'react';
+import React, { Suspense, memo } from 'react';
 import axios from 'axios';
 import { flex } from '../../../../styles';
 import { makeListStyle } from '../../styles/LibraryStyles';
 
 const TextLists = React.lazy(() => import('./ListTypes/TextLists'));
 const ImgLists = React.lazy(() => import('./ListTypes/ImgLists'));
+
+const MemoedText = memo(TextLists);
+const MemoedImg = memo(ImgLists);
 
 const fallBack = () => (
   <h1
@@ -50,14 +53,14 @@ const MakeList = ({ args }) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+                <MemoedText props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
               </Suspense>
             );
           } else {
             const word = new RegExp(librarySearch, 'gi');
             return (
               <Suspense fallback={fallBack()}>
-                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
+                <MemoedText props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
               </Suspense>
             );
           }
@@ -65,14 +68,14 @@ const MakeList = ({ args }) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+                <MemoedImg props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
               </Suspense>
             );
           } else {
             const word = new RegExp(librarySearch, 'gi');
             return (
               <Suspense fallback={fallBack()}>
-                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
+                <MemoedImg props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
               </Suspense>
             );
           }

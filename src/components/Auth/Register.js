@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -12,6 +12,9 @@ import { verifyId, verifyPwd, verifyNick, verifyEmail } from './module/utils';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 import style from './module/styles/RegisterStyles';
+
+const MemoedSubmit = memo(FormSubmit);
+const MemoedInput = memo(InputTemplate);
 
 const Register = () => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -109,8 +112,8 @@ const Register = () => {
           };
           const existCheck = async sofo => {
             await axios.post(
-              // 'http://localhost:3001/member/register',
-              `https://${sendTo}/member/register`,
+              'http://localhost:3001/member/register',
+              // `https://${sendTo}/member/register`,
               {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
               { withCredentials: true })
             .then(res => {
@@ -152,7 +155,7 @@ const Register = () => {
         }}
       >
         <div className="input-wrapper">
-          <InputTemplate
+          <MemoedInput
             inputType="text"
             labelText="아이디"
             inputFor="ID"
@@ -162,7 +165,7 @@ const Register = () => {
           <p className="verify-error">{verifyTest('ID', idState)}</p>
         </div>
         <div className="input-wrapper">
-          <InputTemplate
+          <MemoedInput
             inputType="password"
             labelText="비밀번호"
             inputFor="PWD"
@@ -175,7 +178,7 @@ const Register = () => {
           <p className="verify-error">{verifyTest('비밀번호', pwdState)}</p>
         </div>
         <div className="input-wrapper">
-          <InputTemplate
+          <MemoedInput
             inputType="password"
             labelText="비밀번호 확인"
             inputFor="PWD_check"
@@ -185,7 +188,7 @@ const Register = () => {
           <p className="verify-error">※ 비밀번호가 일치하지 않습니다.</p>
         </div>
         <div className="input-wrapper">
-          <InputTemplate
+          <MemoedInput
             inputType="text"
             labelText="별명"
             inputFor="nickname"
@@ -196,7 +199,7 @@ const Register = () => {
         </div>
         <div className="input-wrapper">
           <div id="input-email">
-            <InputTemplate
+            <MemoedInput
               inputType="text"
               labelText="이메일"
               inputFor="email_id"
@@ -208,7 +211,7 @@ const Register = () => {
           <p className="verify-error">{ verifyTest('이메일 주소', emailAuth) }</p>
         </div>
         <div className="submit-wrapper">
-          <FormSubmit />
+          <MemoedSubmit />
         </div>
       </form>
     </article>
