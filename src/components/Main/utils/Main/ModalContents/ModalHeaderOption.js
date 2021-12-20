@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { useLocation } from 'react-router-dom';
 import XLSX from 'xlsx';
+import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
@@ -21,7 +22,6 @@ const ModalHeaderOption = ({ props }) => {
     modalStateCreator,
     setUserLibrary,
     selectedItemDataCreator,
-    axios,
     caution,
     setStoresList
   } = props;
