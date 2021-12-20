@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+node_modules
+=======
 # Logs
 logs
 *.log
@@ -129,3 +132,4 @@ yarn-error.log*
 
 # hasher.js
 # aeser.js
+>>>>>>> develop
