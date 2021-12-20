@@ -38,7 +38,7 @@ self.addEventListener('install', event => {
 // });
 
 self.addEventListener('fetch', event => {
-  if (event.request.method === 'POST') return;
+  if (event.request.method === 'POST' || event.request.method === 'PUT') return;
   if (!(event.request.url.indexOf('http') === 0)) return;
   event.respondWith(
     caches.match(event.request)
