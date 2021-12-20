@@ -53,14 +53,14 @@ const MakeList = ({ args }) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                <MemoedText props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
               </Suspense>
             );
           } else {
             const word = new RegExp(librarySearch, 'gi');
             return (
               <Suspense fallback={fallBack()}>
-                <MemoedText props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
+                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
               </Suspense>
             );
           }
@@ -68,14 +68,14 @@ const MakeList = ({ args }) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                <MemoedImg props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
               </Suspense>
             );
           } else {
             const word = new RegExp(librarySearch, 'gi');
             return (
               <Suspense fallback={fallBack()}>
-                <MemoedImg props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
+                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
               </Suspense>
             );
           }
