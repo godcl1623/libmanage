@@ -1,25 +1,61 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "name": "Library Manager",
+  "orientation": "any",
+  "short_name": "Libmng",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "categories": [],
+  "screenshots": [],
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "/icons/favicon.ico",
+      "sizes": "48x48",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "/icons/logo384.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "384x384",
+      "purpose": "any"
     },
     {
-      "src": "logo512.png",
+      "src": "/icons/logo96.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "96x96",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo48.png",
+      "type": "image/png",
+      "sizes": "48x48",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo72.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo128.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "shortcuts": []
 }
