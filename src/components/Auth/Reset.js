@@ -74,7 +74,7 @@ const Reset = () => {
             ${changePwdRoot({ sizes, flex })}
           `}
         >
-          <MemoedPwd token={requestedToken} reqTime={now} />
+          <ChangePwd token={requestedToken} reqTime={now} />
         </div>
       );
     default:
@@ -90,7 +90,7 @@ const Reset = () => {
             title="메인화면"
             href="https://godcl1623-libmanage.herokuapp.com"
           >
-            <MemoedIco />
+            <FaHome />
           </a>
         </div>
       );

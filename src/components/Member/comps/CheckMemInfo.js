@@ -9,7 +9,7 @@ import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
 import { checkInfoStyle } from '../styles/memInfoStyle';
 
-const MemoedSubmit = memo(FormSubmit);
+// const FormSubmit = memo(FormSubmit);
 
 const CheckMemInfo = ({ userState, setState}) => (
   <form
@@ -51,7 +51,7 @@ const CheckMemInfo = ({ userState, setState}) => (
     <div
       className="submit_container"
     >
-      <MemoedSubmit formOrigin="Main" />
+      <FormSubmit formOrigin="Main" />
     </div>
   </form>
 );

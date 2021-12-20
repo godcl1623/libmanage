@@ -20,8 +20,8 @@ import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
 import { modInfoStyle } from '../styles/memInfoStyle';
 
-const MemoedInput = memo(InputTemplate);
-const MemoedSubmit = memo(FormSubmit);
+// const InputTemplate = memo(InputTemplate);
+// const FormSubmit = memo(FormSubmit);
 
 const verifyTest = (verifyValue, verifyState) => {
   if (verifyValue !== '비밀번호') {
@@ -257,7 +257,7 @@ const ModMemInfo = ({ userState }) => {
         <div
           className="input_container"
         >
-          <MemoedInput
+          <InputTemplate
             inputType="text"
             labelText="별명"
             inputFor="nickname"
@@ -275,7 +275,7 @@ const ModMemInfo = ({ userState }) => {
         <div
           className="input_container"
         >
-          <MemoedInput
+          <InputTemplate
             inputType="password"
             labelText="비밀번호"
             inputFor="PWD"
@@ -296,7 +296,7 @@ const ModMemInfo = ({ userState }) => {
         <div
           className="input_container"
         >
-          <MemoedInput
+          <InputTemplate
             inputType="password"
             labelText="비밀번호 확인"
             inputFor="PWD_check"
@@ -315,7 +315,7 @@ const ModMemInfo = ({ userState }) => {
           className="input_container"
         >
           <div id="input-email">
-            <MemoedInput inputType="text" labelText="이메일" inputFor="email_id" handler={() => setEmailAuth('')} />
+            <InputTemplate inputType="text" labelText="이메일" inputFor="email_id" handler={() => setEmailAuth('')} />
             <p id="divider">@</p>
             { customOption(emailState, setEmailState, setEmailAuth) }
           </div>
@@ -329,7 +329,7 @@ const ModMemInfo = ({ userState }) => {
         </div>
       </div>
       <div className="submit-container">
-        <MemoedSubmit formOrigin="Main" />
+        <FormSubmit formOrigin="Main" />
       </div>
     </form>
   );

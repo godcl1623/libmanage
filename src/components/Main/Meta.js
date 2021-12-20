@@ -17,9 +17,9 @@ import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 import { metaStyle } from './styles/MetaStyles';
 
-const MemoedMediaList = memo(MakeMediaList);
-const MemoedBackBtn = memo(ToBack);
-const MemoedAgeRates = memo(AgeRatingDistributor);
+// const MakeMediaList = memo(MakeMediaList);
+// const ToBack = memo(ToBack);
+// const AgeRatingDistributor = memo(AgeRatingDistributor);
 
 const Meta = ({ portrait, heights }) => {
   const selectedItemData = useSelector(state => state.selectedItemData);
@@ -166,7 +166,7 @@ const Meta = ({ portrait, heights }) => {
                   {
                     ages
                       ?
-                        <MemoedAgeRates
+                        <AgeRatingDistributor
                           ages={ ages }
                           props={{ esrb, pegi, ratings }}
                         />
@@ -242,7 +242,7 @@ const Meta = ({ portrait, heights }) => {
                 </button>
               </div>
               <div className="media-contents">
-                <MemoedMediaList
+                <MakeMediaList
                   props={{
                     selectedMedia,
                     selectedItemData,
@@ -494,7 +494,7 @@ const Meta = ({ portrait, heights }) => {
       </article>
       {
         portrait || isMobile
-          ? <MemoedBackBtn heights={heights} />
+          ? <ToBack heights={heights} />
           : <></>
       }
     </article>

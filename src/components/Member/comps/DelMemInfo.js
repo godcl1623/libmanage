@@ -17,7 +17,7 @@ import {
 import { border, flex, sizes } from '../../../styles';
 import { delInfoStyle } from '../styles/memInfoStyle';
 
-const MemoedSubmit = memo(FormSubmit);
+// const FormSubmit = memo(FormSubmit);
 
 const DelMemInfo = ({ userState }) => {
   const dispatch = useDispatch();
@@ -101,7 +101,7 @@ const DelMemInfo = ({ userState }) => {
         <div
           className="submit-wrapper"
         >
-          <MemoedSubmit formOrigin='Main' />
+          <FormSubmit formOrigin='Main' />
         </div>
       </form>
     </article>

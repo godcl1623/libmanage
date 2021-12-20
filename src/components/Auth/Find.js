@@ -39,8 +39,8 @@ const Find = ({ mode }) => {
         className="contents-wrapper"
       >
         <div className="tab-wrapper">
-          <MemoedLink to="/member/find/id" id="find_id" onClick={() => tabHandler('id')}>아이디 찾기</MemoedLink>
-          <MemoedLink to="/member/find/pwd" id="find_pwd" onClick={() => tabHandler('pwd')}>비밀번호 찾기</MemoedLink>
+          <Link to="/member/find/id" id="find_id" onClick={() => tabHandler('id')}>아이디 찾기</Link>
+          <Link to="/member/find/pwd" id="find_pwd" onClick={() => tabHandler('pwd')}>비밀번호 찾기</Link>
         </div>
         <div className="form-wrapper">
           <form
@@ -116,10 +116,10 @@ const Find = ({ mode }) => {
             }}
           >
             <div className="input-wrapper">
-              <MemoedFindReq mode={mode} />
+              <FindRequested mode={mode} />
             </div>
             <div className="submit-wrapper">
-              <MemoedSubmit />
+              <FormSubmit />
             </div>
           </form>
         </div>

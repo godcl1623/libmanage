@@ -174,7 +174,7 @@ const ModalHeaderOption = ({ props }) => {
                     </section>
               } */}
               <div className="submit-wrapper">
-                <MemoedSubmit />
+                <FormSubmit />
               </div>
             </form>
           </section>
@@ -208,7 +208,7 @@ const ModalHeaderOption = ({ props }) => {
               (
                 <button
                   onClick={e => {
-                    const temp = userState;
+                    const temp = {...userState};
                     temp.stores.game.steam = false;
                     // 반영을 위해서는 comparisonState 변경이 필요
                     axios

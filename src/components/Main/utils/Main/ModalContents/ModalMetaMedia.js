@@ -44,14 +44,14 @@ const ModalMetaMedia = ({ props }) => {
           dispatch(selectedMediaIdCreator(''));
         }}
       >
-        <MemoedCircle />
+        <AiOutlineCloseCircle />
       </span>
       <div className="contents-wrapper">
         {
           selectedMediaId
             ?
               <Suspense fallback={fallBack()}>
-                <MemoedMedia type={target} id={selectedMediaId}/>
+                <MediaContents type={target} id={selectedMediaId}/>
               </Suspense>
             :
               ''
@@ -68,7 +68,7 @@ const ModalMetaMedia = ({ props }) => {
               }
             }}
           >
-            <MemoedLeft />
+            <AiOutlineLeft />
           </span>
           <span
             id="media-right"
@@ -81,7 +81,7 @@ const ModalMetaMedia = ({ props }) => {
               }
             }}
           >
-            <MemoedRight />
+            <AiOutlineRight />
           </span>
         </div>
       </div>
