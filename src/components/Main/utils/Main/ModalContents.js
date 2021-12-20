@@ -24,7 +24,6 @@ const ModalContents = ({ args }) => {
     selectedMediaId,
     selectedMediaIdCreator,
     selectedMediaList,
-    axios,
     setStoresList
   } = args;
   const caution = <p>※ 현재 기술적 문제로 Steam 서비스만 지원됩니다.</p>;
@@ -39,7 +38,6 @@ const ModalContents = ({ args }) => {
           modalStateCreator,
           setUserLibrary,
           selectedItemDataCreator,
-          axios,
           caution,
           setStoresList
         }}
