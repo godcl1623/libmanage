@@ -165,8 +165,8 @@ const Login = () => {
         `}
       />
       <div className="option man-member">
-        <Link to="/member/register">회원가입</Link>
-        <Link to="/member/find">ID/PW 찾기</Link>
+        <StyledLink to="/member/register">회원가입</StyledLink>
+        <StyledLink to="/member/find">ID/PW 찾기</StyledLink>
       </div>
       <div className="option other">
         <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
