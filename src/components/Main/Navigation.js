@@ -30,7 +30,7 @@ const Navigation = ({ storesList }) => {
         <option value="series">드라마</option>
         <option value="movie">영화</option>
       </select>
-      <MemoedStores
+      <StoresList
         props={{
           selectedCategory,
           storesList,

@@ -155,9 +155,9 @@ const Login = () => {
         <input className="input-id" type="text" name="ID" placeholder="User ID"/>
         {/* <label htmlFor="PWD">PW: </label> */}
         <input className="input-pwd" type="password" name="PWD" placeholder="Password" />
-        <MemoedBtn type="submit" name="login">
+        <Button type="submit" name="login">
           LOGIN
-        </MemoedBtn>
+        </Button>
       </form>
       <hr
         css={css`
@@ -165,12 +165,12 @@ const Login = () => {
         `}
       />
       <div className="option man-member">
-        <MemoedLink to="/member/register">회원가입</MemoedLink>
-        <MemoedLink to="/member/find">ID/PW 찾기</MemoedLink>
+        <Link to="/member/register">회원가입</Link>
+        <Link to="/member/find">ID/PW 찾기</Link>
       </div>
       <div className="option other">
-        <MemoedBtn onClick={() => loginException(dispatch, history)}>게스트 로그인</MemoedBtn>
-        <MemoedBtn onClick={() => history.push('/offline')}>오프라인으로 접속</MemoedBtn>
+        <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
+        <Button onClick={() => history.push('/offline')}>오프라인으로 접속</Button>
       </div>
     </article>
   );

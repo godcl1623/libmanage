@@ -174,7 +174,7 @@ const ModalHeaderOption = ({ props }) => {
                     </section>
               } */}
               <div className="submit-wrapper">
-                <MemoedSubmit />
+                <FormSubmit />
               </div>
             </form>
           </section>

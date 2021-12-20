@@ -84,14 +84,14 @@ const MainContents = ({ props }) => {
           }
         }}
       >
-        <MemoedHeader
+        <Header
           headerRef={headerRef}
           setHeight={setHeaderHeight}
           currHeight={headerHeight}
         />
         <div id="main-contents">
           {isPortrait && isMobile ? (
-            <MemoedStoreList
+            <SelectedStoresList
               listRef={listRef}
               setHeight={setSelStoresListHeight}
               selStores={selectedStores}
@@ -107,37 +107,37 @@ const MainContents = ({ props }) => {
           )}
           {!isPortrait ? (
             <>
-              <MemoedNav storesList={storesList} />
-              <MemoedLib userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
+              <Navigation storesList={storesList} />
+              <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
               {/* <h1>oo</h1> */}
-              <MemoedMeta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
+              <Meta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
             </>
           ) : isMobile ? (
             <>
               {selectedStores[0] === '' ? (
-                <MemoedNav storesList={storesList} />
+                <Navigation storesList={storesList} />
               ) : selectedItemData.name === undefined ? (
-                <MemoedLib userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
+                <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
               ) : (
-                <MemoedMeta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
+                <Meta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
               )}
             </>
           ) : (
             <>
-              <MemoedNav storesList={storesList} />
+              <Navigation storesList={storesList} />
               {selectedItemData.name === undefined ? (
-                <MemoedLib userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
+                <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
               ) : (
-                <MemoedMeta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
+                <Meta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
               )}
             </>
           )}
         </div>
       </main>
-      <MemoedModal
+      <Modal
         style={modalOption(modalOrigin, isMobile, isPortrait, flex)}
         contents={
-          <MemoedModalCont
+          <ModalContents
             args={{
               userState,
               dispatch,

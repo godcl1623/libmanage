@@ -19,10 +19,10 @@ const Main = () => {
   }, []);
 
   if (!isOnline) {
-    return <MemoedOffline Contents={ MainContents }/>
+    return <OfflineWrapper Contents={ MainContents }/>
     // return <Offline />
   } else {
-    return <MemoedOnline Contents={ MainContents }/>
+    return <OnlineWrapper Contents={ MainContents }/>
   }
 }
 

@@ -31,7 +31,7 @@ const ModalContents = ({ args }) => {
   if (modalOrigin === 'Header_Option') {
     // 모든 스토어에 대응 가능하도록 개선 필요
     return (
-      <MemoedHeaderOpt
+      <ModalHeaderOption
         props={{
           userState,
           dispatch,
@@ -46,11 +46,11 @@ const ModalContents = ({ args }) => {
       />
     );
   } else if (modalOrigin === 'Header_MemInfo') {
-    return <MemoedInfoWrap />;
+    return <MemberInfoWrap />;
   } else if (modalOrigin.split('-')[0] === 'meta') {
     const target = modalOrigin.split('-')[1];
     return (
-      <MemoedModalMeta
+      <ModalMetaMedia
         props={{
           dispatch,
           modalStateCreator,

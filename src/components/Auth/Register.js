@@ -155,7 +155,7 @@ const Register = () => {
         }}
       >
         <div className="input-wrapper">
-          <MemoedInput
+          <InputTemplate
             inputType="text"
             labelText="아이디"
             inputFor="ID"
@@ -165,7 +165,7 @@ const Register = () => {
           <p className="verify-error">{verifyTest('ID', idState)}</p>
         </div>
         <div className="input-wrapper">
-          <MemoedInput
+          <InputTemplate
             inputType="password"
             labelText="비밀번호"
             inputFor="PWD"
@@ -178,7 +178,7 @@ const Register = () => {
           <p className="verify-error">{verifyTest('비밀번호', pwdState)}</p>
         </div>
         <div className="input-wrapper">
-          <MemoedInput
+          <InputTemplate
             inputType="password"
             labelText="비밀번호 확인"
             inputFor="PWD_check"
@@ -188,7 +188,7 @@ const Register = () => {
           <p className="verify-error">※ 비밀번호가 일치하지 않습니다.</p>
         </div>
         <div className="input-wrapper">
-          <MemoedInput
+          <InputTemplate
             inputType="text"
             labelText="별명"
             inputFor="nickname"
@@ -199,7 +199,7 @@ const Register = () => {
         </div>
         <div className="input-wrapper">
           <div id="input-email">
-            <MemoedInput
+            <InputTemplate
               inputType="text"
               labelText="이메일"
               inputFor="email_id"
@@ -211,7 +211,7 @@ const Register = () => {
           <p className="verify-error">{ verifyTest('이메일 주소', emailAuth) }</p>
         </div>
         <div className="submit-wrapper">
-          <MemoedSubmit />
+          <FormSubmit />
         </div>
       </form>
     </article>

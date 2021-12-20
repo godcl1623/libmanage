@@ -9,10 +9,10 @@ import DelMemInfo from './comps/DelMemInfo';
 import { border, sizes } from '../../styles';
 import { memInfoStyle } from './styles/memInfoStyle';
 
-const MemoedBtn = memo(TabBtn);
-const MemoedModInfo = memo(ModMemInfo);
-const MemoedCheckInfo = memo(CheckMemInfo);
-const MemoedDelInfo = memo(DelMemInfo);
+// const TabBtn = memo(TabBtn);
+// const ModMemInfo = memo(ModMemInfo);
+// const CheckMemInfo = memo(CheckMemInfo);
+// const DelMemInfo = memo(DelMemInfo);
 
 const MemberInfoWrap = () => {
   const modalState = useSelector(state => state.modalState);
@@ -33,23 +33,23 @@ const MemberInfoWrap = () => {
             ?
               <>
                 <div className='member-info-contents-tab-wrap'>
-                  <MemoedBtn
+                  <TabBtn
                     setState={ setTabState }
                     stateVal={ ['modify', 'withdraw'] }
                   >
                     { ['정보 변경', '회원 탈퇴'] }
-                  </MemoedBtn>
+                  </TabBtn>
                 </div>
                 <div className='member-info-contents'>
                   {
                     tabState === 'modify'
-                      ? <MemoedModInfo userState={userState} />
-                      : <MemoedDelInfo userState={userState} />
+                      ? <ModMemInfo userState={userState} />
+                      : <DelMemInfo userState={userState} />
                   }
                 </div>
               </>
             :
-              <MemoedCheckInfo userState={userState} setState={setVerifyState} />
+              <CheckMemInfo userState={userState} setState={setVerifyState} />
         }
       </div>
     </article>

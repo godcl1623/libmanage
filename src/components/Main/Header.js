@@ -101,11 +101,11 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
             }
           }}
         >
-          {<MemoedIco />}
+          {<FaBars />}
         </button>
-        <MemoedBalloon
+        <Balloon
           contents={
-            <MemoedHeaderOpt
+            <HeaderOptions
               setStates={{
                 dispatch,
                 modalOriginCreator,
@@ -119,12 +119,12 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
                 isMobile
               }}
               components={[
-                <MemoedSearch
+                <SearchField
                   dispatch={dispatch}
                   setState={librarySearchCreator}
                   fieldVal={librarySearch}
                 />,
-                <MemoedMemStat
+                <MemberStatus
                   loginStatus={loginStatus}
                   functions={{
                     dispatch,
@@ -150,14 +150,17 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
             { balloonState, selectedBtn, optionRef, btnCoords },
             balloonOrigin
           )}
-          hand={headerBalloonHand({ balloonState, selectedBtn, optionRef, btnCoords }, balloonOrigin)}
+          hand={headerBalloonHand(
+            { balloonState, selectedBtn, optionRef, btnCoords },
+            balloonOrigin
+          )}
         />
       </div>
       <div className="space-divider">
         {isMobile ? (
           <></>
         ) : (
-          <MemoedSearch
+          <SearchField
             dispatch={dispatch}
             setState={librarySearchCreator}
             fieldVal={librarySearch}
@@ -165,36 +168,34 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
         )}
       </div>
       <div className="space-divider">
-          {
-            location.pathname !== '/offline' || !navigator.onLine                                                  
-              ?
-                <div className="sub-divider">
-                  <button
-                    id="member-info"
-                    ref={memberRef}
-                    onClick={() => {
-                      const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
-                      updateBtnCoords(left, top, bottom, width);
-                      selectedBtn.current = memberRef.current;
-                      dispatch(balloonOriginCreator('Header'));
-                      if (balloonState === 'none') {
-                        dispatch(balloonStateCreator('flex'));
-                      } else if (balloonOrigin === 'Header') {
-                        dispatch(balloonStateCreator('none'));
-                      }
-                    }}
-                  >
-                    {userState.nickname}
-                  </button>
-                </div>
-              :
-                <></>
-          }
+        {location.pathname !== '/offline' || !navigator.onLine ? (
+          <div className="sub-divider">
+            <button
+              id="member-info"
+              ref={memberRef}
+              onClick={() => {
+                const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
+                updateBtnCoords(left, top, bottom, width);
+                selectedBtn.current = memberRef.current;
+                dispatch(balloonOriginCreator('Header'));
+                if (balloonState === 'none') {
+                  dispatch(balloonStateCreator('flex'));
+                } else if (balloonOrigin === 'Header') {
+                  dispatch(balloonStateCreator('none'));
+                }
+              }}
+            >
+              {userState.nickname}
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="sub-divider">
           {isMobile ? (
             ''
           ) : (
-            <MemoedMemStat
+            <MemberStatus
               loginStatus={loginStatus}
               functions={{
                 dispatch,
