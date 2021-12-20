@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { useLocation } from 'react-router-dom';
 import XLSX from 'xlsx';
+import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
@@ -21,7 +22,6 @@ const ModalHeaderOption = ({ props }) => {
     modalStateCreator,
     setUserLibrary,
     selectedItemDataCreator,
-    axios,
     caution,
     setStoresList
   } = props;
@@ -174,7 +174,7 @@ const ModalHeaderOption = ({ props }) => {
                     </section>
               } */}
               <div className="submit-wrapper">
-                <MemoedSubmit />
+                <FormSubmit />
               </div>
             </form>
           </section>
@@ -208,7 +208,7 @@ const ModalHeaderOption = ({ props }) => {
               (
                 <button
                   onClick={e => {
-                    const temp = userState;
+                    const temp = {...userState};
                     temp.stores.game.steam = false;
                     // 반영을 위해서는 comparisonState 변경이 필요
                     axios

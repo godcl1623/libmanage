@@ -22,7 +22,7 @@ const ToBack = ({ heights }) => {
         dispatch(selectedItemDataCreator({}));
       }}
     >
-      <MemoedIco />
+      <GrPrevious />
     </button>
   );
 };

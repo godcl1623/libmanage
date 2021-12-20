@@ -19,7 +19,11 @@ import {
 } from '../../actions';
 import { sizes, flex } from '../../styles';
 import { libraryStyle } from './styles/LibraryStyles';
-import { libraryBalloonWrapper, libraryBalloonStyle, libraryBalloonHand } from './styles/balloons/LibraryBalloonStyle';
+import {
+  libraryBalloonWrapper,
+  libraryBalloonStyle,
+  libraryBalloonHand
+} from './styles/balloons/LibraryBalloonStyle';
 
 const MemoedIco = memo(FaBars);
 const MemoedBalloon = memo(Balloon);
@@ -54,13 +58,15 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
     updateBtnCoords(left, top, height);
     return () => {
       abortCon.abort();
-    }
+    };
   }, []);
 
   return (
     <article
       id="library"
-      css={css`${libraryStyle({ flex, sizes }, libDisplay)}`}
+      css={css`
+        ${libraryStyle({ flex, sizes }, libDisplay)}
+      `}
     >
       <button
         className="option"
@@ -74,11 +80,11 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
         }}
         ref={ref}
       >
-        { <MemoedIco /> }
+        {<FaBars />}
       </button>
-      <MemoedBalloon
+      <Balloon
         contents={
-          <MemoedLibOpt
+          <LibraryOptions
             dispatch={dispatch}
             changeState={libDisplayStateCreator}
             coverSize={coverSize}
@@ -103,7 +109,7 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
               lists.forEach(list => {
                 const listCoords = list.getBoundingClientRect();
                 const { top: liTop, height: liHeight } = listCoords;
-                if (liTop+(liHeight / 2) < ulTop || liTop + (liHeight / 2) > ulBot) {
+                if (liTop + liHeight / 2 < ulTop || liTop + liHeight / 2 > ulBot) {
                   list.style.filter = 'blur(0.104vw)';
                   list.style.color = 'lightgrey';
                   list.style.transition = 'filter 0.5s, color 0.5s';
@@ -117,7 +123,7 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
           }
         }}
       >
-        <MemoedLists
+        <MakeList
           args={{
             userLib,
             libDisplay,

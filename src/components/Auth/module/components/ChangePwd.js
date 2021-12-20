@@ -83,7 +83,7 @@ const ChangePwd = ({ token, reqTime }) => {
       }}
     >
       <div className="input-wrapper">
-        <MemoedInput
+        <InputTemplate
           inputType="password"
           labelText="비밀번호"
           inputFor="PWD"
@@ -96,7 +96,7 @@ const ChangePwd = ({ token, reqTime }) => {
           className="verify-error"
           id="input-pwd"
         >※ 비밀번호 형식과 맞지 않습니다.</p>
-        <MemoedInput
+        <InputTemplate
           inputType="password"
           labelText="비밀번호 확인"
           inputFor="PWD_check"
@@ -109,7 +109,7 @@ const ChangePwd = ({ token, reqTime }) => {
         >※ 비밀번호가 일치하지 않습니다.</p>
       </div>
       <div className="submit-wrapper">
-        <MemoedSubmit />
+        <FormSubmit />
       </div>
     </form>
   );

@@ -12,8 +12,8 @@ const FormSubmit = ({ formOrigin }) => {
   const location = useLocation();
   return (
     <>
-      <MemoedBtn type="submit" name="confirm">확인</MemoedBtn>
-      <MemoedBtn
+      <Button type="submit" name="confirm">확인</Button>
+      <Button
         name="cancel"
         onClick={e => {
           e.preventDefault();
@@ -22,7 +22,7 @@ const FormSubmit = ({ formOrigin }) => {
               ? dispatch(modalStateCreator(false))
               : history.push('/');
           }
-        }}>취소</MemoedBtn>
+        }}>취소</Button>
     </>
   );
 };
