@@ -17,6 +17,7 @@ import { sendTo } from '../../custom_modules/address';
 import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 import { loginTop, hrStyle } from './module/styles/LoginStyles';
+import Test from '../Test.tsx';
 
 const MemoedLink = memo(StyledLink);
 const MemoedBtn = memo(Button);
