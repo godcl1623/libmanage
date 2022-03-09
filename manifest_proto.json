@@ -3,6 +3,7 @@
   "display": "standalone",
   "name": "Library Manager",
   "orientation": "any",
+  "scope": "/, /main, /member/*, /api/progress",
   "short_name": "Libmng",
   "start_url": "/",
   "theme_color": "#ffffff",
@@ -10,48 +11,43 @@
   "screenshots": [],
   "icons": [
     {
-      "src": "/icons/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "/icons/logo384.png",
+      "src": "/images/icon-1.png",
       "type": "image/png",
-      "sizes": "384x384",
+      "sizes": "388x388",
       "purpose": "any"
     },
     {
-      "src": "/icons/logo96.png",
+      "src": "/images/icon-2.png",
       "type": "image/png",
       "sizes": "96x96",
       "purpose": "any"
     },
     {
-      "src": "/icons/logo48.png",
+      "src": "/images/icon-3.png",
       "type": "image/png",
       "sizes": "48x48",
       "purpose": "any"
     },
     {
-      "src": "/icons/logo72.png",
+      "src": "/images/icon-4.png",
       "type": "image/png",
       "sizes": "72x72",
       "purpose": "any"
     },
     {
-      "src": "/icons/logo128.png",
+      "src": "/images/icon-5.png",
       "type": "image/png",
       "sizes": "128x128",
       "purpose": "any"
     },
     {
-      "src": "/icons/logo192.png",
+      "src": "/images/icon-6.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "/icons/logo512.png",
+      "src": "/images/icon-7.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
