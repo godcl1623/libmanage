@@ -19,6 +19,7 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "buffer": "^6.0.3",
+    "clone-react-dnd": "file:.yalc/clone-react-dnd",
     "crypto-browserify": "^3.12.0",
     "crypto-js": "^4.1.1",
     "hash.js": "^1.1.7",
