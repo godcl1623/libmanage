@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import cloneDnd from 'clone-react-dnd';
 import {
   loginStatusCreator,
   userStateCreator,
@@ -17,6 +18,7 @@ import { sendTo } from '../../custom_modules/address';
 import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 import { loginTop, hrStyle } from './module/styles/LoginStyles';
+import Test from '../Test.tsx';
 
 const MemoedLink = memo(StyledLink);
 const MemoedBtn = memo(Button);
@@ -51,6 +53,13 @@ const Login = () => {
   const comparisonState = useSelector(state => state.comparisonState);
   const dispatch = useDispatch();
   const history = useHistory();
+  const test = {
+    currentItemCategory: {
+      level0: ['test0'],
+      level1: ['test1']
+    }
+  };
+  // const [ dragRef ] = cloneDnd.useDragClone(test);
 
   useEffect(() => {
     const abortCon = new AbortController();
@@ -172,6 +181,14 @@ const Login = () => {
         <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
         <Button onClick={() => history.push('/offline')}>오프라인으로 접속</Button>
       </div>
+      {/* <Test /> */}
+      {/* <div ref={dragRef}>
+        <div style={{
+          width: '100px',
+          height: '100px',
+          border: '1px solid black'
+        }}></div>
+      </div> */}
     </article>
   );
 };
