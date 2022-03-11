@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -48,7 +48,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
   const librarySearch = useSelector(state => state.librarySearch);
   const isMobile = useSelector(state => state.isMobile);
   const [btnCoords, setBtnCoords] = useState({});
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const optionRef = useRef();
@@ -132,7 +132,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
                     userStateCreator,
                     comparisonStateCreator,
                     loginStatusCreator,
-                    history,
+                    navigate,
                     axios,
                     selectedItemCreator,
                     selectedItemDataCreator,
@@ -203,7 +203,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
                 userStateCreator,
                 comparisonStateCreator,
                 loginStatusCreator,
-                history,
+                navigate,
                 axios,
                 selectedItemCreator,
                 selectedItemDataCreator,

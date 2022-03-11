@@ -1,6 +1,6 @@
 import React, { useState, useRef, memo } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -59,7 +59,7 @@ const ModMemInfo = ({ userState }) => {
   const [nickState, setNickState] = useState('');
   const [emailAuth, setEmailAuth] = useState('');
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const ref = useRef();
   return (
     <form
@@ -217,7 +217,7 @@ const ModMemInfo = ({ userState }) => {
                   dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                   dispatch(modalStateCreator(false));
                   alert('회원 정보 변경 내역이 성공적으로 반영됐습니다. 다시 로그인 해주세요.');
-                  history.push('/');
+                  navigate('/');
                 })
                 .catch(err => alert(err));
             }

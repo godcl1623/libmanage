@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, memo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -21,7 +21,7 @@ import { loginTop, hrStyle } from './module/styles/LoginStyles';
 const MemoedLink = memo(StyledLink);
 const MemoedBtn = memo(Button);
 
-const loginException = (dispatch, history) => {
+const loginException = (dispatch, navigate) => {
   const formData = {
     mode: 'guest'
   };
@@ -39,7 +39,7 @@ const loginException = (dispatch, history) => {
       localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));
       localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER));
       alert('현재 게스트로 로그인했습니다.\n데이터 보존을 위해 회원으로 로그인해 주세요.');
-      history.push('/main');
+      navigate('/main');
     })
     .catch(err => alert(err));
 };
@@ -50,7 +50,7 @@ const Login = () => {
   const logoutClicked = useSelector(state => state.logoutClicked);
   const comparisonState = useSelector(state => state.comparisonState);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const test = {
     currentItemCategory: {
       level0: ['test0'],
@@ -58,7 +58,6 @@ const Login = () => {
     }
   };
   // const [ dragRef ] = cloneDnd.useDragClone(test);
-
   useEffect(() => {
     const abortCon = new AbortController();
     const message = {
@@ -76,12 +75,12 @@ const Login = () => {
         if (res.data.isLoginSuccessful) {
           if (!res.data.isGueset) {
             dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-            history.push('/main');
+            navigate('/main');
             if (userState.nickname === undefined) {
               dispatch(userStateCreator(res.data));
             } else {
               dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-              history.push('/main');
+              navigate('/main');
               if (userState.nickname === undefined) {
                 dispatch(userStateCreator(res.data));
               }
@@ -150,7 +149,7 @@ const Login = () => {
                 localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));
                 localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER));
                 alert(`${res.data.nickname}님, 로그인에 성공했습니다.`);
-                history.push('/main');
+                navigate('/main');
               } else {
                 alert(res.data);
               }
@@ -176,8 +175,8 @@ const Login = () => {
         <StyledLink to="/member/find">ID/PW 찾기</StyledLink>
       </div>
       <div className="option other">
-        <Button onClick={() => loginException(dispatch, history)}>게스트 로그인</Button>
-        <Button onClick={() => history.push('/offline')}>오프라인으로 접속</Button>
+        <Button onClick={() => loginException(dispatch, navigate)}>게스트 로그인</Button>
+        <Button onClick={() => navigate('/offline')}>오프라인으로 접속</Button>
       </div>
     </article>
   );
