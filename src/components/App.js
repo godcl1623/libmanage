@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css, Global } from '@emotion/react';
 import Main from './Main/Main';
@@ -19,23 +19,22 @@ const App = () => (
   >
     <Global styles={css`${globalStyles({ sizes, flex, border })}`}/>
     <Router>
-      <Switch>
-        <Route path="/" exact component={ navigator.onLine ? Login : Main } />
-        <Route path="/offline" exact component={ () => <OfflineWrapper Contents={ MainContents } /> } />
-        <Route path="/main" exact component={ Main } />
-        <Route path="/member/register" exact component={ Register } />
+      <Routes>
+        <Route path="/" element={ navigator.onLine ? <Login /> : <Main /> } />
+        <Route path="/offline" element={ () => <OfflineWrapper Contents={ MainContents } /> } />
+        <Route path="/main" element={ Main } />
+        <Route path="/member/register" element={ Register } />
         <Route
           path="/member/find"
-          exact
-          component={ () => <Redirect to="/member/find/id" /> }
+          element={ <Navigate replace to="/member/find/id" /> }
         />
-        <Route path="/member/find/id" exact component={ () => <Find mode='id' /> } />
-        <Route path="/member/find/pwd" exact component={ () => <Find mode='pwd' /> } />
-        <Route path="/member/reset/:token" exact component={Reset} />
-        <Route path="/api/progress" exact component={ Progress } />
-        <Route path="/member/test" exact component={Reset} />
-        <Route component={() => <Redirect to="/" />} />
-      </Switch>
+        <Route path="/member/find/id" element={ () => <Find mode='id' /> } />
+        <Route path="/member/find/pwd" element={ () => <Find mode='pwd' /> } />
+        <Route path="/member/reset/:token" element={<Reset />} />
+        <Route path="/api/progress" element={ <Progress /> } />
+        <Route path="/member/test" element={<Reset />} />
+        <Route element={<Navigate replace to="/" />} />
+      </Routes>
     </Router>
   </div>
 );

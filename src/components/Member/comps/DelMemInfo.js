@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
@@ -21,7 +21,7 @@ import { delInfoStyle } from '../styles/memInfoStyle';
 
 const DelMemInfo = ({ userState }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <article
       id="Del-Mem-Info"
@@ -81,7 +81,7 @@ const DelMemInfo = ({ userState }) => {
                         dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                         dispatch(modalStateCreator(false));
                         alert('회원탈퇴가 완료됐습니다.');
-                        history.push('/');
+                        navigate('/');
                       })
                       .catch(err => alert(err));
                 } else {

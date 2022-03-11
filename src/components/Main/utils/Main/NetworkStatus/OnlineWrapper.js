@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   loginStatusCreator,
@@ -41,7 +41,7 @@ const OnlineWrapper = ({ Contents }) => {
   const [isPortrait, setIsPortrait] = useState(false);
   const [coverSize, setCoverSize] = useState(10);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const headerRef = React.useRef();
   const listRef = React.useRef();
 
@@ -125,12 +125,12 @@ const OnlineWrapper = ({ Contents }) => {
               }).then(res => {
                 if (res) {
                   alert('로그인이 필요합니다');
-                  history.push('/');
+                  navigate('/');
                 }
               }))();
           } else if (res.data === 'no_sessions') {
             alert('로그인이 필요합니다');
-            history.push('/');
+            navigate('/');
           }
         })
         .catch(err => console.log(err));

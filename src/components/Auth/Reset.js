@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-alert */
 import React, { useState, useEffect, memo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -35,8 +35,8 @@ const Reset = () => {
   const [requestedToken, setRequestToken] = useState({});
   const tokenState = useSelector(state => state.tokenState);
   const dispatch = useDispatch();
-  const history = useHistory();
-  const tokenTail = history.location.pathname.slice(-7,);
+  const location = useLocation();
+  const tokenTail = location.pathname.slice(-7,);
   const requestedTime = now();
 
   useEffect(() => {

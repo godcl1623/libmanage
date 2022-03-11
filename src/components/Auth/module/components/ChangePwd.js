@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 import React, { memo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -22,7 +22,7 @@ const ChangePwd = ({ token, reqTime }) => {
   const [pwdMatch, setPwdMatch] = useState(true);
   const [isValid, setIsValid] = useState(true);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { userId, ttl, tokenId, originTime } = token;
   const checkValidation = (pwd, pwdCheck, verifyFunc) => {
     let isReadyToSubmit;
@@ -71,7 +71,7 @@ const ChangePwd = ({ token, reqTime }) => {
             .then(res => {
               if (res.data === 'complete') {
                 alert('비밀번호가 변경되었습니다.\n다시 로그인해주세요.');
-                history.push('/');
+                navigate('/');
               } else if (res.data === 'expired') {
                 dispatch(tokenStateCreator(false));
               }else {
