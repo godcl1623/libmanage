@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "clone-react-dnd": {
-      "signature": "a1c88c228a83b57405177b4d40f88c0a",
-      "file": true
-    }
-  }
-}
