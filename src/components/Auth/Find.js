@@ -75,7 +75,7 @@ const Find = ({ mode }) => {
                 return result;
               };
               const infoCheck = async infoObj => {
-              // await axios.post(`http://localhost:3001/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+              // await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
               await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));

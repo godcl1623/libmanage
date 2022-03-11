@@ -26,7 +26,7 @@ const CheckMemInfo = ({ userState, setState}) => (
       }
       axios
         .post(
-          // 'http://localhost:3001/verify',
+          // 'http://localhost:3003/verify',
           `https://${sendTo}/verify`,
           { sofo: encryptor(verificationData, process.env.REACT_APP_TRACER) },
           { withCredentials: true }

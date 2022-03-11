@@ -66,7 +66,7 @@ const ChangePwd = ({ token, reqTime }) => {
           formData.ttl = ttl;
           formData.reqTime = reqTime();
           formData.originTime = originTime;
-          // axios.post('http://localhost:3001/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
+          // axios.post('http://localhost:3003/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
           axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
             .then(res => {
               if (res.data === 'complete') {

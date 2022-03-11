@@ -194,7 +194,7 @@ const ModalHeaderOption = ({ props }) => {
             ?
               (
                 <a
-                  // href="http://localhost:3001/auth/steam"
+                  // href="http://localhost:3003/auth/steam"
                   href={`https://${sendTo}/auth/steam`}
                 >
                   <img
@@ -213,7 +213,7 @@ const ModalHeaderOption = ({ props }) => {
                     // 반영을 위해서는 comparisonState 변경이 필요
                     axios
                       .post(
-                        // 'http://localhost:3001/disconnect',
+                        // 'http://localhost:3003/disconnect',
                         `https://${sendTo}/disconnect`,
                         { reqUserInfo: JSON.stringify(temp) },
                         { withCredentials: true }
