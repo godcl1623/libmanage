@@ -51,6 +51,13 @@ const Login = () => {
   const comparisonState = useSelector(state => state.comparisonState);
   const dispatch = useDispatch();
   const history = useHistory();
+  const test = {
+    currentItemCategory: {
+      level0: ['test0'],
+      level1: ['test1']
+    }
+  };
+  // const [ dragRef ] = cloneDnd.useDragClone(test);
 
   useEffect(() => {
     const abortCon = new AbortController();
