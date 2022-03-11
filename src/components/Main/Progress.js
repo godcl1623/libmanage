@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { comparisonStateCreator } from '../../actions';
@@ -18,13 +18,13 @@ const Progress = () => {
   const [apiKey, setApiKey] = useState('');
   const [maxApiCall, setMaxApiCall] = useState('');
   const [currApiCall, setCurrApiCall] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const abortCon = new AbortController();
   const additionalString = `(${currApiCall+1}회차 / 전체 ${maxApiCall}회)`;
-  const forceAbort = (aborter, history) => setTimeout(() => {
+  const forceAbort = (aborter, navigate) => setTimeout(() => {
     aborter.abort();
-    history.push('/main');
+    navigate('/main');
   }, 30000);
   const statusText = (status, addStr) => {
     switch (status) {
@@ -47,7 +47,7 @@ const Progress = () => {
       comparisonState,
       million: localStorage.getItem('frog')
     };
-    const timer = forceAbort(abortCon, history);
+    const timer = forceAbort(abortCon, navigate);
     axios
       // .post('http://localhost:3001/check_login', { message }, { withCredentials: true })
       .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
@@ -61,7 +61,7 @@ const Progress = () => {
   }, []);
   useEffect(() => {
     if (userInfo !== '') {
-      const timer = forceAbort(abortCon, history);
+      const timer = forceAbort(abortCon, navigate);
       axios
         // .get('http://localhost:3001/storeLib', { withCredentials: true })
         .get(`https://${sendTo}/storeLib`, { withCredentials: true })
@@ -83,7 +83,7 @@ const Progress = () => {
         currApiCall,
         userInfo
       }
-      const timer = forceAbort(abortCon, history);
+      const timer = forceAbort(abortCon, navigate);
       axios
         // .post('http://localhost:3001/meta/search', { pack }, { withCredentials: true })
         .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
@@ -101,7 +101,7 @@ const Progress = () => {
   }, [currApiCall]);
   useEffect(() => {
     if (currApiCall === 'done') {
-      const timer = forceAbort(abortCon, history);
+      const timer = forceAbort(abortCon, navigate);
       axios
         // .post('http://localhost:3001/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
         .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
@@ -109,7 +109,7 @@ const Progress = () => {
           if (res.data.result) {
             clearTimeout(timer);
             dispatch(comparisonStateCreator(res.data.newInfo));
-            setTimeout(() => history.push('/main'), 1500);
+            setTimeout(() => navigate('/main'), 1500);
           }
         })
         .catch(err => console.log(err));

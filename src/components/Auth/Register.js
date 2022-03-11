@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import React, { useState, memo } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { encryptor, decryptor } from '../../custom_modules/aeser';
@@ -23,7 +23,7 @@ const Register = () => {
   const [pwdState, setPwdState] = useState('');
   const [nickState, setNickState] = useState('');
   const [emailAuth, setEmailAuth] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const customOption = (state, func) => {
     if (state === 'others') {
       return <input type="text" name="email_provider" onChange={() => setEmailAuth('')}/>
@@ -119,7 +119,7 @@ const Register = () => {
             .then(res => {
               if (res.data === 'success') {
                 alert('회원가입이 완료되었습니다.\n로그인해 주세요.');
-                history.push('/');
+                navigate('/');
               } else {
                 const tempObj = decryptor(res.data, process.env.REACT_APP_TRACER);
                 setIdState(tempObj.id);
