@@ -112,7 +112,7 @@ const Register = () => {
           };
           const existCheck = async sofo => {
             await axios.post(
-              // 'http://localhost:3001/member/register',
+              // 'http://localhost:3003/member/register',
               `https://${sendTo}/member/register`,
               {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
               { withCredentials: true })

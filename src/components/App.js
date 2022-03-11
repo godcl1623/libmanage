@@ -21,15 +21,15 @@ const App = () => (
     <Router>
       <Routes>
         <Route path="/" element={ navigator.onLine ? <Login /> : <Main /> } />
-        <Route path="/offline" element={ () => <OfflineWrapper Contents={ MainContents } /> } />
-        <Route path="/main" element={ Main } />
-        <Route path="/member/register" element={ Register } />
+        <Route path="/offline" element={ <OfflineWrapper Contents={ MainContents } /> } />
+        <Route path="/main" element={ <Main /> } />
+        <Route path="/member/register" element={ <Register /> } />
         <Route
           path="/member/find"
           element={ <Navigate replace to="/member/find/id" /> }
         />
-        <Route path="/member/find/id" element={ () => <Find mode='id' /> } />
-        <Route path="/member/find/pwd" element={ () => <Find mode='pwd' /> } />
+        <Route path="/member/find/id" element={ <Find mode='id' /> } />
+        <Route path="/member/find/pwd" element={ <Find mode='pwd' /> } />
         <Route path="/member/reset/:token" element={<Reset />} />
         <Route path="/api/progress" element={ <Progress /> } />
         <Route path="/member/test" element={<Reset />} />
