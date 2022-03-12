@@ -1,4 +1,4 @@
-import { StyleSet } from '../custom_modules/commonUtils';
+import { StyleSet, SetSize } from '../custom_modules/commonUtils';
 
 export const flex: StyleSet = {
   vertical: `
@@ -32,7 +32,7 @@ export const flex: StyleSet = {
   },
 };
 
-export const sizes = {
+export const sizes: StyleSet | SetSize = {
   full: `
     width: 100%;
     height: 100%;
@@ -44,7 +44,7 @@ export const sizes = {
     `
 };
 
-export const animations = {
+export const animations: StyleSet = {
   goingUp: `
     @-webkit-keyframes going-up {
       from {
@@ -86,7 +86,7 @@ export const animations = {
 
 const breakpoints: number[] = [600, 900, 1200, 1800, 2560];
 
-export const mediaQuery = {
+export const mediaQuery: StyleSet = {
   setMq: breakpoints.map(point => `@media (min-width: ${point}px)`),
   setMobile: `@media (max-width: 599px)`
 }
