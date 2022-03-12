@@ -1,4 +1,6 @@
-export const flex = {
+import { StyleSet } from '../custom_modules/commonUtils';
+
+export const flex: StyleSet = {
   vertical: `
     display: -webkit-box;
     display: -ms-flexbox;
@@ -82,7 +84,7 @@ export const animations = {
   `
 }
 
-const breakpoints = [600, 900, 1200, 1800, 2560];
+const breakpoints: number[] = [600, 900, 1200, 1800, 2560];
 
 export const mediaQuery = {
   setMq: breakpoints.map(point => `@media (min-width: ${point}px)`),
@@ -90,4 +92,4 @@ export const mediaQuery = {
 }
 
 // export const border = `border: 1px solid black;`;
-export const border = `border: 0.052vw solid black;`;
+export const border: string = `border: 0.052vw solid black;`;

@@ -1,4 +1,4 @@
-const findStyles = (styles, vars) => {
+const findStyles = (styles: any, vars: any): string => {
   const { border, flex, sizes } = styles;
   const { tabState } = vars;
   return (
