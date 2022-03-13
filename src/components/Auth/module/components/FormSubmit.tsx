@@ -6,7 +6,7 @@ import { Button } from '../../../../styles/elementsPreset';
 
 const MemoedBtn = memo(Button);
 
-const FormSubmit = ({ formOrigin }) => {
+const FormSubmit = ({ formOrigin }: any) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,7 +15,7 @@ const FormSubmit = ({ formOrigin }) => {
       <Button type="submit" name="confirm">확인</Button>
       <Button
         name="cancel"
-        onClick={e => {
+        onClick={(e: React.MouseEvent) => {
           e.preventDefault();
           if (window.confirm(`정말 취소하시겠습니까?\n작성한 데이터가 전부 삭제됩니다.`)) {
             formOrigin === 'Main' || (location.pathname === '/offline' || !navigator.onLine)

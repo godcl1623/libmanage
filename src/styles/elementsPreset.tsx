@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { sizes, flex } from '.';
+import { StyleSet } from '../custom_modules/commonUtils';
 
 // export const A = styled.a`
 //   padding: 0.438rem;
@@ -36,7 +37,7 @@ export const A = styled.a`
   }
 
   background: #EFEFEF;
-  ${sizes.full}
+  ${(sizes as StyleSet).full}
   ${flex.horizontal}
   text-decoration: none;
 
@@ -63,7 +64,7 @@ export const Button = styled.button`
     border-radius: ${0.365 * 1.778}vw;
   }
 
-  ${sizes.full}
+  ${(sizes as StyleSet).full}
   cursor: pointer;
 
   :hover {

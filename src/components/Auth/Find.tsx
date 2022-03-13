@@ -11,15 +11,16 @@ import { sendTo } from '../../custom_modules/address';
 import { border, flex, sizes } from '../../styles';
 import { verifyId, verifyNick, verifyEmail } from './module/utils';
 import style from './module/styles/FindStyles';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const MemoedSubmit = memo(FormSubmit);
 const MemoedFindReq = memo(FindRequested);
 const MemoedLink = memo(Link);
 
-const Find = ({ mode }) => {
+const Find = ({ mode }: any) => {
   const [tabState, setTabState] = useState(mode);
 
-  const tabHandler = str => setTabState(str);
+  const tabHandler = (str: string) => setTabState(str);
   useEffect(() => {
 
     const abortCon = new AbortController();
@@ -32,7 +33,7 @@ const Find = ({ mode }) => {
     <article
       id="find"
       css={css`
-        ${style({ border, flex, sizes }, { tabState })}
+        ${style(({ border, flex, sizes } as StyleSet), ({ tabState } as StyleSet))}
       `}
     >
       <section
@@ -46,11 +47,17 @@ const Find = ({ mode }) => {
           <form
             onSubmit={e => {
               e.preventDefault();
+              type FormCheck = {
+                id?: string;
+                nick?: string;
+                email?: string;
+              }
               const inputs = Array.from(document.querySelectorAll('input'));
               const emptyInputCheck = inputs.filter(input => input.value === '');
-              const formData = {};
-              const verifyForm = (...args) => {
-                let result = false;
+              const formData: FormCheck = {};
+              const verifyForm = (...args: string[]) => {
+                // 타입 체크 필요
+                let result: boolean | (number | null)[] = false;
                 if (args.length === 2) {
                   const verifyFuncs = [verifyNick, verifyEmail];
                   const verifyResult = args
@@ -74,15 +81,16 @@ const Find = ({ mode }) => {
                 }
                 return result;
               };
-              const infoCheck = async infoObj => {
-              // await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
-              await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+              const infoCheck = async (infoObj: FormCheck) => {
+              // await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+              await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };
               if (tabState === 'id') {
-                const nickVal = e.target.nickname.value;
-                const emailVal = e.target.email.value;
+                // 타입 작동 확인 필요
+                const nickVal = (e.target as any).nickname.value;
+                const emailVal = (e.target as any).email.value;
                 const verifyResult = verifyForm(nickVal, emailVal);
                 if (emptyInputCheck.length !== 0) {
                   alert('정보를 입력해주세요.')
@@ -92,13 +100,14 @@ const Find = ({ mode }) => {
                   infoCheck(formData);
                 } else {
                   const targetList = ['별명', '이메일 주소']
-                  const alertMsg = verifyResult.map(idx => targetList[idx]).join(', ');
+                  const alertMsg = verifyResult.map(idx => targetList[idx as number]).join(', ');
                   alert(`다음 항목이 올바르지 않습니다: ${alertMsg}`);
                 }
               } else {
-                const idVal = e.target.ID.value;
-                const nickVal = e.target.nickname.value;
-                const emailVal = e.target.email.value;
+                // 타입 확인 필요
+                const idVal = (e.target as any).ID.value;
+                const nickVal = (e.target as any).nickname.value;
+                const emailVal = (e.target as any).email.value;
                 const verifyResult = verifyForm(idVal, nickVal, emailVal);
                 if (emptyInputCheck.length !== 0) {
                   alert('정보를 입력해주세요.')
@@ -109,7 +118,7 @@ const Find = ({ mode }) => {
                   infoCheck(formData);
                 } else {
                   const targetList = ['아이디', '별명', '이메일 주소']
-                  const alertMsg = verifyResult.map(idx => targetList[idx]).join(', ');
+                  const alertMsg = verifyResult.map(idx => targetList[idx as number]).join(', ');
                   alert(`다음 항목이 올바르지 않습니다: ${alertMsg}`);
                 }
               }

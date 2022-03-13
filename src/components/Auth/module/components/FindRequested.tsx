@@ -3,7 +3,8 @@ import InputTemplate from './InputTemplate';
 
 const MemoedInput = memo(InputTemplate);
 
-const FindRequested = ({ mode }) => {
+// props 타입 지정 필요
+const FindRequested = ({ mode }: any) => {
   if (mode === 'pwd') {
     return (
       <>

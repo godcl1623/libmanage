@@ -1,5 +1,5 @@
 type StyleSetUnit = Record<string, string>;
-type StyleReturnTypes = StyleSetUnit | string | (() => string) | string[];
+export type StyleReturnTypes = StyleSetUnit | string | (() => string) | string[];
 export interface SetSize {
   free: (width?: string, height?: string) => string;
 }
