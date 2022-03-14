@@ -1,11 +1,17 @@
-export const loginTop = styles => {
+import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
+
+export const loginTop = (styles: StyleSet) => {
   const { sizes, flex, border } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+  const sizeSet = sizes as StyleSet;
+
   return (
     `
       margin: var(--gap-standard) 0;
       padding: calc(var(--gap-standard) + 2.604vw);
       border-radius: var(--border-rad-big);
-      ${flex.vertical}
+      ${flexSet.vertical}
       width: 30vw;
       height: -webkit-max-content;
       height: -moz-max-content;
@@ -26,8 +32,8 @@ export const loginTop = styles => {
       }
       
       #login-form {
-        ${sizes.free('100%')}
-        ${flex.vertical}
+        ${setSize.free('100%')}
+        ${flexSet.vertical}
       }
       
       #login-form * {
@@ -37,7 +43,7 @@ export const loginTop = styles => {
       #login-form input {
         ${border}
         border-color: var(--grey-dark);
-        ${sizes.free('100%', '1.823vw')}
+        ${setSize.free('100%', '1.823vw')}
       }
       
       #login-form input:first-of-type {
@@ -51,9 +57,9 @@ export const loginTop = styles => {
       
       .option {
         margin: var(--gap-multiply-big);
-        ${flex.horizontal.center}
+        ${(flexSet.horizontal as StyleSet).center}
         justify-content: space-around;
-        ${sizes.free('100%', '2.604vw')}
+        ${setSize.free('100%', '2.604vw')}
         
         button, a {
           height: 2.604vw;
@@ -95,7 +101,7 @@ export const loginTop = styles => {
           }
 
           #login-form input {
-            ${sizes.free('100%', `${1.823 * 1.778}vw`)}
+            ${setSize.free('100%', `${1.823 * 1.778}vw`)}
           }
 
           #login-form button {
@@ -103,7 +109,7 @@ export const loginTop = styles => {
           }
 
           .option {
-            ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+            ${setSize.free('100%', `${2.604 * 1.778}vw`)}
             
             button, a {
               height: ${2.604 * 1.778}vw;
@@ -118,8 +124,8 @@ export const loginTop = styles => {
           margin: 0;
           padding: calc(var(--gap-standard));
           border-radius: 0;
-          ${flex.vertical}
-          ${sizes.full}
+          ${flexSet.vertical}
+          ${sizeSet.full}
 
           h1 {
             margin-bottom: calc(var(--gap-multiply-big) * 3);
@@ -134,7 +140,7 @@ export const loginTop = styles => {
           }
           
           #login-form input {
-            ${sizes.free('100%', '30px')}
+            ${setSize.free('100%', '30px')}
           }
 
           #login-form button {
@@ -142,7 +148,7 @@ export const loginTop = styles => {
           }
           
           .option {
-            ${sizes.free('100%', '30px')}
+            ${setSize.free('100%', '30px')}
             
             button, a {
               height: 30px;

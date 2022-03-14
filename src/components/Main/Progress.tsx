@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { comparisonStateCreator } from '../../actions';
 import { sendTo } from '../../custom_modules/address';
 import { flex, sizes } from '../../styles';
 import progressStyles from './styles/progressStyles';
+import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const Progress = () => {
-  const comparisonState = useSelector(state => state.comparisonState);
+  const comparisonState = useSelector((state: RootState) => state.comparisonState);
   const [count, setCount] = useState('');
   const [total, setTotal] = useState('');
   const [status, setStatus] = useState('1');
   const [userInfo, setUserInfo] = useState('');
   const [apiKey, setApiKey] = useState('');
-  const [maxApiCall, setMaxApiCall] = useState('');
-  const [currApiCall, setCurrApiCall] = useState('');
+  const [maxApiCall, setMaxApiCall] = useState<number>(0);
+  const [currApiCall, setCurrApiCall] = useState<string | number>('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const abortCon = new AbortController();
-  const additionalString = `(${currApiCall+1}회차 / 전체 ${maxApiCall}회)`;
-  const forceAbort = (aborter, navigate) => setTimeout(() => {
+  const additionalString = `(${(currApiCall as number) + 1}회차 / 전체 ${maxApiCall}회)`;
+  const forceAbort = (aborter: AbortController, navigate: NavigateFunction) => setTimeout(() => {
     aborter.abort();
     navigate('/main');
   }, 30000);
-  const statusText = (status, addStr) => {
+  // 타입 확인 필요
+  const statusText = (status: string, addStr: string) => {
     switch (status) {
       case '1':
         return `보유 중인 라이브러리를 IGDB 서비스에 검색 중입니다.`;
@@ -92,7 +95,7 @@ const Progress = () => {
           if (res.data === 'done') {
             setCurrApiCall('done');
           } else {
-            setCurrApiCall(currApiCall => currApiCall + Number(res.data));
+            setCurrApiCall(currApiCall => (currApiCall as number) + Number(res.data));
           }
         })
         .catch(err => console.log(err));
@@ -140,7 +143,7 @@ const Progress = () => {
   }, [count]);
   return (
     <article
-      css={css`${progressStyles({ flex, sizes })}`}
+      css={css`${progressStyles({ flex, sizes } as StyleSet)}`}
     >
       <div className="contents-wrapper">
         <h1>Progress</h1>

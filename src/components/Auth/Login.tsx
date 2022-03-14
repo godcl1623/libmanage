@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -17,11 +18,14 @@ import { sendTo } from '../../custom_modules/address';
 import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 import { loginTop, hrStyle } from './module/styles/LoginStyles';
+import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const MemoedLink = memo(StyledLink);
 const MemoedBtn = memo(Button);
 
-const loginException = (dispatch, navigate) => {
+// 타입 확인 필요
+const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
   const formData = {
     mode: 'guest'
   };
@@ -29,15 +33,15 @@ const loginException = (dispatch, navigate) => {
     .post(
       'http://localhost:3003/login_process',
       // `https://${sendTo}/login_process`,
-      { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
+      { sofo: encryptor(formData, process.env.REACT_APP_TRACER as string) },
       { withCredentials: true }
     )
     .then(res => {
       // 임시로 작성
       dispatch(loginStatusCreator(true));
       dispatch(userStateCreator(res.data));
-      localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));
-      localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER));
+      localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
+      localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
       alert('현재 게스트로 로그인했습니다.\n데이터 보존을 위해 회원으로 로그인해 주세요.');
       navigate('/main');
     })
@@ -45,10 +49,10 @@ const loginException = (dispatch, navigate) => {
 };
 
 const Login = () => {
-  const loginStatus = useSelector(state => state.loginStatus);
-  const userState = useSelector(state => state.userState);
-  const logoutClicked = useSelector(state => state.logoutClicked);
-  const comparisonState = useSelector(state => state.comparisonState);
+  const loginStatus = useSelector((state: RootState) => state.loginStatus);
+  const userState = useSelector((state: RootState) => state.userState);
+  const logoutClicked = useSelector((state: RootState) => state.logoutClicked);
+  const comparisonState = useSelector((state: RootState) => state.comparisonState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const test = {
@@ -119,7 +123,7 @@ const Login = () => {
     <article
       id="login"
       css={css`
-        ${loginTop({ sizes, flex, border })}
+        ${loginTop({ sizes, flex, border } as StyleSet)}
       `}
     >
       <h1>libmanage</h1>
@@ -131,23 +135,24 @@ const Login = () => {
             ID: '',
             PWD: ''
           };
-          if (e.target.ID.value !== '' && e.target.PWD.value !== '') {
-            formData.ID = e.target.ID.value;
-            formData.PWD = salter(hasher(e.target.PWD.value));
+          // 작동 확인 필요
+          if (e.currentTarget.ID.value !== '' && e.currentTarget.PWD.value !== '') {
+            formData.ID = e.currentTarget.ID.value;
+            formData.PWD = salter(hasher(e.currentTarget.PWD.value));
           }
           axios
             .post(
               'http://localhost:3003/login_process',
               // `https://${sendTo}/login_process`,
-              { sofo: encryptor(formData, process.env.REACT_APP_TRACER) },
+              { sofo: encryptor(formData, process.env.REACT_APP_TRACER as string) },
               { withCredentials: true }
             )
             .then(res => {
               if (res.data.isLoginSuccessful && !res.data.isGuest) {
                 dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                 dispatch(userStateCreator(res.data));
-                localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER));
-                localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER));
+                localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
+                localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
                 alert(`${res.data.nickname}님, 로그인에 성공했습니다.`);
                 navigate('/main');
               } else {

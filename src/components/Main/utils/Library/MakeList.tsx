@@ -23,7 +23,8 @@ const fallBack = () => (
   </h1>
 );
 
-const MakeList = ({ args }) => {
+// 타입 수정 필요
+const MakeList = ({ args }: any) => {
   const {
     userLib,
     libDisplay,

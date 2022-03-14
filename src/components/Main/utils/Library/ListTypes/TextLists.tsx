@@ -3,7 +3,8 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
 
-const TextLists = ({props, filter}) => {
+// propt 타입 수정 필요
+const TextLists = ({props, filter}: any) => {
   const { funcs, actions, styles, states } = props;
   const {
     location,

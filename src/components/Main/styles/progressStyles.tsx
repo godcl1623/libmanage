@@ -1,9 +1,14 @@
-const progressStyles = styles => {
+import { StyleSet, SetSize } from '../../../custom_modules/commonUtils';
+
+const progressStyles = (styles: StyleSet) => {
   const { flex, sizes } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+  const sizeSet = sizes as StyleSet;
 
   return (`
-    ${sizes.full}
-    ${flex.vertical}
+    ${sizeSet.full}
+    ${flexSet.vertical}
 
     h1 {
       margin-bottom: 5.208vw;
@@ -17,9 +22,9 @@ const progressStyles = styles => {
 
     .contents-wrapper {
       border-radius: var(--border-rad-normal);
-      ${sizes.free('40%', '50%')}
+      ${setSize.free('40%', '50%')}
       background: white;
-      ${flex.vertical}
+      ${flexSet.vertical}
     }
 
     @media (orientation: portrait) {
@@ -35,7 +40,7 @@ const progressStyles = styles => {
         }
 
         .contents-wrapper {
-          ${sizes.free('60%', '35%')}
+          ${setSize.free('60%', '35%')}
         }
       }
 
@@ -53,7 +58,7 @@ const progressStyles = styles => {
         .contents-wrapper {
           border-radius: 7px;
           padding: 20px;
-          ${sizes.free('90%', '50%')}
+          ${setSize.free('90%', '50%')}
         }
       }
     }

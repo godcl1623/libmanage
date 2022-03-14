@@ -24,26 +24,34 @@ import {
   libraryBalloonStyle,
   libraryBalloonHand
 } from './styles/balloons/LibraryBalloonStyle';
+import { RootState } from '../../reducers';
 
-const MemoedIco = memo(FaBars);
-const MemoedBalloon = memo(Balloon);
-const MemoedLibOpt = memo(LibraryOptions);
-const MemoedLists = memo(MakeList);
+// const MemoedIco = memo(FaBars);
+// const MemoedBalloon = memo(Balloon);
+// const MemoedLibOpt = memo(LibraryOptions);
+// const MemoedLists = memo(MakeList);
 
-const Library = ({ userLib, coverSize, setCoverSize }) => {
-  const balloonState = useSelector(state => state.balloonState);
-  const balloonOrigin = useSelector(state => state.balloonOrigin);
-  const libDisplay = useSelector(state => state.libDisplay);
-  const selectedCategory = useSelector(state => state.selectedCategory);
-  const selectedStores = useSelector(state => state.selectedStores);
-  const userState = useSelector(state => state.userState);
-  const extCredState = useSelector(state => state.extCredState);
-  const librarySearch = useSelector(state => state.librarySearch);
+type PropsType = {
+  userLib: Record<string, string>;
+  coverSize: number;
+  setCoverSize: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
+  const balloonState = useSelector((state: RootState) => state.balloonState);
+  const balloonOrigin = useSelector((state: RootState) => state.balloonOrigin);
+  const libDisplay = useSelector((state: RootState) => state.libDisplay);
+  const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
+  const selectedStores = useSelector((state: RootState) => state.selectedStores);
+  const userState = useSelector((state: RootState) => state.userState);
+  const extCredState = useSelector((state: RootState) => state.extCredState);
+  const librarySearch = useSelector((state: RootState) => state.librarySearch);
   const [btnCoords, setBtnCoords] = React.useState({});
   const dispatch = useDispatch();
   const location = useLocation();
-  const ref = React.useRef();
-  const updateBtnCoords = (left, top, height) => {
+  const ref = React.useRef<HTMLButtonElement | null>(null);
+  const updateBtnCoords = (...args: number[]) => {
+    const [ left, top, height ] = args;
     setBtnCoords(prevState => ({
       ...prevState,
       leftCoord: left,
@@ -54,7 +62,7 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
 
   useEffect(() => {
     const abortCon = new AbortController();
-    const { left, top, height } = ref.current.getBoundingClientRect();
+    const { left, top, height } = (ref.current as HTMLElement).getBoundingClientRect();
     updateBtnCoords(left, top, height);
     return () => {
       abortCon.abort();
@@ -100,8 +108,9 @@ const Library = ({ userLib, coverSize, setCoverSize }) => {
         id="contents-lists"
         onScroll={e => {
           let timer;
-          const lists = e.target.querySelectorAll('li');
-          const ulCoords = e.target.getBoundingClientRect();
+          const htmlTarget = e.target as HTMLElement;
+          const lists = htmlTarget.querySelectorAll('li');
+          const ulCoords = htmlTarget.getBoundingClientRect();
           const { top: ulTop, bottom: ulBot } = ulCoords;
           if (!timer) {
             timer = setTimeout(() => {

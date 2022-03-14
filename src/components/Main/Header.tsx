@@ -32,6 +32,7 @@ import {
   headerBalloonStyle,
   headerBalloonHand
 } from './styles/balloons/HeaderBalloonStyle';
+import { RootState } from '../../reducers';
 
 const MemoedIco = memo(FaBars);
 const MemoedBalloon = memo(Balloon);
@@ -39,22 +40,29 @@ const MemoedHeaderOpt = memo(HeaderOptions);
 const MemoedSearch = memo(SearchField);
 const MemoedMemStat = memo(MemberStatus);
 
-const Header = ({ headerRef, setHeight, currHeight }) => {
-  const loginStatus = useSelector(state => state.loginStatus);
-  const userState = useSelector(state => state.userState);
-  const modalState = useSelector(state => state.modalState);
-  const balloonState = useSelector(state => state.balloonState);
-  const balloonOrigin = useSelector(state => state.balloonOrigin);
-  const librarySearch = useSelector(state => state.librarySearch);
-  const isMobile = useSelector(state => state.isMobile);
+type PropsType = {
+  headerRef: React.MutableRefObject<HTMLElement>;
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
+  currHeight: number;
+}
+
+const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
+  const loginStatus = useSelector((state: RootState) => state.loginStatus);
+  const userState = useSelector((state: RootState) => state.userState);
+  const modalState = useSelector((state: RootState) => state.modalState);
+  const balloonState = useSelector((state: RootState) => state.balloonState);
+  const balloonOrigin = useSelector((state: RootState) => state.balloonOrigin);
+  const librarySearch = useSelector((state: RootState) => state.librarySearch);
+  const isMobile = useSelector((state: RootState) => state.isMobile);
   const [btnCoords, setBtnCoords] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const optionRef = useRef();
-  const memberRef = useRef();
-  const selectedBtn = useRef();
-  const updateBtnCoords = (left, top, bottom, width) => {
+  const optionRef = useRef<HTMLButtonElement | null>(null);
+  const memberRef = useRef<HTMLButtonElement | null>(null);
+  const selectedBtn = useRef<HTMLButtonElement | null>(null);
+  const updateBtnCoords = (...args: number[]) => {
+    const [ left, top, bottom, width ] = args;
     setBtnCoords(prevState => ({
       ...prevState,
       leftCoord: left,
@@ -90,7 +98,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
           id="option"
           ref={optionRef}
           onClick={e => {
-            const { left, top, bottom } = optionRef.current.getBoundingClientRect();
+            const { left, top, bottom } = (optionRef.current as HTMLElement).getBoundingClientRect();
             updateBtnCoords(left, top, bottom);
             selectedBtn.current = optionRef.current;
             dispatch(balloonOriginCreator('Header'));
@@ -174,7 +182,7 @@ const Header = ({ headerRef, setHeight, currHeight }) => {
               id="member-info"
               ref={memberRef}
               onClick={() => {
-                const { left, top, bottom, width } = memberRef.current.getBoundingClientRect();
+                const { left, top, bottom, width } = (memberRef.current as HTMLElement).getBoundingClientRect();
                 updateBtnCoords(left, top, bottom, width);
                 selectedBtn.current = memberRef.current;
                 dispatch(balloonOriginCreator('Header'));
