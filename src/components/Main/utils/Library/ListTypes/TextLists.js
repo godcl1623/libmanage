@@ -86,8 +86,8 @@ const TextLists = ({props, filter}) => {
           if (extCredState.cid === undefined) {
             axios
               .post(
-                // 'http://localhost:3003/api/connect',
-                `https://${sendTo}/api/connect`,
+                'http://localhost:3003/api/connect',
+                // `https://${sendTo}/api/connect`,
                 { execute: 'order66' },
                 { withCredentials: true }
               )
@@ -100,8 +100,8 @@ const TextLists = ({props, filter}) => {
                 };
                 axios
                   .post(
-                    // 'http://localhost:3003/get/meta',
-                    `https://${sendTo}/get/meta`,
+                    'http://localhost:3003/get/meta',
+                    // `https://${sendTo}/get/meta`,
                     { reqData },
                     { withCredentials: true }
                   )
@@ -116,8 +116,8 @@ const TextLists = ({props, filter}) => {
               credData: extCredState
             };
             axios
-              // .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
-              .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
+              .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
+              // .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
               .then(res => {
                 dispatch(selectedItemDataCreator(res.data));
               });

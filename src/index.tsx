@@ -4,11 +4,11 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './components/App';
-import reducers from './reducers';
+import { rootReducer } from './reducers';
 import * as initSW from './serviceWorkerRegistration';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware()));
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,5 +17,5 @@ ReactDOM.render(
   document.querySelector('#root')
 );
 
-// initSW.unregister();
-initSW.register();
+initSW.unregister();
+// initSW.register();

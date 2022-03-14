@@ -13,6 +13,8 @@ import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
 import { flex, sizes } from '../../styles';
 import { changePwdRoot, tokenExpired } from './module/styles/ResetStyles';
+import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const MemoedIco = memo(FaHome);
 const MemoedPwd = memo(ChangePwd);
@@ -33,7 +35,7 @@ const now = () => {
 
 const Reset = () => {
   const [requestedToken, setRequestToken] = useState({});
-  const tokenState = useSelector(state => state.tokenState);
+  const tokenState = useSelector((state: RootState) => state.tokenState);
   const dispatch = useDispatch();
   const location = useLocation();
   const tokenTail = location.pathname.slice(-7,);
@@ -45,8 +47,8 @@ const Reset = () => {
       tokenTail,
       requestedTime
     }
-    // axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
-    axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER) }, { withCredentials: true })
+    axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+    // axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
       .then(res => {
         dispatch(setTokenState(res.data.tokenState));
         setRequestToken(res.data.token);
@@ -55,7 +57,7 @@ const Reset = () => {
     return () => abortCon.abort();
   }, []);
 
-  const errors = tokenState => {
+  const errors = (tokenState: boolean | string) => {
     switch(tokenState) {
       case false:
         return '요청이 만료되었습니다.';
@@ -71,7 +73,7 @@ const Reset = () => {
       return (
         <div id="change-pwd"
           css={css`
-            ${changePwdRoot({ sizes, flex })}
+            ${changePwdRoot({ sizes, flex } as StyleSet)}
           `}
         >
           <ChangePwd token={requestedToken} reqTime={now} />
@@ -81,7 +83,7 @@ const Reset = () => {
       return(
         <div id="token-expired"
           css={css`
-            ${tokenExpired({ sizes, flex })}
+            ${tokenExpired({ sizes, flex } as StyleSet)}
           `}
         >
           <h1>{errors(tokenState)}</h1>

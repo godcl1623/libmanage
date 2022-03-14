@@ -82,15 +82,15 @@ const Find = ({ mode }: any) => {
                 return result;
               };
               const infoCheck = async (infoObj: FormCheck) => {
-              // await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
-              await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+              await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+              // await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };
               if (tabState === 'id') {
-                // 타입 작동 확인 필요
-                const nickVal = (e.target as any).nickname.value;
-                const emailVal = (e.target as any).email.value;
+                // 작동 여부 확인 필요
+                const nickVal = e.currentTarget.nickname.value;
+                const emailVal = e.currentTarget.email.value;
                 const verifyResult = verifyForm(nickVal, emailVal);
                 if (emptyInputCheck.length !== 0) {
                   alert('정보를 입력해주세요.')
@@ -104,10 +104,10 @@ const Find = ({ mode }: any) => {
                   alert(`다음 항목이 올바르지 않습니다: ${alertMsg}`);
                 }
               } else {
-                // 타입 확인 필요
-                const idVal = (e.target as any).ID.value;
-                const nickVal = (e.target as any).nickname.value;
-                const emailVal = (e.target as any).email.value;
+                // 작동 여부 확인 필요
+                const idVal = e.currentTarget.ID.value;
+                const nickVal = e.currentTarget.nickname.value;
+                const emailVal = e.currentTarget.email.value;
                 const verifyResult = verifyForm(idVal, nickVal, emailVal);
                 if (emptyInputCheck.length !== 0) {
                   alert('정보를 입력해주세요.')

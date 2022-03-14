@@ -175,8 +175,8 @@ const ModMemInfo = ({ userState }) => {
             reqUser: userState.nickname
           }
           await axios.put(
-            // 'http://localhost:3003/member/update',
-            `https://${sendTo}/member/update`,
+            'http://localhost:3003/member/update',
+            // `https://${sendTo}/member/update`,
             {foo: encryptor(pack, process.env.REACT_APP_TRACER)},
             { withCredentials: true })
           .then(res => {
@@ -205,8 +205,8 @@ const ModMemInfo = ({ userState }) => {
               }
               axios
                 .post(
-                  // 'http://localhost:3003/logout_process',
-                  `https://${sendTo}/logout_process`,
+                  'http://localhost:3003/logout_process',
+                  // `https://${sendTo}/logout_process`,
                   { message },
                   { withCredentials: true }
                 )

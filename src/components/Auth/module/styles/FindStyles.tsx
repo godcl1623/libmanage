@@ -3,24 +3,28 @@ import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
 const findStyles = (styles: StyleSet, vars: StyleSet): string => {
   const { border, flex, sizes } = styles;
   const { tabState } = vars;
+  const setSize = sizes as unknown as SetSize;
+  const flexSet = flex as StyleSet;
+  const sizeSet = sizes as StyleSet;
+
   return (
     `
       margin: var(--gap-standard) 0;
       padding: var(--gap-standard);
       border-radius: var(--border-rad-big);
-      ${(flex as StyleSet).vertical}
-      ${((sizes as unknown) as SetSize).free('40vw', 'max-content')}
+      ${flexSet.vertical}
+      ${setSize.free('40vw', 'max-content')}
       background: white;
 
       .contents-wrapper {
-        ${(flex as StyleSet).vertical}
-        ${(sizes as StyleSet).full}
+        ${flexSet.vertical}
+        ${sizeSet.full}
       }
 
       .tab-wrapper {
-        ${((flex as StyleSet).horizontal as StyleSet).center}
+        ${(flexSet.horizontal as StyleSet).center}
         justify-content: flex-start;
-        ${(sizes as unknown as SetSize).free('100%')}
+        ${setSize.free('100%')}
       }
 
       .tab-wrapper a {
@@ -28,9 +32,9 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
         border-color: var(--btn-disable);
         border-bottom: none;
         border-radius: 0.365vw;
-        ${(sizes as unknown as SetSize).free('20%', '1.563vw')}
+        ${setSize.free('20%', '1.563vw')}
         font-size: 0.938vw;
-        ${((flex as StyleSet).horizontal as StyleSet).center}
+        ${(flexSet.horizontal as StyleSet).center}
         text-decoration: none;
       
         :hover {
@@ -58,12 +62,12 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
 
       .form-wrapper {
         border-radius: 0 var(--border-rad-big) var(--border-rad-big);
-        ${(flex as StyleSet).vertical}
-        ${(sizes as unknown as SetSize).free('100%', 'max-content')}
+        ${flexSet.vertical}
+        ${setSize.free('100%', 'max-content')}
       }
 
       .form-wrapper form {
-        ${(sizes as StyleSet).full}
+        ${sizeSet.full}
       }
       
       .form-wrapper .input-wrapper {
@@ -71,16 +75,16 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
         ${border}
         border-color: var(--btn-disable);
         padding: 1.042vw 0.521vw;
-        ${(flex as StyleSet).vertical}
-        ${(sizes as unknown as SetSize).free('100%', 'max-content')}
+        ${flexSet.vertical}
+        ${setSize.free('100%', 'max-content')}
         font-size: var(--font-size-normal);
       }
       
       .form-wrapper .input-wrapper > div {
         margin-bottom: 4.167vw;
-        ${(flex as StyleSet).vertical}
+        ${flexSet.vertical}
         align-items: flex-start;
-        ${(sizes as unknown as SetSize).free('100%')}
+        ${setSize.free('100%')}
       }
 
       .form-wrapper .input-wrapper > div:last-of-type {
@@ -89,18 +93,18 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
 
       .form-wrapper .input-wrapper > div label {
         margin-bottom: 0.521vw;
-        ${(sizes as unknown as SetSize).free('30%')}
+        ${setSize.free('30%')}
       }
 
       .form-wrapper .input-wrapper > div input {
         ${border}
         border-color: var(--grey-dark);
-        ${(sizes as unknown as SetSize).free('100%')}
+        ${setSize.free('100%')}
       }
 
       .form-wrapper .submit-wrapper {
-        ${((flex as StyleSet).horizontal as StyleSet).center}
-        ${(sizes as unknown as SetSize).free('100%', '2.604vw')}
+        ${(flexSet.horizontal as StyleSet).center}
+        ${setSize.free('100%', '2.604vw')}
       }
 
       .form-wrapper .submit-wrapper button:first-of-type {
@@ -115,11 +119,11 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
 
       @media (orientation: portrait) {
         @media (min-width: 600px) {
-          ${(sizes as unknown as SetSize).free(`${40 * 1.778}vw`, 'max-content')}
+          ${setSize.free(`${40 * 1.778}vw`, 'max-content')}
 
           .tab-wrapper a {
             border-radius: ${0.365 * 1.778}vw;
-            ${(sizes as unknown as SetSize).free('20%', `${1.563 * 1.778}vw`)}
+            ${setSize.free('20%', `${1.563 * 1.778}vw`)}
             font-size: ${0.938 * 1.778}vw;
           }
 
@@ -137,7 +141,7 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
           }
 
           .form-wrapper .submit-wrapper {
-            ${(sizes as unknown as SetSize).free('100%', `${2.604 * 1.778}vw`)}
+            ${setSize.free('100%', `${2.604 * 1.778}vw`)}
           }
 
           .form-wrapper .submit-wrapper button:first-of-type {
@@ -152,10 +156,10 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
         @media (max-width: 599px) {
           margin: 0;
           border-radius: 0;
-          ${(sizes as StyleSet).full}
+          ${sizeSet.full}
 
           .tab-wrapper a {
-            ${(sizes as unknown as SetSize).free('30%', '20px')}
+            ${setSize.free('30%', '20px')}
             font-size: 12px;
           }
 
@@ -168,17 +172,17 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
           }
 
           .form-wrapper {
-            ${(sizes as unknown as SetSize).free('100%', 'max-content')}
+            ${setSize.free('100%', 'max-content')}
           }
 
           .form-wrapper form {
-            ${(sizes as StyleSet).full}
+            ${sizeSet.full}
           }
           
           .form-wrapper .input-wrapper {
             margin-bottom: 40px;
             padding: 20px 10px;
-            ${(sizes as unknown as SetSize).free('100%', 'max-content')}
+            ${setSize.free('100%', 'max-content')}
             font-size: 14px;
           }
 
@@ -196,7 +200,7 @@ const findStyles = (styles: StyleSet, vars: StyleSet): string => {
           }
 
           .form-wrapper .submit-wrapper {
-            ${(sizes as unknown as SetSize).free('100%', '30px')}
+            ${setSize.free('100%', '30px')}
             button {
               font-size: 14px;
             }

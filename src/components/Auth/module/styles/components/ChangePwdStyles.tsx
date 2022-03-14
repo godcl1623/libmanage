@@ -1,24 +1,28 @@
-const changePwdStyles = (styles, vars) => {
+import { StyleSet, SetSize } from '../../../../../custom_modules/commonUtils';
+
+const changePwdStyles = (styles: StyleSet, vars: Record<string, boolean>) => {
   const { sizes, flex, border } = styles;
   const { isValid, pwdMatch } = vars;
+  const setSize = sizes as unknown as SetSize;
+  const flexSet = flex as StyleSet;
 
   return (
     `
       border-radius: var(--border-rad-big);
       padding: calc(var(--gap-standard) * 2);
       background: white;
-      ${sizes.free('40%', 'max-content')}
-      ${flex.vertical}
+      ${setSize.free('40%', 'max-content')}
+      ${flexSet.vertical}
       justify-content: space-between;
 
       .input-wrapper {
-        ${flex.vertical}
+        ${flexSet.vertical}
         align-items: flex-start;
-        ${sizes.free('100%')}
+        ${setSize.free('100%')}
         font-size: var(--font-size-normal);
 
         * {
-          ${sizes.free('100%')}
+          ${setSize.free('100%')}
         }
 
         input {
@@ -43,8 +47,8 @@ const changePwdStyles = (styles, vars) => {
       }
 
       .submit-wrapper {
-        ${flex.horizontal.center}
-        ${sizes.free('100%', '2.604vw')}
+        ${(flexSet.horizontal as StyleSet).center}
+        ${setSize.free('100%', '2.604vw')}
 
         button:first-of-type {
           margin-right: var(--gap-multiply-small);
@@ -59,10 +63,10 @@ const changePwdStyles = (styles, vars) => {
 
       @media (orientation: portrait) {
         @media (min-width: 600px) {
-          ${sizes.free('60%', 'max-content')}
+          ${setSize.free('60%', 'max-content')}
 
           .submit-wrapper {
-            ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+            ${setSize.free('100%', `${2.604 * 1.778}vw`)}
 
             button:first-of-type {
               margin-right: calc(var(--gap-multiply-small) * 2);
@@ -77,7 +81,7 @@ const changePwdStyles = (styles, vars) => {
         @media (max-width: 599px) {
           border-radius: 10px;
           padding: 20px;
-          ${sizes.free('90%', 'max-content')}
+          ${setSize.free('90%', 'max-content')}
 
           .input-wrapper {
             font-size: 16px;
@@ -95,7 +99,7 @@ const changePwdStyles = (styles, vars) => {
           }
 
           .submit-wrapper {
-            ${sizes.free('100%', '30px')}
+            ${setSize.free('100%', '30px')}
             button {
               font-size: 13px;
             }

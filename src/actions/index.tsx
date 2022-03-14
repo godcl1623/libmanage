@@ -1,4 +1,7 @@
 // unknown 타입 전부 정리할 것
+import { BasicActionCreator } from '../custom_modules/commonUtils';
+
+export type ReturnAction<T> = BasicActionCreator<T>;
 
 export const loginStatusCreator = (boolean: boolean) => ({
   type: 'LOGIN_STATUS',
@@ -10,9 +13,9 @@ export const logoutClickedCreator = (boolean: boolean) => ({
   payload: boolean
 });
 
-export const tokenStateCreator = (string: string) => ({
+export const tokenStateCreator = (tokenState: boolean) => ({
   type: 'TOKEN_STATE',
-  payload: string
+  payload: tokenState
 });
 
 export const userStateCreator = (obj: unknown) => ({

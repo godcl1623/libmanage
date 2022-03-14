@@ -12,6 +12,7 @@ import { verifyId, verifyPwd, verifyNick, verifyEmail } from './module/utils';
 import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 import style from './module/styles/RegisterStyles';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const MemoedSubmit = memo(FormSubmit);
 const MemoedInput = memo(InputTemplate);
@@ -24,7 +25,7 @@ const Register = () => {
   const [nickState, setNickState] = useState('');
   const [emailAuth, setEmailAuth] = useState('');
   const navigate = useNavigate();
-  const customOption = (state, func) => {
+  const customOption = (state: string, func: (val: string) => void) => {
     if (state === 'others') {
       return <input type="text" name="email_provider" onChange={() => setEmailAuth('')}/>
     }
@@ -39,7 +40,7 @@ const Register = () => {
     );
   };
 
-  const verifyTest = (verifyValue, verifyState) => {
+  const verifyTest = (verifyValue: string, verifyState: string | number) => {
     if (verifyValue !== '비밀번호') {
       if (verifyState === 1) {
         return `※ 이미 사용 중인 ${verifyValue}입니다.`;
@@ -57,7 +58,7 @@ const Register = () => {
     <article
       id="register"
       css={css`
-        ${style({ sizes, flex, border }, { idState })}
+        ${style({ sizes, flex, border } as StyleSet, { idState })}
       `}
     >
       <h1>Register</h1>
@@ -65,25 +66,28 @@ const Register = () => {
         id="register-form"
         onSubmit={e => {
           e.preventDefault();
-          if (e.target.PWD.value !== e.target.PWD_check.value) {
+          // 작동 여부 확인 필요
+          if (e.currentTarget.PWD.value !== e.currentTarget.PWD_check.value) {
             setPwdMatch(false);
           }
-          if (e.target.email_provider.value[0] === '@') {
-            const temp = Array.from(e.target.email_provider.value);
+          if (e.currentTarget.email_provider.value[0] === '@') {
+            const temp = Array.from(e.currentTarget.email_provider.value);
             temp.shift();
-            e.target.email_provider.value = temp.join('');
+            e.currentTarget.email_provider.value = temp.join('');
           }
           const inputs = Array.from(document.querySelectorAll('input'));
           const isEmpty = inputs.filter(input => input.value === '');
           const select = document.querySelector('select');
           const formData = {
-            id: e.target.ID.value,
-            pwd: e.target.PWD.value,
-            nick: e.target.nickname.value,
-            email: `${e.target.email_id.value}@${e.target.email_provider.value}`
+            id: e.currentTarget.ID.value,
+            pwd: e.currentTarget.PWD.value,
+            nick: e.currentTarget.nickname.value,
+            email: `${e.currentTarget.email_id.value}@${e.currentTarget.email_provider.value}`
           }
-          const sofo = {}
-          const checkInputVal = (id, pwd, nick, email) => {
+          const sofo: Record<string, string> = {}
+          // 작동 여부 확인 필요
+          const checkInputVal = (...args: string[]) => {
+            const [ id, pwd, nick, email ] = args;
             let isValid = true;
             if (verifyId(id) && verifyPwd(pwd) && verifyNick(nick) && verifyEmail(email)) {
               setIdState('');
@@ -110,18 +114,18 @@ const Register = () => {
             }
             return isValid;
           };
-          const existCheck = async sofo => {
+          const existCheck = async (sofo: Record<string, string>) => {
             await axios.post(
-              // 'http://localhost:3003/member/register',
-              `https://${sendTo}/member/register`,
-              {foo: encryptor(sofo, process.env.REACT_APP_TRACER)},
+              'http://localhost:3003/member/register',
+              // `https://${sendTo}/member/register`,
+              {foo: encryptor(sofo, process.env.REACT_APP_TRACER as string)},
               { withCredentials: true })
             .then(res => {
               if (res.data === 'success') {
                 alert('회원가입이 완료되었습니다.\n로그인해 주세요.');
                 navigate('/');
               } else {
-                const tempObj = decryptor(res.data, process.env.REACT_APP_TRACER);
+                const tempObj = decryptor(res.data, process.env.REACT_APP_TRACER as string);
                 setIdState(tempObj.id);
                 setNickState(tempObj.nick);
                 setEmailAuth(tempObj.email);

@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 //   return lastDigest;
 // };
 
-export const hasher = data => {
+export const hasher = (data: string) => {
   const initialDigest = hash.sha256().update(data).digest('hex');
   const secondDigest = hash.sha256().update(initialDigest).digest('hex');
   const thirdDigest = hash.sha256().update(secondDigest).digest('hex');
@@ -19,4 +19,4 @@ export const hasher = data => {
   return lastDigest;
 };
 
-export const salter = hash => bcrypt.hashSync(hash, 10);
+export const salter = (hash: string) => bcrypt.hashSync(hash, 10);

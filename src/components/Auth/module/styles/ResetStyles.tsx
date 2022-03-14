@@ -1,26 +1,31 @@
-export const changePwdRoot = styles => {
+import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
+
+export const changePwdRoot = (styles: StyleSet) => {
   const { sizes, flex } = styles;
   return (
     `
-      ${sizes.full}
+      ${(sizes as StyleSet).full}
       height: max-content;
-      ${flex.vertical}
+      ${(flex as StyleSet).vertical}
     `
   );
 };
 
-export const tokenExpired = styles => {
+export const tokenExpired = (styles: StyleSet) => {
   const { sizes, flex } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+
   return (
     `
       border-radius: var(--border-rad-big);
-      ${sizes.free('40%', '50%')}
-      ${flex.vertical}
+      ${setSize.free('40%', '50%')}
+      ${flexSet.vertical}
       background: white;
 
       #to_home {
         margin-top: calc(var(--gap-multiply-big) * 4);
-        ${flex.horizontal.center}
+        ${(flexSet.horizontal as StyleSet).center}
         font-size: calc(var(--font-size-normal) * 2);
         text-decoration: none;
         color: var(--grey-dark);
@@ -34,13 +39,13 @@ export const tokenExpired = styles => {
 
       @media (orientation: portrait) {
         @media (min-width: 600px) {
-          ${sizes.free('70%', '35%')}
+          ${setSize.free('70%', '35%')}
         }
 
         @media (max-width: 599px) {
           border-radius: 10px;
           padding: 20px;
-          ${sizes.free('90%', '50%')}
+          ${setSize.free('90%', '50%')}
 
           h1 {
             font-size: 32px;

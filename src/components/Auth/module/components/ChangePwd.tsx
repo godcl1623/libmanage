@@ -14,17 +14,20 @@ import { verifyPwd } from '../utils';
 import { sendTo } from '../../../../custom_modules/address';
 import { border, flex, sizes } from '../../../../styles';
 import style from '../styles/components/ChangePwdStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
 const MemoedInput = memo(InputTemplate);
 const MemoedSubmit = memo(FormSubmit);
 
-const ChangePwd = ({ token, reqTime }) => {
+type TokenCnt = Record<string, string>;
+
+const ChangePwd = ({ token, reqTime }: Record<string, TokenCnt | (() => void)>) => {
   const [pwdMatch, setPwdMatch] = useState(true);
   const [isValid, setIsValid] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userId, ttl, tokenId, originTime } = token;
-  const checkValidation = (pwd, pwdCheck, verifyFunc) => {
+  const { userId, ttl, tokenId, originTime } = token as TokenCnt;
+  const checkValidation = (pwd: string, pwdCheck: string, verifyFunc: (val: string) => boolean) => {
     let isReadyToSubmit;
     if (!verifyFunc(pwd) && pwd !== pwdCheck) {
       setIsValid(false);
@@ -48,15 +51,15 @@ const ChangePwd = ({ token, reqTime }) => {
   return (
     <form
       css={css`
-        ${style({ sizes, flex, border }, { isValid, pwdMatch })}
+        ${style({ sizes, flex, border } as StyleSet, { isValid, pwdMatch })}
       `}
       onSubmit={e => {
         e.preventDefault();
-        const pwd = e.target.PWD.value;
-        const pwdCheck = e.target.PWD_check.value;
+        const pwd = e.currentTarget.PWD.value;
+        const pwdCheck = e.currentTarget.PWD_check.value;
         const inputs = Array.from(document.querySelectorAll('input'));
         const isEmpty = inputs.filter(input => input.value === '');
-        const formData = {};
+        const formData: Record<string, string | void> = {};
         if (isEmpty[0] !== undefined) {
           alert('정보를 전부 입력해주세요');
         } else if (checkValidation(pwd, pwdCheck, verifyPwd)) {
@@ -64,10 +67,10 @@ const ChangePwd = ({ token, reqTime }) => {
           formData.pwd = hasher(pwd);
           formData.tokenId = tokenId;
           formData.ttl = ttl;
-          formData.reqTime = reqTime();
+          formData.reqTime = (reqTime as () => void)();
           formData.originTime = originTime;
-          // axios.post('http://localhost:3003/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
-          axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER) }, {withCredentials: true})
+          axios.post('http://localhost:3003/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
+          // axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
             .then(res => {
               if (res.data === 'complete') {
                 alert('비밀번호가 변경되었습니다.\n다시 로그인해주세요.');
