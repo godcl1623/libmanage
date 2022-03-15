@@ -1,12 +1,16 @@
-export const libBalloonDisplay = (styles, vars) => {
+import { StyleSet, SetSize } from '../../../custom_modules/commonUtils';
+
+export const libBalloonDisplay = (styles: StyleSet, vars: Record<string, string>) => {
   const { flex, sizes } = styles;
   const { currDisplayType } = vars;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     margin: calc(var(--gap-multiply-small) * 2);
-    ${flex.horizontal.center}
+    ${(flexSet.horizontal as StyleSet).center}
     justify-content: space-between;
-    ${sizes.free('100%')}
+    ${setSize.free('100%')}
 
     * {
       margin: 0 var(--gap-multiply-small);
@@ -18,7 +22,7 @@ export const libBalloonDisplay = (styles, vars) => {
 
     .btn-container {
       flex: 2;
-      ${flex.horizontal.center}
+      ${(flexSet.horizontal as StyleSet).center}
       justify-content: space-around;
 
       .balloon-btn {
@@ -48,7 +52,7 @@ export const libBalloonDisplay = (styles, vars) => {
     @media (orientation: portrait) {
       @media (max-width: 599px) {
         margin: calc(var(--gap-multiply-small));
-        ${sizes.free('100%')}
+        ${setSize.free('100%')}
 
         * {
           margin: 0 var(--gap-multiply-small);
@@ -69,12 +73,12 @@ export const libBalloonDisplay = (styles, vars) => {
   `);
 };
 
-export const libBalloonInput = styles => {
+export const libBalloonInput = (styles: StyleSet) => {
   const { flex, sizes } = styles;
 
   return (`
-    ${flex.horizontal.center}
-    ${sizes.free('100%')}
+    ${((flex as StyleSet).horizontal as StyleSet).center}
+    ${(sizes as unknown as SetSize).free('100%')}
     p {
       font-size: var(--font-size-standard);
 
@@ -92,7 +96,8 @@ export const libBalloonInput = styles => {
   `);
 };
 
-export const makeListStyle = (styles, vars) => {
+// vars 타입 수정 필요
+export const makeListStyle = (styles: StyleSet, vars: any) => {
   const { flex } = styles;
   const { libDisplay, coverSize } = vars;
 
@@ -117,7 +122,7 @@ export const makeListStyle = (styles, vars) => {
     margin: calc(var(--gap-multiply-small) * 2);
     height: ${coverSize}vw;
     flex: 0 0 10%;
-    ${flex.horizontal.center}
+    ${((flex as StyleSet).horizontal as StyleSet).center}
     cursor: pointer;
 
     :active {
@@ -134,8 +139,11 @@ export const makeListStyle = (styles, vars) => {
   `);
 }
 
-export const libraryStyle = (styles, condition) => {
+export const libraryStyle = (styles: StyleSet, condition: string) => {
   const { flex, sizes } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+  const sizeSet = sizes as StyleSet;
 
   return (`
     border-left: 0.052vw solid black;
@@ -143,7 +151,7 @@ export const libraryStyle = (styles, condition) => {
     padding: calc(var(--gap-standard) * 2) var(--gap-standard);
     flex: 2;
     overflow: hidden;
-    ${sizes.full}
+    ${sizeSet.full}
     position: relative;
     background: white;
 
@@ -155,10 +163,10 @@ export const libraryStyle = (styles, condition) => {
     }
 
     button.option {
-      ${flex.vertical}
+      ${flexSet.vertical}
       position: absolute;
       right: 1.563vw;
-      ${sizes.free('2.604vw', '1.823vw')}
+      ${setSize.free('2.604vw', '1.823vw')}
       z-index: 1;
       cursor: pointer;
       :hover {
@@ -175,13 +183,13 @@ export const libraryStyle = (styles, condition) => {
       @media (orientation: portrait) {
         @media (min-width: 600px) {
           right: ${1.563 * 1.778}vw;
-          ${sizes.free(`${2.604 * 1.778}vw`, `${1.823 * 1.778}vw`)}
+          ${setSize.free(`${2.604 * 1.778}vw`, `${1.823 * 1.778}vw`)}
         }
 
         @media (max-width: 599px) {
           top: 0;
           right: 0;
-          ${sizes.free('50px', '35px')}
+          ${setSize.free('50px', '35px')}
           opacity: 70%;
         }
       }
@@ -189,12 +197,12 @@ export const libraryStyle = (styles, condition) => {
 
     ul#contents-lists {
       display: ${condition === 'cover' ? 'flex' : 'inline-block'};
-      ${sizes.full}
+      ${sizeSet.full}
       flex-wrap: wrap;
       overflow-y: scroll;
 
       @media (orientation: portrait) and (max-width: 599px) {
-        ${flex.horizontal.center}
+        ${(flexSet.horizontal as StyleSet).center}
         justify-content: ${condition === 'list' ? 'flex-start' : 'center'};
       }
     }

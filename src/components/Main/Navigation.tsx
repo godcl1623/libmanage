@@ -6,11 +6,13 @@ import { selectedCategoryCreator, selectedStoresCreator } from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
+import { RootState } from '../../reducers';
 
-const MemoedStores = memo(StoresList);
+// const MemoedStores = memo(StoresList);
 
-const Navigation = ({ storesList }) => {
-  const selectedCategory = useSelector(state => state.selectedCategory);
+// props 타입 설정 필요 - storesList 타입 설정 필요
+const Navigation = ({ storesList }: any) => {
+  const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
   const dispatch = useDispatch();
 
   return (

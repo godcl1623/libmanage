@@ -32,21 +32,23 @@ const TextLists = ({props, filter}: any) => {
   const { steam } = userLib;
   if (location.pathname === '/offline' || !navigator.onLine) {
     const result = (
-      steam.sort((prev, next) => prev.titles < next.titles ? -1 : 1).map((item, idx) => (
+      // prev, next, item 타입 수정 필요
+      steam.sort((prev: any, next: any) => prev.titles < next.titles ? -1 : 1).map((item: any, idx: number) => (
         <li
           key={`lib-item-${idx}`}
           css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
+          // currentTarget 작동 여부 확인 필요
           onMouseEnter={e => {
-            e.target.style.background = 'var(--highlight-light)';
+            e.currentTarget.style.background = 'var(--highlight-light)';
           }}
           onMouseLeave={e => {
-            e.target.style.background = 'white';
+            e.currentTarget.style.background = 'white';
           }}
           onMouseDown={e => {
-            e.target.style.background = 'var(--btn-active)';
+            e.currentTarget.style.background = 'var(--btn-active)';
           }}
           onMouseUp={e => {
-            e.target.style.background = 'var(--highlight-light)';
+            e.currentTarget.style.background = 'var(--highlight-light)';
           }}
           onClick={e => {
             dispatch(modalOriginCreator('Library'));
@@ -59,31 +61,34 @@ const TextLists = ({props, filter}: any) => {
       ))
     );
     if (isFiltered) {
-      return result.filter(ele => ele.props.children.match(word));
+      // ele 타입 수정 필요
+      return result.filter((ele: any) => ele.props.children.match(word));
     }
     return result;
   }
 
   const result = (
-    steam.map((item, index) => (
+    // item 타입 수정 필요
+    steam.map((item: any, index: number) => (
       <li
         key={`lib-item-${index}`}
         css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
+        // currentTarget 작동 여부 확인 필요
         onMouseEnter={e => {
-          e.target.style.background = 'var(--highlight-light)';
+          e.currentTarget.style.background = 'var(--highlight-light)';
         }}
         onMouseLeave={e => {
-          e.target.style.background = 'white';
+          e.currentTarget.style.background = 'white';
         }}
         onMouseDown={e => {
-          e.target.style.background = 'var(--btn-active)';
+          e.currentTarget.style.background = 'var(--btn-active)';
         }}
         onMouseUp={e => {
-          e.target.style.background = 'var(--highlight-light)';
+          e.currentTarget.style.background = 'var(--highlight-light)';
         }}
         onClick={e => {
           dispatch(modalOriginCreator('Library'));
-          dispatch(selectedItemCreator(e.target.innerText));
+          dispatch(selectedItemCreator(e.currentTarget.innerText));
           if (extCredState.cid === undefined) {
             axios
               .post(
@@ -92,7 +97,8 @@ const TextLists = ({props, filter}: any) => {
                 { execute: 'order66' },
                 { withCredentials: true }
               )
-              .then(res => {
+              // res 타입 변경 필요
+              .then((res: any) => {
                 dispatch(extCredStateCreator(res.data));
                 const reqData = {
                   reqUser: userState.nickname,
@@ -106,7 +112,8 @@ const TextLists = ({props, filter}: any) => {
                     { reqData },
                     { withCredentials: true }
                   )
-                  .then(res => {
+                  // res 타입 수정 필요
+                  .then((res: any) => {
                     dispatch(selectedItemDataCreator(res.data));
                   });
               });
@@ -119,7 +126,8 @@ const TextLists = ({props, filter}: any) => {
             axios
               .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
               // .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
-              .then(res => {
+              // res 타입 수정 필요
+              .then((res: any) => {
                 dispatch(selectedItemDataCreator(res.data));
               });
           }
@@ -130,8 +138,9 @@ const TextLists = ({props, filter}: any) => {
     ))
   );
 
+  // ele 타입 수정 필요
   if (isFiltered) {
-    return result.filter(ele => ele.props.children.match(word));
+    return result.filter((ele: any) => ele.props.children.match(word));
   }
   return result;
 };

@@ -87,9 +87,8 @@ const MakeList = ({ args }: any) => {
     } else {
       return <></>
     }
-  } else {
-    return <></>
   }
+  return <></>
 }
 
 export default MakeList;

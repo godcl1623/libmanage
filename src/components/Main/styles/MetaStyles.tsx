@@ -1,6 +1,12 @@
-export const backBtnStyle = (styles, vars) => {
+import { StyleSet, SetSize } from '../../../custom_modules/commonUtils';
+
+// vars 타입 수정 필요
+export const backBtnStyle = (styles: StyleSet, vars: any) => {
   const { flex, sizes } = styles;
   const { headerHeight, selStoresListHeight } = vars;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+  const sizeSet = sizes as StyleSet;
 
   return (`
     padding: 10px;
@@ -8,24 +14,28 @@ export const backBtnStyle = (styles, vars) => {
     top: 50px;
     top: ${headerHeight + selStoresListHeight}px;
     right: 0;
-    ${sizes.free('2.604vw')}
+    ${setSize.free('2.604vw')}
     min-width: 50px;
-    ${flex.vertical}
+    ${flexSet.vertical}
     cursor: pointer;
     z-index: 4;
     opacity: 0.7;
   `);
 };
 
-export const metaStyle = (styles, vars) => {
+// vars 타입 수정 필요
+export const metaStyle = (styles: StyleSet, vars: any) => {
   const { flex, sizes, border } = styles;
   const { metaScore, selectedMedia, selectedItemData } = vars;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+  const sizeSet = sizes as StyleSet;
 
   if (selectedItemData.name === undefined) {
     return (`
       flex: 2;
       z-index: 1;
-      ${sizes.full}
+      ${sizeSet.full}
       position: relative;
       background: white;
     `);
@@ -34,7 +44,7 @@ export const metaStyle = (styles, vars) => {
   return (`
     flex: 2;
     z-index: 1;
-    ${sizes.full}
+    ${sizeSet.full}
     position: relative;
     overflow-y: scroll;
     background: white;
@@ -52,7 +62,7 @@ export const metaStyle = (styles, vars) => {
     #background-cover {
       position: absolute;
       z-index: 0;
-      ${sizes.full}
+      ${sizeSet.full}
       filter: opacity(0.25) brightness(0.5);
     }
 
@@ -65,8 +75,8 @@ export const metaStyle = (styles, vars) => {
       overflow-y: scroll;
 
       .meta-wrapper-ratings {
-        ${flex.horizontal.center}
-        ${sizes.full}
+        ${(flexSet.horizontal as StyleSet).center}
+        ${sizeSet.full}
         max-height: 13.021vw;
         justify-content: flex-end;
 
@@ -75,26 +85,26 @@ export const metaStyle = (styles, vars) => {
         }
 
         #title-and-numerical {
-          ${sizes.full}
-          ${flex.vertical}
+          ${sizeSet.full}
+          ${flexSet.vertical}
           
           h4 {
             font-size: 0.938vw;
           }
 
           #numerical-data {
-            ${sizes.full}
-            ${flex.horizontal.center}
+            ${sizeSet.full}
+            ${(flexSet.horizontal as StyleSet).center}
             justify-content: space-around;
 
             #game-scores {
               padding: var(--gap-standard) 0;
-              ${sizes.full}
-              ${flex.vertical}
+              ${sizeSet.full}
+              ${flexSet.vertical}
 
               .donut-boundary {
                 position: relative;
-                ${sizes.free(`6.25vw`, `6.25vw`)}
+                ${setSize.free(`6.25vw`, `6.25vw`)}
               }
               
               .donut-outline {
@@ -115,7 +125,7 @@ export const metaStyle = (styles, vars) => {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                ${sizes.free(`3.906vw`, `3.906vw`)}
+                ${setSize.free(`3.906vw`, `3.906vw`)}
                 background: var(--white);
                 position: absolute;
                 border-radius: 50%;
@@ -193,12 +203,12 @@ export const metaStyle = (styles, vars) => {
 
             #age-rating-wrapper {
               padding: var(--gap-standard) 0;
-              ${sizes.full}
-              ${flex.vertical}
+              ${sizeSet.full}
+              ${flexSet.vertical}
 
               #rating-imgs {
-                ${sizes.full}
-                ${flex.horizontal.center}
+                ${sizeSet.full}
+                ${(flexSet.horizontal as StyleSet).center}
 
                 img {
                   height: 5.208vw;
@@ -290,7 +300,7 @@ export const metaStyle = (styles, vars) => {
                 }
 
                 .player-btn-wrapper {
-                  ${sizes.full}
+                  ${sizeSet.full}
                   position: absolute;
                   top: 0;
                   left: 0;
@@ -310,7 +320,7 @@ export const metaStyle = (styles, vars) => {
 
                   svg {
                     color: white;
-                    ${sizes.free('1.563vw', '1.563vw')}
+                    ${setSize.free('1.563vw', '1.563vw')}
                     position: absolute;
                     top: 50%;
                     left: 50%;
@@ -324,7 +334,7 @@ export const metaStyle = (styles, vars) => {
                 }
 
                 img {
-                  ${sizes.free('6.25vw', '4.688vw')}
+                  ${setSize.free('6.25vw', '4.688vw')}
                 }
               }
             }
@@ -345,7 +355,7 @@ export const metaStyle = (styles, vars) => {
               border-bottom: 0.052vw solid black;
               border-right: 0.156vw double black;
               padding: var(--gap-standard) 0;
-              ${flex.vertical}
+              ${flexSet.vertical}
               background: var(--btn-disable);
               color: var(--white);
               font-size: 0.938vw;
@@ -369,8 +379,8 @@ export const metaStyle = (styles, vars) => {
               div {
                 border-bottom: 0.052vw solid black;
                 padding: var(--gap-multiply-small) 0;
-                ${sizes.full}
-                ${flex.vertical}
+                ${sizeSet.full}
+                ${flexSet.vertical}
               }
 
               @media (orientation: portrait) {
@@ -398,7 +408,7 @@ export const metaStyle = (styles, vars) => {
                 border-bottom: 0.052vw solid black;
                 border-right: 0.052vw solid black;
                 padding: var(--gap-multiply-small) 0;
-                ${flex.vertical}
+                ${flexSet.vertical}
                 font-size: 0.833vw;
                 font-weight: bold;
 
@@ -449,11 +459,11 @@ export const metaStyle = (styles, vars) => {
               #numerical-data {
                 #game-scores {
                   .donut-boundary {
-                    ${sizes.free(`${6.25 * 1.778}vw`, `${6.25 * 1.778}vw`)}
+                    ${setSize.free(`${6.25 * 1.778}vw`, `${6.25 * 1.778}vw`)}
                   }
 
                   .donut-text {
-                    ${sizes.free(`${3.906 * 1.778}vw`, `${3.906 * 1.778}vw`)}
+                    ${setSize.free(`${3.906 * 1.778}vw`, `${3.906 * 1.778}vw`)}
                   }
 
                   .instalment1 .donut-case::before {
@@ -502,12 +512,12 @@ export const metaStyle = (styles, vars) => {
                       }
 
                       svg {
-                        ${sizes.free(`${1.563 * 1.778}vw`, `${1.563 * 1.778}vw`)}
+                        ${setSize.free(`${1.563 * 1.778}vw`, `${1.563 * 1.778}vw`)}
                       }
                     }
 
                     img {
-                      ${sizes.free(`${6.25 * 1.778}vw`, `${4.688 * 1.778}vw`)}
+                      ${setSize.free(`${6.25 * 1.778}vw`, `${4.688 * 1.778}vw`)}
                     }
                   }
                 }
@@ -554,7 +564,7 @@ export const metaStyle = (styles, vars) => {
         padding: var(--gap-standard);
 
         .meta-wrapper-ratings {
-          ${sizes.full}
+          ${sizeSet.full}
           max-height: 125px;
 
           #game-cover {
@@ -569,11 +579,11 @@ export const metaStyle = (styles, vars) => {
             #numerical-data {
               #game-scores {
                 .donut-boundary {
-                  ${sizes.free(`80px`, `80px`)}
+                  ${setSize.free(`80px`, `80px`)}
                 }
 
                 .donut-text {
-                  ${sizes.free(`40px`, `40px`)}
+                  ${setSize.free(`40px`, `40px`)}
                 }
 
                 .instalment1 .donut-case::before {
@@ -654,7 +664,7 @@ export const metaStyle = (styles, vars) => {
 
                     svg {
                       color: white;
-                      ${sizes.free('30px', '30px')}
+                      ${setSize.free('30px', '30px')}
 
                       * {
                         color: white;
@@ -663,7 +673,7 @@ export const metaStyle = (styles, vars) => {
                   }
 
                   img {
-                    ${sizes.free('80px', '60px')}
+                    ${setSize.free('80px', '60px')}
                   }
                 }
               }

@@ -1,4 +1,6 @@
-export const headerBalloonWrapper = (condition, state) => (`
+import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
+
+export const headerBalloonWrapper = (condition: string, state: string) => (`
   display: ${condition === 'Header' ? state : 'none'};
   position: absolute;
   top: 0;
@@ -6,15 +8,18 @@ export const headerBalloonWrapper = (condition, state) => (`
   z-index: 2;
 `);
 
-export const headerBalloonStyle = (styles, states, condition) => {
+// states 타입 수정 필요
+export const headerBalloonStyle = (styles: StyleSet, states: any, condition: string) => {
   const { flex, sizes } = styles;
   const { balloonState, selectedBtn, optionRef, btnCoords } = states;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     padding: var(--gap-standard);
     display: ${condition === 'Header' ? balloonState : 'none'};
-    ${flex.vertical}
-    ${sizes.free('15.625vw', '5.208vw')}
+    ${flexSet.vertical}
+    ${setSize.free('15.625vw', '5.208vw')}
     position: absolute;
     top: ${
       selectedBtn.current === optionRef.current
@@ -35,13 +40,13 @@ export const headerBalloonStyle = (styles, states, condition) => {
 
     @media (orientation: landscape) {
       @media (max-width: 800px) {
-        ${sizes.free(`${15.625 * 1.778 * 0.8}vw`, `${5.208 * 1.778 * 0.8}vw`)}
+        ${setSize.free(`${15.625 * 1.778 * 0.8}vw`, `${5.208 * 1.778 * 0.8}vw`)}
       }
     }
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
-        ${sizes.free(`${15.625 * 1.778}vw`, `${5.208 * 1.778}vw`)}
+        ${setSize.free(`${15.625 * 1.778}vw`, `${5.208 * 1.778}vw`)}
         top: ${
           selectedBtn.current === optionRef.current
             ?
@@ -60,7 +65,7 @@ export const headerBalloonStyle = (styles, states, condition) => {
 
       @media (max-width: 599px) {
         padding: var(--gap-standard);
-        ${sizes.free('100vw', '100px')}
+        ${setSize.free('100vw', '100px')}
         justify-content: space-between;
         top: 47px;
         left: 0;
@@ -69,7 +74,8 @@ export const headerBalloonStyle = (styles, states, condition) => {
   `);
 };
 
-export const headerBalloonHand = (states, condition) => {
+// states 타입 수정 필요
+export const headerBalloonHand = (states: any, condition: string) => {
   const { balloonState, selectedBtn, optionRef, btnCoords } = states;
 
   return (`

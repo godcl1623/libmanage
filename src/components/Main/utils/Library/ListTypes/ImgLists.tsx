@@ -3,7 +3,8 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
 
-const ImgLists = ({ props, filter }) => {
+// props 타입 변경 필요
+const ImgLists = ({ props, filter }: any) => {
   const { funcs, actions, styles, states } = props;
   const {
     location,
@@ -31,7 +32,8 @@ const ImgLists = ({ props, filter }) => {
   const { isFiltered, word } = filter;
   if (location.pathname === '/offline' || !navigator.onLine) {
     const result = (
-      steam.sort((prev, next) => prev.titles < next.titles ? -1 : 1).map((item, idx) => (
+      // prev, next, item 타입 변경 필요
+      steam.sort((prev: any, next: any) => prev.titles < next.titles ? -1 : 1).map((item: any, idx: number) => (
         <li
         key={`img-${idx}`}
         css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
@@ -44,10 +46,10 @@ const ImgLists = ({ props, filter }) => {
             height: '100%'
           }}
           onMouseEnter={e => {
-            e.target.style.filter = 'brightness(0.75)';
+            e.currentTarget.style.filter = 'brightness(0.75)';
           }}
           onMouseLeave={e => {
-            e.target.style.filter = 'brightness(1)';
+            e.currentTarget.style.filter = 'brightness(1)';
           }}
           onClick={e => {
             dispatch(modalOriginCreator('Library'));
@@ -59,13 +61,15 @@ const ImgLists = ({ props, filter }) => {
       ))
     );
     if (isFiltered) {
-      return result.filter(ele => ele.props.children.props.title.match(word));
+      // ele 타입 변경 필요
+      return result.filter((ele: any) => ele.props.children.props.title.match(word));
     }
     return result;
   }
 
   const result = (
-    steam.map((item, index) => (
+    // item 타입 변경 필요
+    steam.map((item: any, index: number) => (
       <li
         key={`img-${index}`}
         css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
@@ -78,14 +82,14 @@ const ImgLists = ({ props, filter }) => {
             height: '100%'
           }}
           onMouseEnter={e => {
-            e.target.style.filter = 'brightness(0.75)';
+            e.currentTarget.style.filter = 'brightness(0.75)';
           }}
           onMouseLeave={e => {
-            e.target.style.filter = 'brightness(1)';
+            e.currentTarget.style.filter = 'brightness(1)';
           }}
           onClick={e => {
             dispatch(modalOriginCreator('Library'));
-            dispatch(selectedItemCreator(e.target.title));
+            dispatch(selectedItemCreator(e.currentTarget.title));
             if (extCredState.cid === undefined) {
               axios
                 .post(
@@ -94,7 +98,8 @@ const ImgLists = ({ props, filter }) => {
                   { execute: 'order66' },
                   { withCredentials: true }
                 )
-                .then(res => {
+                // res 타입 변경 필요
+                .then((res: any) => {
                   dispatch(extCredStateCreator(res.data));
                   const reqData = {
                     reqUser: userState.nickname,
@@ -108,7 +113,8 @@ const ImgLists = ({ props, filter }) => {
                       { reqData },
                       { withCredentials: true }
                     )
-                    .then(res => {
+                    // res 타입 변경 필요
+                    .then((res: any) => {
                       dispatch(selectedItemDataCreator(res.data));
                     });
                 });
@@ -125,7 +131,8 @@ const ImgLists = ({ props, filter }) => {
                   { reqData },
                   { withCredentials: true }
                 )
-                .then(res => {
+                // res 타입 변경 필요
+                .then((res: any) => {
                   dispatch(selectedItemDataCreator(res.data));
                 });
             }
@@ -135,7 +142,8 @@ const ImgLists = ({ props, filter }) => {
     ))
   );
   if (isFiltered) {
-    return result.filter(ele => ele.props.children.props.title.match(word));
+    // ele 타입 변경 필요
+    return result.filter((ele: any) => ele.props.children.props.title.match(word));
   }
   return result;
 };

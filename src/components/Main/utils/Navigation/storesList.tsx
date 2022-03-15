@@ -1,16 +1,19 @@
+/* eslint-disable no-else-return */
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
 import { storesListStyle } from '../../styles/NavStyles';
 
-const StoresList = ({ props }) => {
+// props 타입 설정 필요
+const StoresList = ({ props }: any) => {
   const game = <h2>Game</h2>;
   const music = <h2>Music</h2>;
   const series = <h2>Series</h2>;
   const movie = <h2>Movie</h2>;
   const { selectedCategory, storesList, dispatch, selectedStoresCreator } = props;
-  const displayMenu = (...params) =>
+  // params 타입 설정 필요
+  const displayMenu = (...params: any[]) =>
     params.map((param, index) => {
       const eachCategoriesStores = storesList[param.props.children.toLowerCase()];
       if (eachCategoriesStores !== undefined) {
@@ -34,7 +37,8 @@ const StoresList = ({ props }) => {
                 ALL
               </button>
             </div>
-            {eachCategoriesStores.map(store => (
+            {// store 타입 설정 필요
+            eachCategoriesStores.map((store: any) => (
               <p
                 key={store}
                 className="store-list-item"
@@ -59,18 +63,30 @@ const StoresList = ({ props }) => {
       }
     });
 
-  switch (selectedCategory) {
-    case 'game':
-      return displayMenu(game);
-    case 'music':
-      return displayMenu(music);
-    case 'series':
-      return displayMenu(series);
-    case 'movie':
-      return displayMenu(movie);
-    default:
-      return displayMenu(game, music, series, movie);
+  // 기본 return 필요
+  /* 임시 주석 조치 */
+  // switch (selectedCategory) {
+  //   case 'game':
+  //     return displayMenu(game);
+  //   case 'music':
+  //     return displayMenu(music);
+  //   case 'series':
+  //     return displayMenu(series);
+  //   case 'movie':
+  //     return displayMenu(movie);
+  //   default:
+  //     return displayMenu(game, music, series, movie);
+  // }
+  if (selectedCategory === 'game') {
+    return <>{ displayMenu(game) }</>;
+  } else if (selectedCategory === 'music') {
+    return <>{ displayMenu(music) }</>;
+  } else if (selectedCategory === 'series') {
+    return <>{ displayMenu(series) }</>;
+  } else if (selectedCategory === 'movie') {
+    return <>{ displayMenu(movie) }</>;
   }
+  return <>{ displayMenu(game, music, series, movie) }</>;
 };
 
 export default StoresList;

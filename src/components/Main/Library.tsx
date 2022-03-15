@@ -25,6 +25,7 @@ import {
   libraryBalloonHand
 } from './styles/balloons/LibraryBalloonStyle';
 import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 // const MemoedIco = memo(FaBars);
 // const MemoedBalloon = memo(Balloon);
@@ -73,7 +74,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
     <article
       id="library"
       css={css`
-        ${libraryStyle({ flex, sizes }, libDisplay)}
+        ${libraryStyle({ flex, sizes } as StyleSet, libDisplay)}
       `}
     >
       <button
@@ -101,7 +102,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
           />
         }
         display={libraryBalloonWrapper(balloonOrigin, balloonState)}
-        style={libraryBalloonStyle({ sizes }, { balloonOrigin, balloonState, btnCoords })}
+        style={libraryBalloonStyle({ sizes } as StyleSet, { balloonOrigin, balloonState, btnCoords })}
         hand={libraryBalloonHand({ btnCoords, balloonOrigin, balloonState })}
       />
       <ul

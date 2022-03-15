@@ -1,27 +1,30 @@
-export const optionsStyle = styles => {
+import { SetSize, StyleSet } from '../../../custom_modules/commonUtils';
+
+export const optionsStyle = (styles: StyleSet) => {
   const { sizes } = styles;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     @media (orientation: landscape) {
       padding: 0.26vw 1.042vw;
-      ${sizes.free('80%', '2.344vw')}
+      ${setSize.free('80%', '2.344vw')}
     }
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
         padding: ${0.26 * 1.778}vw ${1.042 * 1.778}vw;
-        ${sizes.free('80%', `${2.344 * 1.778}vw`)}
+        ${setSize.free('80%', `${2.344 * 1.778}vw`)}
       }
 
       @media (max-width: 599px) {
         padding: 5px 20px;
-        ${sizes.free('80%', `25px`)}
+        ${setSize.free('80%', `25px`)}
       }
     }
   `);
 };
 
-export const memStatsStyle = (styles, vars) => {
+export const memStatsStyle = (styles: StyleSet, vars: string) => {
   const { sizes } = styles;
 
   return (`
@@ -38,7 +41,7 @@ export const memStatsStyle = (styles, vars) => {
               @media (max-width: 599px) {
                 margin: 0;
                 padding: 5px 20px;
-                ${sizes.free('80%', `25px`)}
+                ${(sizes as unknown as SetSize).free('80%', `25px`)}
               }
             `
           :
@@ -48,35 +51,38 @@ export const memStatsStyle = (styles, vars) => {
   `);
 };
 
-export const searchStyleForm = styles => {
+export const searchStyleForm = (styles: StyleSet) => {
   const { border, flex, sizes } = styles;
+  const setSize = sizes as unknown as SetSize;
+  const flexSet = flex as StyleSet;
 
   return (`
-    ${sizes.full}
-    ${flex.horizontal.center}
+    ${(sizes as StyleSet).full}
+    ${(flexSet.horizontal as StyleSet).center}
     position: relative;
 
     input {
       ${border}
       border-color: var(--grey-dark);
       padding: 5px calc(var(--gap-multiply-small) * 1.5);
-      ${sizes.free('100%')}
+      ${setSize.free('100%')}
     }
 
     @media (max-width: 599px) {
       padding: 0;
-      ${sizes.free('80%', `25px`)}
+      ${setSize.free('80%', `25px`)}
     }
   `);
 }
 
-export const searchStyleBtn = (styles, vars) => {
+export const searchStyleBtn = (styles: StyleSet, vars: Record<string, string>) => {
   const { sizes } = styles;
   const { fieldVal } = vars;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     border: none;
-    ${sizes.free('1.563vw')};
+    ${setSize.free('1.563vw')};
     position: absolute;
     right: calc(var(--gap-multiply-small) * 3);
     display: ${fieldVal === '' ? 'none' : 'block'};
@@ -90,11 +96,11 @@ export const searchStyleBtn = (styles, vars) => {
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
-        ${sizes.free(`${1.563 * 1.778}vw`)};
+        ${setSize.free(`${1.563 * 1.778}vw`)};
       }
 
       @media (max-width: 599px) {
-        ${sizes.free(`20px`, '20px')};
+        ${setSize.free(`20px`, '20px')};
         font-size: 12px;
         right: var(--gap-multiply-small);
       }
@@ -102,15 +108,17 @@ export const searchStyleBtn = (styles, vars) => {
   `);
 }
 
-export const headerStyle = styles => {
+export const headerStyle = (styles: StyleSet) => {
   const { border, flex, sizes } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return(`
     border-bottom: 0.052vw solid var(--grey-dark);
     padding: var(--gap-multiply-small) 0;
-    ${flex.horizontal.center}
+    ${(flexSet.horizontal as StyleSet).center}
     justify-content: space-between;
-    ${sizes.free('100%', '2.604vw')}
+    ${setSize.free('100%', '2.604vw')}
     min-height: 35px;
 
     button {
@@ -137,20 +145,20 @@ export const headerStyle = styles => {
     }
 
     @media (max-width: 720px) and (orientation: landscape) {
-      ${sizes.free('100%', '25px')}
+      ${setSize.free('100%', '25px')}
       min-height: 25px;
     }
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
         border-bottom: ${0.052 * 1.778}vw solid var(--grey-dark);
-        ${sizes.free('100%', `${2.604 * 1.778}vw`)}
+        ${setSize.free('100%', `${2.604 * 1.778}vw`)}
       }
 
       @media (max-width: 599px) {
         border: none;
         padding: var(--gap-multiply-small) 0;
-        ${sizes.free('100%', '50px')}
+        ${setSize.free('100%', '50px')}
 
         button {
           padding: 5px calc(var(--gap-multiply-small) * 1.2);
@@ -178,16 +186,16 @@ export const headerStyle = styles => {
       }
 
       #option {
-        ${flex.vertical}
-        ${sizes.free('auto', '1.823vw')}
+        ${flexSet.vertical}
+        ${setSize.free('auto', '1.823vw')}
 
         @media (orientation: portrait) {
           @media (min-width: 600px) {
-            ${sizes.free('auto', `${1.823 * 1.778}vw`)}
+            ${setSize.free('auto', `${1.823 * 1.778}vw`)}
           }
 
           @media (max-width: 599px) {
-            ${sizes.free('auto', `25px`)}
+            ${setSize.free('auto', `25px`)}
             font-size: 12px;
           }
         }
@@ -199,12 +207,12 @@ export const headerStyle = styles => {
     }
 
     .space-divider:last-of-type {
-      ${sizes.full}
-      ${flex.horizontal.center}
+      ${(sizes as StyleSet).full}
+      ${(flexSet.horizontal as StyleSet).center}
       flex: 1;
 
       div {
-        ${flex.horizontal.center}
+        ${(flexSet.horizontal as StyleSet).center}
         justify-content: flex-end;
       }
 
@@ -220,7 +228,7 @@ export const headerStyle = styles => {
           // padding: 0 var(--gap-standard);
 
           @media (orientation: portrait) and (max-width: 599px) {
-            ${sizes.free('max-content', `25px`)}
+            ${setSize.free('max-content', `25px`)}
             font-size: 12px;
           }
         }

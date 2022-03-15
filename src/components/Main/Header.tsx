@@ -33,6 +33,7 @@ import {
   headerBalloonHand
 } from './styles/balloons/HeaderBalloonStyle';
 import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const MemoedIco = memo(FaBars);
 const MemoedBalloon = memo(Balloon);
@@ -90,7 +91,7 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
       id="header"
       ref={headerRef}
       css={css`
-        ${headerStyle({ border, flex, sizes })}
+        ${headerStyle({ border, flex, sizes } as StyleSet)}
       `}
     >
       <div className="space-divider">
@@ -154,7 +155,7 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
           }
           display={headerBalloonWrapper(balloonOrigin, balloonState)}
           style={headerBalloonStyle(
-            { flex, sizes },
+            { flex, sizes } as StyleSet,
             { balloonState, selectedBtn, optionRef, btnCoords },
             balloonOrigin
           )}

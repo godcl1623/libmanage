@@ -16,14 +16,21 @@ import {
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 import { metaStyle } from './styles/MetaStyles';
+import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 // const MakeMediaList = memo(MakeMediaList);
 // const ToBack = memo(ToBack);
 // const AgeRatingDistributor = memo(AgeRatingDistributor);
 
-const Meta = ({ portrait, heights }) => {
-  const selectedItemData = useSelector(state => state.selectedItemData);
-  const isMobile = useSelector(state => state.isMobile);
+type PropsType = {
+  portrait: boolean;
+  heights: number;
+}
+
+const Meta = ({ portrait, heights }: PropsType) => {
+  const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
+  const isMobile = useSelector((state: RootState) => state.isMobile);
   const [selectedMedia, setSelectedMedia] = useState('screenshots');
   const [isSpread, setIsSpread] = useState(false);
   const [showStat, setShowStat] = useState(false);
@@ -118,7 +125,7 @@ const Meta = ({ portrait, heights }) => {
     return (
       <article
         id="meta_blank"
-        css={css`${metaStyle({ flex, sizes, border }, { metaScore, selectedMedia, selectedItemData })}`}
+        css={css`${metaStyle({ flex, sizes, border } as StyleSet, { metaScore, selectedMedia, selectedItemData })}`}
       ></article>
     );
   }
@@ -126,7 +133,7 @@ const Meta = ({ portrait, heights }) => {
   return (
     <article
       id="meta"
-      css={css`${metaStyle({ flex, sizes, border }, { metaScore, selectedMedia, selectedItemData })}`}
+      css={css`${metaStyle({ flex, sizes, border } as StyleSet, { metaScore, selectedMedia, selectedItemData })}`}
     >
       <img
         id="background-cover"
@@ -186,7 +193,8 @@ const Meta = ({ portrait, heights }) => {
                   .replace(/\n/g, '\n\n')
                   .replace(/\n\n\n/g, '\n\n')
                   .split('\n')
-                  .map((line, idx) => (line.length !== 0 ? line : <br key={`br ${idx + 1}`} />))}
+                  // line 타입 수정 필요
+                  .map((line: any, idx: number) => (line.length !== 0 ? line : <br key={`br ${idx + 1}`} />))}
                 <br />
                 <button
                   id="read-less"
@@ -261,10 +269,13 @@ const Meta = ({ portrait, heights }) => {
           <article className="meta-wrapper-contents-info">
             <div id="grid-table">
               {titleVals.map((vals, idx) => {
-                let result = '';
+                // result 타입 수정 필요
+                let result: React.ReactElement | null = null;
                 if (titles[idx] === '출시일') {
-                  let releaseCheckList = {};
-                  vals.sort((prev, next) => prev.platform_name[0] < next.platform_name[0] ? -1 : 1);
+                  // 타입 수정 필요
+                  let releaseCheckList: Record<string, boolean> = {};
+                  // prev, next 타입 변경 필요
+                  vals.sort((prev: any, next: any) => prev.platform_name[0] < next.platform_name[0] ? -1 : 1);
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
                       <div
@@ -275,8 +286,10 @@ const Meta = ({ portrait, heights }) => {
                         key={`${titles[idx]}-value-${idx+1}`}
                         className="sub-table"
                       >
-                        {vals.map((val, subidx) => {
-                          let res = '';
+                        {/* val 타입 수정 필요 */}
+                        {vals.map((val: any, subidx: number) => {
+                          // res 타입 수정 필요
+                          let res: React.ReactElement | null = null;
                           if (releaseCheckList[val.platform_name] !== true) {
                             releaseCheckList[val.platform_name] = true;
                             res = (
@@ -328,12 +341,13 @@ const Meta = ({ portrait, heights }) => {
                             개발사
                           </div>
                             {
-                              vals.filter(val => val.developer === true).length !== 0
+                              // val들 타입, res 타입 변경 필요
+                              vals.filter((val: any) => val.developer === true).length !== 0
                             ?
-                            vals.filter(val => val.developer === true).length === 1
+                            vals.filter((val: any) => val.developer === true).length === 1
                               ?
-                                vals.map((val, subidx) => {
-                                  let res = '';
+                                vals.map((val: any, subidx: number) => {
+                                  let res: React.ReactElement | null = null;
                                   if (val.developer === true) {
                                     res = (
                                       <div
@@ -349,8 +363,9 @@ const Meta = ({ portrait, heights }) => {
                               :
                                 <div key={`dev_comp_cont-${idx+1}`}>
                                   {
-                                    vals.map((val, subidx) => {
-                                      let res = '';
+                                    // val들 타입, res 타입 변경 필요
+                                    vals.map((val: any, subidx: number) => {
+                                      let res: React.ReactElement | null = null;
                                       if (val.developer === true) {
                                         res = (
                                           <div
@@ -385,12 +400,13 @@ const Meta = ({ portrait, heights }) => {
                             배급사
                           </div>
                             {
-                              vals.filter(val => val.publisher === true).length !== 0
+                              // val들 타입, res 타입 변경 필요
+                              vals.filter((val: any) => val.publisher === true).length !== 0
                               ?
-                              vals.filter(val => val.publisher === true).length === 1
+                              vals.filter((val: any) => val.publisher === true).length === 1
                                 ?
-                                  vals.map((val, subidx) => {
-                                    let res = '';
+                                  vals.map((val: any, subidx: number) => {
+                                    let res: React.ReactElement | null = null;
                                     if (val.publisher === true) {
                                       res = (
                                         <div
@@ -406,8 +422,8 @@ const Meta = ({ portrait, heights }) => {
                                 :
                                   <div key={`prod_comp_cont-${idx+1}`}>
                                     {
-                                      vals.map((val, subidx) => {
-                                        let res = '';
+                                      vals.map((val: any, subidx: number) => {
+                                        let res: React.ReactElement | null = null;
                                         if (val.publisher === true) {
                                           res = (
                                             <div
@@ -435,7 +451,8 @@ const Meta = ({ portrait, heights }) => {
                     </Fragment>
                   );
                 } else if (titles[idx] === '관련 링크') {
-                  vals.sort((prev, next) => prev.category < next.category ? -1 : 1);
+                  // prev, next 타입 수정 필요
+                  vals.sort((prev: any, next: any) => prev.category < next.category ? -1 : 1);
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
                       <div
@@ -446,8 +463,10 @@ const Meta = ({ portrait, heights }) => {
                         key={`${titles[idx]}-ext_cont-${idx+1}`}
                         className="sub-table"
                       >
-                        {vals.map((val, subidx) => {
-                          let res = '';
+                        {
+                          // val, res 타입 수정 필요
+                        vals.map((val: any, subidx: number) => {
+                          let res: React.ReactElement | null = null;
                           const categoryIdx = val.category < 7 ? val.category : val.category - 1;
                           res = (
                             <Fragment key={`web_frag-${subidx+1}`}>
@@ -481,7 +500,9 @@ const Meta = ({ portrait, heights }) => {
                         key={`${titles[idx]}-val_wrap-${idx+1}`}
                         className="table-contents"
                       >
-                        {vals.map((val, subidx) => (<div key={`${titles[idx]}-val-${subidx+1}`}>{val}</div>))}
+                        {
+                          // val 타입 수정 필요
+                        vals.map((val: any, subidx: number) => (<div key={`${titles[idx]}-val-${subidx+1}`}>{val}</div>))}
                       </div>
                     </Fragment>
                   );
