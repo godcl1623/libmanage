@@ -7,6 +7,7 @@ import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
 import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 // const MemoedStores = memo(StoresList);
 
@@ -18,7 +19,7 @@ const Navigation = ({ storesList }: any) => {
   return (
     <nav
       id="navigation"
-      css={css`${navStyle({ sizes, flex, border })}`}
+      css={css`${navStyle({ sizes, flex, border } as StyleSet)}`}
     >
       <select
         name="content-type"

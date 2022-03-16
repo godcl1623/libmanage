@@ -1,10 +1,13 @@
-export const storesListStyle = styles => {
+import { StyleSet, SetSize } from '../../../custom_modules/commonUtils';
+
+export const storesListStyle = (styles: StyleSet) => {
   const { sizes } = styles;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     .select-all-btn {
       border-radius: var(--border-rad-normal);
-      ${sizes.free('calc(var(--gap-multiply-big) * 2)', 'var(--gap-multiply-big)')}
+      ${setSize.free('calc(var(--gap-multiply-big) * 2)', 'var(--gap-multiply-big)')}
       display: inline-block;
       text-align: center;
       font-size: var(--font-size-standard);
@@ -22,7 +25,7 @@ export const storesListStyle = styles => {
       }
 
       @media (orientation: portrait) and (max-width: 599px) {
-        ${sizes.free('60px', '20px')}
+        ${setSize.free('60px', '20px')}
         font-size: 10px;
       }
     }
@@ -43,13 +46,16 @@ export const storesListStyle = styles => {
   `);
 };
 
-export const navStyle = styles => {
+export const navStyle = (styles: StyleSet) => {
   const { sizes, flex, border } = styles;
+  const sizeSet = sizes as StyleSet;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     padding: var(--gap-standard);
     flex: 1;
-    ${sizes.full}
+    ${sizeSet.full}
     background: white;
 
     .category {
@@ -59,8 +65,8 @@ export const navStyle = styles => {
     .category-header {
       border: 0.208vw solid var(--grey-dark);
       padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 2);
-      ${flex.horizontal.center}
-      ${sizes.full}
+      ${(flexSet.horizontal as StyleSet).center}
+      ${sizeSet.full}
     }
 
     h2 {
@@ -81,7 +87,7 @@ export const navStyle = styles => {
       border-color: var(--grey-dark);
       padding: 0.156vw 0.781vw;
       font-size: var(--font-size-normal);
-      ${sizes.free('100%')}
+      ${setSize.free('100%')}
       background: var(--white);
       cursor: pointer;
 
@@ -103,7 +109,7 @@ export const navStyle = styles => {
 
       @media (max-width: 599px) {
         padding: var(--gap-standard);
-        ${sizes.full}
+        ${sizeSet.full}
         background: white;
 
         * {

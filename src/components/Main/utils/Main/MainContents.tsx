@@ -19,7 +19,8 @@ const MemoedModal = memo(Modal);
 const MemoedModalCont = memo(ModalContents);
 const MemoedStoreList = memo(SelectedStoresList);
 
-const MainContents = ({ props }) => {
+// props 타입 체크 필요
+const MainContents = ({ props }: any) => {
   const { states, setStates, actionCreators, refs, moduleHooks, styles } = props;
   const {
     balloonState,
@@ -70,15 +71,17 @@ const MainContents = ({ props }) => {
           if (!isMobile) {
             if (
               balloonState !== 'none' &&
-              Array.from(e.target.className).slice(0, 7).join('') !== 'balloon'
+              // e.target 타입 체크 필요
+              Array.from((e.target as HTMLElement).className).slice(0, 7).join('') !== 'balloon'
             ) {
               dispatch(balloonStateCreator('none'));
             }
           } else if (
             balloonState !== 'none' &&
-            Array.from(e.target.className).slice(0, 7).join('') !== 'balloon' &&
-            e.target.name !== 'libraryFilter' &&
-            e.target.name !== 'delete-input'
+            Array.from((e.target as HTMLElement).className).slice(0, 7).join('') !== 'balloon' &&
+            // e.target 타입 체크 필요
+            (e.target as any).name !== 'libraryFilter' &&
+            (e.target as any).name !== 'delete-input'
           ) {
             dispatch(balloonStateCreator('none'));
           }

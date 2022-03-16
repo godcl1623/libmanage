@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import { AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { sizes, flex } from '../../../../../styles';
 import { metaModalStyles } from '../../../styles/modals/ModalContentsStyles';
+import { StyleSet } from '../../../../../custom_modules/commonUtils';
 
 const MediaContents = lazy(() => import('./MediaContents'));
 
@@ -25,7 +26,8 @@ const fallBack = () => (
   </h1>
 );
 
-const ModalMetaMedia = ({ props }) => {
+// props 타입 체크 필요
+const ModalMetaMedia = ({ props }: any) => {
   const {
     dispatch,
     modalStateCreator,
@@ -36,7 +38,7 @@ const ModalMetaMedia = ({ props }) => {
   } = props;
 
   return (
-    <div css={css`${metaModalStyles({ sizes, flex })}`}>
+    <div css={css`${metaModalStyles({ sizes, flex } as StyleSet)}`}>
       <span
         className="modal-close"
         onClick={e => {

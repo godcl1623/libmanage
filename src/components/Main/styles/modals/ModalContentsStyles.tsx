@@ -1,10 +1,15 @@
-export const headerModalStyles = (styles, condition) => {
+import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
+
+// 파라미터 타입 체크 필요
+export const headerModalStyles = (styles: StyleSet, condition: boolean) => {
   const { sizes, flex } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
     padding: calc(var(--gap-standard) * 2) var(--gap-standard);
-    ${sizes.full}
-    ${flex.vertical}
+    ${(sizes as StyleSet).full}
+    ${flexSet.vertical}
     align-items: flex-start;
     position: relative;
 
@@ -21,7 +26,7 @@ export const headerModalStyles = (styles, condition) => {
 
     hr {
       margin-bottom: calc(var(--gap-standard) * 2);
-      ${sizes.free('100%')};
+      ${setSize.free('100%')};
     }
 
     p {
@@ -35,8 +40,8 @@ export const headerModalStyles = (styles, condition) => {
       margin-bottom: 5.208vw;
       padding: 0 4.167vw;
       padding-bottom: calc(var(--gap-standard) / 2);
-      ${flex.horizontal.center}
-      ${sizes.free('100%')};
+      ${(flexSet.horizontal as StyleSet).center}
+      ${setSize.free('100%')};
       justify-content: space-between;
 
       button {
@@ -79,7 +84,7 @@ export const headerModalStyles = (styles, condition) => {
 
         hr {
           margin-bottom: calc(var(--gap-standard) * 2);
-          ${sizes.free('100%')};
+          ${setSize.free('100%')};
         }
 
         p {
@@ -101,13 +106,16 @@ export const headerModalStyles = (styles, condition) => {
   `);
 };
 
-export const metaModalStyles = styles => {
+export const metaModalStyles = (styles: StyleSet) => {
   const { sizes, flex } = styles;
+  const setSize = sizes as unknown as SetSize;
+  const flexSet = flex as StyleSet;
+  const sizeSet = sizes as StyleSet;
 
   return (`
     padding: calc(var(--gap-standard) * 2);
-    ${sizes.full}
-    ${flex.vertical}
+    ${sizeSet.full}
+    ${flexSet.vertical}
     position: relative;
 
     @media (orientation: portrait) and (max-width: 599px) {
@@ -121,8 +129,8 @@ export const metaModalStyles = styles => {
       right: -1.667vw;
       cursor: pointer;
       background: white;
-      ${flex.vertical}
-      ${sizes.free('1.667vw', '1.667vw')}
+      ${flexSet.vertical}
+      ${setSize.free('1.667vw', '1.667vw')}
 
       svg {
         font-size: 1.667vw;
@@ -131,7 +139,7 @@ export const metaModalStyles = styles => {
       @media (max-width: 720px) {
         top: 0;
         right: -20px;
-        ${sizes.free('16px', '16px')}
+        ${setSize.free('16px', '16px')}
 
         svg {
           font-size: 32px;
@@ -142,7 +150,7 @@ export const metaModalStyles = styles => {
         @media (min-width: 600px) {
           top: -${1.667 * 1.778}vw;
           right: -${1.667 * 1.778}vw;
-          ${sizes.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
+          ${setSize.free(`${1.667 * 1.778}vw`, `${1.667 * 1.778}vw`)}
 
           svg {
             font-size: ${1.667 * 1.778}vw;
@@ -153,7 +161,7 @@ export const metaModalStyles = styles => {
           top: 10px;
           right: 50%;
           transform: translateX(50%);
-          ${sizes.free('32px', '32px')}
+          ${setSize.free('32px', '32px')}
           opacity: 50%;
           z-index: 9;
 
@@ -165,24 +173,24 @@ export const metaModalStyles = styles => {
     }
 
     div.contents-wrapper {
-      ${sizes.full}
+      ${sizeSet.full}
 
       img {
-        ${sizes.full}
+        ${sizeSet.full}
         color: white;
       }
 
       div.btn-wrapper {
-        ${sizes.free('calc(100% - 4.167vw)', 'calc(100% - 4.167vw)')}
-        ${flex.horizontal.center}
+        ${setSize.free('calc(100% - 4.167vw)', 'calc(100% - 4.167vw)')}
+        ${(flexSet.horizontal as StyleSet).center}
         justify-content: space-between;
         position: absolute;
         top: calc(var(--gap-standard) * 2);
         left: calc(var(--gap-standard) * 2);
 
         span {
-          ${flex.vertical}
-          ${sizes.free('15%', '100%')}
+          ${flexSet.vertical}
+          ${setSize.free('15%', '100%')}
           background: rgba(0, 0, 0, 0.5);
           opacity: 0;
           color: white;
@@ -207,7 +215,7 @@ export const metaModalStyles = styles => {
 
         @media (orientation: portrait) {
           @media (min-width: 600px) {
-            ${sizes.free(
+            ${setSize.free(
               `calc(100% - ${4.167 * 1.778}vw)`,
               `calc(100% - ${4.167 * 1.778}vw)`
             )}
@@ -218,12 +226,12 @@ export const metaModalStyles = styles => {
           }
 
           @media (max-width: 599px) {
-            ${sizes.free('calc(100% - 20px)', 'calc(100% - 20px)')}
+            ${setSize.free('calc(100% - 20px)', 'calc(100% - 20px)')}
             top: 10px;
             left: 10px;
 
             span {
-              ${sizes.free('15%', '100%')}
+              ${setSize.free('15%', '100%')}
               font-size: 50px;
             }
           }
@@ -233,14 +241,14 @@ export const metaModalStyles = styles => {
   `);
 };
 
-export const defaultContentsStyle = styles => {
+export const defaultContentsStyle = (styles: StyleSet) => {
   const { flex, sizes } = styles;
 
   return (`
     margin: 10.417vw;
     pointer-events: none;
-    ${flex.vertical}
-    ${sizes.full}
+    ${(flex as StyleSet).vertical}
+    ${(sizes as StyleSet).full}
 
     @media (orientation: portrait) and (max-width: 599px) {
       margin: 70px 0;
@@ -248,22 +256,27 @@ export const defaultContentsStyle = styles => {
   `);
 };
 
-export const offlineHeaderModalStyle = (styles, condition) => {
+// 파라미터 타입 체크 필요
+export const offlineHeaderModalStyle = (styles: StyleSet, condition: string) => {
   const { flex, sizes, border } = styles;
+  const flexSet = flex as StyleSet;
+  const sizeSet = sizes as StyleSet;
+  const setSize = sizes as unknown as SetSize;
+
   return (`
     #offline-contents-wrapper {
-      ${sizes.full}
+      ${sizeSet.full}
 
       #offline-tab-wrapper {
-        ${sizes.free('100%', 'max-content')}
-        ${flex.horizontal.center}
+        ${setSize.free('100%', 'max-content')}
+        ${(flexSet.horizontal as StyleSet).center}
         justify-content: flex-start;
 
         button {
           ${border}
           border-bottom: none;
           padding: 5px 20px;
-          ${sizes.free('auto', '100%')}
+          ${setSize.free('auto', '100%')}
           font-size: var(--font-size-standard);
           box-shadow: none;
 
@@ -291,30 +304,30 @@ export const offlineHeaderModalStyle = (styles, condition) => {
       }
 
       #offline-form-wrapper {
-        ${sizes.full}
+        ${sizeSet.full}
         // ${border}
 
         #offline-import-wrapper {
-          ${sizes.full}
+          ${sizeSet.full}
         }
 
         #offline-export-wrapper {
-          ${sizes.free('100%', '200px')}
-          ${flex.vertical}
+          ${setSize.free('100%', '200px')}
+          ${flexSet.vertical}
         }
       }
     }
 
     form {
-      ${sizes.full}
-      ${flex.vertical}
+      ${sizeSet.full}
+      ${flexSet.vertical}
       justify-content: space-around;
     }
 
     .input-wrapper {
       margin-top: calc(var(--gap-standard) * 1.5);
       padding: 0 var(--gap-standard);
-      ${flex.horizontal.center}
+      ${(flexSet.horizontal as StyleSet).center}
       width: 100%;
 
       label {
@@ -360,7 +373,7 @@ export const offlineHeaderModalStyle = (styles, condition) => {
     .submit-wrapper {
       margin-top: calc(var(--gap-standard) * 1.5);
       width: 100%;
-      ${flex.horizontal.center}
+      ${(flexSet.horizontal as StyleSet).center}
 
       button {
         ${border}

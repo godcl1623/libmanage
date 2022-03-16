@@ -11,20 +11,22 @@ import {
   selectedStoresCreator
 } from '../../../../../actions';
 import { sendTo } from '../../../../../custom_modules/address';
+import { RootState } from '../../../../../reducers';
 import { sizes, flex } from '../../../../../styles';
 import { mainStyle } from '../../../styles/MainStyles';
 
-const OfflineWrapper = ({ Contents }) => {
-  const balloonState = useSelector(state => state.balloonState);
-  const userState = useSelector(state => state.userState);
-  const selectedItem = useSelector(state => state.selectedItem);
-  const selectedItemData = useSelector(state => state.selectedItemData);
-  const modalOrigin = useSelector(state => state.modalOrigin);
-  const modalState = useSelector(state => state.modalState);
-  const selectedMediaId = useSelector(state => state.selectedMediaId);
-  const selectedMediaList = useSelector(state => state.selectedMediaList);
-  const isMobile = useSelector(state => state.isMobile);
-  const selectedStores = useSelector(state => state.selectedStores);
+// props 타입 체크 필요
+const OfflineWrapper = ({ Contents }: any) => {
+  const balloonState = useSelector((state: RootState) => state.balloonState);
+  const userState = useSelector((state: RootState) => state.userState);
+  const selectedItem = useSelector((state: RootState) => state.selectedItem);
+  const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
+  const modalOrigin = useSelector((state: RootState) => state.modalOrigin);
+  const modalState = useSelector((state: RootState) => state.modalState);
+  const selectedMediaId = useSelector((state: RootState) => state.selectedMediaId);
+  const selectedMediaList = useSelector((state: RootState) => state.selectedMediaList);
+  const isMobile = useSelector((state: RootState) => state.isMobile);
+  const selectedStores = useSelector((state: RootState) => state.selectedStores);
   const [storesList, setStoresList] = React.useState('');
   const [userLibrary, setUserLibrary] = React.useState('');
   const [headerHeight, setHeaderHeight] = React.useState(0);

@@ -9,11 +9,14 @@ import { sizes, flex, border } from '../../../../../styles';
 import signin from '../../../../../assets/sits_large_noborder.png';
 import { headerModalStyles, offlineHeaderModalStyle } from '../../../styles/modals/ModalContentsStyles';
 import FormSubmit from '../../../../Auth/module/components/FormSubmit';
+import { StyleSet } from '../../../../../custom_modules/commonUtils';
 
 const MemoedSubmit = memo(FormSubmit);
 
-const ModalHeaderOption = ({ props }) => {
-  const [uploadedData, setUploadedData] = React.useState('');
+// props 타입 체크 필요
+const ModalHeaderOption = ({ props }: any) => {
+  // 타입 체크 필요
+  const [uploadedData, setUploadedData] = React.useState<any | any[]>('');
   const [currTabState, setCurrTabState] = React.useState('import');
   const {
     userState,
@@ -38,8 +41,8 @@ const ModalHeaderOption = ({ props }) => {
       <article
         id="xlsx_menu"
         css={css`
-          ${headerModalStyles({ sizes, flex }, condition)}
-          ${offlineHeaderModalStyle({sizes, flex, border}, currTabState)}
+          ${headerModalStyles({ sizes, flex } as StyleSet, condition)}
+          ${offlineHeaderModalStyle({sizes, flex, border} as StyleSet, currTabState)}
         `}
       >
         <h1>Offline</h1>
@@ -63,10 +66,12 @@ const ModalHeaderOption = ({ props }) => {
             <form
               onSubmit={e => {
                 e.preventDefault();
-                const storeInfo = {};
-                const libInfo = {};
-                const category = e.target[0].value;
-                const storeName = e.target[1].value;
+                // 타입 체크 필요
+                const storeInfo: Record<string, string[]> = {};
+                const libInfo: Record<string, string> = {};
+                // 타입 체크 필요
+                const category = (e.currentTarget[0] as HTMLInputElement).value;
+                const storeName = (e.currentTarget[1] as HTMLInputElement).value;
                 storeInfo[category] = [storeName];
                 libInfo[storeName] = uploadedData;
                 setStoresList(storeInfo);
@@ -116,15 +121,18 @@ const ModalHeaderOption = ({ props }) => {
                             // change 이벤트에서 업로드된 파일 객체만 추출
                             const { files } = e.target;
                             // 파일 객체에서 업로드된 파일만 추출
-                            const uploadedFile = files[0];
+                            // files 설정 체크
+                            const uploadedFile = files![0];
                             if (typeof uploadedFile === 'undefined') return;
                             // 파일을 읽기 위한 메서드 초기화
                             const reader = new FileReader();
                             // // 파일이 성공적으로 로드됐을 때의 동작
                             reader.onload = (loadEvt => {
-                              const sheetReader = XLSX.read(loadEvt.target.result);
+                              // event.target 체크 필요
+                              const sheetReader = XLSX.read(loadEvt.target!.result);
                               const { SheetNames, Sheets } = sheetReader;
-                              const metaTable = Sheets[SheetNames];
+                              // metaTable 설계 수정 필요
+                              const metaTable = Sheets[SheetNames[0]];
                               const totalKeys = Object.keys(metaTable);
                               const processed = totalKeys
                                 .slice(1, totalKeys.length - 1)
@@ -149,9 +157,11 @@ const ModalHeaderOption = ({ props }) => {
                               .map(key => metaTable[key].v);
                               const dataTitleList = ['titles', 'covers', 'metas'];
                               const dataList = [titles, covers, metas];
-                              const libData = [];
-                              processed.forEach(key => {
-                                const dataContainer = {};
+                              // 타입 설정 필요
+                              const libData: any[] = [];
+                              // 타입 체크 필요
+                              processed.forEach((key: any) => {
+                                const dataContainer: Record<string, string> = {};
                                 dataTitleList.forEach((item, idx) => {
                                   dataContainer[item] = dataList[idx][key];
                                 });
@@ -184,7 +194,7 @@ const ModalHeaderOption = ({ props }) => {
   }
 
   return (
-    <article css={css`${headerModalStyles({ sizes, flex }, condition)}`}>
+    <article css={css`${headerModalStyles({ sizes, flex } as StyleSet, condition)}`}>
       <h1>스토어 목록</h1>
       <hr />
       <section className="store_container">

@@ -3,8 +3,10 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
 import { optionsStyle } from '../../styles/HeaderStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-const HeaderOptions = ({ setStates, states, components }) => {
+// props 타입 설정 필요
+const HeaderOptions = ({ setStates, states, components }: any) => {
   const {
     dispatch,
     modalOriginCreator,
@@ -24,7 +26,7 @@ const HeaderOptions = ({ setStates, states, components }) => {
   return (
     <>
       <button
-        css={css`${optionsStyle({ sizes })}`}
+        css={css`${optionsStyle({ sizes } as StyleSet)}`}
         onClick={() => {
           dispatch(
             modalOriginCreator(

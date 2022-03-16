@@ -4,8 +4,10 @@ import { css } from '@emotion/react';
 import { sendTo } from '../../../../custom_modules/address';
 import { sizes } from '../../../../styles';
 import { memStatsStyle } from '../../styles/HeaderStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-const MemberStatus = ({ loginStatus, functions }) => {
+// props 타입 체크 필요
+const MemberStatus = ({ loginStatus, functions }: any) => {
   const {
     dispatch,
     logoutClickedCreator,
@@ -23,7 +25,7 @@ const MemberStatus = ({ loginStatus, functions }) => {
   if (loginStatus === true) {
     return (
       <button
-        css={css`${memStatsStyle({ sizes }, 'logout')}`}
+        css={css`${memStatsStyle({ sizes } as StyleSet, 'logout')}`}
         onClick={() => {
           const message = {
             reqMsg: 'logout',
@@ -36,7 +38,8 @@ const MemberStatus = ({ loginStatus, functions }) => {
               { message },
               { withCredentials: true }
             )
-            .then(res => {
+            // res 타입 체크 필요
+            .then((res: any) => {
               dispatch(logoutClickedCreator(true));
               dispatch(userStateCreator(null));
               dispatch(comparisonStateCreator(''));
@@ -49,7 +52,8 @@ const MemberStatus = ({ loginStatus, functions }) => {
               alert('로그아웃 했습니다.');
               history.push('/');
             })
-            .catch(err => alert(err));
+            // err 타입 체크 필요
+            .catch((err: Error) => alert(err));
         }}
       >
         로그아웃
@@ -58,7 +62,7 @@ const MemberStatus = ({ loginStatus, functions }) => {
   }
   return (
     <button
-      css={css`${memStatsStyle({ sizes }, 'signin')}`}
+      css={css`${memStatsStyle({ sizes } as StyleSet, 'signin')}`}
       onClick={() => {
         if (navigator.onLine) {
           history.push('/');

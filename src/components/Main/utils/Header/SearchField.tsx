@@ -3,26 +3,29 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sizes, flex, border } from '../../../../styles';
 import { searchStyleForm, searchStyleBtn } from '../../styles/HeaderStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-const SearchField = ({dispatch, setState, fieldVal}) => {
+// props 타입 체크 필요
+const SearchField = ({dispatch, setState, fieldVal}: any) => {
   React.useEffect(() => {
-    let timer;
-    const debouncedDispatch = e => {
+    let timer: ReturnType<typeof setTimeout>;
+    const debouncedDispatch = (e: Event) => {
       if (timer) {
         clearTimeout(timer);
       }
       timer = setTimeout(() => {
-        dispatch(setState(e.target.value));
+        // e.target 타입 체크 필요
+        dispatch(setState((e.target as any).value));
       }, 500);
     };
-    const searchField = document.querySelector('input#search_field');
+    const searchField = document.querySelector('input#search_field') as HTMLInputElement;
     searchField.addEventListener('input', debouncedDispatch);
     return () => searchField.removeEventListener('input', debouncedDispatch);
   }, []);
 
   return (
     <form
-      css={css`${searchStyleForm({ border, flex, sizes })}`}
+      css={css`${searchStyleForm({ border, flex, sizes } as StyleSet)}`}
     >
       <input
         type="text"
@@ -33,10 +36,11 @@ const SearchField = ({dispatch, setState, fieldVal}) => {
       <button
         name="delete-input"
         id="delete-input"
-        css={css`${searchStyleBtn({ sizes }, { fieldVal })}`}
+        css={css`${searchStyleBtn({ sizes } as StyleSet, { fieldVal })}`}
         onClick={e => {
           e.preventDefault();
-          e.target.parentNode.libraryFilter.value = '';
+          // e.target 및 이하 타입 체크 필요
+          (e.target as any).parentNode.libraryFilter.value = '';
           dispatch(setState(''));
         }}
       >

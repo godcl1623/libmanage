@@ -25,7 +25,8 @@ import { StyleSet } from '../../custom_modules/commonUtils';
 
 type PropsType = {
   portrait: boolean;
-  heights: number;
+  // heights 타입 수정 필요
+  heights: any;
 }
 
 const Meta = ({ portrait, heights }: PropsType) => {

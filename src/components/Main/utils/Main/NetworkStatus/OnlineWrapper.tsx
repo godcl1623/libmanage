@@ -19,23 +19,26 @@ import {
 import { sendTo } from '../../../../../custom_modules/address';
 import { sizes, flex } from '../../../../../styles';
 import { mainStyle } from '../../../styles/MainStyles';
+import { RootState } from '../../../../../reducers';
 
-const OnlineWrapper = ({ Contents }) => {
-  const loginStatus = useSelector(state => state.loginStatus);
-  const logoutClicked = useSelector(state => state.logoutClicked);
-  const balloonState = useSelector(state => state.balloonState);
-  const userState = useSelector(state => state.userState);
-  const comparisonState = useSelector(state => state.comparisonState);
-  const selectedItem = useSelector(state => state.selectedItem);
-  const selectedItemData = useSelector(state => state.selectedItemData);
-  const modalOrigin = useSelector(state => state.modalOrigin);
-  const modalState = useSelector(state => state.modalState);
-  const selectedMediaId = useSelector(state => state.selectedMediaId);
-  const selectedMediaList = useSelector(state => state.selectedMediaList);
-  const isMobile = useSelector(state => state.isMobile);
-  const selectedStores = useSelector(state => state.selectedStores);
-  const [storesList, setStoresList] = useState('');
-  const [userLibrary, setUserLibrary] = useState('');
+// props 타입 체크 필요
+const OnlineWrapper = ({ Contents }: any) => {
+  const loginStatus = useSelector((state: RootState) => state.loginStatus);
+  const logoutClicked = useSelector((state: RootState) => state.logoutClicked);
+  const balloonState = useSelector((state: RootState) => state.balloonState);
+  const userState = useSelector((state: RootState) => state.userState);
+  const comparisonState = useSelector((state: RootState) => state.comparisonState);
+  const selectedItem = useSelector((state: RootState) => state.selectedItem);
+  const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
+  const modalOrigin = useSelector((state: RootState) => state.modalOrigin);
+  const modalState = useSelector((state: RootState) => state.modalState);
+  const selectedMediaId = useSelector((state: RootState) => state.selectedMediaId);
+  const selectedMediaList = useSelector((state: RootState) => state.selectedMediaList);
+  const isMobile = useSelector((state: RootState) => state.isMobile);
+  const selectedStores = useSelector((state: RootState) => state.selectedStores);
+  // 타입 수정 필요
+  const [storesList, setStoresList] = useState<any>('');
+  const [userLibrary, setUserLibrary] = useState<any>('');
   const [headerHeight, setHeaderHeight] = useState(0);
   const [selStoresListHeight, setSelStoresListHeight] = useState(0);
   const [isPortrait, setIsPortrait] = useState(false);
@@ -155,10 +158,12 @@ const OnlineWrapper = ({ Contents }) => {
         storeStat.map((ele, index) => (ele === true ? index : '')).filter(ele => ele !== '')
       );
       const storesToDisplay = activatedStores.map((status, index) =>
-        status.map(iTrue => eachStoresOfCategories[index][iTrue])
+      // 타입 체크 필요
+        status.map((iTrue: any) => eachStoresOfCategories[index][iTrue])
       );
       // setStoresList(storesToDisplay);
-      const testObj = {};
+      // 타입 체크 필요
+      const testObj: Record<string, string | string[]> = {};
       categories.forEach((category, index) => {
         if (storesToDisplay[index] !== undefined) {
           testObj[category] = storesToDisplay[index];
@@ -166,6 +171,7 @@ const OnlineWrapper = ({ Contents }) => {
           testObj[category] = 'foo';
         }
       });
+      // 타입 체크 필요
       setStoresList(testObj);
     }
     return () => {

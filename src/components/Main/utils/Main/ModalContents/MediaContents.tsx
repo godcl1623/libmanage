@@ -1,6 +1,7 @@
 import React from 'react';
 
-const MediaContents = ({ type, id }) => {
+// props 타입 체크 필요
+const MediaContents = ({ type, id }: any) => {
   if (type === 'videos') {
     return (
       <iframe

@@ -3,12 +3,14 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { flex, sizes } from '../../../../styles';
 import { libBalloonDisplay, libBalloonInput } from '../../styles/LibraryStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType }) => (
+// props 타입 체크 필요
+const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType }: any) => (
   <>
     <div
       className="balloon-display"
-      css={css`${libBalloonDisplay({ flex, sizes }, { currDisplayType })}`}
+      css={css`${libBalloonDisplay({ flex, sizes } as StyleSet, { currDisplayType })}`}
     >
       <h3
         className="balloon-header"
@@ -36,7 +38,7 @@ const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDi
     </div>
     <div
       className="balloon-input"
-      css={css`${libBalloonInput({ flex, sizes })}`}
+      css={css`${libBalloonInput({ flex, sizes } as StyleSet)}`}
     >
       <input
         type="range"

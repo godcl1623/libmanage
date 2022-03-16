@@ -7,12 +7,14 @@ import ModalHeaderOption from './ModalContents/ModalHeaderOption';
 import ModalMetaMedia from './ModalContents/ModalMetaMedia';
 import { sizes, flex } from '../../../../styles';
 import { defaultContentsStyle } from '../../styles/modals/ModalContentsStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
 const MemoedInfoWrap = memo(MemberInfoWrap);
 const MemoedHeaderOpt = memo(ModalHeaderOption);
 const MemoedModalMeta = memo(ModalMetaMedia);
 
-const ModalContents = ({ args }) => {
+// props 타입 체크 필요
+const ModalContents = ({ args }: any) => {
   const {
     userState,
     dispatch,
@@ -62,7 +64,7 @@ const ModalContents = ({ args }) => {
   }
   return (
     <article
-      css={css`${defaultContentsStyle({ flex, sizes })}`}
+      css={css`${defaultContentsStyle({ flex, sizes } as StyleSet)}`}
     >
       <h1>Loading...</h1>
     </article>

@@ -1,4 +1,7 @@
-const modalOption = (origin, isMobile, isPortrait, flex) => `
+import { StyleSet } from '../../../../custom_modules/commonUtils';
+
+// 파라미터 타입 체크 필요
+const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, flex: StyleSet) => `
   position: absolute;
   width: ${
     origin !== 'Header_MemInfo'
@@ -14,7 +17,7 @@ const modalOption = (origin, isMobile, isPortrait, flex) => `
         : 'max-content'
       : 'max-content'
   };
-  ${flex.vertical}
+  ${(flex as StyleSet).vertical}
   background: white;
   top: 50%;
   left: 50%;
