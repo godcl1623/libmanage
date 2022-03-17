@@ -137,10 +137,10 @@ const ModMemInfo = ({ userState }: any) => {
         // 파라미터 타입 확인 필요
         const verifyLogic = async (typed: any[]) => {
           let result = false;
-          const flags = {
-            nickname: false,
-            PWD: false,
-            email_id: false,
+          const flags: Record<string, string | boolean> = {
+            nickname: '',
+            PWD: '',
+            email_id: '',
             loop_done: false
           };
           // 파라미터 타입 확인 필요
@@ -149,18 +149,24 @@ const ModMemInfo = ({ userState }: any) => {
               if (checkInputVal(type.name, formData.nick)) {
                 sofo.nick = formData.nick;
                 flags.nickname = true;
+              } else {
+                flags.nickname = false;
               }
             }
             if (type.name === 'PWD') {
               if (checkInputVal(type.name, formData.pwd)) {
                 sofo.pwd = hasher(formData.pwd);
                 flags.PWD = true;
+              } else {
+                flags.PWD = false;
               }
             }
             if (type.name === 'email_id') {
               if (checkInputVal(type.name, formData.email)) {
                 sofo.email = formData.email;
                 flags.email_id = true;
+              } else {
+                flags.email_id = false;
               }
             }
             if (idx === typed.length - 1) {
@@ -170,7 +176,7 @@ const ModMemInfo = ({ userState }: any) => {
           // 각 파라미터 타입 확인 필요
           const flagsVal = Object.values(flags)
             .slice(0, 3)
-            // .filter(val => val !== '')
+            .filter(val => val !== '')
             .filter(val => val !== true);
           if (flags.loop_done) {
             if (flagsVal.length === 0) {
