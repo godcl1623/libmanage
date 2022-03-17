@@ -4,6 +4,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
 import { storesListStyle } from '../../styles/NavStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
@@ -21,7 +22,7 @@ const StoresList = ({ props }: any) => {
           <div
             key={`category ${index}`}
             className="category"
-            css={css`${storesListStyle({ sizes })}`}
+            css={css`${storesListStyle({ sizes } as StyleSet)}`}
           >
             <div
               key={`category-header ${index}`}

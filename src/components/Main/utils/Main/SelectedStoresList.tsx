@@ -3,8 +3,10 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { flex, sizes } from '../../../../styles';
 import { selStoresListStyle } from '../../styles/MainStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-const SelectedStoresList = ({ listRef, setHeight, selStores, funcs }) => {
+// props 타입 수정 필요
+const SelectedStoresList = ({ listRef, setHeight, selStores, funcs }: any) => {
   const { dispatch, selectedStoresCreator, selectedItemCreator, selectedItemDataCreator } = funcs;
 
   React.useEffect(() => {
@@ -23,19 +25,20 @@ const SelectedStoresList = ({ listRef, setHeight, selStores, funcs }) => {
   return (
     <ul
       ref={listRef}
-      css={css`${selStoresListStyle({ flex, sizes })}`}
+      css={css`${selStoresListStyle({ flex, sizes } as StyleSet)}`}
     >
       {
         selStores[0] === ''
           ?
             ''
           :
-            selStores.map(store => 
+            // store 타입 수정 필요
+            selStores.map((store: string) => 
               <button
                 key={`${store}-button`}
                 onClick={e => {
                   e.preventDefault();
-                  dispatch(selectedStoresCreator(e.target.innerText.split(' ')[0]));
+                  dispatch(selectedStoresCreator((e.target as HTMLButtonElement).innerText.split(' ')[0]));
                   dispatch(selectedItemCreator(''));
                   dispatch(selectedItemDataCreator({}));
                 }}

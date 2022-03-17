@@ -16,16 +16,18 @@ import {
 } from '../../../actions';
 import { border, flex, sizes } from '../../../styles';
 import { delInfoStyle } from '../styles/memInfoStyle';
+import { StyleSet } from '../../../custom_modules/commonUtils';
 
 // const FormSubmit = memo(FormSubmit);
 
-const DelMemInfo = ({ userState }) => {
+// props 타입 수정 필요
+const DelMemInfo = ({ userState }: any) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
     <article
       id="Del-Mem-Info"
-      css={css`${delInfoStyle({ flex, sizes, border })}`}
+      css={css`${delInfoStyle({ flex, sizes, border } as StyleSet)}`}
     >
       <div id="guidance">
         <h1>탈퇴 안내</h1>
@@ -44,11 +46,11 @@ const DelMemInfo = ({ userState }) => {
       <form
         onSubmit={e => {
           e.preventDefault();
-          const submittedText = e.target.del_info_check.value;
+          const submittedText = e.currentTarget.del_info_check.value;
           if (submittedText !== '회원탈퇴') {
             alert('입력된 확인 문구가 올바르지 않습니다.')
           } else {
-            const reqUser = encryptor(userState.nickname, process.env.REACT_APP_TRACER);
+            const reqUser = encryptor(userState.nickname, process.env.REACT_APP_TRACER as string);
             axios.delete(
               `http://localhost:3003/member`,
               // `https://${sendTo}/member`,

@@ -8,6 +8,8 @@ import CheckMemInfo from './comps/CheckMemInfo';
 import DelMemInfo from './comps/DelMemInfo';
 import { border, sizes } from '../../styles';
 import { memInfoStyle } from './styles/memInfoStyle';
+import { RootState } from '../../reducers';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 // const TabBtn = memo(TabBtn);
 // const ModMemInfo = memo(ModMemInfo);
@@ -15,8 +17,8 @@ import { memInfoStyle } from './styles/memInfoStyle';
 // const DelMemInfo = memo(DelMemInfo);
 
 const MemberInfoWrap = () => {
-  const modalState = useSelector(state => state.modalState);
-  const userState = useSelector(state => state.userState);
+  const modalState = useSelector((state: RootState) => state.modalState);
+  const userState = useSelector((state: RootState) => state.userState);
   const [tabState, setTabState] = useState('modify');
   const [verifyState, setVerifyState] = useState(false);
   useEffect(() => {
@@ -25,7 +27,7 @@ const MemberInfoWrap = () => {
   return (
     <article
       id='member-info-wrap'
-      css={css`${memInfoStyle({ sizes, border }, tabState)}`}
+      css={css`${memInfoStyle({ sizes, border } as StyleSet, tabState)}`}
     >
       <div className='member-info-contents-wrap'>
         {

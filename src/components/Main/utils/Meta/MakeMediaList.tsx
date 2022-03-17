@@ -1,6 +1,7 @@
 import React from 'react';
 
-const MakeMediaList = ({ props }) => {
+// props 타입 수정 필요
+const MakeMediaList = ({ props }: any) => {
   const {
     selectedMedia,
     selectedItemData,
@@ -25,24 +26,25 @@ const MakeMediaList = ({ props }) => {
   }
   if (selectedMedia === 'videos') {
     return targetMedia
-      ? targetMedia.map((media, idx) => (
+    // 파라미터 타입 확인 필요
+      ? targetMedia.map((media: string, idx: number) => (
           <div
             className="media-wrapper"
             id={`media-wrapper-${idx + 1}`}
             key={`media-wrapper-${idx + 1}`}
             onMouseEnter={e => {
               e.preventDefault();
-              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-              const currImg = currMideaWrap.querySelector('img');
-              const currPlayBtn = currMideaWrap.querySelector('.player-btn');
+              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`) as HTMLElement;
+              const currImg = currMideaWrap.querySelector('img') as HTMLImageElement;
+              const currPlayBtn = currMideaWrap.querySelector('.player-btn') as HTMLButtonElement;
               currImg.style.filter = 'brightness(70%)';
               currPlayBtn.style.display = 'block';
             }}
             onMouseLeave={e => {
               e.preventDefault();
-              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-              const currImg = currMideaWrap.querySelector('img');
-              const currPlayBtn = currMideaWrap.querySelector('.player-btn');
+              const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`) as HTMLElement;
+              const currImg = currMideaWrap.querySelector('img') as HTMLImageElement;
+              const currPlayBtn = currMideaWrap.querySelector('.player-btn') as HTMLButtonElement;
               currImg.style.filter = 'brightness(100%)';
               currPlayBtn.style.display = 'none';
             }}
@@ -69,22 +71,23 @@ const MakeMediaList = ({ props }) => {
       : '';
   }
   return targetMedia
-    ? targetMedia.map((media, idx) => (
+  // 파라미터 타입 확인 필요
+    ? targetMedia.map((media: string, idx: number) => (
         <div
           className="media-wrapper"
           id={`media-wrapper-${idx + 1}`}
           key={`media-wrapper-${idx + 1}`}
           onMouseEnter={e => {
             e.preventDefault();
-            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-            const currImg = currMideaWrap.querySelector('img');
+            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`) as HTMLElement;
+            const currImg = currMideaWrap.querySelector('img') as HTMLImageElement;
             currImg.style.filter = 'brightness(70%)';
             setShowStat(currMideaWrap.id);
           }}
           onMouseLeave={e => {
             e.preventDefault();
-            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`);
-            const currImg = currMideaWrap.querySelector('img');
+            const currMideaWrap = document.querySelector(`#media-wrapper-${idx + 1}`) as HTMLElement;
+            const currImg = currMideaWrap.querySelector('img') as HTMLImageElement;
             currImg.style.filter = 'brightness(100%)';
             setShowStat(false);
           }}

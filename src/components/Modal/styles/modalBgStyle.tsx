@@ -1,4 +1,6 @@
-const modalBgStyle = vars => {
+import { StyleSet } from '../../../custom_modules/commonUtils';
+
+const modalBgStyle = (vars: StyleSet) => {
   const { display, origin } = vars;
 
   return (`

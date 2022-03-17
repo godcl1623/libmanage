@@ -8,27 +8,29 @@ import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
 import { checkInfoStyle } from '../styles/memInfoStyle';
+import { StyleSet } from '../../../custom_modules/commonUtils';
 
 // const FormSubmit = memo(FormSubmit);
 
-const CheckMemInfo = ({ userState, setState}) => (
+// props 타입 수정 필요
+const CheckMemInfo = ({ userState, setState}: any) => (
   <form
-    css={css`${checkInfoStyle({ flex, sizes, border })}`}
+    css={css`${checkInfoStyle({ flex, sizes, border } as StyleSet)}`}
     onSubmit={e => {
       e.preventDefault();
       const verificationData = {
         NICK: '',
         PWD: ''
       };
-      if (e.target.PWD.value !== '') {
+      if (e.currentTarget.PWD.value !== '') {
         verificationData.NICK = userState.nickname;
-        verificationData.PWD = salter(hasher(e.target.PWD.value));
+        verificationData.PWD = salter(hasher(e.currentTarget.PWD.value));
       }
       axios
         .post(
           'http://localhost:3003/verify',
           // `https://${sendTo}/verify`,
-          { sofo: encryptor(verificationData, process.env.REACT_APP_TRACER) },
+          { sofo: encryptor(verificationData, process.env.REACT_APP_TRACER as string) },
           { withCredentials: true }
         )
         .then(res => {

@@ -6,16 +6,18 @@ import { GrPrevious } from 'react-icons/gr';
 import { flex, sizes } from '../../../../styles';
 import { selectedItemCreator, selectedItemDataCreator } from '../../../../actions';
 import { backBtnStyle } from '../../styles/MetaStyles';
+import { StyleSet } from '../../../../custom_modules/commonUtils';
 
 const MemoedIco = memo(GrPrevious);
 
-const ToBack = ({ heights }) => {
+// props 타입 수정 필요
+const ToBack = ({ heights }: any) => {
   const { headerHeight, selStoresListHeight } = heights;
   const dispatch = useDispatch();
 
   return (
     <button
-      css={css`${backBtnStyle({ flex, sizes }, { headerHeight, selStoresListHeight })}`}
+      css={css`${backBtnStyle({ flex, sizes } as StyleSet, { headerHeight, selStoresListHeight })}`}
       onClick={e => {
         e.preventDefault();
         dispatch(selectedItemCreator(''));

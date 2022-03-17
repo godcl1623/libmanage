@@ -12,12 +12,13 @@ import { sizes, flex, border } from '../styles';
 import globalStyles from '../styles/global/globalStyles';
 import OfflineWrapper from './Main/utils/Main/NetworkStatus/OfflineWrapper';
 import MainContents from './Main/utils/Main/MainContents';
+import { StyleSet } from '../custom_modules/commonUtils';
 
 const App = () => (
   <div
     id="App"
   >
-    <Global styles={css`${globalStyles({ sizes, flex, border })}`}/>
+    <Global styles={css`${globalStyles({ sizes, flex, border } as StyleSet)}`}/>
     <Router>
       <Routes>
         <Route path="/" element={ navigator.onLine ? <Login /> : <Main /> } />

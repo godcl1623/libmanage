@@ -1,9 +1,13 @@
-export const checkInfoStyle = styles => {
+import { StyleSet, SetSize } from '../../../custom_modules/commonUtils';
+
+export const checkInfoStyle = (styles: StyleSet) => {
   const { flex, sizes, border } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
-    ${flex.vertical}
-    ${sizes.full}
+    ${flexSet.vertical}
+    ${(sizes as StyleSet).full}
 
     .input_container {
       margin: 4.167vw 0;
@@ -19,11 +23,11 @@ export const checkInfoStyle = styles => {
     }
 
     .submit_container {
-      ${sizes.free('60%')}
-      ${flex.horizontal.center}
+      ${setSize.free('60%')}
+      ${(flexSet.horizontal as StyleSet).center}
 
       button {
-        ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
+        ${setSize.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
         font-size: var(--font-size-normal);
       }
 
@@ -70,7 +74,7 @@ export const checkInfoStyle = styles => {
 
         .submit_container {
           button {
-            ${sizes.free('100%', '30px')}
+            ${setSize.free('100%', '30px')}
             font-size: 13px;
           }
 
@@ -87,16 +91,18 @@ export const checkInfoStyle = styles => {
   `);
 };
 
-export const modInfoStyle = styles => {
+export const modInfoStyle = (styles: StyleSet) => {
   const { flex, sizes, border } = styles;
+  const flexSet = flex as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
-    ${sizes.full}
-    ${flex.vertical}
+    ${(sizes as StyleSet).full}
+    ${flexSet.vertical}
     justify-content: space-between;
 
     * {
-      ${sizes.free('100%')}
+      ${setSize.free('100%')}
     }
 
     #contents-divider {
@@ -108,7 +114,7 @@ export const modInfoStyle = styles => {
     .input_container {
       margin-top: var(--gap-standard);
       padding: 0 var(--gap-standard);
-      ${flex.vertical}
+      ${flexSet.vertical}
       align-items: flex-start;
 
       label {
@@ -120,7 +126,7 @@ export const modInfoStyle = styles => {
         margin: calc(var(--gap-standard) / 2) 0;
         ${border}
         border-color: var(--grey-dark);
-        ${sizes.free('100%')}
+        ${setSize.free('100%')}
       }
 
       p {
@@ -129,20 +135,20 @@ export const modInfoStyle = styles => {
     }
 
     #input-email {
-      ${sizes.free('100%')}
+      ${setSize.free('100%')}
 
       label {
-        ${sizes.free('100%')}
+        ${setSize.free('100%')}
         display: block;
       }
 
       input {
-        ${sizes.free('48%')}
+        ${setSize.free('48%')}
         display: inline-block;
       }
 
       p#divider {
-        ${sizes.free('4%')}
+        ${setSize.free('4%')}
         display: inline-block;
         text-align: center;
       }
@@ -152,7 +158,7 @@ export const modInfoStyle = styles => {
         border-color: var(--grey-dark);
         border-radius: var(--border-rad-normal);
         padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
-        ${sizes.free('48%')}
+        ${setSize.free('48%')}
         display: inline-block;
         background: var(--white);
         font-size: var(--font-size-normal);
@@ -160,8 +166,8 @@ export const modInfoStyle = styles => {
     }
 
     .submit-container {
-      ${flex.horizontal.center}
-      ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
+      ${(flexSet.horizontal as StyleSet).center}
+      ${setSize.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
 
       button:first-of-type {
         margin-right: var(--gap-multiply-small);
@@ -221,24 +227,24 @@ export const modInfoStyle = styles => {
 
         #input-email {
           input {
-            ${sizes.free('40%')}
+            ${setSize.free('40%')}
           }
 
           p#divider {
-            ${sizes.free('10%')}
+            ${setSize.free('10%')}
           }
 
           select {
             border-radius: 0;
             padding: 5px 10px;
-            ${sizes.free('49%')}
+            ${setSize.free('49%')}
             min-height: 30px;
             font-size: 14px;
           }
         }
 
         .submit-container {
-          ${sizes.free('100%', '30px')}
+          ${setSize.free('100%', '30px')}
 
           button {
             font-size: 14px;
@@ -257,15 +263,18 @@ export const modInfoStyle = styles => {
   `);
 };
 
-export const delInfoStyle = styles => {
+export const delInfoStyle = (styles: StyleSet) => {
   const { flex, sizes, border } = styles;
+  const flexSet = flex as StyleSet;
+  const sizeSet = sizes as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
-    ${sizes.full}
-    ${flex.vertical}
+    ${sizeSet.full}
+    ${flexSet.vertical}
 
     * {
-      ${sizes.free('100%')}
+      ${setSize.free('100%')}
     }
 
     h2, h3 {
@@ -277,7 +286,7 @@ export const delInfoStyle = styles => {
       border-bottom: 0;
       border-color: var(--btn-disable);
       padding: calc(var(--gap-standard) * 2);
-      ${sizes.full}
+      ${sizeSet.full}
       height: 70%;
 
       h1 {
@@ -294,8 +303,8 @@ export const delInfoStyle = styles => {
     }
 
     form {
-      ${sizes.full}
-      ${flex.vertical}
+      ${sizeSet.full}
+      ${flexSet.vertical}
       justify-content: space-between;
       text-align: center;
       
@@ -322,15 +331,15 @@ export const delInfoStyle = styles => {
         border-top: 0;
         border-color: var(--btn-disable);
         padding: 0 calc(var(--gap-standard) * 2);
-        ${flex.vertical}
-        ${sizes.free('100%', '70%')}
+        ${flexSet.vertical}
+        ${setSize.free('100%', '70%')}
       }
     }
 
 
     .submit-wrapper {
-      ${flex.horizontal.center}
-      ${sizes.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
+      ${(flexSet.horizontal as StyleSet).center}
+      ${setSize.free('100%', 'calc(var(--gap-multiply-big) * 2)')}
 
       button:first-of-type {
         margin-right: var(--gap-multiply-small);
@@ -344,7 +353,7 @@ export const delInfoStyle = styles => {
     @media (orientation: portrait) {
       @media (min-width: 600px) {  
           .check-delete {
-            ${sizes.free('100%', `50%`)}
+            ${setSize.free('100%', `50%`)}
           }
         }
 
@@ -405,13 +414,13 @@ export const delInfoStyle = styles => {
           .check-delete {
             margin-bottom: 20px;
             padding: 0 10px;
-            ${flex.vertical}
-            ${sizes.free('100%', '50%')}
+            ${flexSet.vertical}
+            ${setSize.free('100%', '50%')}
           }
         }
 
         .submit-wrapper {
-          ${sizes.free('100%', '30px')}
+          ${setSize.free('100%', '30px')}
 
           button {
             font-size: 14px;
@@ -430,7 +439,7 @@ export const delInfoStyle = styles => {
       @media (max-width: 299px) {
         form {
           .check-delete {
-            ${sizes.free('100%', '70%')}
+            ${setSize.free('100%', '70%')}
           }
         }
       }
@@ -438,15 +447,18 @@ export const delInfoStyle = styles => {
   `);
 };
 
-export const memInfoStyle = (styles, state) => {
+// 파라미터 타입 확인 필요
+export const memInfoStyle = (styles: StyleSet, state: string) => {
   const { sizes, border } = styles;
+  const sizeSet = sizes as StyleSet;
+  const setSize = sizes as unknown as SetSize;
 
   return (`
-    ${sizes.full}
+    ${sizeSet.full}
 
     .member-info-contents-wrap {
       padding: calc(var(--gap-standard) * 2) var(--gap-standard);
-      ${sizes.full}
+      ${sizeSet.full}
 
       .member-info-contents-tab-wrap {
         button {
@@ -482,7 +494,7 @@ export const memInfoStyle = (styles, state) => {
       }
 
       .member-info-contents {
-        ${sizes.free('100%', 'calc(100% - calc(var(--gap-standard) * 2))')}
+        ${setSize.free('100%', 'calc(100% - calc(var(--gap-standard) * 2))')}
       }
     }
 
@@ -506,7 +518,7 @@ export const memInfoStyle = (styles, state) => {
         }
 
         .member-info-contents {
-          ${sizes.free('100%', 'calc(100% - 40px)')}
+          ${setSize.free('100%', 'calc(100% - 40px)')}
         }
       }
     }

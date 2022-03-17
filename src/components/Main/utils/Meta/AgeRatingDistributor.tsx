@@ -1,10 +1,13 @@
 import React from 'react';
 
-const AgeRatingDistributor = ({ ages, props }) => {
+// props 타입 수정 필요
+const AgeRatingDistributor = ({ ages, props }: any) => {
   const { esrb, pegi, ratings } = props;
-  return ages.map(age => {
+  // age 타입 수정 필요
+  return ages.map((age: any) => {
     let targetRating = '';
-    let ageRatingsImgUrls = {};
+    // 타입 확인 필요
+    let ageRatingsImgUrls: Record<string, string> = {};
     const { category, rating } = age;
     switch (category) {
       case 1:

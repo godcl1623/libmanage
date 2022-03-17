@@ -1,5 +1,10 @@
-const globalStyles = styles => {
+import { StyleSet, SetSize } from '../../custom_modules/commonUtils';
+
+const globalStyles = (styles: StyleSet) => {
   const { sizes, flex, border } = styles;
+  const setSize = sizes as unknown as SetSize;
+  const flexSet = flex as StyleSet;
+  const sizeSet = sizes as StyleSet;
 
   return (`
     :root {
@@ -62,17 +67,17 @@ const globalStyles = styles => {
     }
 
       html {
-        ${sizes.full}
+        ${sizeSet.full}
         position: relative;
       }
       
       body, #root {
-        ${sizes.full}
+        ${sizeSet.full}
       }
       
       #App {
-        ${flex.vertical}
-        ${sizes.full}
+        ${flexSet.vertical}
+        ${sizeSet.full}
         background: var(--highlight-light);
         z-index: 0;
       }
