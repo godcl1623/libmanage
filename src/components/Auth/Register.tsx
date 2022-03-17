@@ -20,10 +20,10 @@ const MemoedInput = memo(InputTemplate);
 const Register = () => {
   const [pwdMatch, setPwdMatch] = useState(true);
   const [emailState, setEmailState] = useState('');
-  const [idState, setIdState] = useState('');
+  const [idState, setIdState] = useState<string | number>('');
   const [pwdState, setPwdState] = useState('');
-  const [nickState, setNickState] = useState('');
-  const [emailAuth, setEmailAuth] = useState('');
+  const [nickState, setNickState] = useState<string | number>('');
+  const [emailAuth, setEmailAuth] = useState<string | number>('');
   const navigate = useNavigate();
   const customOption = (state: string, func: (val: string) => void) => {
     if (state === 'others') {
@@ -132,7 +132,7 @@ const Register = () => {
               }
             })
             .catch(err => alert(err));
-          }
+          };
           if (select) {
             if (isEmpty[0] === undefined && select.value !== '') {
               if (checkInputVal(formData.id, formData.pwd, formData.nick, formData.email)) {
@@ -166,7 +166,12 @@ const Register = () => {
             handler={() => setIdState('')}
             placeholder='아이디 (6~12자 이내, 영문, 숫자 사용)'
           />
-          <p className="verify-error">{verifyTest('ID', idState)}</p>
+          <p
+            className="verify-error"
+            css={css`
+              opacity: ${idState !== 1 && idState !== 'wrong' ? '0' : '100%'}
+            `}
+          >{verifyTest('ID', idState)}</p>
         </div>
         <div className="input-wrapper">
           <InputTemplate
@@ -179,7 +184,12 @@ const Register = () => {
             }}
             placeholder='비밀번호 (8~16자 이내, 영문, 숫자, 기호(!,@,#,$,%,^,&,*) 사용)'
           />
-          <p className="verify-error">{verifyTest('비밀번호', pwdState)}</p>
+          <p
+            className="verify-error"
+            css={css`
+              opacity: ${pwdState !== 'wrong' ? '0' : '100%'}
+            `}
+          >{verifyTest('비밀번호', pwdState)}</p>
         </div>
         <div className="input-wrapper">
           <InputTemplate
@@ -189,7 +199,12 @@ const Register = () => {
             handler={() => setPwdMatch(true)}
             placeholder='비밀번호를 한 번 더 입력해주세요.'
           />
-          <p className="verify-error">※ 비밀번호가 일치하지 않습니다.</p>
+          <p
+            className="verify-error"
+            css={css`
+              opacity: ${pwdMatch !== false ? '0' : '100%'}
+            `}
+          >※ 비밀번호가 일치하지 않습니다.</p>
         </div>
         <div className="input-wrapper">
           <InputTemplate
@@ -199,7 +214,12 @@ const Register = () => {
             handler={() => setNickState('')}
             placeholder='별명 (2~10자 이내, 한글,영문, 숫자 사용)'
           />
-          <p className="verify-error">{ verifyTest('별명', nickState) }</p>
+          <p
+            className="verify-error"
+            css={css`
+              opacity: ${nickState !== 1 && nickState !== 'wrong' ? '0' : '100%'}
+            `}
+          >{ verifyTest('별명', nickState) }</p>
         </div>
         <div className="input-wrapper">
           <div id="input-email">
@@ -212,7 +232,12 @@ const Register = () => {
             <p>@</p>
             { customOption(emailState, setEmailState) }
           </div>
-          <p className="verify-error">{ verifyTest('이메일 주소', emailAuth) }</p>
+          <p
+            className="verify-error"
+            css={css`
+              opacity: ${emailAuth !== 1 && emailAuth !== 'wrong' ? '0' : '100%'}
+            `}
+          >{ verifyTest('이메일 주소', emailAuth) }</p>
         </div>
         <div className="submit-wrapper">
           <FormSubmit />

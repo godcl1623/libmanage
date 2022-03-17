@@ -42,7 +42,6 @@ const registerStyles = (styles: StyleSet, vars: Record<string, number | string>)
       #register-form .input-wrapper .verify-error {
         color: red;
         font-weight: bold;
-        opacity: ${idState !== 1 && idState !== 'wrong' ? '0' : '100%'}
       }
 
       #register-form .input-wrapper #input-email label {

@@ -18,8 +18,8 @@ const Modal = ({ style, contents, origin }: any) => {
       className="modal-bg"
       css={css`${modalBgStyle({ display, origin })}`}
       onClick={e => {
-        if (typeof e.currentTarget.className === 'string') {
-          if (e.currentTarget.className.split(' ')[0] === 'modal-bg') {
+        if (typeof (e.target as HTMLElement).className === 'string') {
+          if ((e.target as HTMLElement).className.split(' ')[0] === 'modal-bg') {
             dispatch(modalStateCreator(false));
             if (selMediaId !== '') {
               dispatch(selectedMediaIdCreator(''));

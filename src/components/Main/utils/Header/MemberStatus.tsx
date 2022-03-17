@@ -14,7 +14,7 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
     userStateCreator,
     comparisonStateCreator,
     loginStatusCreator,
-    history,
+    navigate,
     axios,
     selectedItemCreator,
     selectedItemDataCreator,
@@ -50,7 +50,7 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
               dispatch(selectedMediaListCreator(''));
               dispatch(modalStateCreator(false));
               alert('로그아웃 했습니다.');
-              history.push('/');
+              navigate('/');
             })
             // err 타입 체크 필요
             .catch((err: Error) => alert(err));
@@ -65,7 +65,7 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
       css={css`${memStatsStyle({ sizes } as StyleSet, 'signin')}`}
       onClick={() => {
         if (navigator.onLine) {
-          history.push('/');
+          navigate('/');
           dispatch(modalStateCreator(false));
           dispatch(selectedItemCreator(''));
           dispatch(selectedItemDataCreator({}));
