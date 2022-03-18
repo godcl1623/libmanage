@@ -33,8 +33,8 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
           };
           axios
             .post(
-              'http://localhost:3003/logout_process',
-              // `https://${sendTo}/logout_process`,
+              // 'http://localhost:3003/logout_process',
+              `https://${sendTo}/logout_process`,
               { message },
               { withCredentials: true }
             )

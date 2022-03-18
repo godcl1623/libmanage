@@ -17,5 +17,5 @@ ReactDOM.render(
   document.querySelector('#root')
 );
 
-initSW.unregister();
-// initSW.register();
+// initSW.unregister();
+initSW.register('');
