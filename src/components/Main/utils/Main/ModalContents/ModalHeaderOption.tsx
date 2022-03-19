@@ -11,7 +11,7 @@ import { headerModalStyles, offlineHeaderModalStyle } from '../../../styles/moda
 import FormSubmit from '../../../../Auth/module/components/FormSubmit';
 import { StyleSet } from '../../../../../custom_modules/commonUtils';
 
-const MemoedSubmit = memo(FormSubmit);
+// const MemoedSubmit = memo(FormSubmit);
 
 // props 타입 체크 필요
 const ModalHeaderOption = ({ props }: any) => {
