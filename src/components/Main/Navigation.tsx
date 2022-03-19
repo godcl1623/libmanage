@@ -1,3 +1,4 @@
+/* eslint-disable import/no-relative-packages */
 import React, { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
@@ -8,6 +9,8 @@ import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
 import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+import useDropClone, { IDropOptions } from '../../clone-dnd/hooks/useDropClone';
+import useDragClone, { IDragOptions } from '../../clone-dnd/hooks/useDragClone';
 
 // const MemoedStores = memo(StoresList);
 
@@ -15,17 +18,29 @@ import { StyleSet } from '../../custom_modules/commonUtils';
 const Navigation = ({ storesList }: any) => {
   const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
   const dispatch = useDispatch();
+  const dropOption: IDropOptions = {
+    currentItemCategory: ['nav_list']
+  }
+  const dragOption: IDragOptions = {
+    currentItemCategory: ['nav_list']
+  }
+  const [ dropRef ] = useDropClone(dropOption);
+  const [ dragRef, foo, bar, setRefresher ] = useDragClone(dragOption);
 
   return (
     <nav
       id="navigation"
       css={css`${navStyle({ sizes, flex, border } as StyleSet)}`}
+      ref={dropRef}
     >
       <select
         name="content-type"
         id="category-type"
         value={selectedCategory}
-        onChange={e => dispatch(selectedCategoryCreator(e.target.value))}
+        onChange={e => {
+          dispatch(selectedCategoryCreator(e.target.value));
+          setRefresher(e.target.value);
+        }}
       >
         <option value="all">전체</option>
         <option value="game">게임</option>
@@ -38,7 +53,8 @@ const Navigation = ({ storesList }: any) => {
           selectedCategory,
           storesList,
           dispatch,
-          selectedStoresCreator
+          selectedStoresCreator,
+          dragRef
         }}
       />
     </nav>
