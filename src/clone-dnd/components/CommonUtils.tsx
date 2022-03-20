@@ -1,3 +1,5 @@
+import create from 'zustand';
+
 /* eslint-disable class-methods-use-this */
 export interface BasicActionCreator<T> {
   type: string;
@@ -33,3 +35,10 @@ export class CommonUtils {
     return structure;
   }
 }
+
+export const useStore = create((set: any) => ({
+  zDropMap: null,
+  updateZDropMap(target: any) {
+    set((state: any) => ({ zDropMap: target }))
+  }
+}))

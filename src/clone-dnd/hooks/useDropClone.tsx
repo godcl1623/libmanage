@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BasicDndOptions, CommonUtils } from '../components/CommonUtils';
 import { setCurrentDropTarget, updateDropCategory, updateDropMap, updateDropState } from '../actions';
 import { RootState } from '../reducers';
+import { useStore } from '../components/CommonUtils';
 
 export type IDropOptions = Omit<BasicDndOptions, 'disableCurrent' | 'applyToChildren'>;
 type DropResult = {
@@ -11,6 +12,7 @@ type DropResult = {
 };
 
 export default function useDropClone(option: IDropOptions): any {
+  const { zDropMap, updateZDropMap } = useStore();
   /* ############### state 정리 ############### */
   const dropMap = useSelector((state: RootState) => state.dropMap);
   const currentDragCategory = useSelector((state: RootState) => state.currentDragCategory);
@@ -76,8 +78,12 @@ export default function useDropClone(option: IDropOptions): any {
   /* ############### drop 구조 정리 ############### */
   useEffect(() => {
     dispatch(updateDropMap(utils.drawDndTargetMap(dropRef.current! as HTMLElement, 0)));
+    updateZDropMap(utils.drawDndTargetMap(dropRef.current! as HTMLElement, 0));
   }, []);
-
+  useEffect(() => {
+    console.log('dropMap: ', dropMap)
+    console.log('zDropMap: ', zDropMap)
+  }, [dropMap, zDropMap])
   /* ############### drop 활성화를 위한 dragover 초기화 ############### */
   useEffect(() => {
     const dropzoneRef = dropRef.current! as HTMLElement;
