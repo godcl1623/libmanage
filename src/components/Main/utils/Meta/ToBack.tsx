@@ -7,6 +7,8 @@ import { flex, sizes } from '../../../../styles';
 import { selectedItemCreator, selectedItemDataCreator } from '../../../../actions';
 import { backBtnStyle } from '../../styles/MetaStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
+// 테스트
+import { useAppDispatch, setSelItem, setSelItemData } from '../../../../slices';
 
 const MemoedIco = memo(GrPrevious);
 
@@ -14,14 +16,18 @@ const MemoedIco = memo(GrPrevious);
 const ToBack = ({ heights }: any) => {
   const { headerHeight, selStoresListHeight } = heights;
   const dispatch = useDispatch();
+  // 테스트
+  const appDispatch = useAppDispatch();
 
   return (
     <button
       css={css`${backBtnStyle({ flex, sizes } as StyleSet, { headerHeight, selStoresListHeight })}`}
       onClick={e => {
         e.preventDefault();
-        dispatch(selectedItemCreator(''));
-        dispatch(selectedItemDataCreator({}));
+        // dispatch(selectedItemCreator(''));
+        // dispatch(selectedItemDataCreator({}));
+        appDispatch(setSelItem(''));
+        appDispatch(setSelItemData({}));
       }}
     >
       <GrPrevious />

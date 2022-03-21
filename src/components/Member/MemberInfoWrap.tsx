@@ -10,6 +10,8 @@ import { border, sizes } from '../../styles';
 import { memInfoStyle } from './styles/memInfoStyle';
 import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+// 테스트
+import { useAppSelector } from '../../slices';
 
 // const TabBtn = memo(TabBtn);
 // const ModMemInfo = memo(ModMemInfo);
@@ -17,8 +19,11 @@ import { StyleSet } from '../../custom_modules/commonUtils';
 // const DelMemInfo = memo(DelMemInfo);
 
 const MemberInfoWrap = () => {
-  const modalState = useSelector((state: RootState) => state.modalState);
-  const userState = useSelector((state: RootState) => state.userState);
+  // const modalState = useSelector((state: RootState) => state.modalState);
+  // const userState = useSelector((state: RootState) => state.userState);
+  // 테스트
+  const modalState = useAppSelector(state => state.sliceReducers.modalState);
+  const userState = useAppSelector(state => state.sliceReducers.userState);
   const [tabState, setTabState] = useState('modify');
   const [verifyState, setVerifyState] = useState(false);
   useEffect(() => {

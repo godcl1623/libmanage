@@ -10,13 +10,18 @@ import { navStyle } from './styles/NavStyles';
 import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
 import cloneDnd, { DropOption, DragOption } from '../../clone-dnd';
+// 테스트
+import { useAppDispatch, useAppSelector, setSelCategory, setSelStores } from '../../slices';
 
 // const MemoedStores = memo(StoresList);
 
 // props 타입 설정 필요 - storesList 타입 설정 필요
 const Navigation = ({ storesList }: any) => {
-  const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
+  // const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
   const dispatch = useDispatch();
+  // 테스트
+  const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
+  const appDispatch = useAppDispatch();
   const { useDropClone, useDragClone } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: ['nav_list']
@@ -26,9 +31,7 @@ const Navigation = ({ storesList }: any) => {
   }
   const [ dropRef, dropRes ] = useDropClone(dropOption);
   const [ dragRef, foo, bar, setRefresher ] = useDragClone(dragOption);
-  React.useEffect(() => {
-    console.log(dropRes)
-  }, [dropRes])
+
   return (
     <nav
       id="navigation"
@@ -40,7 +43,8 @@ const Navigation = ({ storesList }: any) => {
         id="category-type"
         value={selectedCategory}
         onChange={e => {
-          dispatch(selectedCategoryCreator(e.target.value));
+          // dispatch(selectedCategoryCreator(e.target.value));
+          appDispatch(setSelCategory(e.target.value));
           setRefresher(e.target.value);
         }}
       >
@@ -54,8 +58,8 @@ const Navigation = ({ storesList }: any) => {
         props={{
           selectedCategory,
           storesList,
-          dispatch,
-          selectedStoresCreator,
+          dispatch: appDispatch,
+          selectedStoresCreator: setSelCategory,
           dragRef
         }}
       />

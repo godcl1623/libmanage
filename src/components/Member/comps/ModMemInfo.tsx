@@ -20,6 +20,15 @@ import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
 import { modInfoStyle } from '../styles/memInfoStyle';
 import { StyleSet } from '../../../custom_modules/commonUtils';
+// 테스트
+import {
+  useAppDispatch,
+  setLoginStat,
+  setLogoutClickStat,
+  setUserState,
+  setCompareState,
+  setModalState
+} from '../../../slices';
 
 // const InputTemplate = memo(InputTemplate);
 // const FormSubmit = memo(FormSubmit);
@@ -67,6 +76,8 @@ const ModMemInfo = ({ userState }: any) => {
   const [nickState, setNickState] = useState<string | number>('');
   const [emailAuth, setEmailAuth] = useState<string | number>('');
   const dispatch = useDispatch();
+  // 테스트
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   const ref = useRef<HTMLFormElement | null>(null);
   return (
@@ -97,7 +108,7 @@ const ModMemInfo = ({ userState }: any) => {
         const checkInputVal = (targetTxt: string, target: string) => {
           // 합수 타입 수정 필요
           type TempFuncType =
-            (() => void)
+            | (() => void)
             | ((string: string) => boolean)
             | ((string: string) => string)
             | Dispatch<React.SetStateAction<string | number>>;
@@ -195,8 +206,8 @@ const ModMemInfo = ({ userState }: any) => {
           };
           await axios
             .put(
-              // 'http://localhost:3003/member/update',
-              `https://${sendTo}/member/update`,
+              'http://localhost:3003/member/update',
+              // `https://${sendTo}/member/update`,
               { foo: encryptor(pack, process.env.REACT_APP_TRACER as string) },
               { withCredentials: true }
             )
@@ -226,17 +237,22 @@ const ModMemInfo = ({ userState }: any) => {
                 };
                 axios
                   .post(
-                    // 'http://localhost:3003/logout_process',
-                    `https://${sendTo}/logout_process`,
+                    'http://localhost:3003/logout_process',
+                    // `https://${sendTo}/logout_process`,
                     { message },
                     { withCredentials: true }
                   )
                   .then(res => {
-                    dispatch(logoutClickedCreator(true));
-                    dispatch(userStateCreator(null));
-                    dispatch(comparisonStateCreator(''));
-                    dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-                    dispatch(modalStateCreator(false));
+                    // dispatch(logoutClickedCreator(true));
+                    appDispatch(setLogoutClickStat(true));
+                    // dispatch(userStateCreator(null));
+                    appDispatch(setUserState(null));
+                    // dispatch(comparisonStateCreator(''));
+                    appDispatch(setCompareState(''));
+                    // dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+                    appDispatch(setLoginStat(res.data.isLoginSuccessful));
+                    // dispatch(modalStateCreator(false));
+                    appDispatch(setModalState(false));
                     alert('회원 정보 변경 내역이 성공적으로 반영됐습니다. 다시 로그인 해주세요.');
                     navigate('/');
                   })

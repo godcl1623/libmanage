@@ -10,9 +10,11 @@ import { flex, sizes } from '../../styles';
 import progressStyles from './styles/progressStyles';
 import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+// 테스트
+import { useAppDispatch, useAppSelector, setCompareState } from '../../slices';
 
 const Progress = () => {
-  const comparisonState = useSelector((state: RootState) => state.comparisonState);
+  // const comparisonState = useSelector((state: RootState) => state.comparisonState);
   const [count, setCount] = useState('');
   const [total, setTotal] = useState('');
   const [status, setStatus] = useState('1');
@@ -22,6 +24,9 @@ const Progress = () => {
   const [currApiCall, setCurrApiCall] = useState<string | number>('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // 테스트
+  const comparisonState = useAppSelector(state => state.sliceReducers.comparisonState);
+  const appDispatch = useAppDispatch();
   const abortCon = new AbortController();
   const additionalString = `(${(currApiCall as number) + 1}회차 / 전체 ${maxApiCall}회)`;
   const forceAbort = (aborter: AbortController, navigate: NavigateFunction) => setTimeout(() => {
@@ -52,8 +57,8 @@ const Progress = () => {
     };
     const timer = forceAbort(abortCon, navigate);
     axios
-      // .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
-      .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
+      .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
+      // .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
       .then(res => {
         const reqUserInfo = res.data;
         clearTimeout(timer);
@@ -66,8 +71,8 @@ const Progress = () => {
     if (userInfo !== '') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .get('http://localhost:3003/storeLib', { withCredentials: true })
-        .get(`https://${sendTo}/storeLib`, { withCredentials: true })
+        .get('http://localhost:3003/storeLib', { withCredentials: true })
+        // .get(`https://${sendTo}/storeLib`, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
           setApiKey(res.data.apiKey);
@@ -88,8 +93,8 @@ const Progress = () => {
       }
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
-        .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
+        .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
+        // .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
           if (res.data === 'done') {
@@ -106,12 +111,13 @@ const Progress = () => {
     if (currApiCall === 'done') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
-        .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
+        .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
+        // .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
         .then(res => {
           if (res.data.result) {
             clearTimeout(timer);
-            dispatch(comparisonStateCreator(res.data.newInfo));
+            // dispatch(comparisonStateCreator(res.data.newInfo));
+            appDispatch(setCompareState(res.data.newInfo));
             setTimeout(() => navigate('/main'), 1500);
           }
         })
@@ -121,8 +127,8 @@ const Progress = () => {
   }, [currApiCall]);
   useEffect(() => {
     const requestStatus = setInterval(() => {
-      // axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
-      axios.post(`https://${sendTo}/stat/track`, {}, { withCredentials: true }).then(res => {
+      axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
+      // axios.post(`https://${sendTo}/stat/track`, {}, { withCredentials: true }).then(res => {
         if (res.data.status === status) {
           setCount(res.data.count);
           setTotal(res.data.total);

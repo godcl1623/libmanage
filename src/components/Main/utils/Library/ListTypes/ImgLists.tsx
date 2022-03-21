@@ -93,8 +93,8 @@ const ImgLists = ({ props, filter }: any) => {
             if (extCredState.cid === undefined) {
               axios
                 .post(
-                  // 'http://localhost:3003/api/connect',
-                  `https://${sendTo}/api/connect`,
+                  'http://localhost:3003/api/connect',
+                  // `https://${sendTo}/api/connect`,
                   { execute: 'order66' },
                   { withCredentials: true }
                 )
@@ -108,8 +108,8 @@ const ImgLists = ({ props, filter }: any) => {
                   };
                   axios
                     .post(
-                      // 'http://localhost:3003/get/meta',
-                      `https://${sendTo}/get/meta`,
+                      'http://localhost:3003/get/meta',
+                      // `https://${sendTo}/get/meta`,
                       { reqData },
                       { withCredentials: true }
                     )
@@ -126,8 +126,8 @@ const ImgLists = ({ props, filter }: any) => {
               };
               axios
                 .post(
-                  // 'http://localhost:3003/get/meta',
-                  `https://${sendTo}/get/meta`,
+                  'http://localhost:3003/get/meta',
+                  // `https://${sendTo}/get/meta`,
                   { reqData },
                   { withCredentials: true }
                 )
