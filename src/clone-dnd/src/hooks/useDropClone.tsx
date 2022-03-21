@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BasicDndOptions, CommonUtils } from '../components/CommonUtils';
-import { setCurrentDropTarget, updateDropCategory, updateDropMap, updateDropState } from '../actions';
-import { RootState } from '../reducers';
-import { useStore } from '../components/CommonUtils';
+import { BasicDndOptions, CommonUtils, useStore } from '../components/CommonUtils';
 
 export type IDropOptions = Omit<BasicDndOptions, 'disableCurrent' | 'applyToChildren'>;
 type DropResult = {
@@ -12,18 +8,22 @@ type DropResult = {
 };
 
 export default function useDropClone(option: IDropOptions): any {
-  const { zDropMap, updateZDropMap } = useStore();
   /* ############### state 정리 ############### */
-  const dropMap = useSelector((state: RootState) => state.dropMap);
-  const currentDragCategory = useSelector((state: RootState) => state.currentDragCategory);
-  const currentDropCategory = useSelector((state: RootState) => state.currentDropCategory);
-  const dropTarget = useSelector((state: RootState) => state.currentDropTarget);
+  const {
+    dropMap,
+    currentDragCategory,
+    currentDropCategory,
+    currentDropTarget,
+    setDropCat,
+    setDropTgt,
+    setDropState,
+    setDropMap,
+  } = useStore();
   const [lastdropResult, setDropResult] = useState<DropResult>({
     lastDroppedLevel: -1,
     lastDroppedResult: '',
   });
   const dropRef = useRef(null);
-  const dispatch = useDispatch();
   const utils = new CommonUtils();
 
   const { currentItemCategory } = option;
@@ -39,51 +39,42 @@ export default function useDropClone(option: IDropOptions): any {
     });
   };
 
-  const initiateDropInfo = useCallback(
-    (e: Event) => {
-      if (dropMap) {
-        const htmlTarget = e.target! as HTMLElement;
-        // level 타입 수정 필요
-        const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
-        const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
-        const targetIdxInNodes = Array.from((htmlTarget.parentNode! as HTMLElement).childNodes).indexOf(htmlTarget);
-        if (currentItemCategory) {
-          const dropCategory = Object.values(currentItemCategory)[levelOfDropTarget][targetIdxInNodes];
-          if (dropCategory) {
-            dispatch(updateDropCategory(dropCategory));
-          }
+  const initiateDropInfo = useCallback((e: Event) => {
+    if (dropMap) {
+      const htmlTarget = e.target! as HTMLElement;
+      const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
+      const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
+      const targetIdxInNodes = Array.from((htmlTarget.parentNode! as HTMLElement).childNodes).indexOf(htmlTarget);
+      if (currentItemCategory) {
+        const dropCategory = Object.values(currentItemCategory)[levelOfDropTarget][targetIdxInNodes];
+        if (dropCategory) {
+          setDropCat(dropCategory);
         }
       }
-    },
-    [dropMap]
-  );
+    }
+  }, []);
 
   const runDropHandler = useCallback(
     (e: Event) => {
-      if (e.target !== dropTarget) {
-        dispatch(setCurrentDropTarget(e.target! as HTMLElement));
+      if (e.target !== currentDropTarget) {
+        setDropTgt(e.target! as HTMLElement);
       }
-      dispatch(updateDropState(true));
+      setDropState(true);
       if (dropMap) {
         const htmlTarget = e.target! as HTMLElement;
-        // level 타입 수정 필요
         const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
         const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
         updateDropResult(levelOfDropTarget, levelOfDropTarget === 0 ? 'root' : 'child');
       }
     },
-    [currentDragCategory, currentDropCategory, dropMap]
+    [currentDragCategory, currentDropCategory]
   );
 
   /* ############### drop 구조 정리 ############### */
   useEffect(() => {
-    dispatch(updateDropMap(utils.drawDndTargetMap(dropRef.current! as HTMLElement, 0)));
-    updateZDropMap(utils.drawDndTargetMap(dropRef.current! as HTMLElement, 0));
+    setDropMap(utils.drawDndTargetMap(dropRef.current! as HTMLElement, 0));
   }, []);
-  useEffect(() => {
-    console.log('dropMap: ', dropMap)
-    console.log('zDropMap: ', zDropMap)
-  }, [dropMap, zDropMap])
+
   /* ############### drop 활성화를 위한 dragover 초기화 ############### */
   useEffect(() => {
     const dropzoneRef = dropRef.current! as HTMLElement;

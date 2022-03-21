@@ -9,8 +9,7 @@ import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
 import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
-import useDropClone, { IDropOptions } from '../../clone-dnd/hooks/useDropClone';
-import useDragClone, { IDragOptions } from '../../clone-dnd/hooks/useDragClone';
+import cloneDnd, { DropOption, DragOption } from '../../clone-dnd';
 
 // const MemoedStores = memo(StoresList);
 
@@ -18,15 +17,18 @@ import useDragClone, { IDragOptions } from '../../clone-dnd/hooks/useDragClone';
 const Navigation = ({ storesList }: any) => {
   const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
   const dispatch = useDispatch();
-  const dropOption: IDropOptions = {
+  const { useDropClone, useDragClone } = cloneDnd;
+  const dropOption: DropOption = {
     currentItemCategory: ['nav_list']
   }
-  const dragOption: IDragOptions = {
+  const dragOption: DragOption = {
     currentItemCategory: ['nav_list']
   }
-  const [ dropRef ] = useDropClone(dropOption);
+  const [ dropRef, dropRes ] = useDropClone(dropOption);
   const [ dragRef, foo, bar, setRefresher ] = useDragClone(dragOption);
-
+  React.useEffect(() => {
+    console.log(dropRes)
+  }, [dropRes])
   return (
     <nav
       id="navigation"

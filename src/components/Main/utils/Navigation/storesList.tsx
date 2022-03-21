@@ -6,7 +6,6 @@ import { sizes } from '../../../../styles';
 import { storesListStyle } from '../../styles/NavStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 // eslint-disable-next-line import/no-relative-packages
-import useDragClone, { IDragOptions } from '../../../../clone-dnd/hooks/useDragClone';
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
