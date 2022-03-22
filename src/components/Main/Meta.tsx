@@ -1,23 +1,23 @@
 import React, { useState, useEffect, Fragment, memo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { AiOutlineZoomIn } from 'react-icons/ai';
-import MakeMediaList from './utils/Meta/MakeMediaList'
+import MakeMediaList from './utils/Meta/MakeMediaList';
 import ToBack from './utils/Meta/ToBack';
 import AgeRatingDistributor from './utils/Meta/AgeRatingDistributor';
-import {
-  modalStateCreator,
-  modalOriginCreator,
-  selectedMediaIdCreator,
-  selectedMediaListCreator
-} from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 import { metaStyle } from './styles/MetaStyles';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+import {
+  useAppDispatch,
+  useAppSelector,
+  setModalState,
+  setModalOrigin,
+  setSelMediaId,
+  setSelMediaList
+} from '../../slices';
 
 // const MakeMediaList = memo(MakeMediaList);
 // const ToBack = memo(ToBack);
@@ -27,15 +27,15 @@ type PropsType = {
   portrait: boolean;
   // heights 타입 수정 필요
   heights: any;
-}
+};
 
 const Meta = ({ portrait, heights }: PropsType) => {
-  const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
-  const isMobile = useSelector((state: RootState) => state.isMobile);
+  const selectedItemData = useAppSelector(state => state.sliceReducers.selectedItemData);
+  const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const [selectedMedia, setSelectedMedia] = useState('screenshots');
   const [isSpread, setIsSpread] = useState(false);
   const [showStat, setShowStat] = useState(false);
-  const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const location = useLocation();
   const {
     artworks,
@@ -105,7 +105,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
   useEffect(() => {
     if (location.pathname !== '/offline' || !navigator.onLine) {
       if (selectedItemData.name !== undefined) {
-        dispatch(modalStateCreator(false));
+        appDispatch(setModalState(false));
       }
     }
   }, [selectedItemData]);
@@ -113,11 +113,11 @@ const Meta = ({ portrait, heights }: PropsType) => {
   useEffect(() => {
     if (selectedItemData.name !== undefined) {
       if (selectedMedia === 'screenshots') {
-        dispatch(selectedMediaListCreator(screenshots));
+        appDispatch(setSelMediaList(screenshots));
       } else if (selectedMedia === 'videos') {
-        dispatch(selectedMediaListCreator(videos));
+        appDispatch(setSelMediaList(videos));
       } else if (selectedMedia === 'artworks') {
-        dispatch(selectedMediaListCreator(artworks));
+        appDispatch(setSelMediaList(artworks));
       }
     }
   }, [selectedMedia, selectedItemData]);
@@ -126,7 +126,13 @@ const Meta = ({ portrait, heights }: PropsType) => {
     return (
       <article
         id="meta_blank"
-        css={css`${metaStyle({ flex, sizes, border } as StyleSet, { metaScore, selectedMedia, selectedItemData })}`}
+        css={css`
+          ${metaStyle({ flex, sizes, border } as StyleSet, {
+            metaScore,
+            selectedMedia,
+            selectedItemData
+          })}
+        `}
       ></article>
     );
   }
@@ -134,7 +140,13 @@ const Meta = ({ portrait, heights }: PropsType) => {
   return (
     <article
       id="meta"
-      css={css`${metaStyle({ flex, sizes, border } as StyleSet, { metaScore, selectedMedia, selectedItemData })}`}
+      css={css`
+        ${metaStyle({ flex, sizes, border } as StyleSet, {
+          metaScore,
+          selectedMedia,
+          selectedItemData
+        })}
+      `}
     >
       <img
         id="background-cover"
@@ -171,16 +183,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
               </div>
               <div id="age-rating-wrapper">
                 <div id="rating-imgs">
-                  {
-                    ages
-                      ?
-                        <AgeRatingDistributor
-                          ages={ ages }
-                          props={{ esrb, pegi, ratings }}
-                        />
-                      :
-                        ''
-                  }
+                  {ages ? <AgeRatingDistributor ages={ages} props={{ esrb, pegi, ratings }} /> : ''}
                 </div>
               </div>
             </div>
@@ -195,7 +198,9 @@ const Meta = ({ portrait, heights }: PropsType) => {
                   .replace(/\n\n\n/g, '\n\n')
                   .split('\n')
                   // line 타입 수정 필요
-                  .map((line: any, idx: number) => (line.length !== 0 ? line : <br key={`br ${idx + 1}`} />))}
+                  .map((line: any, idx: number) =>
+                    line.length !== 0 ? line : <br key={`br ${idx + 1}`} />
+                  )}
                 <br />
                 <button
                   id="read-less"
@@ -257,10 +262,10 @@ const Meta = ({ portrait, heights }: PropsType) => {
                     selectedItemData,
                     setShowStat,
                     showStat,
-                    dispatch,
-                    modalStateCreator,
-                    modalOriginCreator,
-                    selectedMediaIdCreator,
+                    dispatch: appDispatch,
+                    modalStateCreator: setModalState,
+                    modalOriginCreator: setModalOrigin,
+                    selectedMediaIdCreator: setSelMediaId,
                     AiOutlineZoomIn
                   }}
                 />
@@ -276,17 +281,15 @@ const Meta = ({ portrait, heights }: PropsType) => {
                   // 타입 수정 필요
                   let releaseCheckList: Record<string, boolean> = {};
                   // prev, next 타입 변경 필요
-                  vals.sort((prev: any, next: any) => prev.platform_name[0] < next.platform_name[0] ? -1 : 1);
+                  vals.slice().sort((prev: any, next: any) =>
+                    prev.platform_name[0] < next.platform_name[0] ? -1 : 1
+                  );
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
-                      <div
-                        key={`${titles[idx]}-title-${idx+1}`}
-                        className="table-title"
-                      >{titles[idx]}</div>
-                      <div
-                        key={`${titles[idx]}-value-${idx+1}`}
-                        className="sub-table"
-                      >
+                      <div key={`${titles[idx]}-title-${idx + 1}`} className="table-title">
+                        {titles[idx]}
+                      </div>
+                      <div key={`${titles[idx]}-value-${idx + 1}`} className="sub-table">
                         {/* val 타입 수정 필요 */}
                         {vals.map((val: any, subidx: number) => {
                           // res 타입 수정 필요
@@ -294,17 +297,14 @@ const Meta = ({ portrait, heights }: PropsType) => {
                           if (releaseCheckList[val.platform_name] !== true) {
                             releaseCheckList[val.platform_name] = true;
                             res = (
-                              <Fragment key={`release_info-${subidx+1}`}>
+                              <Fragment key={`release_info-${subidx + 1}`}>
                                 <div
-                                  key={`release_platform_name-${subidx+1}`}
+                                  key={`release_platform_name-${subidx + 1}`}
                                   className="table-sub-title"
                                 >
                                   {val.platform_name}
                                 </div>
-                                <div
-                                  key={`date-${subidx+1}`}
-                                  className="table-sub-contents"
-                                >
+                                <div key={`date-${subidx + 1}`} className="table-sub-contents">
                                   {val.human}
                                 </div>
                               </Fragment>
@@ -319,40 +319,28 @@ const Meta = ({ portrait, heights }: PropsType) => {
                     </Fragment>
                   );
                 } else if (titles[idx] === '개발사 등') {
-                  vals.reverse();
+                  vals.slice().reverse();
 
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
-                      <div
-                        key={`${titles[idx]}-title-${idx+1}`}
-                        className="table-title"
-                      >{titles[idx]}</div>
-                      <div
-                        key={`${titles[idx]}-ext_cont-${idx+1}`}
-                        id="sub-table-container"
-                      >
-                        <div
-                          key={`${titles[idx]}-inn_cont_1-${idx+1}`}
-                          className="sub-table"
-                        >
-                          <div
-                            key={`dev-${idx+1}`}
-                            className="table-sub-title"
-                          >
+                      <div key={`${titles[idx]}-title-${idx + 1}`} className="table-title">
+                        {titles[idx]}
+                      </div>
+                      <div key={`${titles[idx]}-ext_cont-${idx + 1}`} id="sub-table-container">
+                        <div key={`${titles[idx]}-inn_cont_1-${idx + 1}`} className="sub-table">
+                          <div key={`dev-${idx + 1}`} className="table-sub-title">
                             개발사
                           </div>
-                            {
-                              // val들 타입, res 타입 변경 필요
-                              vals.filter((val: any) => val.developer === true).length !== 0
-                            ?
-                            vals.filter((val: any) => val.developer === true).length === 1
-                              ?
+                          {
+                            // val들 타입, res 타입 변경 필요
+                            vals.filter((val: any) => val.developer === true).length !== 0 ? (
+                              vals.filter((val: any) => val.developer === true).length === 1 ? (
                                 vals.map((val: any, subidx: number) => {
                                   let res: React.ReactElement | null = null;
                                   if (val.developer === true) {
                                     res = (
                                       <div
-                                        key={`dev_comp-${subidx+1}`}
+                                        key={`dev_comp-${subidx + 1}`}
                                         className="table-sub-contents"
                                       >
                                         {val.company_name}
@@ -361,8 +349,8 @@ const Meta = ({ portrait, heights }: PropsType) => {
                                   }
                                   return res;
                                 })
-                              :
-                                <div key={`dev_comp_cont-${idx+1}`}>
+                              ) : (
+                                <div key={`dev_comp_cont-${idx + 1}`}>
                                   {
                                     // val들 타입, res 타입 변경 필요
                                     vals.map((val: any, subidx: number) => {
@@ -370,7 +358,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
                                       if (val.developer === true) {
                                         res = (
                                           <div
-                                            key={`dev_comp-${subidx+1}`}
+                                            key={`dev_comp-${subidx + 1}`}
                                             className="table-sub-contents"
                                           >
                                             {val.company_name}
@@ -381,37 +369,44 @@ const Meta = ({ portrait, heights }: PropsType) => {
                                     })
                                   }
                                 </div>
-                            :
-                              <div
-                                key={`dev_comp-${idx+1}`}
-                                className="table-sub-contents"
-                              >
+                              )
+                            ) : (
+                              <div key={`dev_comp-${idx + 1}`} className="table-sub-contents">
                                 N/A
                               </div>
+                            )
                           }
-                          </div>
-                        <div
-                          key={`${titles[idx]}-inn_cont_2-${idx+1}`}
-                          className="sub-table"
-                        >
-                          <div
-                            key={`prod-${idx+1}`}
-                            className="table-sub-title"
-                          >
+                        </div>
+                        <div key={`${titles[idx]}-inn_cont_2-${idx + 1}`} className="sub-table">
+                          <div key={`prod-${idx + 1}`} className="table-sub-title">
                             배급사
                           </div>
-                            {
-                              // val들 타입, res 타입 변경 필요
-                              vals.filter((val: any) => val.publisher === true).length !== 0
-                              ?
-                              vals.filter((val: any) => val.publisher === true).length === 1
-                                ?
-                                  vals.map((val: any, subidx: number) => {
+                          {
+                            // val들 타입, res 타입 변경 필요
+                            vals.filter((val: any) => val.publisher === true).length !== 0 ? (
+                              vals.filter((val: any) => val.publisher === true).length === 1 ? (
+                                vals.map((val: any, subidx: number) => {
+                                  let res: React.ReactElement | null = null;
+                                  if (val.publisher === true) {
+                                    res = (
+                                      <div
+                                        key={`prod_comp-${subidx + 1}`}
+                                        className="table-sub-contents"
+                                      >
+                                        {val.company_name}
+                                      </div>
+                                    );
+                                  }
+                                  return res;
+                                })
+                              ) : (
+                                <div key={`prod_comp_cont-${idx + 1}`}>
+                                  {vals.map((val: any, subidx: number) => {
                                     let res: React.ReactElement | null = null;
                                     if (val.publisher === true) {
                                       res = (
                                         <div
-                                          key={`prod_comp-${subidx+1}`}
+                                          key={`prod_comp-${subidx + 1}`}
                                           className="table-sub-contents"
                                         >
                                           {val.company_name}
@@ -419,91 +414,64 @@ const Meta = ({ portrait, heights }: PropsType) => {
                                       );
                                     }
                                     return res;
-                                  })
-                                :
-                                  <div key={`prod_comp_cont-${idx+1}`}>
-                                    {
-                                      vals.map((val: any, subidx: number) => {
-                                        let res: React.ReactElement | null = null;
-                                        if (val.publisher === true) {
-                                          res = (
-                                            <div
-                                              key={`prod_comp-${subidx+1}`}
-                                              className="table-sub-contents"
-                                            >
-                                              {val.company_name}
-                                            </div>
-                                          );
-                                        }
-                                        return res;
-                                      })
-                                    }
-                                  </div>
-                              :
-                                <div
-                                  key={`prod_comp-${idx+1}`}
-                                  className="table-sub-contents"
-                                >
-                                  N/A
+                                  })}
                                 </div>
+                              )
+                            ) : (
+                              <div key={`prod_comp-${idx + 1}`} className="table-sub-contents">
+                                N/A
+                              </div>
+                            )
                           }
-                          </div>
+                        </div>
                       </div>
                     </Fragment>
                   );
                 } else if (titles[idx] === '관련 링크') {
                   // prev, next 타입 수정 필요
-                  vals.sort((prev: any, next: any) => prev.category < next.category ? -1 : 1);
+                  vals.slice().sort((prev: any, next: any) => (prev.category < next.category ? -1 : 1));
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
-                      <div
-                        key={`${titles[idx]}-title-${idx+1}`}
-                        className="table-title"
-                      >{titles[idx]}</div>
-                      <div
-                        key={`${titles[idx]}-ext_cont-${idx+1}`}
-                        className="sub-table"
-                      >
+                      <div key={`${titles[idx]}-title-${idx + 1}`} className="table-title">
+                        {titles[idx]}
+                      </div>
+                      <div key={`${titles[idx]}-ext_cont-${idx + 1}`} className="sub-table">
                         {
                           // val, res 타입 수정 필요
-                        vals.map((val: any, subidx: number) => {
-                          let res: React.ReactElement | null = null;
-                          const categoryIdx = val.category < 7 ? val.category : val.category - 1;
-                          res = (
-                            <Fragment key={`web_frag-${subidx+1}`}>
-                              <div
-                                key={`web_title-${subidx+1}`}
-                                className="table-sub-title"
-                              >
-                                {websitesCategory[categoryIdx - 1]}
-                              </div>
-                              <div
-                                key={`web_link-${subidx+1}`}
-                                className="table-sub-contents"
-                              >
-                                <a key={`link-${subidx+1}`} href={val.url}>링크</a>
-                              </div>
-                            </Fragment>
-                          );
-                          return res;
-                        })}
+                          vals.map((val: any, subidx: number) => {
+                            let res: React.ReactElement | null = null;
+                            const categoryIdx = val.category < 7 ? val.category : val.category - 1;
+                            res = (
+                              <Fragment key={`web_frag-${subidx + 1}`}>
+                                <div key={`web_title-${subidx + 1}`} className="table-sub-title">
+                                  {websitesCategory[categoryIdx - 1]}
+                                </div>
+                                <div key={`web_link-${subidx + 1}`} className="table-sub-contents">
+                                  <a key={`link-${subidx + 1}`} href={val.url}>
+                                    링크
+                                  </a>
+                                </div>
+                              </Fragment>
+                            );
+                            return res;
+                          })
+                        }
                       </div>
                     </Fragment>
                   );
                 } else {
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
-                      <div
-                        key={`${titles[idx]}-title-${idx+1}`}
-                        className="table-title"
-                      >{titles[idx]}</div>
-                      <div
-                        key={`${titles[idx]}-val_wrap-${idx+1}`}
-                        className="table-contents"
-                      >
+                      <div key={`${titles[idx]}-title-${idx + 1}`} className="table-title">
+                        {titles[idx]}
+                      </div>
+                      <div key={`${titles[idx]}-val_wrap-${idx + 1}`} className="table-contents">
                         {
                           // val 타입 수정 필요
-                        vals.map((val: any, subidx: number) => (<div key={`${titles[idx]}-val-${subidx+1}`}>{val}</div>))}
+                          vals.map((val: any, subidx: number) => (
+                            <div key={`${titles[idx]}-val-${subidx + 1}`}>{val}</div>
+                          ))
+                        }
                       </div>
                     </Fragment>
                   );
@@ -514,11 +482,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
           </article>
         </article>
       </article>
-      {
-        portrait || isMobile
-          ? <ToBack heights={heights} />
-          : <></>
-      }
+      {portrait || isMobile ? <ToBack heights={heights} /> : <></>}
     </article>
   );
 };

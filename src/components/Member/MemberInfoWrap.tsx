@@ -1,5 +1,4 @@
 import React, { useState, useEffect, memo } from 'react';
-import { useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import TabBtn from './parts/TabBtn';
@@ -8,8 +7,8 @@ import CheckMemInfo from './comps/CheckMemInfo';
 import DelMemInfo from './comps/DelMemInfo';
 import { border, sizes } from '../../styles';
 import { memInfoStyle } from './styles/memInfoStyle';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+import { useAppSelector } from '../../slices';
 
 // const TabBtn = memo(TabBtn);
 // const ModMemInfo = memo(ModMemInfo);
@@ -17,8 +16,8 @@ import { StyleSet } from '../../custom_modules/commonUtils';
 // const DelMemInfo = memo(DelMemInfo);
 
 const MemberInfoWrap = () => {
-  const modalState = useSelector((state: RootState) => state.modalState);
-  const userState = useSelector((state: RootState) => state.userState);
+  const modalState = useAppSelector(state => state.sliceReducers.modalState);
+  const userState = useAppSelector(state => state.sliceReducers.userState);
   const [tabState, setTabState] = useState('modify');
   const [verifyState, setVerifyState] = useState(false);
   useEffect(() => {

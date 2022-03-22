@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
 import { storesListStyle } from '../../styles/NavStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
+// eslint-disable-next-line import/no-relative-packages
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
@@ -12,7 +13,7 @@ const StoresList = ({ props }: any) => {
   const music = <h2>Music</h2>;
   const series = <h2>Series</h2>;
   const movie = <h2>Movie</h2>;
-  const { selectedCategory, storesList, dispatch, selectedStoresCreator } = props;
+  const { selectedCategory, storesList, dispatch, selectedStoresCreator, dragRef } = props;
   // params 타입 설정 필요
   const displayMenu = (...params: any[]) =>
     params.map((param, index) => {
@@ -64,30 +65,30 @@ const StoresList = ({ props }: any) => {
       }
     });
 
-  // 기본 return 필요
-  /* 임시 주석 조치 */
-  // switch (selectedCategory) {
-  //   case 'game':
-  //     return displayMenu(game);
-  //   case 'music':
-  //     return displayMenu(music);
-  //   case 'series':
-  //     return displayMenu(series);
-  //   case 'movie':
-  //     return displayMenu(movie);
-  //   default:
-  //     return displayMenu(game, music, series, movie);
-  // }
-  if (selectedCategory === 'game') {
-    return <>{ displayMenu(game) }</>;
-  } else if (selectedCategory === 'music') {
-    return <>{ displayMenu(music) }</>;
-  } else if (selectedCategory === 'series') {
-    return <>{ displayMenu(series) }</>;
-  } else if (selectedCategory === 'movie') {
-    return <>{ displayMenu(movie) }</>;
+  const menuSwitch = (category: string): React.ReactElement[] => {
+    switch (category) {
+      case 'game':
+        return displayMenu(game);
+      case 'music':
+        return displayMenu(music);
+      case 'series':
+        return displayMenu(series);
+      case 'movie':
+        return displayMenu(movie);
+      default:
+        return displayMenu(game, music, series, movie);
+    }
   }
-  return <>{ displayMenu(game, music, series, movie) }</>;
+
+  return (
+    <div
+      ref={dragRef}
+    >
+      {
+        menuSwitch(selectedCategory)
+      }
+    </div>
+  );
 };
 
 export default StoresList;
