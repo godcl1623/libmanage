@@ -1,23 +1,14 @@
 import React, { memo } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { encryptor } from '../../../custom_modules/aeser';
 import { sendTo } from '../../../custom_modules/address';
-import {
-  loginStatusCreator,
-  logoutClickedCreator,
-  userStateCreator,
-  comparisonStateCreator,
-  modalStateCreator
-} from '../../../actions';
 import { border, flex, sizes } from '../../../styles';
 import { delInfoStyle } from '../styles/memInfoStyle';
 import { StyleSet } from '../../../custom_modules/commonUtils';
-// 테스트
 import {
   useAppDispatch,
   setLoginStat,
@@ -31,8 +22,6 @@ import {
 
 // props 타입 수정 필요
 const DelMemInfo = ({ userState }: any) => {
-  const dispatch = useDispatch();
-  // 테스트
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   return (
@@ -91,15 +80,10 @@ const DelMemInfo = ({ userState }: any) => {
                       { withCredentials: true }
                     )
                     .then(res => {
-                      // dispatch(logoutClickedCreator(true));
                       appDispatch(setLogoutClickStat(true));
-                      // dispatch(userStateCreator(null));
                       appDispatch(setUserState(null));
-                      // dispatch(comparisonStateCreator(''));
                       appDispatch(setCompareState(''));
-                      // dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                       appDispatch(setLoginStat(res.data.isLoginSuccessful));
-                      // dispatch(modalStateCreator(false));
                       appDispatch(setModalState(false));
                       alert('회원탈퇴가 완료됐습니다.');
                       navigate('/');

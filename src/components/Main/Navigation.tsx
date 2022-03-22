@@ -1,25 +1,18 @@
 /* eslint-disable import/no-relative-packages */
 import React, { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { selectedCategoryCreator, selectedStoresCreator } from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
 import cloneDnd, { DropOption, DragOption } from '../../clone-dnd';
-// 테스트
 import { useAppDispatch, useAppSelector, setSelCategory, setSelStores } from '../../slices';
 
 // const MemoedStores = memo(StoresList);
 
 // props 타입 설정 필요 - storesList 타입 설정 필요
 const Navigation = ({ storesList }: any) => {
-  // const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
-  const dispatch = useDispatch();
-  // 테스트
   const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
   const appDispatch = useAppDispatch();
   const { useDropClone, useDragClone } = cloneDnd;
@@ -43,7 +36,6 @@ const Navigation = ({ storesList }: any) => {
         id="category-type"
         value={selectedCategory}
         onChange={e => {
-          // dispatch(selectedCategoryCreator(e.target.value));
           appDispatch(setSelCategory(e.target.value));
           setRefresher(e.target.value);
         }}
@@ -59,7 +51,7 @@ const Navigation = ({ storesList }: any) => {
           selectedCategory,
           storesList,
           dispatch: appDispatch,
-          selectedStoresCreator: setSelCategory,
+          selectedStoresCreator: setSelStores,
           dragRef
         }}
       />

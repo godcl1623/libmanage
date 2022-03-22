@@ -1,13 +1,11 @@
 /* eslint-disable no-alert */
 import React, { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import InputTemplate from './InputTemplate';
 import FormSubmit from './FormSubmit';
-import { tokenStateCreator } from '../../../../actions';
 import { encryptor } from '../../../../custom_modules/aeser';
 import { hasher } from '../../../../custom_modules/hasher';
 import { verifyPwd } from '../utils';
@@ -15,7 +13,6 @@ import { sendTo } from '../../../../custom_modules/address';
 import { border, flex, sizes } from '../../../../styles';
 import style from '../styles/components/ChangePwdStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
-// 테스트
 import { useAppDispatch, setTokenStat } from '../../../../slices';
 
 const MemoedInput = memo(InputTemplate);
@@ -26,8 +23,6 @@ type TokenCnt = Record<string, string>;
 const ChangePwd = ({ token, reqTime }: Record<string, TokenCnt | (() => void)>) => {
   const [pwdMatch, setPwdMatch] = useState(true);
   const [isValid, setIsValid] = useState(true);
-  const dispatch = useDispatch();
-  // 테스트
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   const { userId, ttl, tokenId, originTime } = token as TokenCnt;
@@ -80,7 +75,6 @@ const ChangePwd = ({ token, reqTime }: Record<string, TokenCnt | (() => void)>) 
                 alert('비밀번호가 변경되었습니다.\n다시 로그인해주세요.');
                 navigate('/');
               } else if (res.data === 'expired') {
-                // dispatch(tokenStateCreator(false));
                 appDispatch(setTokenStat(false));
               }else {
                 alert('오류가 발생했습니다.');

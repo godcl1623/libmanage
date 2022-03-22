@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment, memo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -7,18 +6,10 @@ import { AiOutlineZoomIn } from 'react-icons/ai';
 import MakeMediaList from './utils/Meta/MakeMediaList';
 import ToBack from './utils/Meta/ToBack';
 import AgeRatingDistributor from './utils/Meta/AgeRatingDistributor';
-import {
-  modalStateCreator,
-  modalOriginCreator,
-  selectedMediaIdCreator,
-  selectedMediaListCreator
-} from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import { esrb, pegi, ratings } from '../../custom_modules/imgurls';
 import { metaStyle } from './styles/MetaStyles';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
-// 테스트
 import {
   useAppDispatch,
   useAppSelector,
@@ -39,15 +30,11 @@ type PropsType = {
 };
 
 const Meta = ({ portrait, heights }: PropsType) => {
-  // const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
-  // const isMobile = useSelector((state: RootState) => state.isMobile);
+  const selectedItemData = useAppSelector(state => state.sliceReducers.selectedItemData);
+  const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const [selectedMedia, setSelectedMedia] = useState('screenshots');
   const [isSpread, setIsSpread] = useState(false);
   const [showStat, setShowStat] = useState(false);
-  const dispatch = useDispatch();
-  // 테스트
-  const selectedItemData = useAppSelector(state => state.sliceReducers.selectedItemData);
-  const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const appDispatch = useAppDispatch();
   const location = useLocation();
   const {
@@ -118,7 +105,6 @@ const Meta = ({ portrait, heights }: PropsType) => {
   useEffect(() => {
     if (location.pathname !== '/offline' || !navigator.onLine) {
       if (selectedItemData.name !== undefined) {
-        // dispatch(modalStateCreator(false));
         appDispatch(setModalState(false));
       }
     }
@@ -127,13 +113,10 @@ const Meta = ({ portrait, heights }: PropsType) => {
   useEffect(() => {
     if (selectedItemData.name !== undefined) {
       if (selectedMedia === 'screenshots') {
-        // dispatch(selectedMediaListCreator(screenshots));
         appDispatch(setSelMediaList(screenshots));
       } else if (selectedMedia === 'videos') {
-        // dispatch(selectedMediaListCreator(videos));
         appDispatch(setSelMediaList(videos));
       } else if (selectedMedia === 'artworks') {
-        // dispatch(selectedMediaListCreator(artworks));
         appDispatch(setSelMediaList(artworks));
       }
     }

@@ -1,6 +1,5 @@
 /* eslint-disable no-else-return */
 import React, { useEffect, memo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -8,15 +7,6 @@ import { FaBars } from 'react-icons/fa';
 import Balloon from '../Modal/Balloon';
 import LibraryOptions from './utils/Library/LibraryOptions';
 import MakeList from './utils/Library/MakeList';
-import {
-  balloonStateCreator,
-  balloonOriginCreator,
-  libDisplayStateCreator,
-  extCredStateCreator,
-  selectedItemCreator,
-  selectedItemDataCreator,
-  modalOriginCreator
-} from '../../actions';
 import { sizes, flex } from '../../styles';
 import { libraryStyle } from './styles/LibraryStyles';
 import {
@@ -24,9 +14,7 @@ import {
   libraryBalloonStyle,
   libraryBalloonHand
 } from './styles/balloons/LibraryBalloonStyle';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
-// 테스트
 import {
   useAppDispatch,
   useAppSelector,
@@ -51,17 +39,7 @@ type PropsType = {
 };
 
 const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
-  // const balloonState = useSelector((state: RootState) => state.balloonState);
-  // const balloonOrigin = useSelector((state: RootState) => state.balloonOrigin);
-  // const libDisplay = useSelector((state: RootState) => state.libDisplay);
-  // const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
-  // const selectedStores = useSelector((state: RootState) => state.selectedStores);
-  // const userState = useSelector((state: RootState) => state.userState);
-  // const extCredState = useSelector((state: RootState) => state.extCredState);
-  // const librarySearch = useSelector((state: RootState) => state.librarySearch);
   const [btnCoords, setBtnCoords] = React.useState({});
-  const dispatch = useDispatch();
-  // 테스트
   const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
   const balloonOrigin = useAppSelector(state => state.sliceReducers.balloonOrigin);
   const libDisplay = useAppSelector(state => state.sliceReducers.libDisplay);
@@ -102,13 +80,10 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
       <button
         className="option"
         onClick={() => {
-          // dispatch(balloonOriginCreator('Library'));
           appDispatch(setBalloonOrigin('Library'));
           if (balloonState === 'none') {
-            // dispatch(balloonStateCreator('flex'));
             appDispatch(setBalloonState('flex'));
           } else if (balloonOrigin === 'Library') {
-            // dispatch(balloonStateCreator('none'));
             appDispatch(setBalloonState('none'));
           }
         }}
@@ -119,9 +94,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
       <Balloon
         contents={
           <LibraryOptions
-            // dispatch={dispatch}
             dispatch={appDispatch}
-            // changeState={libDisplayStateCreator}
             changeState={setLibDisplay}
             coverSize={coverSize}
             setCoverSize={setCoverSize}
@@ -173,16 +146,11 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
             selectedStores,
             userState,
             extCredState,
-            // dispatch,
-            // extCredStateCreator,
-            // selectedItemCreator,
-            // selectedItemDataCreator,
             dispatch: appDispatch,
             extCredStateCreator: setExtCredStat,
             selectedItemCreator: setSelItem,
             selectedItemDataCreator: setSelItemData,
             librarySearch,
-            // modalOriginCreator,
             modalOriginCreator: setModalOrigin,
             location
           }}

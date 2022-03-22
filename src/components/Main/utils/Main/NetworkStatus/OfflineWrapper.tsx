@@ -1,17 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  balloonStateCreator,
-  comparisonStateCreator,
-  modalStateCreator,
-  selectedItemCreator,
-  selectedItemDataCreator,
-  selectedMediaIdCreator,
-  isMobileCreator,
-  selectedStoresCreator
-} from '../../../../../actions';
 import { sendTo } from '../../../../../custom_modules/address';
-import { RootState } from '../../../../../reducers';
 import { sizes, flex } from '../../../../../styles';
 import { mainStyle } from '../../../styles/MainStyles';
 // 테스트
@@ -30,24 +18,6 @@ import {
 
 // props 타입 체크 필요
 const OfflineWrapper = ({ Contents }: any) => {
-  // const balloonState = useSelector((state: RootState) => state.balloonState);
-  // const userState = useSelector((state: RootState) => state.userState);
-  // const selectedItem = useSelector((state: RootState) => state.selectedItem);
-  // const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
-  // const modalOrigin = useSelector((state: RootState) => state.modalOrigin);
-  // const modalState = useSelector((state: RootState) => state.modalState);
-  // const selectedMediaId = useSelector((state: RootState) => state.selectedMediaId);
-  // const selectedMediaList = useSelector((state: RootState) => state.selectedMediaList);
-  // const isMobile = useSelector((state: RootState) => state.isMobile);
-  // const selectedStores = useSelector((state: RootState) => state.selectedStores);
-  const [storesList, setStoresList] = React.useState('');
-  const [userLibrary, setUserLibrary] = React.useState('');
-  const [headerHeight, setHeaderHeight] = React.useState(0);
-  const [selStoresListHeight, setSelStoresListHeight] = React.useState(0);
-  const [isPortrait, setIsPortrait] = React.useState(false);
-  const [coverSize, setCoverSize] = React.useState(10);
-  const dispatch = useDispatch();
-  // 테스트
   const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
   const userState = useAppSelector(state => state.sliceReducers.userState);
   const selectedItem = useAppSelector(state => state.sliceReducers.selectedItem);
@@ -58,6 +28,12 @@ const OfflineWrapper = ({ Contents }: any) => {
   const selectedMediaList = useAppSelector(state => state.sliceReducers.selectedMediaList);
   const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const selectedStores = useAppSelector(state => state.sliceReducers.selectedStores);
+  const [storesList, setStoresList] = React.useState('');
+  const [userLibrary, setUserLibrary] = React.useState('');
+  const [headerHeight, setHeaderHeight] = React.useState(0);
+  const [selStoresListHeight, setSelStoresListHeight] = React.useState(0);
+  const [isPortrait, setIsPortrait] = React.useState(false);
+  const [coverSize, setCoverSize] = React.useState(10);
   const appDispatch = useAppDispatch();
   const headerRef = React.useRef();
   const listRef = React.useRef();
@@ -79,6 +55,7 @@ const OfflineWrapper = ({ Contents }: any) => {
     isPortrait,
     coverSize
   };
+
   const setStates = {
     setUserLibrary,
     setHeaderHeight,
@@ -86,6 +63,7 @@ const OfflineWrapper = ({ Contents }: any) => {
     setCoverSize,
     setStoresList
   };
+
   const actionCreators = {
     balloonStateCreator: setBalloonState,
     comparisonStateCreator: setCompareState,
@@ -95,6 +73,7 @@ const OfflineWrapper = ({ Contents }: any) => {
     selectedMediaIdCreator: setSelMediaId,
     selectedStoresCreator: setSelStores
   };
+
   const refs = { headerRef, listRef };
   const moduleHooks = { dispatch: appDispatch };
   const styles = { mainStyle, flex, sizes };
@@ -121,12 +100,10 @@ const OfflineWrapper = ({ Contents }: any) => {
         setIsPortrait(true);
         if (window.innerWidth < 600) {
           appDispatch(checkIfMobile(true));
-          // dispatch(selectedStoresCreator(''));
         }
       } else {
         setIsPortrait(false);
         appDispatch(checkIfMobile(false));
-        // dispatch(selectedStoresCreator('all'));
       }
     };
     window.addEventListener('resize', detector);

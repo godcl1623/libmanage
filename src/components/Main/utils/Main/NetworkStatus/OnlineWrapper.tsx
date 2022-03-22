@@ -1,26 +1,11 @@
 /* eslint-disable no-else-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  loginStatusCreator,
-  userStateCreator,
-  balloonStateCreator,
-  comparisonStateCreator,
-  modalStateCreator,
-  selectedItemCreator,
-  selectedItemDataCreator,
-  selectedMediaIdCreator,
-  isMobileCreator,
-  selectedStoresCreator
-} from '../../../../../actions';
 import { sendTo } from '../../../../../custom_modules/address';
 import { sizes, flex } from '../../../../../styles';
 import { mainStyle } from '../../../styles/MainStyles';
-import { RootState } from '../../../../../reducers';
-// 테스트
 import {
   useAppDispatch,
   useAppSelector,
@@ -38,28 +23,6 @@ import {
 
 // props 타입 체크 필요
 const OnlineWrapper = ({ Contents }: any) => {
-  // const loginStatus = useSelector((state: RootState) => state.loginStatus);
-  // const logoutClicked = useSelector((state: RootState) => state.logoutClicked);
-  // const balloonState = useSelector((state: RootState) => state.balloonState);
-  // const userState = useSelector((state: RootState) => state.userState);
-  // const comparisonState = useSelector((state: RootState) => state.comparisonState);
-  // const selectedItem = useSelector((state: RootState) => state.selectedItem);
-  // const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
-  // const modalOrigin = useSelector((state: RootState) => state.modalOrigin);
-  // const modalState = useSelector((state: RootState) => state.modalState);
-  // const selectedMediaId = useSelector((state: RootState) => state.selectedMediaId);
-  // const selectedMediaList = useSelector((state: RootState) => state.selectedMediaList);
-  // const isMobile = useSelector((state: RootState) => state.isMobile);
-  // const selectedStores = useSelector((state: RootState) => state.selectedStores);
-  // 타입 수정 필요
-  const [storesList, setStoresList] = useState<any>('');
-  const [userLibrary, setUserLibrary] = useState<any>('');
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const [selStoresListHeight, setSelStoresListHeight] = useState(0);
-  const [isPortrait, setIsPortrait] = useState(false);
-  const [coverSize, setCoverSize] = useState(10);
-  const dispatch = useDispatch();
-  // 테스트
   const loginStatus = useAppSelector(state => state.sliceReducers.loginStatus);
   const logoutClicked = useAppSelector(state => state.sliceReducers.logoutClicked);
   const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
@@ -73,6 +36,13 @@ const OnlineWrapper = ({ Contents }: any) => {
   const selectedMediaList = useAppSelector(state => state.sliceReducers.selectedMediaList);
   const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const selectedStores = useAppSelector(state => state.sliceReducers.selectedStores);
+  // 타입 수정 필요
+  const [storesList, setStoresList] = useState<any>('');
+  const [userLibrary, setUserLibrary] = useState<any>('');
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [selStoresListHeight, setSelStoresListHeight] = useState(0);
+  const [isPortrait, setIsPortrait] = useState(false);
+  const [coverSize, setCoverSize] = useState(10);
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   const headerRef = React.useRef();
@@ -95,12 +65,14 @@ const OnlineWrapper = ({ Contents }: any) => {
     isPortrait,
     coverSize
   };
+
   const setStates = {
     setUserLibrary,
     setHeaderHeight,
     setSelStoresListHeight,
     setCoverSize
   };
+
   const actionCreators = {
     balloonStateCreator: setBalloonState,
     comparisonStateCreator: setCompareState,
@@ -110,12 +82,13 @@ const OnlineWrapper = ({ Contents }: any) => {
     selectedMediaIdCreator: setSelMediaId,
     selectedStoresCreator: setSelStores
   };
+
   const refs = { headerRef, listRef };
   const moduleHooks = { dispatch: appDispatch };
   const styles = { mainStyle, flex, sizes };
 
   useEffect(() => {
-    // const abortCon = new AbortController();
+    const abortCon = new AbortController();
     const checkLogin = async () => {
       const message = {
         comparisonState,
@@ -172,9 +145,9 @@ const OnlineWrapper = ({ Contents }: any) => {
       checkLogin();
     }
     checkLogin();
-    // return () => {
-    //   abortCon.abort();
-    // }
+    return () => {
+      abortCon.abort();
+    }
   }, [comparisonState]);
 
   useEffect(() => {
@@ -255,12 +228,10 @@ const OnlineWrapper = ({ Contents }: any) => {
         setIsPortrait(true);
         if (window.innerWidth < 600) {
           appDispatch(checkIfMobile(true));
-          // dispatch(selectedStoresCreator(''));
         }
       } else {
         setIsPortrait(false);
         appDispatch(checkIfMobile(false));
-        // dispatch(selectedStoresCreator('all'));
       }
     };
     window.addEventListener('resize', detector);

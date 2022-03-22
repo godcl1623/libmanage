@@ -1,26 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, memo } from 'react';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  loginStatusCreator,
-  userStateCreator,
-  logoutClickedCreator,
-  comparisonStateCreator
-} from '../../actions';
 import { hasher, salter } from '../../custom_modules/hasher';
 import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
 import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 import { loginTop, hrStyle } from './module/styles/LoginStyles';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
-// 테스트
 import { useAppDispatch, useAppSelector, setLoginStat, setUserState, setLogoutClickStat, setCompareState } from '../../slices';
 
 const MemoedLink = memo(StyledLink);
@@ -40,9 +31,7 @@ const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
     )
     .then(res => {
       // 임시로 작성
-      // dispatch(loginStatusCreator(true));
       dispatch(setLoginStat(true));
-      // dispatch(userStateCreator(res.data));
       dispatch(setUserState(res.data));
       localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
       localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
@@ -53,12 +42,6 @@ const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
 };
 
 const Login = () => {
-  // const loginStatus = useSelector((state: RootState) => state.loginStatus);
-  // const userState = useSelector((state: RootState) => state.userState);
-  // const logoutClicked = useSelector((state: RootState) => state.logoutClicked);
-  // const comparisonState = useSelector((state: RootState) => state.comparisonState);
-  const dispatch = useDispatch();
-  // 테스트
   const loginStatus = useAppSelector(state => state.sliceReducers.loginStatus);
   const userState = useAppSelector(state => state.sliceReducers.userState);
   const logoutClicked = useAppSelector(state => state.sliceReducers.logoutClicked);
@@ -88,19 +71,15 @@ const Login = () => {
       .then(res => {
         if (res.data.isLoginSuccessful) {
           if (!res.data.isGueset) {
-            // dispatch(loginStatusCreator(res.data.isLoginSuccessful));
             appDispatch(setLoginStat(res.data.isLoginSuccessful));
             navigate('/main');
             if (userState.nickname === undefined) {
-              // dispatch(userStateCreator(res.data));
               appDispatch(setUserState(res.data));
             } else {
-              // dispatch(loginStatusCreator(res.data.isLoginSuccessful));
               appDispatch(setLoginStat(res.data.isLoginSuccessful));
               navigate('/main');
               if (userState.nickname === undefined) {
-                // dispatch(userStateCreator(res.data));
-                appDispatch(userStateCreator(res.data));
+                appDispatch(setUserState(res.data));
               }
             }
           }
@@ -115,12 +94,10 @@ const Login = () => {
   useEffect(() => {
     const abortCon = new AbortController();
     if (logoutClicked) {
-      // dispatch(logoutClickedCreator(false));
-      appDispatch(logoutClickedCreator(false));
+      appDispatch(setLogoutClickStat(false));
     }
     if (comparisonState !== '') {
-      // dispatch(comparisonStateCreator(''));
-      appDispatch(comparisonStateCreator(''));
+      appDispatch(setCompareState(''));
     }
     return () => {
       abortCon.abort();
@@ -165,9 +142,7 @@ const Login = () => {
             )
             .then(res => {
               if (res.data.isLoginSuccessful && !res.data.isGuest) {
-                // dispatch(loginStatusCreator(res.data.isLoginSuccessful));
                 appDispatch(setLoginStat(res.data.isLoginSuccessful));
-                // dispatch(userStateCreator(res.data));
                 appDispatch(setUserState(res.data));
                 localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
                 localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
@@ -198,7 +173,6 @@ const Login = () => {
         <StyledLink to="/member/find">ID/PW 찾기</StyledLink>
       </div>
       <div className="option other">
-        {/* <Button onClick={() => loginException(dispatch, navigate)}>게스트 로그인</Button> */}
         <Button onClick={() => loginException(appDispatch, navigate)}>게스트 로그인</Button>
         <Button onClick={() => navigate('/offline')}>오프라인으로 접속</Button>
       </div>
