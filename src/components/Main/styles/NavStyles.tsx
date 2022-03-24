@@ -82,7 +82,7 @@ export const navStyle = (styles: StyleSet) => {
     }
 
     #category-type {
-      margin-bottom: var(--gap-standard);
+      // margin-bottom: var(--gap-standard);
       ${border}
       border-color: var(--grey-dark);
       padding: 0.156vw 0.781vw;

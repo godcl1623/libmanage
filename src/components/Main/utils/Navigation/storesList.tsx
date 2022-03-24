@@ -10,6 +10,8 @@ import cloneDnd, { DropOption } from '../../../../clone-dnd';
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
+  const [dragDirection, setDragDirection] = React.useState<string>('none');
+  const [lastIdx, setLastIdx] = React.useState<number>(0);
   const game = <h2>Game</h2>;
   const music = <h2>Music</h2>;
   const series = <h2>Series</h2>;
@@ -40,16 +42,20 @@ const StoresList = ({ props }: any) => {
     dragInfo
   } = props;
   // params 타입 설정 필요
-  const displayMenu = (...params: any[]) =>
+  const displayMenu = (category: string, ...params: any[]) =>
     params.map((param, index) => {
       const eachCategoriesStores = storesList[param.props.children.toLowerCase()];
       if (eachCategoriesStores !== undefined) {
         return (
           <div
             key={`category ${index}`}
-            className="category"
+            className={`category ${param.props.children.toLowerCase()} all`}
             css={css`
               ${storesListStyle({ sizes } as StyleSet)}
+              display: ${
+                category === param.props.children.toLowerCase() ||
+                category === 'all' ? 'block' : 'none'
+              };
             `}
           >
             <div key={`category-header ${index}`} className="category-header">
@@ -82,7 +88,16 @@ const StoresList = ({ props }: any) => {
         // eslint-disable-next-line no-else-return
       } else {
         return (
-          <div key={`category ${index}`} className="category">
+          <div
+            key={`category ${index}`}
+            className={`category ${param.props.children.toLowerCase()} all`}
+            css={css`
+              display: ${
+                category === param.props.children.toLowerCase() ||
+                category === 'all' ? 'block' : 'none'
+              };
+            `}
+          >
             <div key={`category-header ${index}`} className="category-header">
               {param}
             </div>
@@ -91,27 +106,33 @@ const StoresList = ({ props }: any) => {
       }
     });
 
-  const menuSwitch = (category: string): React.ReactElement[] => {
-    switch (category) {
-      case 'game':
-        return displayMenu(game);
-      case 'music':
-        return displayMenu(music);
-      case 'series':
-        return displayMenu(series);
-      case 'movie':
-        return displayMenu(movie);
-      default:
-        return displayMenu(game, music, series, movie);
-    }
-  };
+  // const menuSwitch = (category: string): React.ReactElement[] => {
+  //   const foo = 'bar';
+  //   // switch (category) {
+  //   //   case 'game':
+  //   //     return displayMenu(game);
+  //   //   case 'music':
+  //   //     return displayMenu(music);
+  //   //   case 'series':
+  //   //     return displayMenu(series);
+  //   //   case 'movie':
+  //   //     return displayMenu(movie);
+  //   //   default:
+  //   //     return displayMenu(game, music, series, movie);
+  //   // }
+  //   return displayMenu(game, music, series, movie).filter(div => {
+  //     const classList = div.props.className.split(' ');
+  //     return classList.includes(category)
+  //   });
+  // };
 
   return (
     <div
       id="drop-container"
       style={{
-        height: '90%',
-        border: '1px solid black'
+        height: '100%',
+        border: '1px solid black',
+        paddingTop: 'var(--gap-standard)'
       }}
       ref={ref => {
         dropRef.current = ref;
@@ -128,25 +149,28 @@ const StoresList = ({ props }: any) => {
         const { lastEleInfo, lastCoords } = lastInfo;
         const computedStyle = window.getComputedStyle(HTMLEventTarget);
         const targetMargin = parseInt(computedStyle.marginTop, 10) + parseInt(computedStyle.marginBottom, 10);
-        const targetHeight = lastEleInfo.height;
-        const minNextEleTop = targetMargin + targetHeight;
-        const targetMovedDistance = lastCoords.clientY - startCoords.clientY;
-        if (targetMovedDistance > minNextEleTop) {
-          const distanceToIdx = Math.floor(targetMovedDistance / minNextEleTop);
-          const idxToAdd = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
-          const insertCrit = currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
-          parent?.removeChild(HTMLEventTarget);
-          parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
-        } else if (targetMovedDistance * -1 > minNextEleTop) {
-          const distanceToIdx = Math.floor(targetMovedDistance * -1 / minNextEleTop);
-          const idxToSub = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
-          const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
-          parent?.removeChild(HTMLEventTarget);
-          parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
+        if (lastEleInfo) {
+          const targetHeight = lastEleInfo.height;
+          const minNextEleTop = targetMargin + targetHeight;
+          const targetMovedDistance = lastCoords.clientY - startCoords.clientY;
+          if (targetMovedDistance > minNextEleTop) {
+            const distanceToIdx = Math.floor(targetMovedDistance / minNextEleTop);
+            const idxToAdd = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
+            const insertCrit = currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
+            parent?.removeChild(HTMLEventTarget);
+            parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
+          } else if (targetMovedDistance * -1 > minNextEleTop) {
+            const distanceToIdx = Math.floor(targetMovedDistance * -1 / minNextEleTop);
+            const idxToSub = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
+            const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
+            parent?.removeChild(HTMLEventTarget);
+            parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
+          }
         }
       }}
     >
-      {menuSwitch(selectedCategory)}
+      {/* {menuSwitch(selectedCategory)} */}
+      { displayMenu(selectedCategory, game, music, series, movie) }
     </div>
   );
 };
