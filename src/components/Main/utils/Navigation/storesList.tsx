@@ -10,28 +10,19 @@ import cloneDnd, { DropOption } from '../../../../clone-dnd';
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
-  const [dragDirection, setDragDirection] = React.useState<string>('none');
-  const [lastIdx, setLastIdx] = React.useState<number>(0);
+  const [currentHover, setCurrentHover] = React.useState<HTMLElement>();
   const game = <h2>Game</h2>;
   const music = <h2>Music</h2>;
   const series = <h2>Series</h2>;
   const movie = <h2>Movie</h2>;
-  const { useDropClone, useGlobalStates } = cloneDnd;
+  const { useDropClone } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: {
       level0: ['nav_category']
     },
     applyToChildren: false
   };
-  const [dropRef, dropRes] = useDropClone(dropOption);
-  const {
-    currentDropCategory,
-    currentDropTarget,
-    currentDragTarget,
-    currentDragCategory,
-    dropMap,
-    isDropped
-  } = useGlobalStates();
+  const [dropRef] = useDropClone(dropOption);
   const {
     selectedCategory,
     storesList,
@@ -133,8 +124,35 @@ const StoresList = ({ props }: any) => {
         parent?.removeChild(HTMLEventTarget);
         parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
       }
+      list.forEach(ele => {(ele as HTMLElement).style.boxShadow = 'none'});
     }
   };
+
+  const dragHighlighter = (e: React.DragEvent): void => {
+    const HTMLEventTarget = e.target! as HTMLElement;
+    if (HTMLEventTarget.className === 'category-header') {
+      const enterTargetRect = HTMLEventTarget.getBoundingClientRect();
+      const enterTargetMiddle = Math.floor((enterTargetRect.top + enterTargetRect.bottom) / 2);
+      const parent = HTMLEventTarget.parentElement as HTMLElement;
+      const gParent = parent.parentElement as HTMLElement;
+      const gpList = Array.from(gParent.children)
+      if (parent === currentHover) {
+        if (e.clientY - enterTargetMiddle < 0) {
+          currentHover.style.boxShadow = '0 -10px 20px skyblue';
+          currentHover.style.transition = 'all 0.3s';
+        } else {
+          currentHover.style.boxShadow = '0 10px 20px skyblue';
+        }
+      } else {
+        setCurrentHover(parent);
+      }
+      gpList.forEach(cnt => {
+        if (cnt !== currentHover) {
+          (cnt as HTMLElement).style.boxShadow = 'none';
+        }
+      })
+    }
+  }
 
   return (
     <div
@@ -147,51 +165,11 @@ const StoresList = ({ props }: any) => {
         dropRef.current = ref;
         dragRef.current = ref;
       }}
-      onDragStart={e => setDragTarget(e.target)}
-      onDragEnter={e => {
-        const HTMLEventTarget = e.target! as HTMLElement;
-        // console.log(HTMLEventTarget, HTMLEventTarget.classList)
-        if (HTMLEventTarget.className === 'category-header') {
-          const parent = HTMLEventTarget.parentElement as HTMLElement;
-          const gParent = parent.parentElement as HTMLElement;
-          const gpList = Array.from(gParent.children);
-          const currentIdx = gpList.indexOf(currentDragTarget! as HTMLElement);
-          const { startInfo } = dragInfo;
-          const { startEleInfo, startCoords } = startInfo;
-          const computedStyle = window.getComputedStyle(currentDragTarget! as HTMLElement);
-          const targetMargin =
-            parseInt(computedStyle.marginTop, 10) + parseInt(computedStyle.marginBottom, 10);
-          const targetHeight = startEleInfo.height;
-          const minNextEleTop = targetMargin + targetHeight;
-          const targetMovedDistance = e.clientY - startCoords.clientY;
-          let lastCoord = 0;
-          // console.log(
-          //   targetMovedDistance,
-          //   minNextEleTop,
-          //   targetHeight,
-          //   (currentDragTarget! as HTMLElement).getBoundingClientRect().height
-          // );
-          if (targetMovedDistance > minNextEleTop) {
-            console.log('foo')
-            const distanceToIdx = Math.floor(targetMovedDistance / minNextEleTop);
-            const idxToAdd = distanceToIdx >= gpList.length ? gpList.length - 1 : distanceToIdx;
-            const insertCrit = currentIdx + idxToAdd + 1 > gpList.length ? gpList.length : currentIdx + idxToAdd + 1;
-            // parent?.removeChild(HTMLEventTarget);
-            // parent?.insertBefore(HTMLEventTarget, gpList[insertCrit]);
-            (gpList[distanceToIdx] as HTMLElement).style.background = 'red';
-            console.log('go down: ', gpList[distanceToIdx])
-          } else if (targetMovedDistance * -1 > minNextEleTop) {
-            console.log('bar')
-            const distanceToIdx = Math.floor(targetMovedDistance * -1 / minNextEleTop);
-            const idxToSub = distanceToIdx >= gpList.length ? gpList.length - 1 : distanceToIdx;
-            const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
-            // parent?.removeChild(HTMLEventTarget);
-            // parent?.insertBefore(HTMLEventTarget, gpList[insertCrit]);
-            (gpList[distanceToIdx] as HTMLElement).style.background = 'blue';
-            console.log('go up: ', gpList[distanceToIdx])
-          }
-        }
+      onDragStart={e => {
+        setDragTarget(e.target);
+        setCurrentHover(e.target as HTMLElement);
       }}
+      onDragEnter={dragHighlighter}
       onDragEnd={reorderList}
     >
       {displayMenu(selectedCategory, game, music, series, movie)}
