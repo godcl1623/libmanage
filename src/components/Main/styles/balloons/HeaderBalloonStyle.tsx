@@ -19,7 +19,8 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
     padding: var(--gap-standard);
     display: ${condition === 'Header' ? balloonState : 'none'};
     ${flexSet.vertical}
-    ${setSize.free('15.625vw', '5.208vw')}
+    /* ${setSize.free('15.625vw', '5.208vw')} */
+    ${setSize.free('15.625vw', 'auto')}
     position: absolute;
     top: ${
       selectedBtn.current === optionRef.current

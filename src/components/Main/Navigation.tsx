@@ -14,6 +14,7 @@ import cloneDnd, { DragOption } from '../../clone-dnd';
 // props 타입 설정 필요 - storesList 타입 설정 필요
 const Navigation = ({ storesList }: any) => {
   const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
+  const isReorderActivated = useAppSelector(state => state.sliceReducers.isReorderActivated);
   const appDispatch = useAppDispatch();
   const { useDragClone } = cloneDnd;
   const dragOption: DragOption = {
@@ -21,7 +22,7 @@ const Navigation = ({ storesList }: any) => {
       level0: ['nav_category']
     }
   };
-  const [ dragRef, setDragTarget, dragInfo, setRefresher ] = useDragClone(dragOption);
+  const [ dragRef, setDragTarget, dragInfo, setRefresher, makeDraggable ] = useDragClone(dragOption);
 
   return (
     <nav
@@ -51,9 +52,11 @@ const Navigation = ({ storesList }: any) => {
           storesList,
           dispatch: appDispatch,
           selectedStoresCreator: setSelStores,
+          isReorderActivated,
           dragRef,
           setDragTarget,
-          dragInfo
+          dragInfo,
+          makeDraggable
         }}
       />
     </nav>

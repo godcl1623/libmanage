@@ -229,6 +229,16 @@ const isMobile = createSlice({
   }
 });
 
+const isReorderActivated = createSlice({
+  name: 'ACTIVATE_REORDER',
+  initialState: false,
+  reducers: {
+    activateReorder(state, action: PayloadAction<boolean>) {
+      return action.payload;
+    }
+  }
+})
+
 const sliceReducers = combineReducers({
   loginStatus: loginStatus.reducer,
   logoutClicked: logoutClicked.reducer,
@@ -248,7 +258,8 @@ const sliceReducers = combineReducers({
   librarySearch: librarySearch.reducer,
   selectedMediaId: selectedMediaId.reducer,
   selectedMediaList: selectedMediaList.reducer,
-  isMobile: isMobile.reducer
+  isMobile: isMobile.reducer,
+  isReorderActivated: isReorderActivated.reducer
 });
 
 const store = configureStore({
@@ -278,6 +289,7 @@ export const { setLibSearch } = librarySearch.actions;
 export const { setSelMediaId } = selectedMediaId.actions;
 export const { setSelMediaList } = selectedMediaList.actions;
 export const { checkIfMobile } = isMobile.actions;
+export const { activateReorder } = isReorderActivated.actions;
 type RootState = ReturnType<typeof store.getState>;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 type AppDispatch = typeof store.dispatch;

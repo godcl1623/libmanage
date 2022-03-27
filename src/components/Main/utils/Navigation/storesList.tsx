@@ -28,10 +28,19 @@ const StoresList = ({ props }: any) => {
     storesList,
     dispatch,
     selectedStoresCreator,
+    isReorderActivated,
     dragRef,
     setDragTarget,
-    dragInfo
+    dragInfo,
+    makeDraggable
   } = props;
+  React.useEffect(() => {
+    if (isReorderActivated) {
+      makeDraggable(true);
+    } else {
+      makeDraggable(false);
+    }
+  }, [isReorderActivated]);
   // params 타입 설정 필요
   const displayMenu = (category: string, ...params: any[]) =>
     params.map((param, index) => {
@@ -55,6 +64,9 @@ const StoresList = ({ props }: any) => {
                 onClick={e => {
                   dispatch(selectedStoresCreator('all'));
                 }}
+                css={css`
+                  pointer-events: ${isReorderActivated ? 'none' : 'auto'}
+                `}
               >
                 ALL
               </button>
@@ -68,6 +80,9 @@ const StoresList = ({ props }: any) => {
                   onClick={e => {
                     dispatch(selectedStoresCreator(store));
                   }}
+                  css={css`
+                    pointer-events: ${isReorderActivated ? 'none' : 'auto'}
+                  `}
                 >
                   - {[store[0].toUpperCase()].concat(store.slice(1, store.length))}
                 </p>
