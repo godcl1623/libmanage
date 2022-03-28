@@ -7,14 +7,33 @@ import { storesListStyle } from '../../styles/NavStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 // eslint-disable-next-line import/no-relative-packages
 import cloneDnd, { DropOption } from '../../../../clone-dnd';
+import { useAppSelector } from '../../../../slices';
+import { decryptor } from '../../../../custom_modules/aeser';
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
+  const { userState, catDropResult, isReorderActivated } = useAppSelector(state => state.sliceReducers);
   const [currentHover, setCurrentHover] = React.useState<HTMLElement>();
-  const game = <h2>Game</h2>;
-  const music = <h2>Music</h2>;
-  const series = <h2>Series</h2>;
-  const movie = <h2>Movie</h2>;
+  const [listState, setListState] = React.useState<string | string[]>('');
+  const game = 'game';
+  const music = 'music';
+  const series = 'series';
+  const movie = 'movie';
+  const storagedList = JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string)).customCatOrder;
+  const userSetList = storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
+  React.useEffect(() => {
+    let currentList: string | string[] = '';
+    if (!userState.customCatOrder || userState.customCatOrder === 'default') {
+      currentList = [game, music, series, movie];
+    } else if (isReorderActivated) {
+      currentList = userSetList;
+    } else if (catDropResult.length !== 0 && userSetList !== catDropResult) {
+      currentList = catDropResult;
+    } else {
+      currentList = userSetList;
+    }
+    setListState(currentList);
+  }, [userState.customCatOrder, catDropResult])
   const { useDropClone } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: {
@@ -28,11 +47,11 @@ const StoresList = ({ props }: any) => {
     storesList,
     dispatch,
     selectedStoresCreator,
-    isReorderActivated,
     dragRef,
     setDragTarget,
     dragInfo,
-    makeDraggable
+    makeDraggable,
+    updateDropRes
   } = props;
   React.useEffect(() => {
     if (isReorderActivated) {
@@ -42,23 +61,26 @@ const StoresList = ({ props }: any) => {
     }
   }, [isReorderActivated]);
   // params 타입 설정 필요
-  const displayMenu = (category: string, ...params: any[]) =>
-    params.map((param, index) => {
-      const eachCategoriesStores = storesList[param.props.children.toLowerCase()];
+  const displayMenu = (category: string, ...params: any[]) => {
+    const inputArr = typeof params[0] !== 'string' ? params[0] : params[0].split(',');
+    return inputArr.map((param: any, index: number) => {
+      const categoryVal = typeof param !== 'string' ? param.props.children.toLowerCase() : param;
+      const eachCategoriesStores = storesList[categoryVal];
+      const heading = param.charAt(0).toUpperCase() + param.slice(1);
       if (eachCategoriesStores !== undefined) {
         return (
           <div
             key={`category ${index}`}
-            className={`category ${param.props.children.toLowerCase()} all`}
+            className={`category ${categoryVal} all`}
             css={css`
               ${storesListStyle({ sizes } as StyleSet)}
-              display: ${category === param.props.children.toLowerCase() || category === 'all'
+              display: ${category === categoryVal || category === 'all'
                 ? 'block'
                 : 'none'};
             `}
           >
             <div key={`category-header ${index}`} className="category-header">
-              {param}
+              <h2>{heading}</h2>
               <button
                 className="select-all-btn"
                 onClick={e => {
@@ -95,25 +117,26 @@ const StoresList = ({ props }: any) => {
         return (
           <div
             key={`category ${index}`}
-            className={`category ${param.props.children.toLowerCase()} all`}
+            className={`category ${categoryVal} all`}
             css={css`
-              display: ${category === param.props.children.toLowerCase() || category === 'all'
+              display: ${category === categoryVal || category === 'all'
                 ? 'block'
                 : 'none'};
             `}
           >
             <div key={`category-header ${index}`} className="category-header">
-              {param}
+              <h2>{heading}</h2>
             </div>
           </div>
         );
       }
     });
+  };
 
   const reorderList = (e: React.DragEvent): void => {
     const HTMLEventTarget = e.target! as HTMLElement;
-    const parent = HTMLEventTarget.parentNode;
-    const list = Array.from((parent! as HTMLElement).childNodes);
+    const parent = HTMLEventTarget.parentNode as HTMLElement;
+    const list = Array.from(parent.childNodes);
     const currentIdx = list.indexOf(HTMLEventTarget);
     const { startInfo, lastInfo } = dragInfo;
     const { startEleInfo, startCoords } = startInfo;
@@ -132,12 +155,16 @@ const StoresList = ({ props }: any) => {
           currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
         parent?.removeChild(HTMLEventTarget);
         parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
+        const reorderRes = Array.from(parent.childNodes).map(ele => (ele as HTMLElement).classList[1].toLowerCase());
+        dispatch(updateDropRes(reorderRes));
       } else if (targetMovedDistance * -1 > minNextEleTop) {
         const distanceToIdx = Math.floor((targetMovedDistance * -1) / minNextEleTop);
         const idxToSub = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
         const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
         parent?.removeChild(HTMLEventTarget);
         parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
+        const reorderRes = Array.from(parent.childNodes).map(ele => (ele as HTMLElement).classList[1].toLowerCase());
+        dispatch(updateDropRes(reorderRes));
       }
       list.forEach(ele => {(ele as HTMLElement).style.boxShadow = 'none'});
     }
@@ -187,7 +214,9 @@ const StoresList = ({ props }: any) => {
       onDragEnter={dragHighlighter}
       onDragEnd={reorderList}
     >
-      {displayMenu(selectedCategory, game, music, series, movie)}
+      {/* {displayMenu(selectedCategory, game, music, series, movie)} */}
+      {/* {displayMenu(selectedCategory, menuParam)} */}
+      {displayMenu(selectedCategory, listState)}
     </div>
   );
 };

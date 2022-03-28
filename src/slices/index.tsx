@@ -237,6 +237,16 @@ const isReorderActivated = createSlice({
       return action.payload;
     }
   }
+});
+
+const catDropResult = createSlice({
+  name: 'UPDATE_DROP_RESULT',
+  initialState: [] as string[],
+  reducers: {
+    updateDropRes(state, action: PayloadAction<string[]>) {
+      return action.payload;
+    }
+  }
 })
 
 const sliceReducers = combineReducers({
@@ -259,7 +269,8 @@ const sliceReducers = combineReducers({
   selectedMediaId: selectedMediaId.reducer,
   selectedMediaList: selectedMediaList.reducer,
   isMobile: isMobile.reducer,
-  isReorderActivated: isReorderActivated.reducer
+  isReorderActivated: isReorderActivated.reducer,
+  catDropResult: catDropResult.reducer
 });
 
 const store = configureStore({
@@ -290,6 +301,7 @@ export const { setSelMediaId } = selectedMediaId.actions;
 export const { setSelMediaList } = selectedMediaList.actions;
 export const { checkIfMobile } = isMobile.actions;
 export const { activateReorder } = isReorderActivated.actions;
+export const { updateDropRes } = catDropResult.actions;
 type RootState = ReturnType<typeof store.getState>;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 type AppDispatch = typeof store.dispatch;

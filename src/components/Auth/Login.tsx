@@ -34,7 +34,8 @@ const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
       dispatch(setLoginStat(true));
       dispatch(setUserState(res.data));
       localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
-      localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
+      const dummy = 'O97cS0DlIfqGXGHDHwC7g44mWmCBOwkgErCSqtEHmN9OwOzImNqhObvaSmuUAGcUmaQgiN0P6jF32YY4Cm3V9TcBRfJGYEstFPz6P5akr0qeXPrIPJKlsCIGP2l1CvD4MaKkS8mWr7oHTCJDI3KqywGEvmkx7Tn4'
+      localStorage.setItem('flies', encryptor(hasher(dummy), process.env.REACT_APP_TRACER as string));
       alert('현재 게스트로 로그인했습니다.\n데이터 보존을 위해 회원으로 로그인해 주세요.');
       navigate('/main');
     })
@@ -145,7 +146,8 @@ const Login = () => {
                 appDispatch(setLoginStat(res.data.isLoginSuccessful));
                 appDispatch(setUserState(res.data));
                 localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
-                localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
+                const dummy = 'O97cS0DlIfqGXGHDHwC7g44mWmCBOwkgErCSqtEHmN9OwOzImNqhObvaSmuUAGcUmaQgiN0P6jF32YY4Cm3V9TcBRfJGYEstFPz6P5akr0qeXPrIPJKlsCIGP2l1CvD4MaKkS8mWr7oHTCJDI3KqywGEvmkx7Tn4'
+                localStorage.setItem('flies', encryptor(hasher(dummy), process.env.REACT_APP_TRACER as string));
                 alert(`${res.data.nickname}님, 로그인에 성공했습니다.`);
                 navigate('/main');
               } else {

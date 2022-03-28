@@ -1,14 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
 import { optionsStyle } from '../../styles/HeaderStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
-import { useAppDispatch, activateReorder, useAppSelector } from '../../../../slices';
+import { useAppDispatch, activateReorder, useAppSelector, updateDropRes, setCompareState } from '../../../../slices';
+import { decryptor, encryptor } from '../../../../custom_modules/aeser';
 
 // props 타입 설정 필요
 const HeaderOptions = ({ setStates, states, components }: any) => {
   const isReorderActivated = useAppSelector(state => state.sliceReducers.isReorderActivated);
+  const catDropRes = useAppSelector(state => state.sliceReducers.catDropResult);
+  const [lastReorderState, setLast] = React.useState<boolean>(false);
   const appDispatch = useAppDispatch();
   const {
     dispatch,
@@ -89,6 +93,49 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                 }}
                 onClick={e => {
                   appDispatch(activateReorder(!isReorderActivated));
+                  setLast(true);
+                  if (lastReorderState) {
+                    setLast(false);
+                    if (localStorage.getItem('frog')) {
+                      const originalInfo = JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string));
+                      if (window.confirm(`현재 카테고리 정렬 상태를 저장하시겠습니까?`)) {
+                        const updateOption = async ():Promise<boolean> => {
+                          const newInfo = { ...originalInfo };
+                          newInfo.customCatOrder = catDropRes.length === 0 ? 'default' : catDropRes.toString();
+                          const modPackage = encryptor(JSON.stringify(newInfo), process.env.REACT_APP_TRACER as string);
+                          localStorage.setItem('frog', modPackage);
+                          const result = await axios
+                            .put(
+                                'http://localhost:3003/member/modify_option',
+                                // `https://${sendTo}/member/modify_option`,
+                                { pack: modPackage },
+                                { withCredentials: true }
+                              )
+                            .then(res => res.data);
+                          return result;
+                        };
+                        const popupMsgs = (commRes: boolean): void => {
+                          if (commRes) {
+                            alert('저장되었습니다.');
+                          } else {
+                            alert('오류가 발생했습니다.')
+                          }
+                        }
+                        if (originalInfo.customCatOrder) {
+                          if (originalInfo.customCatOrder !== catDropRes) {
+                            updateOption().then(res => popupMsgs(res));
+                          }
+                        } else {
+                          updateOption().then(res => popupMsgs(res));
+                        }
+                      } else if (originalInfo.customCatOrder) {
+                        // dispatch(updateDropRes([]));
+                        console.log('case: customCatOrder option in original Info')
+                      } else {
+                        console.log('case: no customCatOrder option in original Info')
+                      }
+                    }
+                  }
                 }}
               >
                 <div

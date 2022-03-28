@@ -6,7 +6,7 @@ import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
-import { useAppDispatch, useAppSelector, setSelCategory, setSelStores } from '../../slices';
+import { useAppDispatch, useAppSelector, setSelCategory, setSelStores, updateDropRes } from '../../slices';
 import cloneDnd, { DragOption } from '../../clone-dnd';
 
 // const MemoedStores = memo(StoresList);
@@ -14,7 +14,6 @@ import cloneDnd, { DragOption } from '../../clone-dnd';
 // props 타입 설정 필요 - storesList 타입 설정 필요
 const Navigation = ({ storesList }: any) => {
   const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
-  const isReorderActivated = useAppSelector(state => state.sliceReducers.isReorderActivated);
   const appDispatch = useAppDispatch();
   const { useDragClone } = cloneDnd;
   const dragOption: DragOption = {
@@ -52,11 +51,11 @@ const Navigation = ({ storesList }: any) => {
           storesList,
           dispatch: appDispatch,
           selectedStoresCreator: setSelStores,
-          isReorderActivated,
           dragRef,
           setDragTarget,
           dragInfo,
-          makeDraggable
+          makeDraggable,
+          updateDropRes
         }}
       />
     </nav>
