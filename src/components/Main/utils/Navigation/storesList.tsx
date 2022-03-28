@@ -25,15 +25,20 @@ const StoresList = ({ props }: any) => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
       currentList = [game, music, series, movie];
-    } else if (isReorderActivated) {
-      currentList = userSetList;
     } else if (catDropResult.length !== 0 && userSetList !== catDropResult) {
       currentList = catDropResult;
     } else {
       currentList = userSetList;
     }
     setListState(currentList);
-  }, [userState.customCatOrder, catDropResult])
+  }, [userState.customCatOrder, catDropResult]);
+  React.useEffect(() => {
+    if (isReorderActivated) {
+      makeDraggable(true);
+    } else {
+      makeDraggable(false);
+    }
+  }, [isReorderActivated]);
   const { useDropClone } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: {
@@ -53,13 +58,6 @@ const StoresList = ({ props }: any) => {
     makeDraggable,
     updateDropRes
   } = props;
-  React.useEffect(() => {
-    if (isReorderActivated) {
-      makeDraggable(true);
-    } else {
-      makeDraggable(false);
-    }
-  }, [isReorderActivated]);
   // params 타입 설정 필요
   const displayMenu = (category: string, ...params: any[]) => {
     const inputArr = typeof params[0] !== 'string' ? params[0] : params[0].split(',');
@@ -214,8 +212,6 @@ const StoresList = ({ props }: any) => {
       onDragEnter={dragHighlighter}
       onDragEnd={reorderList}
     >
-      {/* {displayMenu(selectedCategory, game, music, series, movie)} */}
-      {/* {displayMenu(selectedCategory, menuParam)} */}
       {displayMenu(selectedCategory, listState)}
     </div>
   );
