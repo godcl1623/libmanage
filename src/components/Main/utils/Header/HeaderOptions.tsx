@@ -7,6 +7,7 @@ import { optionsStyle } from '../../styles/HeaderStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 import { useAppDispatch, activateReorder, useAppSelector, updateDropRes, setCompareState } from '../../../../slices';
 import { decryptor, encryptor } from '../../../../custom_modules/aeser';
+import { sendTo } from '../../../../custom_modules/address';
 
 // props 타입 설정 필요
 const HeaderOptions = ({ setStates, states, components }: any) => {
