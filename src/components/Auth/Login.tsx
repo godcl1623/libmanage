@@ -1,25 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, memo } from 'react';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  loginStatusCreator,
-  userStateCreator,
-  logoutClickedCreator,
-  comparisonStateCreator
-} from '../../actions';
 import { hasher, salter } from '../../custom_modules/hasher';
 import { encryptor } from '../../custom_modules/aeser';
 import { sendTo } from '../../custom_modules/address';
 import { flex, sizes, border } from '../../styles';
 import { StyledLink, Button } from '../../styles/elementsPreset';
 import { loginTop, hrStyle } from './module/styles/LoginStyles';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+import { useAppDispatch, useAppSelector, setLoginStat, setUserState, setLogoutClickStat, setCompareState } from '../../slices';
 
 const MemoedLink = memo(StyledLink);
 const MemoedBtn = memo(Button);
@@ -38,10 +31,11 @@ const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
     )
     .then(res => {
       // 임시로 작성
-      dispatch(loginStatusCreator(true));
-      dispatch(userStateCreator(res.data));
+      dispatch(setLoginStat(true));
+      dispatch(setUserState(res.data));
       localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
-      localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
+      const dummy = 'O97cS0DlIfqGXGHDHwC7g44mWmCBOwkgErCSqtEHmN9OwOzImNqhObvaSmuUAGcUmaQgiN0P6jF32YY4Cm3V9TcBRfJGYEstFPz6P5akr0qeXPrIPJKlsCIGP2l1CvD4MaKkS8mWr7oHTCJDI3KqywGEvmkx7Tn4'
+      localStorage.setItem('flies', encryptor(hasher(dummy), process.env.REACT_APP_TRACER as string));
       alert('현재 게스트로 로그인했습니다.\n데이터 보존을 위해 회원으로 로그인해 주세요.');
       navigate('/main');
     })
@@ -49,19 +43,12 @@ const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
 };
 
 const Login = () => {
-  const loginStatus = useSelector((state: RootState) => state.loginStatus);
-  const userState = useSelector((state: RootState) => state.userState);
-  const logoutClicked = useSelector((state: RootState) => state.logoutClicked);
-  const comparisonState = useSelector((state: RootState) => state.comparisonState);
-  const dispatch = useDispatch();
+  const loginStatus = useAppSelector(state => state.sliceReducers.loginStatus);
+  const userState = useAppSelector(state => state.sliceReducers.userState);
+  const logoutClicked = useAppSelector(state => state.sliceReducers.logoutClicked);
+  const comparisonState = useAppSelector(state => state.sliceReducers.comparisonState);
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
-  const test = {
-    currentItemCategory: {
-      level0: ['test0'],
-      level1: ['test1']
-    }
-  };
-  // const [ dragRef ] = cloneDnd.useDragClone(test);
   useEffect(() => {
     const abortCon = new AbortController();
     const message = {
@@ -78,15 +65,15 @@ const Login = () => {
       .then(res => {
         if (res.data.isLoginSuccessful) {
           if (!res.data.isGueset) {
-            dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+            appDispatch(setLoginStat(res.data.isLoginSuccessful));
             navigate('/main');
             if (userState.nickname === undefined) {
-              dispatch(userStateCreator(res.data));
+              appDispatch(setUserState(res.data));
             } else {
-              dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              appDispatch(setLoginStat(res.data.isLoginSuccessful));
               navigate('/main');
               if (userState.nickname === undefined) {
-                dispatch(userStateCreator(res.data));
+                appDispatch(setUserState(res.data));
               }
             }
           }
@@ -101,10 +88,10 @@ const Login = () => {
   useEffect(() => {
     const abortCon = new AbortController();
     if (logoutClicked) {
-      dispatch(logoutClickedCreator(false));
+      appDispatch(setLogoutClickStat(false));
     }
     if (comparisonState !== '') {
-      dispatch(comparisonStateCreator(''));
+      appDispatch(setCompareState(''));
     }
     return () => {
       abortCon.abort();
@@ -116,7 +103,7 @@ const Login = () => {
   }
 
   if (!navigator.onLine) {
-    console.log('foo')
+    console.log('current connection is offline')
   }
 
   return (
@@ -149,10 +136,11 @@ const Login = () => {
             )
             .then(res => {
               if (res.data.isLoginSuccessful && !res.data.isGuest) {
-                dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-                dispatch(userStateCreator(res.data));
+                appDispatch(setLoginStat(res.data.isLoginSuccessful));
+                appDispatch(setUserState(res.data));
                 localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
-                localStorage.setItem('flies', encryptor(hasher('pond plops'), process.env.REACT_APP_TRACER as string));
+                const dummy = 'O97cS0DlIfqGXGHDHwC7g44mWmCBOwkgErCSqtEHmN9OwOzImNqhObvaSmuUAGcUmaQgiN0P6jF32YY4Cm3V9TcBRfJGYEstFPz6P5akr0qeXPrIPJKlsCIGP2l1CvD4MaKkS8mWr7oHTCJDI3KqywGEvmkx7Tn4'
+                localStorage.setItem('flies', encryptor(hasher(dummy), process.env.REACT_APP_TRACER as string));
                 alert(`${res.data.nickname}님, 로그인에 성공했습니다.`);
                 navigate('/main');
               } else {
@@ -180,7 +168,7 @@ const Login = () => {
         <StyledLink to="/member/find">ID/PW 찾기</StyledLink>
       </div>
       <div className="option other">
-        <Button onClick={() => loginException(dispatch, navigate)}>게스트 로그인</Button>
+        <Button onClick={() => loginException(appDispatch, navigate)}>게스트 로그인</Button>
         <Button onClick={() => navigate('/offline')}>오프라인으로 접속</Button>
       </div>
     </article>

@@ -1,41 +1,41 @@
 /* eslint-disable no-else-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  loginStatusCreator,
-  userStateCreator,
-  balloonStateCreator,
-  comparisonStateCreator,
-  modalStateCreator,
-  selectedItemCreator,
-  selectedItemDataCreator,
-  selectedMediaIdCreator,
-  isMobileCreator,
-  selectedStoresCreator
-} from '../../../../../actions';
 import { sendTo } from '../../../../../custom_modules/address';
 import { sizes, flex } from '../../../../../styles';
 import { mainStyle } from '../../../styles/MainStyles';
-import { RootState } from '../../../../../reducers';
+import {
+  useAppDispatch,
+  useAppSelector,
+  setLoginStat,
+  setUserState,
+  setBalloonState,
+  setCompareState,
+  setModalState,
+  setSelItem,
+  setSelItemData,
+  setSelMediaId,
+  setSelStores,
+  checkIfMobile
+} from '../../../../../slices';
 
 // props 타입 체크 필요
 const OnlineWrapper = ({ Contents }: any) => {
-  const loginStatus = useSelector((state: RootState) => state.loginStatus);
-  const logoutClicked = useSelector((state: RootState) => state.logoutClicked);
-  const balloonState = useSelector((state: RootState) => state.balloonState);
-  const userState = useSelector((state: RootState) => state.userState);
-  const comparisonState = useSelector((state: RootState) => state.comparisonState);
-  const selectedItem = useSelector((state: RootState) => state.selectedItem);
-  const selectedItemData = useSelector((state: RootState) => state.selectedItemData);
-  const modalOrigin = useSelector((state: RootState) => state.modalOrigin);
-  const modalState = useSelector((state: RootState) => state.modalState);
-  const selectedMediaId = useSelector((state: RootState) => state.selectedMediaId);
-  const selectedMediaList = useSelector((state: RootState) => state.selectedMediaList);
-  const isMobile = useSelector((state: RootState) => state.isMobile);
-  const selectedStores = useSelector((state: RootState) => state.selectedStores);
+  const loginStatus = useAppSelector(state => state.sliceReducers.loginStatus);
+  const logoutClicked = useAppSelector(state => state.sliceReducers.logoutClicked);
+  const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
+  const userState = useAppSelector(state => state.sliceReducers.userState);
+  const comparisonState = useAppSelector(state => state.sliceReducers.comparisonState);
+  const selectedItem = useAppSelector(state => state.sliceReducers.selectedItem);
+  const selectedItemData = useAppSelector(state => state.sliceReducers.selectedItemData);
+  const modalOrigin = useAppSelector(state => state.sliceReducers.modalOrigin);
+  const modalState = useAppSelector(state => state.sliceReducers.modalState);
+  const selectedMediaId = useAppSelector(state => state.sliceReducers.selectedMediaId);
+  const selectedMediaList = useAppSelector(state => state.sliceReducers.selectedMediaList);
+  const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
+  const selectedStores = useAppSelector(state => state.sliceReducers.selectedStores);
   // 타입 수정 필요
   const [storesList, setStoresList] = useState<any>('');
   const [userLibrary, setUserLibrary] = useState<any>('');
@@ -43,7 +43,7 @@ const OnlineWrapper = ({ Contents }: any) => {
   const [selStoresListHeight, setSelStoresListHeight] = useState(0);
   const [isPortrait, setIsPortrait] = useState(false);
   const [coverSize, setCoverSize] = useState(10);
-  const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   const headerRef = React.useRef();
   const listRef = React.useRef();
@@ -65,27 +65,30 @@ const OnlineWrapper = ({ Contents }: any) => {
     isPortrait,
     coverSize
   };
+
   const setStates = {
     setUserLibrary,
     setHeaderHeight,
     setSelStoresListHeight,
     setCoverSize
   };
+
   const actionCreators = {
-    balloonStateCreator,
-    comparisonStateCreator,
-    modalStateCreator,
-    selectedItemCreator,
-    selectedItemDataCreator,
-    selectedMediaIdCreator,
-    selectedStoresCreator
+    balloonStateCreator: setBalloonState,
+    comparisonStateCreator: setCompareState,
+    modalStateCreator: setModalState,
+    selectedItemCreator: setSelItem,
+    selectedItemDataCreator: setSelItemData,
+    selectedMediaIdCreator: setSelMediaId,
+    selectedStoresCreator: setSelStores
   };
+
   const refs = { headerRef, listRef };
-  const moduleHooks = { dispatch };
+  const moduleHooks = { dispatch: appDispatch };
   const styles = { mainStyle, flex, sizes };
 
   useEffect(() => {
-    // const abortCon = new AbortController();
+    const abortCon = new AbortController();
     const checkLogin = async () => {
       const message = {
         comparisonState,
@@ -93,28 +96,28 @@ const OnlineWrapper = ({ Contents }: any) => {
       };
       await axios
         .post(
-          'http://localhost:3003/check_login',
-          // `https://${sendTo}/check_login`,
+          // 'http://localhost:3003/check_login',
+          `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
         .then(res => {
           if (res.data.isLoginSuccessful) {
             if (!res.data.isGuest) {
-              dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              appDispatch(setLoginStat(res.data.isLoginSuccessful));
               if (userState.nickname === undefined) {
-                dispatch(userStateCreator(res.data));
-                dispatch(comparisonStateCreator(''));
+                appDispatch(setUserState(res.data));
+                appDispatch(setCompareState(''));
               } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
-                dispatch(userStateCreator(res.data));
+                appDispatch(setUserState(res.data));
               }
             } else {
-              dispatch(loginStatusCreator(res.data.isLoginSuccessful));
+              appDispatch(setLoginStat(res.data.isLoginSuccessful));
               if (userState.nickname === undefined) {
-                dispatch(userStateCreator(res.data));
-                dispatch(comparisonStateCreator(''));
+                appDispatch(setUserState(res.data));
+                appDispatch(setCompareState(''));
               } else if (userState.stores.game.steam !== res.data.stores.game.steam) {
-                dispatch(userStateCreator(res.data));
+                appDispatch(setUserState(res.data));
               }
             }
           } else if (res.data === 'session_expired' || res.data === 'check_failed') {
@@ -142,9 +145,9 @@ const OnlineWrapper = ({ Contents }: any) => {
       checkLogin();
     }
     checkLogin();
-    // return () => {
-    //   abortCon.abort();
-    // }
+    return () => {
+      abortCon.abort();
+    }
   }, [comparisonState]);
 
   useEffect(() => {
@@ -158,21 +161,21 @@ const OnlineWrapper = ({ Contents }: any) => {
         storeStat.map((ele, index) => (ele === true ? index : '')).filter(ele => ele !== '')
       );
       const storesToDisplay = activatedStores.map((status, index) =>
-      // 타입 체크 필요
+        // 타입 체크 필요
         status.map((iTrue: any) => eachStoresOfCategories[index][iTrue])
       );
       // setStoresList(storesToDisplay);
       // 타입 체크 필요
-      const testObj: Record<string, string | string[]> = {};
+      const storesOfCategoryList: Record<string, string | string[]> = {};
       categories.forEach((category, index) => {
         if (storesToDisplay[index] !== undefined) {
-          testObj[category] = storesToDisplay[index];
+          storesOfCategoryList[category] = storesToDisplay[index];
         } else {
-          testObj[category] = 'foo';
+          storesOfCategoryList[category] = 'foo';
         }
       });
       // 타입 체크 필요
-      setStoresList(testObj);
+      setStoresList(storesOfCategoryList);
     }
     return () => {
       abortCon.abort();
@@ -188,8 +191,8 @@ const OnlineWrapper = ({ Contents }: any) => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
@@ -207,12 +210,12 @@ const OnlineWrapper = ({ Contents }: any) => {
     const abortCon = new AbortController();
     if (selectedItemData.name) {
       if (selectedItem !== selectedItemData.name) {
-        dispatch(modalStateCreator(true));
+        appDispatch(setModalState(true));
       } else {
-        dispatch(modalStateCreator(false));
+        appDispatch(setModalState(false));
       }
     } else if (selectedItem) {
-      dispatch(modalStateCreator(true));
+      appDispatch(setModalState(true));
     }
     return () => {
       abortCon.abort();
@@ -224,13 +227,11 @@ const OnlineWrapper = ({ Contents }: any) => {
       if (window.matchMedia('(orientation: portrait)').matches) {
         setIsPortrait(true);
         if (window.innerWidth < 600) {
-          dispatch(isMobileCreator(true));
-          // dispatch(selectedStoresCreator(''));
+          appDispatch(checkIfMobile(true));
         }
       } else {
         setIsPortrait(false);
-        dispatch(isMobileCreator(false));
-        // dispatch(selectedStoresCreator('all'));
+        appDispatch(checkIfMobile(false));
       }
     };
     window.addEventListener('resize', detector);
@@ -241,12 +242,12 @@ const OnlineWrapper = ({ Contents }: any) => {
     if (window.matchMedia('(orientation: portrait)').matches) {
       setIsPortrait(true);
       if (window.innerWidth < 600) {
-        dispatch(isMobileCreator(true));
-        dispatch(selectedStoresCreator(''));
+        appDispatch(checkIfMobile(true));
+        appDispatch(setSelStores(''));
       }
     } else {
       setIsPortrait(false);
-      dispatch(isMobileCreator(false));
+      appDispatch(checkIfMobile(false));
     }
   }, []);
 

@@ -49,6 +49,8 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
               dispatch(selectedMediaIdCreator(''));
               dispatch(selectedMediaListCreator(''));
               dispatch(modalStateCreator(false));
+              localStorage.removeItem('frog');
+              localStorage.removeItem('flies');
               alert('로그아웃 했습니다.');
               navigate('/');
             })

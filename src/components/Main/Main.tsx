@@ -20,7 +20,6 @@ const Main = () => {
 
   if (!isOnline) {
     return <OfflineWrapper Contents={ MainContents }/>
-    // return <Offline />
   } else {
     return <OnlineWrapper Contents={ MainContents }/>
   }

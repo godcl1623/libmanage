@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -10,21 +9,6 @@ import Balloon from '../Modal/Balloon';
 import SearchField from './utils/Header/SearchField';
 import HeaderOptions from './utils/Header/HeaderOptions';
 import MemberStatus from './utils/Header/MemberStatus';
-import {
-  loginStatusCreator,
-  logoutClickedCreator,
-  modalStateCreator,
-  balloonStateCreator,
-  balloonOriginCreator,
-  userStateCreator,
-  comparisonStateCreator,
-  modalOriginCreator,
-  librarySearchCreator,
-  selectedItemCreator,
-  selectedItemDataCreator,
-  selectedMediaIdCreator,
-  selectedMediaListCreator
-} from '../../actions';
 import { sizes, flex, border } from '../../styles';
 import { headerStyle } from './styles/HeaderStyles';
 import {
@@ -32,8 +16,24 @@ import {
   headerBalloonStyle,
   headerBalloonHand
 } from './styles/balloons/HeaderBalloonStyle';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+import {
+  useAppDispatch,
+  useAppSelector,
+  setLoginStat,
+  setLogoutClickStat,
+  setModalState,
+  setBalloonState,
+  setBalloonOrigin,
+  setUserState,
+  setCompareState,
+  setModalOrigin,
+  setLibSearch,
+  setSelItem,
+  setSelItemData,
+  setSelMediaId,
+  setSelMediaList
+} from '../../slices';
 
 const MemoedIco = memo(FaBars);
 const MemoedBalloon = memo(Balloon);
@@ -45,25 +45,25 @@ type PropsType = {
   headerRef: React.MutableRefObject<HTMLElement>;
   setHeight: React.Dispatch<React.SetStateAction<number>>;
   currHeight: number;
-}
+};
 
 const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
-  const loginStatus = useSelector((state: RootState) => state.loginStatus);
-  const userState = useSelector((state: RootState) => state.userState);
-  const modalState = useSelector((state: RootState) => state.modalState);
-  const balloonState = useSelector((state: RootState) => state.balloonState);
-  const balloonOrigin = useSelector((state: RootState) => state.balloonOrigin);
-  const librarySearch = useSelector((state: RootState) => state.librarySearch);
-  const isMobile = useSelector((state: RootState) => state.isMobile);
+  const loginStatus = useAppSelector(state => state.sliceReducers.loginStatus);
+  const userState = useAppSelector(state => state.sliceReducers.userState);
+  const modalState = useAppSelector(state => state.sliceReducers.modalState);
+  const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
+  const balloonOrigin = useAppSelector(state => state.sliceReducers.balloonOrigin);
+  const librarySearch = useAppSelector(state => state.sliceReducers.librarySearch);
+  const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const [btnCoords, setBtnCoords] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const optionRef = useRef<HTMLButtonElement | null>(null);
   const memberRef = useRef<HTMLButtonElement | null>(null);
   const selectedBtn = useRef<HTMLButtonElement | null>(null);
   const updateBtnCoords = (...args: number[]) => {
-    const [ left, top, bottom, width ] = args;
+    const [left, top, bottom, width] = args;
     setBtnCoords(prevState => ({
       ...prevState,
       leftCoord: left,
@@ -99,14 +99,16 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
           id="option"
           ref={optionRef}
           onClick={e => {
-            const { left, top, bottom } = (optionRef.current as HTMLElement).getBoundingClientRect();
+            const { left, top, bottom } = (
+              optionRef.current as HTMLElement
+            ).getBoundingClientRect();
             updateBtnCoords(left, top, bottom);
             selectedBtn.current = optionRef.current;
-            dispatch(balloonOriginCreator('Header'));
+            appDispatch(setBalloonOrigin('Header'));
             if (balloonState === 'none') {
-              dispatch(balloonStateCreator('flex'));
+              appDispatch(setBalloonState('flex'));
             } else if (balloonOrigin === 'Header') {
-              dispatch(balloonStateCreator('none'));
+              appDispatch(setBalloonState('none'));
             }
           }}
         >
@@ -116,10 +118,10 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
           contents={
             <HeaderOptions
               setStates={{
-                dispatch,
-                modalOriginCreator,
-                modalStateCreator,
-                balloonStateCreator,
+                dispatch: appDispatch,
+                modalOriginCreator: setModalOrigin,
+                modalStateCreator: setModalState,
+                balloonStateCreator: setBalloonState,
                 modalState
               }}
               states={{
@@ -129,25 +131,25 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
               }}
               components={[
                 <SearchField
-                  dispatch={dispatch}
-                  setState={librarySearchCreator}
+                  dispatch={appDispatch}
+                  setState={setLibSearch}
                   fieldVal={librarySearch}
                 />,
                 <MemberStatus
                   loginStatus={loginStatus}
                   functions={{
-                    dispatch,
-                    logoutClickedCreator,
-                    userStateCreator,
-                    comparisonStateCreator,
-                    loginStatusCreator,
+                    dispatch: appDispatch,
+                    logoutClickedCreator: setLogoutClickStat,
+                    userStateCreator: setUserState,
+                    comparisonStateCreator: setCompareState,
+                    loginStatusCreator: setLoginStat,
                     navigate,
                     axios,
-                    selectedItemCreator,
-                    selectedItemDataCreator,
-                    selectedMediaIdCreator,
-                    selectedMediaListCreator,
-                    modalStateCreator
+                    selectedItemCreator: setSelItem,
+                    selectedItemDataCreator: setSelItemData,
+                    selectedMediaIdCreator: setSelMediaId,
+                    selectedMediaListCreator: setSelMediaList,
+                    modalStateCreator: setModalState
                   }}
                 />
               ]}
@@ -170,8 +172,8 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
           <></>
         ) : (
           <SearchField
-            dispatch={dispatch}
-            setState={librarySearchCreator}
+            dispatch={appDispatch}
+            setState={setLibSearch}
             fieldVal={librarySearch}
           />
         )}
@@ -183,14 +185,16 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
               id="member-info"
               ref={memberRef}
               onClick={() => {
-                const { left, top, bottom, width } = (memberRef.current as HTMLElement).getBoundingClientRect();
+                const { left, top, bottom, width } = (
+                  memberRef.current as HTMLElement
+                ).getBoundingClientRect();
                 updateBtnCoords(left, top, bottom, width);
                 selectedBtn.current = memberRef.current;
-                dispatch(balloonOriginCreator('Header'));
+                appDispatch(setBalloonOrigin('Header'));
                 if (balloonState === 'none') {
-                  dispatch(balloonStateCreator('flex'));
+                  appDispatch(setBalloonState('flex'));
                 } else if (balloonOrigin === 'Header') {
-                  dispatch(balloonStateCreator('none'));
+                  appDispatch(setBalloonState('none'));
                 }
               }}
             >
@@ -207,18 +211,18 @@ const Header = ({ headerRef, setHeight, currHeight }: PropsType) => {
             <MemberStatus
               loginStatus={loginStatus}
               functions={{
-                dispatch,
-                logoutClickedCreator,
-                userStateCreator,
-                comparisonStateCreator,
-                loginStatusCreator,
+                dispatch: appDispatch,
+                logoutClickedCreator: setLogoutClickStat,
+                userStateCreator: setUserState,
+                comparisonStateCreator: setCompareState,
+                loginStatusCreator: setLoginStat,
                 navigate,
                 axios,
-                selectedItemCreator,
-                selectedItemDataCreator,
-                selectedMediaIdCreator,
-                selectedMediaListCreator,
-                modalStateCreator
+                selectedItemCreator: setSelItem,
+                selectedItemDataCreator: setSelItemData,
+                selectedMediaIdCreator: setSelMediaId,
+                selectedMediaListCreator: setSelMediaList,
+                modalStateCreator: setModalState
               }}
             />
           )}

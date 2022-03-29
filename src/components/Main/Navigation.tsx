@@ -1,31 +1,43 @@
+/* eslint-disable import/no-relative-packages */
 import React, { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { selectedCategoryCreator, selectedStoresCreator } from '../../actions';
 import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
-import { RootState } from '../../reducers';
 import { StyleSet } from '../../custom_modules/commonUtils';
+import { useAppDispatch, useAppSelector, setSelCategory, setSelStores, updateDropRes } from '../../slices';
+import cloneDnd, { DragOption } from '../../clone-dnd';
 
 // const MemoedStores = memo(StoresList);
 
 // props 타입 설정 필요 - storesList 타입 설정 필요
 const Navigation = ({ storesList }: any) => {
-  const selectedCategory = useSelector((state: RootState) => state.selectedCategory);
-  const dispatch = useDispatch();
+  const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
+  const appDispatch = useAppDispatch();
+  const { useDragClone } = cloneDnd;
+  const dragOption: DragOption = {
+    currentItemCategory: {
+      level0: ['nav_category']
+    }
+  };
+  const [ dragRef, setDragTarget, dragInfo, setRefresher, makeDraggable ] = useDragClone(dragOption);
 
   return (
     <nav
       id="navigation"
-      css={css`${navStyle({ sizes, flex, border } as StyleSet)}`}
+      css={css`
+        ${navStyle({ sizes, flex, border } as StyleSet)}
+      `}
     >
       <select
         name="content-type"
         id="category-type"
         value={selectedCategory}
-        onChange={e => dispatch(selectedCategoryCreator(e.target.value))}
+        onChange={e => {
+          appDispatch(setSelCategory(e.target.value));
+          setRefresher(e.target.value);
+        }}
       >
         <option value="all">전체</option>
         <option value="game">게임</option>
@@ -37,8 +49,13 @@ const Navigation = ({ storesList }: any) => {
         props={{
           selectedCategory,
           storesList,
-          dispatch,
-          selectedStoresCreator
+          dispatch: appDispatch,
+          selectedStoresCreator: setSelStores,
+          dragRef,
+          setDragTarget,
+          dragInfo,
+          makeDraggable,
+          updateDropRes
         }}
       />
     </nav>

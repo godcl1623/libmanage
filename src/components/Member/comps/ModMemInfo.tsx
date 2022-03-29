@@ -1,7 +1,6 @@
 import React, { useState, useRef, memo, Dispatch } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import InputTemplate from '../../Auth/module/components/InputTemplate';
@@ -9,17 +8,18 @@ import FormSubmit from '../../Auth/module/components/FormSubmit';
 import { verifyPwd, verifyNick, verifyEmail } from '../../Auth/module/utils';
 import { encryptor } from '../../../custom_modules/aeser';
 import { hasher } from '../../../custom_modules/hasher';
-import {
-  loginStatusCreator,
-  logoutClickedCreator,
-  userStateCreator,
-  comparisonStateCreator,
-  modalStateCreator
-} from '../../../actions';
 import { sendTo } from '../../../custom_modules/address';
 import { border, flex, sizes } from '../../../styles';
 import { modInfoStyle } from '../styles/memInfoStyle';
 import { StyleSet } from '../../../custom_modules/commonUtils';
+import {
+  useAppDispatch,
+  setLoginStat,
+  setLogoutClickStat,
+  setUserState,
+  setCompareState,
+  setModalState
+} from '../../../slices';
 
 // const InputTemplate = memo(InputTemplate);
 // const FormSubmit = memo(FormSubmit);
@@ -66,7 +66,7 @@ const ModMemInfo = ({ userState }: any) => {
   const [pwdState, setPwdState] = useState<string | number>('');
   const [nickState, setNickState] = useState<string | number>('');
   const [emailAuth, setEmailAuth] = useState<string | number>('');
-  const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
   const ref = useRef<HTMLFormElement | null>(null);
   return (
@@ -97,7 +97,7 @@ const ModMemInfo = ({ userState }: any) => {
         const checkInputVal = (targetTxt: string, target: string) => {
           // 합수 타입 수정 필요
           type TempFuncType =
-            (() => void)
+            | (() => void)
             | ((string: string) => boolean)
             | ((string: string) => string)
             | Dispatch<React.SetStateAction<string | number>>;
@@ -232,11 +232,11 @@ const ModMemInfo = ({ userState }: any) => {
                     { withCredentials: true }
                   )
                   .then(res => {
-                    dispatch(logoutClickedCreator(true));
-                    dispatch(userStateCreator(null));
-                    dispatch(comparisonStateCreator(''));
-                    dispatch(loginStatusCreator(res.data.isLoginSuccessful));
-                    dispatch(modalStateCreator(false));
+                    appDispatch(setLogoutClickStat(true));
+                    appDispatch(setUserState(null));
+                    appDispatch(setCompareState(''));
+                    appDispatch(setLoginStat(res.data.isLoginSuccessful));
+                    appDispatch(setModalState(false));
                     alert('회원 정보 변경 내역이 성공적으로 반영됐습니다. 다시 로그인 해주세요.');
                     navigate('/');
                   })
