@@ -15,30 +15,33 @@ const StoresList = ({ props }: any) => {
   const { userState, catDropResult, isReorderActivated } = useAppSelector(state => state.sliceReducers);
   const [currentHover, setCurrentHover] = React.useState<HTMLElement>();
   const [listState, setListState] = React.useState<string | string[]>('');
+  const originalList = React.useRef<string | string[]>('');
   const game = 'game';
   const music = 'music';
   const series = 'series';
   const movie = 'movie';
-  const storagedList = JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string)).customCatOrder;
+  const storagedList = localStorage.length !== 0 ? JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string)).customCatOrder : null;
   const userSetList = storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
   React.useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
       currentList = [game, music, series, movie];
-    } else if (catDropResult.length !== 0 && userSetList !== catDropResult) {
-      currentList = catDropResult;
     } else {
       currentList = userSetList;
     }
     setListState(currentList);
-  }, [userState.customCatOrder, catDropResult]);
+    originalList.current = currentList;
+  }, [userState.customCatOrder]);
   React.useEffect(() => {
     if (isReorderActivated) {
       makeDraggable(true);
     } else {
       makeDraggable(false);
+      if (catDropResult[0] === 'cancel') {
+        setListState(originalList.current);
+      }
     }
-  }, [isReorderActivated]);
+  }, [isReorderActivated, catDropResult]);
   const { useDropClone } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: {
@@ -59,7 +62,7 @@ const StoresList = ({ props }: any) => {
     updateDropRes
   } = props;
   // params 타입 설정 필요
-  const displayMenu = (category: string, ...params: any[]) => {
+  const displayMenu = React.useCallback((category: string, ...params: any[]) => {
     const inputArr = typeof params[0] !== 'string' ? params[0] : params[0].split(',');
     return inputArr.map((param: any, index: number) => {
       const categoryVal = typeof param !== 'string' ? param.props.children.toLowerCase() : param;
@@ -129,7 +132,7 @@ const StoresList = ({ props }: any) => {
         );
       }
     });
-  };
+  }, [listState]);
 
   const reorderList = (e: React.DragEvent): void => {
     const HTMLEventTarget = e.target! as HTMLElement;
@@ -151,18 +154,26 @@ const StoresList = ({ props }: any) => {
         const idxToAdd = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
         const insertCrit =
           currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
-        parent?.removeChild(HTMLEventTarget);
-        parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
-        const reorderRes = Array.from(parent.childNodes).map(ele => (ele as HTMLElement).classList[1].toLowerCase());
-        dispatch(updateDropRes(reorderRes));
+        const original = Array.from(parent.children);
+        const front = original.slice(0, insertCrit);
+        const back = original.slice(insertCrit);
+        const moveItem = front.splice(front.indexOf(original[currentIdx]), 1)[0];
+        back.unshift(moveItem);
+        const result = [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
+        setListState(result);
+        dispatch(updateDropRes(result));
       } else if (targetMovedDistance * -1 > minNextEleTop) {
         const distanceToIdx = Math.floor((targetMovedDistance * -1) / minNextEleTop);
         const idxToSub = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
         const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
-        parent?.removeChild(HTMLEventTarget);
-        parent?.insertBefore(HTMLEventTarget, list[insertCrit]);
-        const reorderRes = Array.from(parent.childNodes).map(ele => (ele as HTMLElement).classList[1].toLowerCase());
-        dispatch(updateDropRes(reorderRes));
+        const original = Array.from(parent.children);
+        const front = original.slice(0, insertCrit);
+        const back = original.slice(insertCrit);
+        const moveItem = back.splice(back.indexOf(original[currentIdx]), 1)[0];
+        back.unshift(moveItem);
+        const result = [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
+        setListState(result);
+        dispatch(updateDropRes(result));
       }
       list.forEach(ele => {(ele as HTMLElement).style.boxShadow = 'none'});
     }

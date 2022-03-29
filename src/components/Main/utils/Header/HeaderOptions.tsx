@@ -128,11 +128,8 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                         } else {
                           updateOption().then(res => popupMsgs(res));
                         }
-                      } else if (originalInfo.customCatOrder) {
-                        // dispatch(updateDropRes([]));
-                        console.log('case: customCatOrder option in original Info')
                       } else {
-                        console.log('case: no customCatOrder option in original Info')
+                        dispatch(updateDropRes(['cancel']));
                       }
                     }
                   }
