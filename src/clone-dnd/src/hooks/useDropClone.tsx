@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { BasicDndOptions, CommonUtils, useStore } from '../components/CommonUtils';
 
-export type IDropOptions = Omit<BasicDndOptions, 'disableCurrent' | 'applyToChildren'>;
+// export type IDropOptions = Omit<BasicDndOptions, 'disableCurrent' | 'applyToChildren'>;
+export type IDropOptions = BasicDndOptions;
 type DropResult = {
   lastDroppedLevel: number;
   lastDroppedResult: string;
@@ -26,7 +27,7 @@ export default function useDropClone(option: IDropOptions): any {
   const dropRef = useRef(null);
   const utils = new CommonUtils();
 
-  const { currentItemCategory } = option;
+  const { currentItemCategory, applyToChildren } = option;
 
   const updateDropResult = (
     lastDroppedLevel: number = (lastdropResult! as DropResult).lastDroppedLevel,
@@ -44,15 +45,20 @@ export default function useDropClone(option: IDropOptions): any {
       const htmlTarget = e.target! as HTMLElement;
       const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
       const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
-      const targetIdxInNodes = Array.from((htmlTarget.parentNode! as HTMLElement).childNodes).indexOf(htmlTarget);
+      const targetIdxInNodes = (currentItemCategory as (string | string[])[]).length > 1 ? Array.from((htmlTarget.parentNode! as HTMLElement).childNodes).indexOf(htmlTarget) : 0;
       if (currentItemCategory) {
-        const dropCategory = Object.values(currentItemCategory)[levelOfDropTarget][targetIdxInNodes];
+        let dropCategory = '';
+        if (applyToChildren) {
+          dropCategory = Object.values(currentItemCategory)[levelOfDropTarget][targetIdxInNodes];
+        } else {
+          dropCategory = Object.values(currentItemCategory)[0][targetIdxInNodes];
+        }
         if (dropCategory) {
           setDropCat(dropCategory);
         }
       }
     }
-  }, []);
+  }, [dropMap]);
 
   const runDropHandler = useCallback(
     (e: Event) => {

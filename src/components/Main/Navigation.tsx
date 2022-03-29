@@ -6,8 +6,8 @@ import { border, flex, sizes } from '../../styles';
 import StoresList from './utils/Navigation/storesList';
 import { navStyle } from './styles/NavStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
-import cloneDnd, { DropOption, DragOption } from '../../clone-dnd';
-import { useAppDispatch, useAppSelector, setSelCategory, setSelStores } from '../../slices';
+import { useAppDispatch, useAppSelector, setSelCategory, setSelStores, updateDropRes } from '../../slices';
+import cloneDnd, { DragOption } from '../../clone-dnd';
 
 // const MemoedStores = memo(StoresList);
 
@@ -15,21 +15,20 @@ import { useAppDispatch, useAppSelector, setSelCategory, setSelStores } from '..
 const Navigation = ({ storesList }: any) => {
   const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
   const appDispatch = useAppDispatch();
-  const { useDropClone, useDragClone } = cloneDnd;
-  const dropOption: DropOption = {
-    currentItemCategory: ['nav_list']
-  }
+  const { useDragClone } = cloneDnd;
   const dragOption: DragOption = {
-    currentItemCategory: ['nav_list']
-  }
-  const [ dropRef, dropRes ] = useDropClone(dropOption);
-  const [ dragRef, foo, bar, setRefresher ] = useDragClone(dragOption);
+    currentItemCategory: {
+      level0: ['nav_category']
+    }
+  };
+  const [ dragRef, setDragTarget, dragInfo, setRefresher, makeDraggable ] = useDragClone(dragOption);
 
   return (
     <nav
       id="navigation"
-      css={css`${navStyle({ sizes, flex, border } as StyleSet)}`}
-      ref={dropRef}
+      css={css`
+        ${navStyle({ sizes, flex, border } as StyleSet)}
+      `}
     >
       <select
         name="content-type"
@@ -52,7 +51,11 @@ const Navigation = ({ storesList }: any) => {
           storesList,
           dispatch: appDispatch,
           selectedStoresCreator: setSelStores,
-          dragRef
+          dragRef,
+          setDragTarget,
+          dragInfo,
+          makeDraggable,
+          updateDropRes
         }}
       />
     </nav>

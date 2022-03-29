@@ -37,7 +37,7 @@
     "zustand": "^3.7.1"
   },
   "scripts": {
-    "start": "BROWSER=none node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts start",
+    "start": "node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts start",
     "build": "node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
