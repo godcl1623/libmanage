@@ -96,8 +96,8 @@ const OnlineWrapper = ({ Contents }: any) => {
       };
       await axios
         .post(
-          'http://localhost:3003/check_login',
-          // `https://${sendTo}/check_login`,
+          // 'http://localhost:3003/check_login',
+          `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
         )
@@ -166,16 +166,16 @@ const OnlineWrapper = ({ Contents }: any) => {
       );
       // setStoresList(storesToDisplay);
       // 타입 체크 필요
-      const testObj: Record<string, string | string[]> = {};
+      const storesOfCategoryList: Record<string, string | string[]> = {};
       categories.forEach((category, index) => {
         if (storesToDisplay[index] !== undefined) {
-          testObj[category] = storesToDisplay[index];
+          storesOfCategoryList[category] = storesToDisplay[index];
         } else {
-          testObj[category] = 'foo';
+          storesOfCategoryList[category] = 'foo';
         }
       });
       // 타입 체크 필요
-      setStoresList(testObj);
+      setStoresList(storesOfCategoryList);
     }
     return () => {
       abortCon.abort();
@@ -191,8 +191,8 @@ const OnlineWrapper = ({ Contents }: any) => {
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
-        // .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
+        // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
+        .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
           // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {

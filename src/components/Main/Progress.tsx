@@ -51,8 +51,8 @@ const Progress = () => {
     };
     const timer = forceAbort(abortCon, navigate);
     axios
-      .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
-      // .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
+      // .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
+      .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
       .then(res => {
         const reqUserInfo = res.data;
         clearTimeout(timer);
@@ -65,8 +65,8 @@ const Progress = () => {
     if (userInfo !== '') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        .get('http://localhost:3003/storeLib', { withCredentials: true })
-        // .get(`https://${sendTo}/storeLib`, { withCredentials: true })
+        // .get('http://localhost:3003/storeLib', { withCredentials: true })
+        .get(`https://${sendTo}/storeLib`, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
           setApiKey(res.data.apiKey);
@@ -87,8 +87,8 @@ const Progress = () => {
       }
       const timer = forceAbort(abortCon, navigate);
       axios
-        .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
-        // .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
+        // .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
+        .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
           if (res.data === 'done') {
@@ -105,8 +105,8 @@ const Progress = () => {
     if (currApiCall === 'done') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
-        // .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
+        // .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
+        .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
         .then(res => {
           if (res.data.result) {
             clearTimeout(timer);
@@ -120,8 +120,8 @@ const Progress = () => {
   }, [currApiCall]);
   useEffect(() => {
     const requestStatus = setInterval(() => {
-      axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
-      // axios.post(`https://${sendTo}/stat/track`, {}, { withCredentials: true }).then(res => {
+      // axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
+      axios.post(`https://${sendTo}/stat/track`, {}, { withCredentials: true }).then(res => {
         if (res.data.status === status) {
           setCount(res.data.count);
           setTotal(res.data.total);

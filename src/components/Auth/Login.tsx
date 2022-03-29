@@ -24,8 +24,8 @@ const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
   };
   axios
     .post(
-      'http://localhost:3003/login_process',
-      // `https://${sendTo}/login_process`,
+      // 'http://localhost:3003/login_process',
+      `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER as string) },
       { withCredentials: true }
     )
@@ -49,13 +49,6 @@ const Login = () => {
   const comparisonState = useAppSelector(state => state.sliceReducers.comparisonState);
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
-  const test = {
-    currentItemCategory: {
-      level0: ['test0'],
-      level1: ['test1']
-    }
-  };
-  // const [ dragRef ] = cloneDnd.useDragClone(test);
   useEffect(() => {
     const abortCon = new AbortController();
     const message = {
@@ -64,8 +57,8 @@ const Login = () => {
     }
     axios
       .post(
-        'http://localhost:3003/check_login',
-        // `https://${sendTo}/check_login`,
+        // 'http://localhost:3003/check_login',
+        `https://${sendTo}/check_login`,
         { message },
         { withCredentials: true }
       )
@@ -110,7 +103,7 @@ const Login = () => {
   }
 
   if (!navigator.onLine) {
-    console.log('foo')
+    console.log('current connection is offline')
   }
 
   return (
@@ -136,8 +129,8 @@ const Login = () => {
           }
           axios
             .post(
-              'http://localhost:3003/login_process',
-              // `https://${sendTo}/login_process`,
+              // 'http://localhost:3003/login_process',
+              `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER as string) },
               { withCredentials: true }
             )
