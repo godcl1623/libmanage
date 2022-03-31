@@ -21,7 +21,8 @@ const Navigation = ({ storesList }: any) => {
       level0: ['nav_category']
     }
   };
-  const [ dragRef, setDragTarget, dragInfo, setRefresher, makeDraggable ] = useDragClone(dragOption);
+  const [ dragRef, dragInfo, setSettings ] = useDragClone(dragOption);
+  const { updateGlobalDragTarget: setDragTarget, makeDraggable, setRefresher } = setSettings;
 
   return (
     <nav
