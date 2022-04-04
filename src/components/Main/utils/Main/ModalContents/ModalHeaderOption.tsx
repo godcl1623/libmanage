@@ -218,13 +218,22 @@ const ModalHeaderOption = ({ props }: any) => {
               (
                 <button
                   onClick={e => {
-                    const temp = {...userState};
-                    temp.stores.game.steam = false;
+                    const temp = {
+                      ...userState,
+                      stores: {
+                        ...userState.stores,
+                        game: {
+                          // ...userState.stores.game,
+                          // steam: false
+                        }
+                      }
+                    };
+                    // temp.stores.game.steam = false;
                     // 반영을 위해서는 comparisonState 변경이 필요
                     axios
                       .post(
-                        // 'http://localhost:3003/disconnect',
-                        `https://${sendTo}/disconnect`,
+                        'http://localhost:3003/disconnect',
+                        // `https://${sendTo}/disconnect`,
                         { reqUserInfo: JSON.stringify(temp) },
                         { withCredentials: true }
                       )
