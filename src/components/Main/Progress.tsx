@@ -119,27 +119,17 @@ const Progress = () => {
     return () => abortCon.abort();
   }, [currApiCall]);
   useEffect(() => {
-    const requestStatus = setInterval(() => {
-      // axios.post('http://localhost:3003/stat/track', {}, { withCredentials: true }).then(res => {
-      axios.post(`https://${sendTo}/stat/track`, {}, { withCredentials: true }).then(res => {
-        if (res.data.status === status) {
-          setCount(res.data.count);
-          setTotal(res.data.total);
-        } else {
-          setCount(res.data.count);
-          setTotal(res.data.total);
-          setStatus(res.data.status);
-        }
-        if (status === '5') {
-          clearInterval(requestStatus);
-        }
-      });
-    }, 1000);
-    return () => {
-      clearInterval(requestStatus);
-      abortCon.abort();
-    };
-  }, [count]);
+    // const ws = new WebSocket('ws://localhost:3003');
+    const ws = new WebSocket(`wss://${sendTo}`);
+    ws.onopen = () => ws.send('client_connected');
+    ws.onmessage = msg => {
+      const sentMsg = JSON.parse(msg.data);
+      setCount(sentMsg.count);
+      setTotal(sentMsg.total);
+      setStatus(sentMsg.status);
+    }
+    return () => ws.close();
+  }, []);
   return (
     <article
       css={css`${progressStyles({ flex, sizes } as StyleSet)}`}
