@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
 
 // props 타입 변경 필요
-const ImgLists = ({ props, filter }: any) => {
+const ImgLists = ({ props, filter, index: windowingIdx, style: windowingStyle }: any) => {
   const { funcs, actions, styles, states } = props;
   const {
     location,
@@ -93,8 +93,8 @@ const ImgLists = ({ props, filter }: any) => {
             if (extCredState.cid === undefined) {
               axios
                 .post(
-                  // 'http://localhost:3003/api/connect',
-                  `https://${sendTo}/api/connect`,
+                  'http://localhost:3003/api/connect',
+                  // `https://${sendTo}/api/connect`,
                   { execute: 'order66' },
                   { withCredentials: true }
                 )
@@ -108,8 +108,8 @@ const ImgLists = ({ props, filter }: any) => {
                   };
                   axios
                     .post(
-                      // 'http://localhost:3003/get/meta',
-                      `https://${sendTo}/get/meta`,
+                      'http://localhost:3003/get/meta',
+                      // `https://${sendTo}/get/meta`,
                       { reqData },
                       { withCredentials: true }
                     )
@@ -126,8 +126,8 @@ const ImgLists = ({ props, filter }: any) => {
               };
               axios
                 .post(
-                  // 'http://localhost:3003/get/meta',
-                  `https://${sendTo}/get/meta`,
+                  'http://localhost:3003/get/meta',
+                  // `https://${sendTo}/get/meta`,
                   { reqData },
                   { withCredentials: true }
                 )
@@ -145,7 +145,7 @@ const ImgLists = ({ props, filter }: any) => {
     // ele 타입 변경 필요
     return result.filter((ele: any) => ele.props.children.props.title.match(word));
   }
-  return result;
+  return result[windowingIdx];
 };
 
 export default ImgLists;
