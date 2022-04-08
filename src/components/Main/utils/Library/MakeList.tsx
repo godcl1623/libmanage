@@ -1,6 +1,7 @@
 /* eslint-disable no-else-return */
 import React, { Suspense, memo } from 'react';
 import axios from 'axios';
+import { FixedSizeList as List } from 'react-window';
 import { flex } from '../../../../styles';
 import { makeListStyle } from '../../styles/LibraryStyles';
 
@@ -47,6 +48,9 @@ const MakeList = ({ args }: any) => {
     const actions = {modalOriginCreator, selectedItemCreator, extCredStateCreator, selectedItemDataCreator};
     const styles = {makeListStyle, flex};
     const states = {userLib, libDisplay, coverSize, extCredState, userState};
+    const outerElementType = React.forwardRef<any>((props, ref) => (
+      <div ref={ref} {...props}/>
+    ))
 
     if (selectedCategory === 'all' || selectedCategory === 'game') {
       if (selectedStores.includes('all') || selectedStores.includes('steam')) {
@@ -69,7 +73,30 @@ const MakeList = ({ args }: any) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
+                <List
+                  width={'100%'}
+                  height={800}
+                  itemCount={userLib.steam.length}
+                  itemSize={192}
+                  outerElementType={outerElementType}
+                >
+                  {/* <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} /> */}
+                  {
+                    function({ index, style }: any) {
+                      return (
+                        <div
+                          style={style}
+                        >
+                          <ImgLists
+                            props={{funcs, actions, styles, states}}
+                            filter={{isFiltered: false}}
+                            index={index}
+                          />
+                        </div>
+                      );
+                    }
+                  }
+                </List>
               </Suspense>
             );
           } else {
