@@ -199,7 +199,7 @@ export const libraryStyle = (styles: StyleSet, condition: string) => {
       display: ${condition === 'cover' ? 'flex' : 'inline-block'};
       ${sizeSet.full}
       flex-wrap: wrap;
-      overflow-y: scroll;
+      // overflow-y: scroll;
 
       @media (orientation: portrait) and (max-width: 599px) {
         ${(flexSet.horizontal as StyleSet).center}
