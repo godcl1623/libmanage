@@ -29,6 +29,7 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "react-virtualized-auto-sizer": "^1.0.6",
     "react-window": "^1.8.6",
     "redux": "^4.1.1",
     "stream-browserify": "^3.0.0",
@@ -62,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
     "@typescript-eslint/parser": "^5.14.0",
     "babel-eslint": "^10.1.0",
