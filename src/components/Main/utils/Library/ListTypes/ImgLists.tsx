@@ -4,8 +4,8 @@ import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
 
 // props 타입 변경 필요
-const ImgLists = ({ props, filter, index: windowingIdx, style: windowingStyle }: any) => {
-  const { funcs, actions, styles, states } = props;
+const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
+  const { funcs, actions, styles, states, colCount } = props;
   const {
     location,
     dispatch,
@@ -141,11 +141,24 @@ const ImgLists = ({ props, filter, index: windowingIdx, style: windowingStyle }:
       </li>
     ))
   );
+  // const foo: any[] = [];
+  // // const bar = '192px'
+  // const bar = Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + 20))
+  // result.forEach((res: any, idx: number) => {
+  //   foo.push(result.slice((0 + bar * idx), (bar + bar * idx)))
+  // })
+  // console.log(foo)
+  const processedResult: any[] = [];
+  result.forEach((res: any, idx: number) => {
+    processedResult.push(result.slice((0 + colCount * idx), (colCount + colCount * idx)))
+  });
   if (isFiltered) {
     // ele 타입 변경 필요
     return result.filter((ele: any) => ele.props.children.props.title.match(word));
   }
-  return result[windowingIdx];
+  // return result[windowingIdx];
+  // return result;
+  return processedResult[rowIndex][colIndex]
 };
 
 export default ImgLists;
