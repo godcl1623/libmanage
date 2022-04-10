@@ -50,16 +50,17 @@ const MakeList = ({ args }: any) => {
     const actions = {modalOriginCreator, selectedItemCreator, extCredStateCreator, selectedItemDataCreator};
     const styles = {makeListStyle, flex};
     const states = {userLib, libDisplay, coverSize, extCredState, userState};
-    const colCount = Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + 20));
+    const gap = 15;
+    const colCount = Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + gap));
     const listChild = function({ columnIndex, rowIndex, style }: any) {
       return (
         <div
           style={{
             ...style,
-            left: style.left + 10,
-            top: style.top + 10,
-            width: style.width - 10,
-            height: style.height - 10
+            left: style.left + gap,
+            top: style.top + gap,
+            width: style.width - gap,
+            height: style.height - gap
           }}
         >
           <ImgLists
@@ -98,10 +99,10 @@ const MakeList = ({ args }: any) => {
                     ({ width, height }) => (
                       <Grid
                         columnCount={colCount}
-                        columnWidth={192 * 0.75 + 10}
+                        columnWidth={coverSize * 19.2 * 0.75 + gap}
                         height={height}
                         rowCount={userLib.steam.length / colCount}
-                        rowHeight={192 + 10}
+                        rowHeight={coverSize * 19.2 + gap}
                         width={width}
                       >
                         { listChild }
