@@ -41,7 +41,8 @@ const MakeList = ({ args }: any) => {
     selectedItemDataCreator,
     librarySearch,
     modalOriginCreator,
-    location
+    location,
+    ulRef
   } = args;
 
   if (userLib !== '') {
@@ -49,18 +50,23 @@ const MakeList = ({ args }: any) => {
     const actions = {modalOriginCreator, selectedItemCreator, extCredStateCreator, selectedItemDataCreator};
     const styles = {makeListStyle, flex};
     const states = {userLib, libDisplay, coverSize, extCredState, userState};
-    const listChild = function({ index, style }: any) {
+    const colCount = Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + 20));
+    const listChild = function({ columnIndex, rowIndex, style }: any) {
       return (
         <div
           style={{
             ...style,
-            height: '10vw'
+            left: style.left + 10,
+            top: style.top + 10,
+            width: style.width - 10,
+            height: style.height - 10
           }}
         >
           <ImgLists
-            props={{funcs, actions, styles, states}}
+            props={{funcs, actions, styles, states, colCount}}
             filter={{isFiltered: false}}
-            index={index}
+            colIndex={columnIndex}
+            rowIndex={rowIndex}
           />
         </div>
       );
@@ -87,19 +93,27 @@ const MakeList = ({ args }: any) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                {/* <List
-                  width={'100%'}
-                  height={800}
-                  itemCount={userLib.steam.length}
-                  itemSize={192}
-                >
-                  { listChild }
-                </List> */}
                 <AutoSizer>
-                  {({ width, height }) => {
-                    const foo = 'bar';
-                  }}
+                  {
+                    ({ width, height }) => (
+                      <Grid
+                        columnCount={colCount}
+                        columnWidth={192 * 0.75 + 10}
+                        height={height}
+                        rowCount={userLib.steam.length / colCount}
+                        rowHeight={192 + 10}
+                        width={width}
+                      >
+                        { listChild }
+                      </Grid>
+                    )
+                  }
                 </AutoSizer>
+                {/* <ImgLists
+                  props={{funcs, actions, styles, states, ulRef}}
+                  filter={{isFiltered: false}}
+                  // index={index}
+                /> */}
               </Suspense>
             );
           } else {
