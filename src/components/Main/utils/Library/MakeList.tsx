@@ -1,7 +1,8 @@
 /* eslint-disable no-else-return */
 import React, { Suspense, memo } from 'react';
 import axios from 'axios';
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import { flex } from '../../../../styles';
 import { makeListStyle } from '../../styles/LibraryStyles';
 
@@ -86,14 +87,19 @@ const MakeList = ({ args }: any) => {
           if (librarySearch === '') {
             return (
               <Suspense fallback={fallBack()}>
-                <List
+                {/* <List
                   width={'100%'}
                   height={800}
                   itemCount={userLib.steam.length}
                   itemSize={192}
                 >
                   { listChild }
-                </List>
+                </List> */}
+                <AutoSizer>
+                  {({ width, height }) => {
+                    const foo = 'bar';
+                  }}
+                </AutoSizer>
               </Suspense>
             );
           } else {
