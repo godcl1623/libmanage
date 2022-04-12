@@ -51,8 +51,10 @@ const MakeList = ({ args }: any) => {
     const styles = {makeListStyle, flex};
     const states = {userLib, libDisplay, coverSize, extCredState, userState};
     const gap = 15;
-    const colCount = Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + gap));
-    const listChild = function({ columnIndex, rowIndex, style }: any) {
+    const colCount = ulRef.current ? Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + gap)) : 0;
+    const word = new RegExp(librarySearch, 'gi');
+    const itemList = userLib.steam.filter((game: any) => game.title.match(word));
+    const gridChild = function({ columnIndex, rowIndex, style }: any) {
       return (
         <div
           style={{
@@ -65,9 +67,25 @@ const MakeList = ({ args }: any) => {
         >
           <ImgLists
             props={{funcs, actions, styles, states, colCount}}
-            filter={{isFiltered: false}}
+            filter={word}
             colIndex={columnIndex}
             rowIndex={rowIndex}
+          />
+        </div>
+      );
+    }
+    const listChild = function({ index, style }: any) {
+      return (
+        <div
+          style={{
+            ...style,
+            height: '2.292vw'
+          }}
+        >
+          <TextLists
+            props={{funcs, actions, styles, states}}
+            filter={word}
+            windIdx={index}
           />
         </div>
       );
@@ -76,55 +94,45 @@ const MakeList = ({ args }: any) => {
     if (selectedCategory === 'all' || selectedCategory === 'game') {
       if (selectedStores.includes('all') || selectedStores.includes('steam')) {
         if (libDisplay === 'list') {
-          if (librarySearch === '') {
-            return (
-              <Suspense fallback={fallBack()}>
-                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: false}} />
-              </Suspense>
-            );
-          } else {
-            const word = new RegExp(librarySearch, 'gi');
-            return (
-              <Suspense fallback={fallBack()}>
-                <TextLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
-              </Suspense>
-            );
-          }
+          return (
+            <Suspense fallback={fallBack()}>
+              <AutoSizer>
+                {
+                  ({ width, height }) => (
+                    <List
+                      height={height}
+                      width={width}
+                      itemCount={itemList.length}
+                      itemSize={44}
+                    >
+                      { listChild }
+                    </List>
+                  )
+                }
+              </AutoSizer>
+            </Suspense>
+          );
         } else if (libDisplay === 'cover') {
-          if (librarySearch === '') {
-            return (
-              <Suspense fallback={fallBack()}>
-                <AutoSizer>
-                  {
-                    ({ width, height }) => (
-                      <Grid
-                        columnCount={colCount}
-                        columnWidth={coverSize * 19.2 * 0.75 + gap}
-                        height={height}
-                        rowCount={userLib.steam.length / colCount}
-                        rowHeight={coverSize * 19.2 + gap}
-                        width={width}
-                      >
-                        { listChild }
-                      </Grid>
-                    )
-                  }
-                </AutoSizer>
-                {/* <ImgLists
-                  props={{funcs, actions, styles, states, ulRef}}
-                  filter={{isFiltered: false}}
-                  // index={index}
-                /> */}
-              </Suspense>
-            );
-          } else {
-            const word = new RegExp(librarySearch, 'gi');
-            return (
-              <Suspense fallback={fallBack()}>
-                <ImgLists props={{funcs, actions, styles, states}} filter={{isFiltered: true, word}} />
-              </Suspense>
-            );
-          }
+          return (
+            <Suspense fallback={fallBack()}>
+              <AutoSizer>
+                {
+                  ({ width, height }) => (
+                    <Grid
+                      columnCount={colCount}
+                      columnWidth={coverSize * 19.2 * 0.75 + gap}
+                      height={height}
+                      rowCount={itemList.length / colCount}
+                      rowHeight={coverSize * 19.2 + gap}
+                      width={width}
+                    >
+                      { gridChild }
+                    </Grid>
+                  )
+                }
+              </AutoSizer>
+            </Suspense>
+          );
         }
       } else {
         return <></>

@@ -200,10 +200,11 @@ export const libraryStyle = (styles: StyleSet, condition: string) => {
       ${sizeSet.full}
       flex-wrap: wrap;
       // overflow-y: scroll;
+      // overflow-x: hidden;
 
       @media (orientation: portrait) and (max-width: 599px) {
-        ${(flexSet.horizontal as StyleSet).center}
-        justify-content: ${condition === 'list' ? 'flex-start' : 'center'};
+        /*${(flexSet.horizontal as StyleSet).center}
+        justify-content: ${condition === 'list' ? 'flex-start' : 'center'};*/
       }
     }
   `);

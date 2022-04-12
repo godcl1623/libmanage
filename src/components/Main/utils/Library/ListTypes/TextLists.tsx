@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
 
 // propt 타입 수정 필요
-const TextLists = ({props, filter}: any) => {
+const TextLists = ({ props, filter, windIdx }: any) => {
   const { funcs, actions, styles, states } = props;
   const {
     location,
@@ -28,7 +28,6 @@ const TextLists = ({props, filter}: any) => {
     extCredState,
     userState
   } = states;
-  const { isFiltered, word } = filter;
   const { steam } = userLib;
   if (location.pathname === '/offline' || !navigator.onLine) {
     const result = (
@@ -60,11 +59,8 @@ const TextLists = ({props, filter}: any) => {
         </li>
       ))
     );
-    if (isFiltered) {
-      // ele 타입 수정 필요
-      return result.filter((ele: any) => ele.props.children.match(word));
-    }
-    return result;
+    // ele 타입 수정 필요
+    return result.filter((ele: any) => ele.props.children.match(filter));
   }
 
   const result = (
@@ -92,8 +88,8 @@ const TextLists = ({props, filter}: any) => {
           if (extCredState.cid === undefined) {
             axios
               .post(
-                // 'http://localhost:3003/api/connect',
-                `https://${sendTo}/api/connect`,
+                'http://localhost:3003/api/connect',
+                // `https://${sendTo}/api/connect`,
                 { execute: 'order66' },
                 { withCredentials: true }
               )
@@ -107,8 +103,8 @@ const TextLists = ({props, filter}: any) => {
                 };
                 axios
                   .post(
-                    // 'http://localhost:3003/get/meta',
-                    `https://${sendTo}/get/meta`,
+                    'http://localhost:3003/get/meta',
+                    // `https://${sendTo}/get/meta`,
                     { reqData },
                     { withCredentials: true }
                   )
@@ -124,8 +120,8 @@ const TextLists = ({props, filter}: any) => {
               credData: extCredState
             };
             axios
-              // .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
-              .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
+              .post('http://localhost:3003/get/meta', { reqData }, { withCredentials: true })
+              // .post(`https://${sendTo}/get/meta`, { reqData }, { withCredentials: true })
               // res 타입 수정 필요
               .then((res: any) => {
                 dispatch(selectedItemDataCreator(res.data));
@@ -139,10 +135,7 @@ const TextLists = ({props, filter}: any) => {
   );
 
   // ele 타입 수정 필요
-  if (isFiltered) {
-    return result.filter((ele: any) => ele.props.children.match(word));
-  }
-  return result;
+  return result.filter((ele: any) => ele.props.children.match(filter))[windIdx];
 };
 
 export default TextLists;
