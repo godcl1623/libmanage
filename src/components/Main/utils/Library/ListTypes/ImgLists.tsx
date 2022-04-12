@@ -6,73 +6,57 @@ import { sendTo } from '../../../../../custom_modules/address';
 // props 타입 변경 필요
 const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
   const { funcs, actions, styles, states, colCount } = props;
-  const {
-    location,
-    dispatch,
-    axios
-  } = funcs;
-  const {
-    modalOriginCreator,
-    selectedItemCreator,
-    extCredStateCreator,
-    selectedItemDataCreator
-  } = actions;
-  const {
-    makeListStyle,
-    flex
-  } = styles;
-  const {
-    userLib,
-    libDisplay,
-    coverSize,
-    extCredState,
-    userState
-  } = states;
+  const { location, dispatch, axios } = funcs;
+  const { modalOriginCreator, selectedItemCreator, extCredStateCreator, selectedItemDataCreator } =
+    actions;
+  const { makeListStyle, flex } = styles;
+  const { userLib, libDisplay, coverSize, extCredState, userState } = states;
   const { steam } = userLib;
-  const { isFiltered, word } = filter;
   if (location.pathname === '/offline' || !navigator.onLine) {
-    const result = (
+    const result =
       // prev, next, item 타입 변경 필요
-      steam.sort((prev: any, next: any) => prev.titles < next.titles ? -1 : 1).map((item: any, idx: number) => (
-        <li
-        key={`img-${idx}`}
-        css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
-      >
-        <img
-          src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.covers}.png`}
-          title={`${item.titles}`}
-          alt={`${item.titles}-cover`}
-          style={{
-            height: '100%'
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.filter = 'brightness(0.75)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.filter = 'brightness(1)';
-          }}
-          onClick={e => {
-            dispatch(modalOriginCreator('Library'));
-            dispatch(selectedItemCreator(item.titles));
-            dispatch(selectedItemDataCreator(JSON.parse(item.metas)));
-          }}
-        />
-      </li>
-      ))
-    );
-    if (isFiltered) {
-      // ele 타입 변경 필요
-      return result.filter((ele: any) => ele.props.children.props.title.match(word));
-    }
-    return result;
+      steam
+        .sort((prev: any, next: any) => (prev.titles < next.titles ? -1 : 1))
+        .map((item: any, idx: number) => (
+          <li
+            key={`img-${idx}`}
+            css={css`
+              ${makeListStyle({ flex }, { libDisplay, coverSize })}
+            `}
+          >
+            <img
+              src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.covers}.png`}
+              title={`${item.titles}`}
+              alt={`${item.titles}-cover`}
+              style={{
+                height: '100%'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.filter = 'brightness(0.75)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.filter = 'brightness(1)';
+              }}
+              onClick={e => {
+                dispatch(modalOriginCreator('Library'));
+                dispatch(selectedItemCreator(item.titles));
+                dispatch(selectedItemDataCreator(JSON.parse(item.metas)));
+              }}
+            />
+          </li>
+        ));
+    // ele 타입 변경 필요
+    return result.filter((ele: any) => ele.props.children.props.title.match(filter));
   }
 
-  const result = (
+  const result =
     // item 타입 변경 필요
     steam.map((item: any, index: number) => (
       <li
         key={`img-${index}`}
-        css={css`${makeListStyle({ flex }, { libDisplay, coverSize })}`}
+        css={css`
+          ${makeListStyle({ flex }, { libDisplay, coverSize })}
+        `}
       >
         <img
           src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.cover}.png`}
@@ -139,26 +123,16 @@ const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
           }}
         />
       </li>
-    ))
-  );
-  // const foo: any[] = [];
-  // // const bar = '192px'
-  // const bar = Math.floor(ulRef.current.clientWidth / ((coverSize * 19.2 * 0.75) + 20))
-  // result.forEach((res: any, idx: number) => {
-  //   foo.push(result.slice((0 + bar * idx), (bar + bar * idx)))
-  // })
-  // console.log(foo)
+    ));
   const processedResult: any[] = [];
   result.forEach((res: any, idx: number) => {
-    processedResult.push(result.slice((0 + colCount * idx), (colCount + colCount * idx)))
+    processedResult.push(
+      result
+        .filter((ele: any) => ele.props.children.props.title.match(filter))
+        .slice(0 + colCount * idx, colCount + colCount * idx)
+    );
   });
-  if (isFiltered) {
-    // ele 타입 변경 필요
-    return result.filter((ele: any) => ele.props.children.props.title.match(word));
-  }
-  // return result[windowingIdx];
-  // return result;
-  return processedResult[rowIndex][colIndex]
+  return processedResult[rowIndex][colIndex];
 };
 
 export default ImgLists;
