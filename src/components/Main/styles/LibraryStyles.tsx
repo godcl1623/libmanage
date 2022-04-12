@@ -148,7 +148,7 @@ export const libraryStyle = (styles: StyleSet, condition: string) => {
   return (`
     border-left: 0.052vw solid black;
     border-right: 0.052vw solid black;
-    padding: calc(var(--gap-standard) * 2) var(--gap-standard);
+    padding: var(--gap-standard) calc(var(--gap-standard) / 2);
     flex: 2;
     overflow: hidden;
     ${sizeSet.full}
@@ -199,7 +199,7 @@ export const libraryStyle = (styles: StyleSet, condition: string) => {
       display: ${condition === 'cover' ? 'flex' : 'inline-block'};
       ${sizeSet.full}
       flex-wrap: wrap;
-      overflow-y: scroll;
+      // overflow-y: scroll;
 
       @media (orientation: portrait) and (max-width: 599px) {
         ${(flexSet.horizontal as StyleSet).center}
