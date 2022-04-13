@@ -77,10 +77,7 @@ const MakeList = ({ args }: any) => {
     const listChild = function({ index, style }: any) {
       return (
         <div
-          style={{
-            ...style,
-            height: '2.292vw'
-          }}
+          style={style}
         >
           <TextLists
             props={{funcs, actions, styles, states}}
@@ -94,6 +91,14 @@ const MakeList = ({ args }: any) => {
     if (selectedCategory === 'all' || selectedCategory === 'game') {
       if (selectedStores.includes('all') || selectedStores.includes('steam')) {
         if (libDisplay === 'list') {
+          const itemSize =
+            window.innerWidth > 1600
+              ? 45
+              : window.innerWidth > 1400
+                ? 40
+                : window.innerWidth > 1200
+                  ? 35
+                  : 30
           return (
             <Suspense fallback={fallBack()}>
               <AutoSizer>
@@ -103,13 +108,18 @@ const MakeList = ({ args }: any) => {
                       height={height}
                       width={width}
                       itemCount={itemList.length}
-                      itemSize={44}
+                      itemSize={itemSize}
                     >
                       { listChild }
                     </List>
                   )
                 }
               </AutoSizer>
+              {/* <TextLists
+                props={{funcs, actions, styles, states}}
+                filter={word}
+                // windIdx={index}
+              /> */}
             </Suspense>
           );
         } else if (libDisplay === 'cover') {
