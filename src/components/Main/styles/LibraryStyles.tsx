@@ -120,7 +120,8 @@ export const makeListStyle = (styles: StyleSet, vars: any) => {
 
   return (`
     margin: calc(var(--gap-multiply-small) * 2);
-    height: ${coverSize}vw;
+    // height: ${coverSize}vw;
+    height: 100%;
     flex: 0 0 10%;
     ${((flex as StyleSet).horizontal as StyleSet).center}
     cursor: pointer;
@@ -133,7 +134,8 @@ export const makeListStyle = (styles: StyleSet, vars: any) => {
 
     @media (orientation: portrait) and (max-width: 599px) {
       margin: 10px;
-      height: ${coverSize * 2}vh;
+      // height: ${coverSize * 2}vh;
+      height: 100%;
       flex: 0 0 10%;
     }
   `);
