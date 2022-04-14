@@ -45,8 +45,8 @@ const Reset = () => {
       tokenTail,
       requestedTime
     }
-    // axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
-    axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+    axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+    // axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
       .then(res => {
         appDispatch(setTokenStat(res.data.tokenState));
         setRequestToken(res.data.token);
