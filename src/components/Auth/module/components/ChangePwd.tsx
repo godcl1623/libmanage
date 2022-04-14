@@ -68,8 +68,8 @@ const ChangePwd = ({ token, reqTime }: Record<string, TokenCnt | (() => void)>) 
           formData.ttl = ttl;
           formData.reqTime = (reqTime as () => void)();
           formData.originTime = originTime;
-          // axios.post('http://localhost:3003/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
-          axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
+          axios.post('http://localhost:3003/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
+          // axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
             .then(res => {
               if (res.data === 'complete') {
                 alert('비밀번호가 변경되었습니다.\n다시 로그인해주세요.');
