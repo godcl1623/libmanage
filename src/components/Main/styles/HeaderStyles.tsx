@@ -258,9 +258,11 @@ export const headerStyle = (styles: StyleSet) => {
       }
 
       .balloon-toggle-container {
+        border-radius: 1.302vw 1.302vw;
         width: 2.865vw;
         height: 1.563vw;
         @media (orientation: portrait) and (max-width: 599px) {
+          border-radius: 24.998px 24.998px;
           width: 30px;
           height: 15px;
         }
@@ -269,8 +271,8 @@ export const headerStyle = (styles: StyleSet) => {
         width: 1.042vw;
         height: 1.042vw;
         @media (orientation: portrait) and (max-width: 599px) {
-          width: 15px;
-          height: 15px;
+          width: 13px;
+          height: 13px;
         }
       }
     }

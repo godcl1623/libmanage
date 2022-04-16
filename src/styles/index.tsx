@@ -2,32 +2,32 @@ import { StyleSet, SetSize } from '../custom_modules/commonUtils';
 
 export const flex: StyleSet = {
   vertical: `
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    flex-direction: column;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
         -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
+    align-items: center;
+        -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
+    justify-content: center;
+        -webkit-box-pack: center;
         -ms-flex-pack: center;
-            justify-content: center;
   `,
 
   horizontal: {
     center: `
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-align: center;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      align-items: center;
+          -webkit-box-align: center;
           -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
+      justify-content: center;
+          -webkit-box-pack: center;
           -ms-flex-pack: center;
-              justify-content: center;
     `
   },
 };
