@@ -64,6 +64,7 @@ const globalStyles = (styles: StyleSet) => {
       box-sizing: border-box;
       list-style: none;
       color: var(--grey-dark);
+      font-family: sans-serif;
     }
 
       html {

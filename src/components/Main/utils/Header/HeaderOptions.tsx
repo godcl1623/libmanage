@@ -70,7 +70,6 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
               <div
                 className="balloon-toggle-container"
                 style={{
-                  borderRadius: '1.302vw 1.302vw',
                   boxShadow: '0 0 0.156vw 0.052vw var(--grey-dark)',
                   padding: '0.521vw 0.26vw',
                   display: 'flex',
@@ -128,6 +127,7 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                   style={{
                     borderRadius: '50%',
                     background: 'var(--highlight-light)',
+                    // 수치 조정 필요
                     transform: isReorderActivated ? 'translateX(1.302vw)' : 'unset',
                     transition: 'all 0.3s'
                   }}
