@@ -51,6 +51,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
   const appDispatch = useAppDispatch();
   const location = useLocation();
   const ref = React.useRef<HTMLButtonElement | null>(null);
+  const ulRef = React.useRef<HTMLUListElement | null>(null);
   const updateBtnCoords = (...args: number[]) => {
     const [left, top, height] = args;
     setBtnCoords(prevState => ({
@@ -111,6 +112,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
       />
       <ul
         id="contents-lists"
+        ref={ulRef}
         onScroll={e => {
           let timer;
           const htmlTarget = e.target as HTMLElement;
@@ -152,7 +154,8 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
             selectedItemDataCreator: setSelItemData,
             librarySearch,
             modalOriginCreator: setModalOrigin,
-            location
+            location,
+            ulRef
           }}
         />
       </ul>

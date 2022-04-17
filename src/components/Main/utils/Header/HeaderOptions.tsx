@@ -56,17 +56,6 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
           ?
             <div
               className="balloon-switch-container"
-              style={{
-                marginTop: 'var(--gap-standard)',
-                borderRadius: 'var(--border-rad-normal)',
-                boxShadow: '0 0 0.156vw 0.052vw var(--grey-dark)',
-                padding: 'calc(var(--gap-multiply-small) * 2) calc(var(--gap-multiply-small) * 3)',
-                width: '80%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                background: 'var(--highlight-light)'
-              }}
             >
               <p
                 className="balloon"
@@ -81,11 +70,8 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
               <div
                 className="balloon-toggle-container"
                 style={{
-                  borderRadius: '1.302vw 1.302vw',
                   boxShadow: '0 0 0.156vw 0.052vw var(--grey-dark)',
                   padding: '0.521vw 0.26vw',
-                  width: '2.865vw',
-                  height: '1.563vw',
                   display: 'flex',
                   alignItems: 'center',
                   transition: 'all 0.3s',
@@ -107,8 +93,8 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                           localStorage.setItem('frog', modPackage);
                           const result = await axios
                             .put(
-                                // 'http://localhost:3003/member/modify_option',
-                                `https://${sendTo}/member/modify_option`,
+                                'http://localhost:3003/member/modify_option',
+                                // `https://${sendTo}/member/modify_option`,
                                 { pack: modPackage },
                                 { withCredentials: true }
                               )
@@ -140,9 +126,8 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                   className='balloon-toggle_button'
                   style={{
                     borderRadius: '50%',
-                    width: '1.042vw',
-                    height: '1.042vw',
                     background: 'var(--highlight-light)',
+                    // 수치 조정 필요
                     transform: isReorderActivated ? 'translateX(1.302vw)' : 'unset',
                     transition: 'all 0.3s'
                   }}

@@ -116,8 +116,8 @@ const Register = () => {
           };
           const existCheck = async (sofo: Record<string, string>) => {
             await axios.post(
-              // 'http://localhost:3003/member/register',
-              `https://${sendTo}/member/register`,
+              'http://localhost:3003/member/register',
+              // `https://${sendTo}/member/register`,
               {foo: encryptor(sofo, process.env.REACT_APP_TRACER as string)},
               { withCredentials: true })
             .then(res => {

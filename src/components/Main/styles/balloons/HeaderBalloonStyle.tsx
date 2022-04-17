@@ -67,6 +67,8 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
       @media (max-width: 599px) {
         padding: var(--gap-standard);
         ${setSize.free('100vw', '100px')}
+        height: max-content;
+        height: -webkit-max-content;
         justify-content: space-between;
         top: 47px;
         left: 0;

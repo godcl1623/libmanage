@@ -19,7 +19,7 @@ export const tokenExpired = (styles: StyleSet) => {
   return (
     `
       border-radius: var(--border-rad-big);
-      ${setSize.free('40%', '50%')}
+      ${setSize.free('50%', '60%')}
       ${flexSet.vertical}
       background: white;
 
@@ -55,6 +55,13 @@ export const tokenExpired = (styles: StyleSet) => {
           #to_home {
             margin-top: 50px;
             font-size: 50px;
+          }
+        }
+
+        @media (max-width: 410px) {
+          h1 {
+            white-space: pre;
+            line-height: 1.3;
           }
         }
       }

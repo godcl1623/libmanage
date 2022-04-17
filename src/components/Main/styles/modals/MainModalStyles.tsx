@@ -14,8 +14,8 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
     origin !== 'Header_MemInfo'
       ? origin.split('-')[0] === 'meta'
         ? `${(70 * 9) / 16}vw`
-        : 'max-content'
-      : 'max-content'
+        : 'auto'
+      : 'auto'
   };
   ${(flex as StyleSet).vertical}
   background: white;
@@ -30,7 +30,7 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
           : '50%'
-        : 'max-content'
+        : 'auto'
     };
   }
 
@@ -47,7 +47,7 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
           : '50%'
-        : 'max-content'
+        : 'auto'
     };
   }
 
@@ -63,8 +63,8 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
       origin !== 'Header_MemInfo'
         ? origin.split('-')[0] === 'meta'
           ? `${(70 * 9) / 16}vw`
-          : 'max-content'
-        : 'max-content'
+          : 'auto'
+        : 'auto'
     };
   }
 
@@ -81,7 +81,7 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
         ? origin.split('-')[0] === 'meta'
           ? `${(90 * 9) / 16}vw`
           : '30%'
-        : 'max-content'
+        : 'auto'
     };
 
     @media (max-width: 1079px) {
@@ -97,7 +97,7 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
           ? origin.split('-')[0] === 'meta'
             ? `${(90 * 9) / 16}vw`
             : '30%'
-          : 'max-content'
+          : 'auto'
       };
     }
 
@@ -114,7 +114,7 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
           ? origin.split('-')[0] === 'meta'
             ? `${(70 * 9) / 16}vw`
             : '30%'
-          : 'max-content'
+          : 'auto'
       };
     }
 
@@ -135,7 +135,7 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
                 ? '90vw'
                 : `${(70 * 9) / 16}vw`
             : '50%'
-          : 'max-content'
+          : 'auto'
       };
       transform:
         translate(-50%, -50%)
@@ -149,8 +149,8 @@ const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, fle
             ? isPortrait && isMobile
                 ? '90vw'
                 : `${(70 * 9) / 16}vw`
-            : 'max-content'
-          : 'max-content'
+            : 'auto'
+          : 'auto'
       };
     }
   }
