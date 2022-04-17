@@ -32,7 +32,8 @@ const now = () => {
 };
 
 const Reset = () => {
-  const tokenState = useAppSelector(state => state.sliceReducers.tokenState);
+  // const tokenState = useAppSelector(state => state.sliceReducers.tokenState);
+  const [tokenState, foo] = React.useState<any>('no_token')
   const [requestedToken, setRequestToken] = useState({});
   const appDispatch = useAppDispatch();
   const location = useLocation();
@@ -60,7 +61,9 @@ const Reset = () => {
       case false:
         return '요청이 만료되었습니다.';
       case 'no_token':
-        return '요청이 존재하지 않습니다.';
+        return window.innerWidth > 410
+          ? '요청이 존재하지 않습니다.'
+          : '요청이 존재하지\n않습니다.';
       default:
         return '잘못된 접근입니다.';
     }

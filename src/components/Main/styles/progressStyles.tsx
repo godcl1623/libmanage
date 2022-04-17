@@ -22,7 +22,7 @@ const progressStyles = (styles: StyleSet) => {
 
     .contents-wrapper {
       border-radius: var(--border-rad-normal);
-      ${setSize.free('40%', '50%')}
+      ${setSize.free('50%', '60%')}
       background: white;
       ${flexSet.vertical}
     }
@@ -53,6 +53,8 @@ const progressStyles = (styles: StyleSet) => {
         p {
           font-size: 16px;
           text-align: center;
+          white-space: pre;
+          line-height: 1.4;
         }
 
         .contents-wrapper {
