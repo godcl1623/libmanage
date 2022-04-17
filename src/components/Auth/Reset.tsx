@@ -32,8 +32,7 @@ const now = () => {
 };
 
 const Reset = () => {
-  // const tokenState = useAppSelector(state => state.sliceReducers.tokenState);
-  const [tokenState, foo] = React.useState<any>('no_token')
+  const tokenState = useAppSelector(state => state.sliceReducers.tokenState);
   const [requestedToken, setRequestToken] = useState({});
   const appDispatch = useAppDispatch();
   const location = useLocation();
