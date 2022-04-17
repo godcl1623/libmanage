@@ -120,7 +120,8 @@ export const makeListStyle = (styles: StyleSet, vars: any) => {
 
   return (`
     margin: calc(var(--gap-multiply-small) * 2);
-    height: ${coverSize}vw;
+    // height: ${coverSize}vw;
+    height: 100%;
     flex: 0 0 10%;
     ${((flex as StyleSet).horizontal as StyleSet).center}
     cursor: pointer;
@@ -133,7 +134,8 @@ export const makeListStyle = (styles: StyleSet, vars: any) => {
 
     @media (orientation: portrait) and (max-width: 599px) {
       margin: 10px;
-      height: ${coverSize * 2}vh;
+      // height: ${coverSize * 2}vh;
+      height: 100%;
       flex: 0 0 10%;
     }
   `);
@@ -148,7 +150,7 @@ export const libraryStyle = (styles: StyleSet, condition: string) => {
   return (`
     border-left: 0.052vw solid black;
     border-right: 0.052vw solid black;
-    padding: calc(var(--gap-standard) * 2) var(--gap-standard);
+    padding: var(--gap-standard) calc(var(--gap-standard) / 2);
     flex: 2;
     overflow: hidden;
     ${sizeSet.full}
@@ -199,11 +201,12 @@ export const libraryStyle = (styles: StyleSet, condition: string) => {
       display: ${condition === 'cover' ? 'flex' : 'inline-block'};
       ${sizeSet.full}
       flex-wrap: wrap;
-      overflow-y: scroll;
+      // overflow-y: scroll;
+      // overflow-x: hidden;
 
       @media (orientation: portrait) and (max-width: 599px) {
-        ${(flexSet.horizontal as StyleSet).center}
-        justify-content: ${condition === 'list' ? 'flex-start' : 'center'};
+        /*${(flexSet.horizontal as StyleSet).center}
+        justify-content: ${condition === 'list' ? 'flex-start' : 'center'};*/
       }
     }
   `);

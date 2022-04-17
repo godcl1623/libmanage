@@ -27,17 +27,26 @@ const Progress = () => {
     aborter.abort();
     navigate('/main');
   }, 30000);
+  const totalProcess = status !== '5' ? `(${count}/${total})` : '';
   // 타입 확인 필요
   const statusText = (status: string, addStr: string) => {
     switch (status) {
       case '1':
-        return `보유 중인 라이브러리를 IGDB 서비스에 검색 중입니다.`;
+        return window.innerWidth > 600
+          ? `보유 중인 라이브러리를 IGDB 서비스에 검색 중입니다.`
+          : `보유 중인 라이브러리를\nIGDB 서비스에 검색 중입니다.`;
       case '2':
-        return `누락된 항목을 IGDB 서비스에 재검색 중입니다. ${addStr}`;
+        return window.innerWidth > 600
+          ? `누락된 항목을 IGDB 서비스에 재검색 중입니다. ${addStr}`
+          : `누락된 항목을 IGDB 서비스에 재검색 중입니다.\n${addStr}`;
       case '3':
-        return `IGDB 서비스로부터 메타데이터를 수신하는 중입니다. ${addStr}`;
+        return window.innerWidth > 600
+          ? `IGDB 서비스로부터 메타데이터를 수신하는 중입니다. ${addStr}`
+          : `IGDB 서비스로부터\n메타데이터를 수신하는 중입니다.\n${addStr}`;
       case '4':
-        return `수신한 메타데이터를 가공하는 중입니다. ${addStr}`;
+        return window.innerWidth > 600
+        ? `수신한 메타데이터를 가공하는 중입니다. ${addStr}`
+        : `수신한 메타데이터를 가공하는 중입니다.\n${addStr}`;
       case '5':
         return `메타데이터의 저장이 완료됐습니다.`;
       default:
@@ -51,8 +60,8 @@ const Progress = () => {
     };
     const timer = forceAbort(abortCon, navigate);
     axios
-      // .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
-      .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
+      .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
+      // .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
       .then(res => {
         const reqUserInfo = res.data;
         clearTimeout(timer);
@@ -65,8 +74,8 @@ const Progress = () => {
     if (userInfo !== '') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .get('http://localhost:3003/storeLib', { withCredentials: true })
-        .get(`https://${sendTo}/storeLib`, { withCredentials: true })
+        .get('http://localhost:3003/storeLib', { withCredentials: true })
+        // .get(`https://${sendTo}/storeLib`, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
           setApiKey(res.data.apiKey);
@@ -87,8 +96,8 @@ const Progress = () => {
       }
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
-        .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
+        .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
+        // .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
           if (res.data === 'done') {
@@ -105,8 +114,8 @@ const Progress = () => {
     if (currApiCall === 'done') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
-        .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
+        .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
+        // .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
         .then(res => {
           if (res.data.result) {
             clearTimeout(timer);
@@ -119,8 +128,8 @@ const Progress = () => {
     return () => abortCon.abort();
   }, [currApiCall]);
   useEffect(() => {
-    // const ws = new WebSocket('ws://localhost:3003');
-    const ws = new WebSocket(`wss://${sendTo}`);
+    const ws = new WebSocket('ws://localhost:3003');
+    // const ws = new WebSocket(`wss://${sendTo}`);
     ws.onopen = () => ws.send('client_connected');
     ws.onmessage = msg => {
       const sentMsg = JSON.parse(msg.data);
@@ -136,7 +145,17 @@ const Progress = () => {
     >
       <div className="contents-wrapper">
         <h1>Progress</h1>
-        <p>{`${statusText(status, additionalString)} (${count}/${total})`}</p>
+        {
+          window.innerWidth > 600
+            ?
+              <p>
+                {
+                  `${statusText(status, additionalString)} ${totalProcess}`
+                }
+              </p>
+            :
+              <p>{`${statusText(status, additionalString)}\n${totalProcess}`}</p>
+        }
       </div>
     </article>
   );

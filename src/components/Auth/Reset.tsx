@@ -45,8 +45,8 @@ const Reset = () => {
       tokenTail,
       requestedTime
     }
-    // axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
-    axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+    axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+    // axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
       .then(res => {
         appDispatch(setTokenStat(res.data.tokenState));
         setRequestToken(res.data.token);
@@ -60,7 +60,9 @@ const Reset = () => {
       case false:
         return '요청이 만료되었습니다.';
       case 'no_token':
-        return '요청이 존재하지 않습니다.';
+        return window.innerWidth > 410
+          ? '요청이 존재하지 않습니다.'
+          : '요청이 존재하지\n않습니다.';
       default:
         return '잘못된 접근입니다.';
     }

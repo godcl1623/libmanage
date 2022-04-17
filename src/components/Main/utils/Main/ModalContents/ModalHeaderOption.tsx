@@ -204,8 +204,8 @@ const ModalHeaderOption = ({ props }: any) => {
             ?
               (
                 <a
-                  // href="http://localhost:3003/auth/steam"
-                  href={`https://${sendTo}/auth/steam`}
+                  href="http://localhost:3003/auth/steam"
+                  // href={`https://${sendTo}/auth/steam`}
                 >
                   <img
                     src={signin}
