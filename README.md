@@ -277,10 +277,18 @@
 	![libmng_cat_filter](https://user-images.githubusercontent.com/20578093/163830869-b42cde91-d194-4aac-adac-e4ac38e088ae.png)
 	<details>
 	<summary>카테고리 목록 정렬 기능</summary>
+	<div markdown="1">
+
 	![libmng_cat_reorder](https://user-images.githubusercontent.com/20578093/163830872-9c752e63-1389-4f14-bb0d-28bddbc67bac.png)
+
+	</div>
 	<details>
 	<summary>기능 시연</summary>
+	<div markdown="1">
+
 	![libmng_cat_reorder_demo](https://user-images.githubusercontent.com/20578093/163830853-009708fb-8d2a-47a0-85b9-a004258072e4.gif)
+
+	</div>
 	</details>
 	</details>
 
