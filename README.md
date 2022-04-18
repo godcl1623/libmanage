@@ -62,7 +62,7 @@
 * DB 데이터와의 대조를 통한 **로그인** 기능
 * 임의의 사용자 정보 생성을 통한 **게스트 로그인** 기능
 * 로그인 없이 사용할 수 있는 **오프라인으로 접속** 기능
-_로그인 이미지_
+![libmng-login](https://user-images.githubusercontent.com/20578093/163829017-557eb190-c4a7-4fa2-b5dc-66a9455ff2e4.png)
 
 </div>
 </details>
@@ -70,31 +70,35 @@ _로그인 이미지_
 <summary>사용자 정보 관리</summary>
 <details>
 <summary>회원가입</summary>
-_회원가입 이미지_
+<div markdown="1">
+
+![libmng-reg](https://user-images.githubusercontent.com/20578093/163829174-f951975e-9c38-415f-bbf6-3ba2ee7c3f2d.png)
+
+</div>
 </details>
 <details>
 <summary>아이디/비밀번호 찾기</summary>
 <div markdown="1">
 
 * 아이디 찾기
-	_아이디 찾기 이미지_
+	![libmng_find_id](https://user-images.githubusercontent.com/20578093/163829466-3f33f88e-5f97-4b43-bf53-c4e77766d6cd.png)
 * 비밀번호 찾기
-	_비밀번호 찾기 이미지_
+	![libmng_find_pwd](https://user-images.githubusercontent.com/20578093/163829516-16e6ca66-2ab2-474a-90c7-247ed92c307f.png)
 * 경우별 예시
-	_경우별 예시 이미지_
+	![libmng_find_ex](https://user-images.githubusercontent.com/20578093/163829567-8fd3c940-013e-4bfe-b4e5-a226d1bbe8dd.png)
 <details>
 <summary>비밀번호 재설정</summary>
 <div markdown="1">
 
 * 사용자 요청별 토큰 기반으로 비밀번호 재설정 링크 제공
 * 토큰이 유효할 경우
-	_토큰 유효 이미지_
+	![libmng_token_valid](https://user-images.githubusercontent.com/20578093/163829755-41dc4186-f260-472c-b191-0e2d4d0d942a.png)
 * 토큰이 만료된 경우
-	_토큰 만료 이미지_
+	![libmng_token_expired](https://user-images.githubusercontent.com/20578093/163829848-653acec0-26a4-43e5-afc8-983877fcbc7a.png)
 * 올바르지 않은 토큰을 사용할 경우
-	_토큰 무효 이미지_
+	![libmng_token_invalid](https://user-images.githubusercontent.com/20578093/163829790-21496226-0e26-40a8-969f-016c6dbc1729.png)
 * 오류가 발생한 경우
-	_토큰 오류 이미지_
+	![libmng_token_err](https://user-images.githubusercontent.com/20578093/163829843-149dc5fe-b619-47ef-845d-ac59bb0dd2c5.png)
 
 </div>
 </details>
@@ -106,9 +110,9 @@ _회원가입 이미지_
 <div markdown="1">
 
 * 기능 이용 방법
-	_기능 이용 방법 이미지_
+	![libmng_meminfo_howto](https://user-images.githubusercontent.com/20578093/163830117-4e61e00d-da2f-4aa9-a92b-3717e37a49f8.png)
 * 기능 상세
-	_기능 상세 이미지_
+	![libmng_meminfo_mod](https://user-images.githubusercontent.com/20578093/163830125-c9eab841-7c70-4df3-a7d6-d98bf7be7093.png)
 
 </div>
 </details>
@@ -117,9 +121,9 @@ _회원가입 이미지_
 <div markdown="1">
 
 * 기능 이용 방법
-	_기능 이용 방법 이미지_
+	![libmng_meminfo_howto](https://user-images.githubusercontent.com/20578093/163830117-4e61e00d-da2f-4aa9-a92b-3717e37a49f8.png)
 * 기능 상세
-	_기능 상세 이미지_
+	![libmng_meminfo_out](https://user-images.githubusercontent.com/20578093/163830128-98d72746-8bd3-44e8-8e8c-518a94f2876a.png)
 
 </div>
 </details>
@@ -131,7 +135,7 @@ _회원가입 이미지_
 <div markdown="1">
 
 1. 라이브러리를 등록할 스토어(스팀)에 로그인
-	_스토어 등록 이미지_
+	![libmng_process](https://user-images.githubusercontent.com/20578093/163830499-1c70cecd-24e9-4f9a-84ef-c6cbc3af423a.png)
 2. 백엔드 서버를 통해 보유 게임의 메타데이터 검색 후 DB에 저장
 	* 프론트엔드 영역은 Websocket 연결을 통해 진행 상황 정보를 백엔드 서버로부터 수령, 표시
 	<details>
@@ -140,12 +144,12 @@ _회원가입 이미지_
 
 	1. 보유 중인 라이브러리를 IGDB 서비스에 검색 중입니다.
 		* 사용자 라이브러리에 저장된 콘텐츠(= 게임)의 제목을 기반으로 [igdb.com](https://www.igdb.com/) 데이터 검색
-		_검색중 이미지_
+		![libmng_search](https://user-images.githubusercontent.com/20578093/163830505-d85aeabd-55b3-4b0e-8771-0a226d4380ff.png)
 	2. IGDB 서비스로부터 메타데이터를 수신하는 중입니다. (n 회차 / 전체 m 회)
 		* 애플리케이션 배포 플랫폼인 Heroku 설정으로 인해 요청 하나의 길이가 30초를 초과할 경우 강제로 접속 종료가 발생함
 			* 테스트 환경에서 25개를 초과하는 아이템에 대해 검색 + 데이터 정렬을 위한 가공 + DB 저장까지 진행했을 때 연결 종료가 발생해 25개 단위로 요청
 			* 테스트 환경: 와이파이 환경(5GHz 대역, 공유기까지 약 8m 거리)
-		_메타데이터 수신 이미지_
+		![libmng_get_meta](https://user-images.githubusercontent.com/20578093/163830487-9739134b-980a-4e06-b718-16f5e8e0da7f.png)
 	3. 수신한 메타데이터를 가공하는 중입니다.
 		* 검색한 메타데이터를 리스트 표시를 위한 형태로 가공
 		<details>
@@ -253,10 +257,10 @@ _회원가입 이미지_
 
 		</div>
 		</details>
-		_메타데이터 가공 이미지_
+		![libmng_proc_meta](https://user-images.githubusercontent.com/20578093/163830494-c5dbc240-6556-4066-af5b-a940d8720ed5.png)
 	4. 메타데이터의 저장이 완료됐습니다.
 		* 사용자 라이브러리에 등록된 모든 아이템의 메타데이터를 검색, 가공한 후 DB에 저장까지 마친 상태
-		_저장 완료 이미지_
+		![libmng_save_done](https://user-images.githubusercontent.com/20578093/163830503-48aeebef-6628-4353-8eeb-828c09cb474b.png)
 
 	</div>
 	</details>
@@ -268,13 +272,13 @@ _회원가입 이미지_
 <div markdown="1">
 
 * 원하는 목록만 표시
-	_목록 표시 이미지_
+	![libmng_cat_filter](https://user-images.githubusercontent.com/20578093/163830869-b42cde91-d194-4aac-adac-e4ac38e088ae.png)
 	<details>
 	<summary>카테고리 목록 정렬 기능</summary>
-	_목록 정렬 기능 이미지_
+	![libmng_cat_reorder](https://user-images.githubusercontent.com/20578093/163830872-9c752e63-1389-4f14-bb0d-28bddbc67bac.png)
 	<details>
 	<summary>기능 시연</summary>
-	_기능 시연 이미지_
+	![libmng_cat_reorder_demo](https://user-images.githubusercontent.com/20578093/163830853-009708fb-8d2a-47a0-85b9-a004258072e4.gif)
 	</details>
 	</details>
 
@@ -285,12 +289,16 @@ _회원가입 이미지_
 <div markdown="1">
 
 * 텍스트 리스트
-	_텍스트 리스트 이미지_
+	![libmng_txt_list](https://user-images.githubusercontent.com/20578093/163831234-c6c5c7cd-1110-4320-91d8-fc902c7f15eb.png)
 * 섬네일 리스트
-	_섬네일 리스트 이미지_
+	![libmng_thumbs_list](https://user-images.githubusercontent.com/20578093/163831228-8ac92217-054c-477d-87ce-584e7c5d18b6.png)
 <details>
 <summary>섬네일 크기 조정 시연</summary>
-_크기 조정 시연 이미지_
+<div markdown="1">
+
+![libmng_thumbs_resize_demo](https://user-images.githubusercontent.com/20578093/163831207-345f157e-55e6-4083-98ca-630a9743dd63.gif)
+
+</div>
 </details>
 
 </div>
@@ -306,7 +314,7 @@ _크기 조정 시연 이미지_
 * 개별 스토어 클릭(= 클릭 1회) → state를 해당 스토어(steam)로 변경
 	* 스토어 버튼 2회째 클릭: 목록 제거
 	* 스토어 버튼 3회째 클릭: 목록 표시
-_카테고리 단위 필터 이미지_
+![libmng_lib_store_filter](https://user-images.githubusercontent.com/20578093/163831420-c344438a-ee53-4ec8-8e1c-e59c3f55c7ce.gif)
 
 </div>
 </details>
@@ -315,7 +323,7 @@ _카테고리 단위 필터 이미지_
 <div markdown="1">
 
 * `Array.prototype.filter()`를 사용해 표시 아이템 필터링
-_라이브러리 필터 이미지_
+![libmng_lib_txt_filter](https://user-images.githubusercontent.com/20578093/163831428-57ad0cce-219b-4cc2-ad26-0b9610ea4181.gif)
 
 </div>
 </details>
@@ -338,11 +346,11 @@ _라이브러리 필터 이미지_
 	</div>
 	</details>
 * 열람 화면
-	_열람 화면 이미지_
+	![libmng_meta_main](https://user-images.githubusercontent.com/20578093/163831575-851eb917-feae-4030-8507-75777fcc2659.png)
 * 스크린샷 열람
-	_스크린샷 열람 이미지_
+	![libmng_meta_media](https://user-images.githubusercontent.com/20578093/163831592-aef56b52-e591-4eb9-ac92-7bc393062144.png)
 * 기타 상세 정보 열람
-	_기타 상세 정보 열람 이미지_
+	![libmng_meta_meta](https://user-images.githubusercontent.com/20578093/163831598-0c721549-37e2-48be-958d-ee8f82bee3bc.png)
 </div>
 </details>
 </details>
