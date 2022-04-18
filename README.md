@@ -1,9 +1,9 @@
 # libmanage-client
 
 ## 서비스 소개
-*libmanage*는 사용자의 스팀 라이브러리에 있는 게임의 메타 정보를 PC, 모바일 등 다양한 디바이스에서 설치할 수 있는 앱 형태로 제공하는 애플리케이션입니다.
+**libmanage**는 사용자의 스팀 라이브러리에 있는 게임의 메타 정보를 PC, 모바일 등 다양한 디바이스에서 설치할 수 있는 앱 형태로 제공하는 애플리케이션입니다.
 
-*libmanage-client*는 *libmanage* 애플리케이션의 프론트엔드 프로젝트입니다.
+**libmanage-client**는 **libmanage** 애플리케이션의 프론트엔드 프로젝트입니다.
 
 ## 목차
 * 기획 배경 및 상세 소개
@@ -45,11 +45,41 @@
 ```
 
 ## 기능 명세 및 상세 화면
-<details>
-<summary>기능 명세 및 상세 화면</summary>
-<div markdown="1">
-	테스트
-</div>
+<details markdown="1">
+	<summary>기능 명세 및 상세 화면</summary>
+	<details>
+		<summary>기본 화면</summary>
+		_기본 화면 이미지_
+	</details>
+	<details>
+		<summary>로그인</summary>
+		* DB 데이터와의 대조를 통한 **로그인** 기능
+		* 임의의 사용자 정보 생성을 통한 **게스트 로그인** 기능
+		* 로그인 없이 사용할 수 있는 **오프라인으로 접속** 기능
+		_로그인 이미지_
+	</details>
+	<details>
+		<summary>사용자 정보 관리</summary>
+		<details>
+			<summary>회원가입</summary>
+			내용
+		</details>
+		<details>
+			<summary>아이디/비밀번호 찾기</summary>
+			내용
+		</details>
+		<details>
+			<summary>회원정보 수정</summary>
+			내용
+		</details>
+		<details>
+			<summary>회원 탈퇴</summary>
+			내용
+		</details>
+	</details>
+	<details>
+		<summary>테스트</summary>
+	</details>
 </details>
 
 ## 기술 스택
