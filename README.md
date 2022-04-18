@@ -257,7 +257,9 @@
 
 		</div>
 		</details>
+
 		![libmng_proc_meta](https://user-images.githubusercontent.com/20578093/163830494-c5dbc240-6556-4066-af5b-a940d8720ed5.png)
+
 	4. 메타데이터의 저장이 완료됐습니다.
 		* 사용자 라이브러리에 등록된 모든 아이템의 메타데이터를 검색, 가공한 후 DB에 저장까지 마친 상태
 		![libmng_save_done](https://user-images.githubusercontent.com/20578093/163830503-48aeebef-6628-4353-8eeb-828c09cb474b.png)
