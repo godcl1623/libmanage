@@ -223,8 +223,8 @@ const ModalHeaderOption = ({ props }: any) => {
                       stores: {
                         ...userState.stores,
                         game: {
-                          // ...userState.stores.game,
-                          // steam: false
+                          ...userState.stores.game,
+                          steam: false
                         }
                       }
                     };
