@@ -49,7 +49,11 @@
 <summary>기능 명세 및 상세 화면</summary>
 <details>
 <summary>기본 화면</summary>
-_기본 화면 이미지_
+<div markdown="1">
+
+![main](https://user-images.githubusercontent.com/20578093/163828641-81572288-f474-43b1-8184-66774b385769.png)
+
+</div>
 </details>
 <details>
 <summary>로그인</summary>
