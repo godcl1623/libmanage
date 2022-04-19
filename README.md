@@ -369,13 +369,4 @@
 ## 기술 스택
 * Front-End
 	* React.js
-	* Redux
-		* redux-toolkit
-	* Emotion.js
 	* TypeScript
-* Devops & Tools
-	* Axios
-	* 암호화 라이브러리
-		* bcryptjs
-		* crypto-js
-		* hash.js
