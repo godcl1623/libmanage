@@ -155,6 +155,7 @@ const StoresList = ({ props }: any) => {
         const insertCrit =
           currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
         const original = Array.from(parent.children);
+        // console.log(dragInfo)
         const front = original.slice(0, insertCrit);
         const back = original.slice(insertCrit);
         const moveItem = front.splice(front.indexOf(original[currentIdx]), 1)[0];
