@@ -21,8 +21,8 @@ const Navigation = ({ storesList }: any) => {
       level0: ['nav_category']
     }
   };
-  const [ dragRef, dragInfo, setSettings ] = useDragClone(dragOption);
-  const { updateGlobalDragTarget: setDragTarget, makeDraggable, setRefresher } = setSettings;
+  // const [ dragRef, dragInfo, setSettings ] = useDragClone(dragOption);
+  // const { updateGlobalDragTarget: setDragTarget, makeDraggable, setRefresher } = setSettings;
 
   return (
     <nav
@@ -35,10 +35,10 @@ const Navigation = ({ storesList }: any) => {
         name="content-type"
         id="category-type"
         value={selectedCategory}
-        onChange={e => {
-          appDispatch(setSelCategory(e.target.value));
-          setRefresher(e.target.value);
-        }}
+        // onChange={e => {
+        //   appDispatch(setSelCategory(e.target.value));
+        //   setRefresher(e.target.value);
+        // }}
       >
         <option value="all">전체</option>
         <option value="game">게임</option>
@@ -52,10 +52,10 @@ const Navigation = ({ storesList }: any) => {
           storesList,
           dispatch: appDispatch,
           selectedStoresCreator: setSelStores,
-          dragRef,
-          setDragTarget,
-          dragInfo,
-          makeDraggable,
+          // dragRef,
+          // setDragTarget,
+          // dragInfo,
+          // makeDraggable,
           updateDropRes
         }}
       />

@@ -16,12 +16,18 @@ const StoresList = ({ props }: any) => {
   const [currentHover, setCurrentHover] = React.useState<HTMLElement>();
   const [listState, setListState] = React.useState<string | string[]>('');
   const originalList = React.useRef<string | string[]>('');
+  const dndDebug = React.useRef<any>();
   const game = 'game';
   const music = 'music';
   const series = 'series';
   const movie = 'movie';
   const storagedList = localStorage.length !== 0 ? JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string)).customCatOrder : null;
   const userSetList = storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
+  React.useEffect(() => {
+    if (dndDebug.current) {
+      dndDebug.current.childNodes.forEach((ele: any) => {ele.draggable = true})
+    }
+  }, [dndDebug.current])
   React.useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -32,16 +38,16 @@ const StoresList = ({ props }: any) => {
     setListState(currentList);
     originalList.current = currentList;
   }, [userState.customCatOrder]);
-  React.useEffect(() => {
-    if (isReorderActivated) {
-      makeDraggable(true);
-    } else {
-      makeDraggable(false);
-      if (catDropResult[0] === 'cancel') {
-        setListState(originalList.current);
-      }
-    }
-  }, [isReorderActivated, catDropResult]);
+  // React.useEffect(() => {
+  //   if (isReorderActivated) {
+  //     makeDraggable(true);
+  //   } else {
+  //     makeDraggable(false);
+  //     if (catDropResult[0] === 'cancel') {
+  //       setListState(originalList.current);
+  //     }
+  //   }
+  // }, [isReorderActivated, catDropResult]);
   const { useDropClone } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: {
@@ -49,16 +55,16 @@ const StoresList = ({ props }: any) => {
     },
     applyToChildren: false
   };
-  const [dropRef] = useDropClone(dropOption);
+  // const [dropRef] = useDropClone(dropOption);
   const {
     selectedCategory,
     storesList,
     dispatch,
     selectedStoresCreator,
-    dragRef,
-    setDragTarget,
-    dragInfo,
-    makeDraggable,
+    // dragRef,
+    // setDragTarget,
+    // dragInfo,
+    // makeDraggable,
     updateDropRes
   } = props;
   // params 타입 설정 필요
@@ -134,51 +140,51 @@ const StoresList = ({ props }: any) => {
     });
   }, [listState]);
 
-  const reorderList = (e: React.DragEvent): void => {
-    const HTMLEventTarget = e.target! as HTMLElement;
-    const parent = HTMLEventTarget.parentNode as HTMLElement;
-    const list = Array.from(parent.childNodes);
-    const currentIdx = list.indexOf(HTMLEventTarget);
-    const { startInfo, lastInfo } = dragInfo;
-    const { startEleInfo, startCoords } = startInfo;
-    const { lastEleInfo, lastCoords } = lastInfo;
-    const computedStyle = window.getComputedStyle(HTMLEventTarget);
-    const targetMargin =
-      parseInt(computedStyle.marginTop, 10) + parseInt(computedStyle.marginBottom, 10);
-    if (lastEleInfo) {
-      const targetHeight = lastEleInfo.height;
-      const minNextEleTop = targetMargin + targetHeight;
-      const targetMovedDistance = lastCoords.clientY - startCoords.clientY;
-      if (targetMovedDistance > minNextEleTop) {
-        const distanceToIdx = Math.floor(targetMovedDistance / minNextEleTop);
-        const idxToAdd = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
-        const insertCrit =
-          currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
-        const original = Array.from(parent.children);
-        // console.log(dragInfo)
-        const front = original.slice(0, insertCrit);
-        const back = original.slice(insertCrit);
-        const moveItem = front.splice(front.indexOf(original[currentIdx]), 1)[0];
-        back.unshift(moveItem);
-        const result = [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
-        setListState(result);
-        dispatch(updateDropRes(result));
-      } else if (targetMovedDistance * -1 > minNextEleTop) {
-        const distanceToIdx = Math.floor((targetMovedDistance * -1) / minNextEleTop);
-        const idxToSub = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
-        const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
-        const original = Array.from(parent.children);
-        const front = original.slice(0, insertCrit);
-        const back = original.slice(insertCrit);
-        const moveItem = back.splice(back.indexOf(original[currentIdx]), 1)[0];
-        back.unshift(moveItem);
-        const result = [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
-        setListState(result);
-        dispatch(updateDropRes(result));
-      }
-      list.forEach(ele => {(ele as HTMLElement).style.boxShadow = 'none'});
-    }
-  };
+  // const reorderList = (e: React.DragEvent): void => {
+  //   const HTMLEventTarget = e.target! as HTMLElement;
+  //   const parent = HTMLEventTarget.parentNode as HTMLElement;
+  //   const list = Array.from(parent.childNodes);
+  //   const currentIdx = list.indexOf(HTMLEventTarget);
+  //   const { startInfo, lastInfo } = dragInfo;
+  //   const { startEleInfo, startCoords } = startInfo;
+  //   const { lastEleInfo, lastCoords } = lastInfo;
+  //   const computedStyle = window.getComputedStyle(HTMLEventTarget);
+  //   const targetMargin =
+  //     parseInt(computedStyle.marginTop, 10) + parseInt(computedStyle.marginBottom, 10);
+  //   if (lastEleInfo) {
+  //     const targetHeight = lastEleInfo.height;
+  //     const minNextEleTop = targetMargin + targetHeight;
+  //     const targetMovedDistance = lastCoords.clientY - startCoords.clientY;
+  //     if (targetMovedDistance > minNextEleTop) {
+  //       const distanceToIdx = Math.floor(targetMovedDistance / minNextEleTop);
+  //       const idxToAdd = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
+  //       const insertCrit =
+  //         currentIdx + idxToAdd + 1 > list.length ? list.length : currentIdx + idxToAdd + 1;
+  //       const original = Array.from(parent.children);
+  //       // console.log(dragInfo)
+  //       const front = original.slice(0, insertCrit);
+  //       const back = original.slice(insertCrit);
+  //       const moveItem = front.splice(front.indexOf(original[currentIdx]), 1)[0];
+  //       back.unshift(moveItem);
+  //       const result = [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
+  //       setListState(result);
+  //       dispatch(updateDropRes(result));
+  //     } else if (targetMovedDistance * -1 > minNextEleTop) {
+  //       const distanceToIdx = Math.floor((targetMovedDistance * -1) / minNextEleTop);
+  //       const idxToSub = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
+  //       const insertCrit = currentIdx - idxToSub <= 0 ? 0 : currentIdx - idxToSub;
+  //       const original = Array.from(parent.children);
+  //       const front = original.slice(0, insertCrit);
+  //       const back = original.slice(insertCrit);
+  //       const moveItem = back.splice(back.indexOf(original[currentIdx]), 1)[0];
+  //       back.unshift(moveItem);
+  //       const result = [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
+  //       setListState(result);
+  //       dispatch(updateDropRes(result));
+  //     }
+  //     list.forEach(ele => {(ele as HTMLElement).style.boxShadow = 'none'});
+  //   }
+  // };
 
   const dragHighlighter = (e: React.DragEvent): void => {
     const HTMLEventTarget = e.target! as HTMLElement;
@@ -213,16 +219,19 @@ const StoresList = ({ props }: any) => {
         height: '100%',
         paddingTop: 'var(--gap-standard)'
       }}
-      ref={ref => {
-        dropRef.current = ref;
-        dragRef.current = ref;
-      }}
-      onDragStart={e => {
-        setDragTarget(e.target);
-        setCurrentHover(e.target as HTMLElement);
-      }}
-      onDragEnter={dragHighlighter}
-      onDragEnd={reorderList}
+      ref={dndDebug}
+      // ref={ref => {
+      //   dropRef.current = ref;
+      //   dragRef.current = ref;
+      // }}
+      // onDragStart={e => {
+      //   setDragTarget(e.target);
+      //   setCurrentHover(e.target as HTMLElement);
+      // }}
+      // onDragEnter={dragHighlighter}
+      // onDragEnd={reorderList}
+      onDrag={e => console.log(e.clientY)}
+      onDragEnd={e => console.log(e.clientY)}
     >
       {displayMenu(selectedCategory, listState)}
     </div>
