@@ -7,6 +7,10 @@ type DropResult = {
   lastDroppedLevel: number;
   lastDroppedResult: string;
 };
+type DropInfo = {
+  dropEleInfo: DOMRect | null;
+  dropCoords: DragEvent | null;
+}
 
 export default function useDropClone(option: IDropOptions): any {
   /* ############### state 정리 ############### */
@@ -24,6 +28,10 @@ export default function useDropClone(option: IDropOptions): any {
     lastDroppedLevel: -1,
     lastDroppedResult: '',
   });
+  const [dropInfo, setDropInfo] = useState<DropInfo>({
+    dropEleInfo: null,
+    dropCoords: null
+  });
   const dropRef = useRef(null);
   const utils = new CommonUtils();
 
@@ -39,26 +47,42 @@ export default function useDropClone(option: IDropOptions): any {
       lastDroppedResult,
     });
   };
+  const updateDropInfo = (
+    rectInfo: DOMRect = (dropInfo! as DropInfo).dropEleInfo as DOMRect,
+    eventRes: DragEvent = (dropInfo! as DropInfo).dropCoords as DragEvent
+  ): void => {
+    setDropInfo({
+      ...dropInfo,
+      dropEleInfo: rectInfo,
+      dropCoords: eventRes
+    });
+  };
 
-  const initiateDropInfo = useCallback((e: Event) => {
-    if (dropMap) {
-      const htmlTarget = e.target! as HTMLElement;
-      const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
-      const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
-      const targetIdxInNodes = (currentItemCategory as (string | string[])[]).length > 1 ? Array.from((htmlTarget.parentNode! as HTMLElement).childNodes).indexOf(htmlTarget) : 0;
-      if (currentItemCategory) {
-        let dropCategory = '';
-        if (applyToChildren) {
-          dropCategory = Object.values(currentItemCategory)[levelOfDropTarget][targetIdxInNodes];
-        } else {
-          dropCategory = Object.values(currentItemCategory)[0][targetIdxInNodes];
-        }
-        if (dropCategory) {
-          setDropCat(dropCategory);
+  const initiateDropInfo = useCallback(
+    (e: Event) => {
+      if (dropMap) {
+        const htmlTarget = e.target! as HTMLElement;
+        const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
+        const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
+        const targetIdxInNodes =
+          Object.values(currentItemCategory as any).length > 1
+            ? Array.from((htmlTarget.parentNode! as HTMLElement).childNodes).indexOf(htmlTarget)
+            : 0;
+        if (currentItemCategory) {
+          let dropCategory = '';
+          if (applyToChildren) {
+            dropCategory = Object.values(currentItemCategory)[levelOfDropTarget][targetIdxInNodes];
+          } else {
+            dropCategory = Object.values(currentItemCategory)[0][targetIdxInNodes];
+          }
+          if (dropCategory) {
+            setDropCat(dropCategory);
+          }
         }
       }
-    }
-  }, [dropMap]);
+    },
+    [dropMap]
+  );
 
   const runDropHandler = useCallback(
     (e: Event) => {
@@ -71,6 +95,7 @@ export default function useDropClone(option: IDropOptions): any {
         const levelIncludesDropTarget = Object.values(dropMap).find((level: any) => level.includes(htmlTarget));
         const levelOfDropTarget = Object.values(dropMap).indexOf(levelIncludesDropTarget! as HTMLElement[]);
         updateDropResult(levelOfDropTarget, levelOfDropTarget === 0 ? 'root' : 'child');
+        updateDropInfo((e.target! as HTMLElement).getBoundingClientRect(), e! as DragEvent);
       }
     },
     [currentDragCategory, currentDropCategory]
@@ -99,8 +124,9 @@ export default function useDropClone(option: IDropOptions): any {
   useEffect(() => {
     const dropzoneRef = dropRef.current! as HTMLElement;
     dropzoneRef.addEventListener('drop', runDropHandler);
+    dropzoneRef.addEventListener('click', initiateDropInfo);
     return () => dropzoneRef.removeEventListener('drop', runDropHandler);
   }, [runDropHandler]);
 
-  return [dropRef, lastdropResult];
+  return [dropRef, dropInfo, lastdropResult];
 }
