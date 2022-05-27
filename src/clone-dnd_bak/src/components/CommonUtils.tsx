@@ -1,5 +1,4 @@
-import create from 'zustand';
-import { devtools } from 'zustand/middleware';
+import create, { State } from 'zustand';
 
 /* eslint-disable class-methods-use-this */
 export interface BasicActionCreator<T> {
@@ -21,26 +20,15 @@ export class CommonUtils {
     const structure: Structure = {};
     const q: HTMLElement[] = [node];
     let innerLvl: number = lvl;
-    let numOfNextLvl: number = 0;
-    structure[`level_${innerLvl}`] = [];
-    let temporaryStorage = [];
+    structure[`level_${innerLvl}`] = [node];
     while (q.length !== 0) {
-      const currentElement: HTMLElement = q.shift()! as HTMLElement;
-      if (innerLvl === lvl) {
-        structure[`level_${innerLvl}`].push(currentElement);
-        Array.from(currentElement.children).forEach(child => q.push(child as HTMLElement));
+      const v: HTMLElement = q.shift()! as HTMLElement;
+      const list: HTMLElement[] = Array.from(v.children)! as HTMLElement[];
+      if (list.length !== 0) {
         innerLvl += 1;
-        numOfNextLvl += currentElement.children.length;
-      } else {
-        temporaryStorage.push(currentElement);
-        if (numOfNextLvl === temporaryStorage.length) {
-          structure[`level_${innerLvl}`] = temporaryStorage;
-          const rawCurrEleChildren = temporaryStorage.map(child => Array.from(child.children));
-          const procCurrEleChildren = rawCurrEleChildren.reduce((acc, curr) => acc.concat(curr));
-          procCurrEleChildren.forEach(child => q.push(child as HTMLElement));
-          numOfNextLvl = procCurrEleChildren.length;
-          temporaryStorage = [];
-          innerLvl += 1;
+        structure[`level_${innerLvl}`] = list;
+        for (let i = 0; i < v.children.length; i++) {
+          q.push(v.children[i]! as HTMLElement);
         }
       }
     }
@@ -48,7 +36,11 @@ export class CommonUtils {
   }
 }
 
-export const useStore = create<any>(devtools(set => ({
+export const useStore = create((set: ((state: State) => void)) => ({
+  currentDragTarget: null,
+  setDragTgt(dragTarget: HTMLElement | null): void {
+    set({ currentDragTarget: dragTarget });
+  },
   currentDragCategory: '',
   setDragCat(category: string): void {
     set({ currentDragCategory: category });
@@ -69,4 +61,4 @@ export const useStore = create<any>(devtools(set => ({
   setDropState(dropState: boolean): void {
     set({ isDropped: dropState });
   }
-})))
+}))
