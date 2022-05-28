@@ -63,7 +63,6 @@ const StoresList = ({ props }: any) => {
     dispatch,
     selectedStoresCreator,
     dragRef,
-    setDragTarget,
     dragInfo,
     makeDraggable,
     updateDropRes
@@ -223,7 +222,6 @@ const StoresList = ({ props }: any) => {
         dragRef.current = ref;
       }}
       onDragStart={e => {
-        setDragTarget(e.target);
         setCurrentHover(e.target as HTMLElement);
         setDragStartEle(e.target as HTMLElement);
       }}
