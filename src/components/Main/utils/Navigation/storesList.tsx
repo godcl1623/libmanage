@@ -17,18 +17,30 @@ const StoresList = ({ props }: any) => {
   const [dragStartEle, setDragStartEle] = React.useState<HTMLElement>();
   const [listState, setListState] = React.useState<string | string[]>('');
   const originalList = React.useRef<string | string[]>('');
-  const dndDebug = React.useRef<any>();
   const game = 'game';
   const music = 'music';
   const series = 'series';
   const movie = 'movie';
   const storagedList = localStorage.length !== 0 ? JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string)).customCatOrder : null;
   const userSetList = storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
-  React.useEffect(() => {
-    if (dndDebug.current) {
-      dndDebug.current.childNodes.forEach((ele: any) => {ele.draggable = true})
-    }
-  }, [dndDebug.current])
+  const { useDropClone } = cloneDnd;
+  const dropOption: DropOption = {
+    currentItemCategory: {
+      level0: ['nav_category']
+    },
+    applyToChildren: false
+  };
+  const [dropRef, dropInfo] = useDropClone(dropOption);
+  const {
+    selectedCategory,
+    storesList,
+    dispatch,
+    selectedStoresCreator,
+    dragRef,
+    dragInfo,
+    makeDraggable,
+    updateDropRes
+  } = props;
   React.useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -49,24 +61,6 @@ const StoresList = ({ props }: any) => {
       }
     }
   }, [isReorderActivated, catDropResult]);
-  const { useDropClone } = cloneDnd;
-  const dropOption: DropOption = {
-    currentItemCategory: {
-      level0: ['nav_category']
-    },
-    applyToChildren: false
-  };
-  const [dropRef, dropInfo] = useDropClone(dropOption);
-  const {
-    selectedCategory,
-    storesList,
-    dispatch,
-    selectedStoresCreator,
-    dragRef,
-    dragInfo,
-    makeDraggable,
-    updateDropRes
-  } = props;
   // params 타입 설정 필요
   const displayMenu = React.useCallback((category: string, ...params: any[]) => {
     const inputArr = typeof params[0] !== 'string' ? params[0] : params[0].split(',');
