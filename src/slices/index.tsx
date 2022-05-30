@@ -276,7 +276,8 @@ const sliceReducers = combineReducers({
 const store = configureStore({
   reducer: {
     sliceReducers
-  }
+  },
+  devTools: false
 });
 
 export default store;
