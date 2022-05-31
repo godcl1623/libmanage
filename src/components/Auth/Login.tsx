@@ -14,8 +14,8 @@ import { loginTop, hrStyle } from './module/styles/LoginStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
 import { useAppDispatch, useAppSelector, setLoginStat, setUserState, setLogoutClickStat, setCompareState } from '../../slices';
 
-const MemoedLink = memo(StyledLink);
-const MemoedBtn = memo(Button);
+// const MemoedLink = memo(StyledLink);
+// const MemoedBtn = memo(Button);
 
 // 타입 확인 필요
 const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
