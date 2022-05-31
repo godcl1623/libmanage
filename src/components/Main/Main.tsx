@@ -18,15 +18,6 @@ const Main = () => {
     }
   }, []);
 
-  // React.useEffect(() => {
-  //   const ws = new WebSocket('ws://localhost:3003')
-  //   ws.onopen = ev => {
-  //     ws.send('client_connected');
-  //   }
-  //   ws.onmessage = msg => console.log(msg.data)
-  //   return () => ws.close();
-  // }, [])
-
   if (!isOnline) {
     return <OfflineWrapper Contents={ MainContents }/>
   } else {
