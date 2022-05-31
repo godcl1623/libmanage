@@ -18,11 +18,12 @@ const Navigation = ({ storesList }: any) => {
   const { useDragClone } = cloneDnd;
   const dragOption: DragOption = {
     currentItemCategory: {
-      level0: ['nav_category']
+      level0: ['nav_category'],
+      level1: ['nav_category']
     }
   };
   const [ dragRef, dragInfo, setSettings ] = useDragClone(dragOption);
-  const { updateGlobalDragTarget: setDragTarget, makeDraggable, setRefresher } = setSettings;
+  const { makeDraggable, setRefresher } = setSettings;
 
   return (
     <nav
@@ -53,7 +54,6 @@ const Navigation = ({ storesList }: any) => {
           dispatch: appDispatch,
           selectedStoresCreator: setSelStores,
           dragRef,
-          setDragTarget,
           dragInfo,
           makeDraggable,
           updateDropRes

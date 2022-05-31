@@ -93,8 +93,8 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                           localStorage.setItem('frog', modPackage);
                           const result = await axios
                             .put(
-                                'http://localhost:3003/member/modify_option',
-                                // `https://${sendTo}/member/modify_option`,
+                                // 'http://localhost:3003/member/modify_option',
+                                `https://${sendTo}/member/modify_option`,
                                 { pack: modPackage },
                                 { withCredentials: true }
                               )

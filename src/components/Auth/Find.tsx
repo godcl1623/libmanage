@@ -82,8 +82,8 @@ const Find = ({ mode }: any) => {
                 return result;
               };
               const infoCheck = async (infoObj: FormCheck) => {
-              await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
-              // await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+              // await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
+              await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };

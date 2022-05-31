@@ -14,6 +14,7 @@ import { decryptor } from '../../../../custom_modules/aeser';
 const StoresList = ({ props }: any) => {
   const { userState, catDropResult, isReorderActivated } = useAppSelector(state => state.sliceReducers);
   const [currentHover, setCurrentHover] = React.useState<HTMLElement>();
+  const [dragStartEle, setDragStartEle] = React.useState<HTMLElement>();
   const [listState, setListState] = React.useState<string | string[]>('');
   const originalList = React.useRef<string | string[]>('');
   const game = 'game';
@@ -22,6 +23,24 @@ const StoresList = ({ props }: any) => {
   const movie = 'movie';
   const storagedList = localStorage.length !== 0 ? JSON.parse(decryptor(localStorage.getItem('frog'), process.env.REACT_APP_TRACER as string)).customCatOrder : null;
   const userSetList = storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
+  const { useDropClone } = cloneDnd;
+  const dropOption: DropOption = {
+    currentItemCategory: {
+      level0: ['nav_category']
+    },
+    applyToChildren: false
+  };
+  const [dropRef, dropInfo] = useDropClone(dropOption);
+  const {
+    selectedCategory,
+    storesList,
+    dispatch,
+    selectedStoresCreator,
+    dragRef,
+    dragInfo,
+    makeDraggable,
+    updateDropRes
+  } = props;
   React.useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -42,25 +61,6 @@ const StoresList = ({ props }: any) => {
       }
     }
   }, [isReorderActivated, catDropResult]);
-  const { useDropClone } = cloneDnd;
-  const dropOption: DropOption = {
-    currentItemCategory: {
-      level0: ['nav_category']
-    },
-    applyToChildren: false
-  };
-  const [dropRef] = useDropClone(dropOption);
-  const {
-    selectedCategory,
-    storesList,
-    dispatch,
-    selectedStoresCreator,
-    dragRef,
-    setDragTarget,
-    dragInfo,
-    makeDraggable,
-    updateDropRes
-  } = props;
   // params 타입 설정 필요
   const displayMenu = React.useCallback((category: string, ...params: any[]) => {
     const inputArr = typeof params[0] !== 'string' ? params[0] : params[0].split(',');
@@ -135,20 +135,19 @@ const StoresList = ({ props }: any) => {
   }, [listState]);
 
   const reorderList = (e: React.DragEvent): void => {
-    const HTMLEventTarget = e.target! as HTMLElement;
-    const parent = HTMLEventTarget.parentNode as HTMLElement;
+    const dragTgt = dragStartEle as HTMLElement;
+    const parent = dragTgt.parentNode as HTMLElement;
     const list = Array.from(parent.childNodes);
-    const currentIdx = list.indexOf(HTMLEventTarget);
-    const { startInfo, lastInfo } = dragInfo;
-    const { startEleInfo, startCoords } = startInfo;
-    const { lastEleInfo, lastCoords } = lastInfo;
-    const computedStyle = window.getComputedStyle(HTMLEventTarget);
+    const currentIdx = list.indexOf(dragTgt);
+    const { startEleInfo, startCoords } = dragInfo;
+    const { dropEleInfo, dropCoords } = dropInfo;
+    const computedStyle = window.getComputedStyle(dragTgt);
     const targetMargin =
       parseInt(computedStyle.marginTop, 10) + parseInt(computedStyle.marginBottom, 10);
-    if (lastEleInfo) {
-      const targetHeight = lastEleInfo.height;
+    if (dropEleInfo) {
+      const targetHeight = startEleInfo.height;
       const minNextEleTop = targetMargin + targetHeight;
-      const targetMovedDistance = lastCoords.clientY - startCoords.clientY;
+      const targetMovedDistance = dropCoords.clientY - startCoords.clientY;
       if (targetMovedDistance > minNextEleTop) {
         const distanceToIdx = Math.floor(targetMovedDistance / minNextEleTop);
         const idxToAdd = distanceToIdx >= list.length ? list.length - 1 : distanceToIdx;
@@ -217,11 +216,11 @@ const StoresList = ({ props }: any) => {
         dragRef.current = ref;
       }}
       onDragStart={e => {
-        setDragTarget(e.target);
         setCurrentHover(e.target as HTMLElement);
+        setDragStartEle(e.target as HTMLElement);
       }}
       onDragEnter={dragHighlighter}
-      onDragEnd={reorderList}
+      onDrop={reorderList}
     >
       {displayMenu(selectedCategory, listState)}
     </div>
