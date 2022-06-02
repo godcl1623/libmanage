@@ -216,11 +216,22 @@ const StoresList = ({ props }: any) => {
         dragRef.current = ref;
       }}
       onDragStart={e => {
+        console.log(e.target)
         setCurrentHover(e.target as HTMLElement);
         setDragStartEle(e.target as HTMLElement);
       }}
       onDragEnter={dragHighlighter}
       onDrop={reorderList}
+      onTouchStart={e => {
+        // setCurrentHover(e.target as HTMLElement);
+        // setDragStartEle(e.target as HTMLElement);
+      }}
+      onTouchMove={e => {
+        console.log('from touchmove', e.target)
+      }}
+      onTouchEnd={e => {
+        console.log('from touchend', e.target)
+      }}
     >
       {displayMenu(selectedCategory, listState)}
     </div>
