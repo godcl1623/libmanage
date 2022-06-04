@@ -1,5 +1,5 @@
 /* eslint-disable no-else-return */
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
@@ -10,13 +10,24 @@ import cloneDnd, { DropOption } from '../../../../clone-dnd';
 import { useAppSelector } from '../../../../slices';
 import { decryptor } from '../../../../custom_modules/aeser';
 
+type FindCategory = HTMLElement | ((param: HTMLElement) => HTMLElement) | undefined;
+
+function findCategory(ele: HTMLElement): FindCategory {
+  if (ele.classList.contains('category')) {
+    return ele;
+  } else if (ele.parentElement) {
+    return findCategory(ele.parentElement);
+  }
+}
+
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
   const { userState, catDropResult, isReorderActivated } = useAppSelector(state => state.sliceReducers);
-  const [currentHover, setCurrentHover] = React.useState<HTMLElement>();
-  const [dragStartEle, setDragStartEle] = React.useState<HTMLElement>();
-  const [listState, setListState] = React.useState<string | string[]>('');
-  const originalList = React.useRef<string | string[]>('');
+  const [currentHover, setCurrentHover] = useState<HTMLElement>();
+  const [dragStartEle, setDragStartEle] = useState<HTMLElement>();
+  const [listState, setListState] = useState<string | string[]>('');
+  const originalList = useRef<string | string[]>('');
+  const clonedElement = useRef<HTMLElement | null>(null);
   const game = 'game';
   const music = 'music';
   const series = 'series';
@@ -41,7 +52,7 @@ const StoresList = ({ props }: any) => {
     makeDraggable,
     updateDropRes
   } = props;
-  React.useEffect(() => {
+  useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
       currentList = [game, music, series, movie];
@@ -51,7 +62,7 @@ const StoresList = ({ props }: any) => {
     setListState(currentList);
     originalList.current = currentList;
   }, [userState.customCatOrder]);
-  React.useEffect(() => {
+  useEffect(() => {
     if (isReorderActivated) {
       makeDraggable(true);
     } else {
@@ -223,15 +234,33 @@ const StoresList = ({ props }: any) => {
       onDragEnter={dragHighlighter}
       onDrop={reorderList}
       onTouchStart={e => {
-        // setCurrentHover(e.target as HTMLElement);
-        // setDragStartEle(e.target as HTMLElement);
+        if (e.target !== dropRef.current) {
+          const touchTgt = findCategory(e.target as HTMLElement) as HTMLElement;
+          const originalStyles = touchTgt.children[0].getBoundingClientRect();
+          const { width, height, left, top } = originalStyles;
+          const cloneTgt = touchTgt.cloneNode(true) as HTMLElement;
+          cloneTgt.style.width = width + 'px';
+          cloneTgt.style.height = height + 'px';
+          cloneTgt.style.position = 'absolute';
+          cloneTgt.style.left = left + 'px';
+          cloneTgt.style.top = top + 'px';
+          cloneTgt.style.opacity = '0.5';
+          clonedElement.current = cloneTgt;
+          dropRef.current.appendChild(cloneTgt);
+        }
       }}
       onTouchMove={e => {
-        console.log('from touchmove', e.target)
+        const moveTgt = clonedElement.current as HTMLElement;
+        const originalStyles = moveTgt.children[0].getBoundingClientRect();
+        const { width, height, x, y } = originalStyles;
+        const left = e.touches[0].clientX;
+        const top = e.touches[0].clientY;
+        moveTgt.style.left = left + 'px';
+        moveTgt.style.top = top + 'px';
       }}
-      onTouchEnd={e => {
-        console.log('from touchend', e.target)
-      }}
+      // onTouchEnd={e => {
+      //   console.log('from touchend', e.target)
+      // }}
     >
       {displayMenu(selectedCategory, listState)}
     </div>
