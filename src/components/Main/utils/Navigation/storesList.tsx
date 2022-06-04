@@ -27,7 +27,10 @@ const StoresList = ({ props }: any) => {
   const [dragStartEle, setDragStartEle] = useState<HTMLElement>();
   const [listState, setListState] = useState<string | string[]>('');
   const originalList = useRef<string | string[]>('');
+  const originalTouchElement = useRef<HTMLElement | null>(null);
   const clonedElement = useRef<HTMLElement | null>(null);
+  const originalLeftCoord = useRef<number>(0);
+  const originalTopCoord = useRef<number>(0);
   const game = 'game';
   const music = 'music';
   const series = 'series';
@@ -227,7 +230,6 @@ const StoresList = ({ props }: any) => {
         dragRef.current = ref;
       }}
       onDragStart={e => {
-        console.log(e.target)
         setCurrentHover(e.target as HTMLElement);
         setDragStartEle(e.target as HTMLElement);
       }}
@@ -236,8 +238,10 @@ const StoresList = ({ props }: any) => {
       onTouchStart={e => {
         if (e.target !== dropRef.current) {
           const touchTgt = findCategory(e.target as HTMLElement) as HTMLElement;
+          originalTouchElement.current = touchTgt;
           const originalStyles = touchTgt.children[0].getBoundingClientRect();
           const { width, height, left, top } = originalStyles;
+          const { clientX: tLeft, clientY: tTop } = e.touches[0];
           const cloneTgt = touchTgt.cloneNode(true) as HTMLElement;
           cloneTgt.style.width = width + 'px';
           cloneTgt.style.height = height + 'px';
@@ -246,21 +250,24 @@ const StoresList = ({ props }: any) => {
           cloneTgt.style.top = top + 'px';
           cloneTgt.style.opacity = '0.5';
           clonedElement.current = cloneTgt;
+          originalLeftCoord.current = tLeft - left;
+          originalTopCoord.current = tTop - top;
           dropRef.current.appendChild(cloneTgt);
         }
       }}
       onTouchMove={e => {
         const moveTgt = clonedElement.current as HTMLElement;
-        const originalStyles = moveTgt.children[0].getBoundingClientRect();
-        const { width, height, x, y } = originalStyles;
         const left = e.touches[0].clientX;
         const top = e.touches[0].clientY;
-        moveTgt.style.left = left + 'px';
-        moveTgt.style.top = top + 'px';
+        moveTgt.style.left = left - originalLeftCoord.current + 'px';
+        moveTgt.style.top = top - originalTopCoord.current + 'px';
       }}
-      // onTouchEnd={e => {
-      //   console.log('from touchend', e.target)
-      // }}
+      onTouchEnd={e => {
+        const originalEleLists = Array.from(dropRef.current.children);
+        console.log(originalEleLists.indexOf(clonedElement.current))
+        clonedElement.current!.remove();
+        clonedElement.current = null;
+      }}
     >
       {displayMenu(selectedCategory, listState)}
     </div>
