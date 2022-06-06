@@ -40,6 +40,10 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
   return [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
 }
 
+function testFunc(crit: number, currVal: number, maxMultiplier: number):any {
+
+}
+
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
   const { userState, catDropResult, isReorderActivated } = useAppSelector(state => state.sliceReducers);
@@ -53,6 +57,8 @@ const StoresList = ({ props }: any) => {
   const originalTopCoord = useRef<number>(0);
   const originalProcCoords = useRef<CoordsObject>({});
   const endTopCoord = useRef<number>(0);
+  const fooRef = useRef<number[] | null>(null);
+  const barRef = useRef<number>(0);
   const game = 'game';
   const music = 'music';
   const series = 'series';
@@ -269,6 +275,13 @@ const StoresList = ({ props }: any) => {
             endTopCoord.current = tTop;
             originalProcCoords.current.top = tTop - top;
             originalProcCoords.current.left = tLeft - left;
+            const foo = Array.from(dropRef.current.children).map(foo => {
+              const bar = window.getComputedStyle(foo as Element);
+              const { height, marginTop, marginBottom } = bar;
+              const doh = [height, marginTop, marginBottom];
+              return doh.reduce((crit, add) => crit + parseInt(add, 10), 0);
+            });
+            fooRef.current = foo;
             dropRef.current.appendChild(cloneTgt);
           }
         }
@@ -276,12 +289,28 @@ const StoresList = ({ props }: any) => {
       onTouchMove={e => {
         if (isReorderActivated) {
           if (e.target !== dropRef.current) {
+            const currHeightLists = fooRef.current;
+            const faa = dropRef.current.children;
             const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
+            const idxOfCurrEleInLists = Array.from(faa).slice(0, faa.length - 1).indexOf(originalTouchElement.current);
+            barRef.current = idxOfCurrEleInLists;
+            const first = currHeightLists?.slice(0, idxOfCurrEleInLists);
+            const second = currHeightLists?.slice(idxOfCurrEleInLists + 1);
             const left: number = e.touches[0].clientX;
             const top: number = e.touches[0].clientY;
             moveTgt.style.left = left - originalProcCoords.current.left + 'px';
             moveTgt.style.top = top - originalProcCoords.current.top + 'px';
             endTopCoord.current = top;
+            const crit = originalTopCoord.current - top;
+            if (crit > 0) {
+              // console.log('going up: ', first, barRef.current)
+              if (crit > first![barRef.current - 1]) {
+                barRef.current -= 1;
+              }
+              console.log(barRef.current)
+            } else if (crit < 0) {
+              console.log('going down: ', second)
+            }
           }
         }
       }}
