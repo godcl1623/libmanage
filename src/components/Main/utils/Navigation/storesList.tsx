@@ -302,14 +302,20 @@ const StoresList = ({ props }: any) => {
             moveTgt.style.top = top - originalProcCoords.current.top + 'px';
             endTopCoord.current = top;
             const crit = originalTopCoord.current - top;
+            console.log(first, second)
             if (crit > 0) {
-              // console.log('going up: ', first, barRef.current)
-              if (crit > first![barRef.current - 1]) {
-                barRef.current -= 1;
-              }
-              console.log(barRef.current)
+              first?.forEach((ele: number, idx: number) => {
+                if (idx === Math.floor(crit / ele)) {
+                  console.log(Array.from(faa).slice(0, first.length).reverse()[idx])
+                }
+              })
             } else if (crit < 0) {
-              console.log('going down: ', second)
+              second?.forEach((ele: number, idx: number) => {
+                if (idx === Math.floor(crit * -1 / ele)) {
+                  console.log(Array.from(faa).slice(first!.length + 1).reverse()[idx]);
+                }
+              })
+              // console.log(Math.floor(crit * -1 / 67))
             }
           }
         }
