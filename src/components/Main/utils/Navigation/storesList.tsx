@@ -21,12 +21,18 @@ type MoveResIdxs = {
   direction: string;
 };
 
-function findCategory(ele: HTMLElement): FindCategory {
-  if (ele.classList.contains('category')) {
+function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
+  if (ele.classList.contains(findTgt)) {
     return ele;
   } else if (ele.parentElement) {
-    return findCategory(ele.parentElement);
+    return findCategory(ele.parentElement, findTgt);
   }
+}
+
+function sumAfterParse(...args: string[]): any {
+  return args
+    .map((size: string) => parseInt(size, 10))
+    .reduce((init: number, add: number) => init + add, 0);
 }
 
 function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
@@ -38,10 +44,6 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
     : back.splice(back.indexOf(originalLists[tgtIdx]), 1)[0];
   back.unshift(moveItem);
   return [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
-}
-
-function testFunc(crit: number, currVal: number, maxMultiplier: number):any {
-
 }
 
 // props 타입 설정 필요
@@ -257,11 +259,13 @@ const StoresList = ({ props }: any) => {
       onTouchStart={e => {
         if (isReorderActivated) {
           if (e.target !== dropRef.current) {
-            const touchTgt = findCategory(e.target as HTMLElement) as HTMLElement;
+            const touchTgt = findCategory(e.target as HTMLElement, 'category') as HTMLElement;
             originalTouchElement.current = touchTgt;
             const originalStyles = touchTgt.children[0].getBoundingClientRect();
             originalCSS.current = window.getComputedStyle(touchTgt);
-            const { width, height, left, top } = originalStyles;
+            const { left, top, height, width } = originalStyles;
+            const { marginTop, marginBottom } = originalCSS.current;
+            const { height: h } = window.getComputedStyle(touchTgt.children[0]);
             const { clientX: tLeft, clientY: tTop } = e.touches[0];
             const cloneTgt = touchTgt.cloneNode(true) as HTMLElement;
             cloneTgt.style.width = width + 'px';
@@ -275,13 +279,17 @@ const StoresList = ({ props }: any) => {
             endTopCoord.current = tTop;
             originalProcCoords.current.top = tTop - top;
             originalProcCoords.current.left = tLeft - left;
-            const foo = Array.from(dropRef.current.children).map(foo => {
-              const bar = window.getComputedStyle(foo as Element);
-              const { height, marginTop, marginBottom } = bar;
-              const doh = [height, marginTop, marginBottom];
-              return doh.reduce((crit, add) => crit + parseInt(add, 10), 0);
-            });
-            fooRef.current = foo;
+            // const foo = Array.from(dropRef.current.children).map(foo => {
+            //   const bar = window.getComputedStyle(foo as Element);
+            //   const { height, marginTop, marginBottom } = bar;
+            //   const doh = [height, marginTop, marginBottom];
+            //   return doh.reduce((crit, add) => crit + parseInt(add, 10), 0);
+            // });
+            // fooRef.current = foo;
+            // console.log(sumAfterParse(marginTop, marginBottom, h));
+            // fooRef.current = [touchTgt.children[0].clientHeight];
+            fooRef.current = [sumAfterParse(marginTop, marginBottom, h)];
+            // console.log(touchTgt.children[0].clientHeight)
             dropRef.current.appendChild(cloneTgt);
           }
         }
@@ -289,34 +297,44 @@ const StoresList = ({ props }: any) => {
       onTouchMove={e => {
         if (isReorderActivated) {
           if (e.target !== dropRef.current) {
-            const currHeightLists = fooRef.current;
-            const faa = dropRef.current.children;
+            /* new logic start */
+            const testOriginalList = Array.from(dropRef.current.children).slice(0, dropRef.current.children.length - 1);
             const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
-            const idxOfCurrEleInLists = Array.from(faa).slice(0, faa.length - 1).indexOf(originalTouchElement.current);
-            barRef.current = idxOfCurrEleInLists;
-            const first = currHeightLists?.slice(0, idxOfCurrEleInLists);
-            const second = currHeightLists?.slice(idxOfCurrEleInLists + 1);
+            const idxOfCurrEleInLists = Array.from(testOriginalList)
+              .slice(0, testOriginalList.length - 1)
+              .indexOf(originalTouchElement.current);
             const left: number = e.touches[0].clientX;
             const top: number = e.touches[0].clientY;
             moveTgt.style.left = left - originalProcCoords.current.left + 'px';
             moveTgt.style.top = top - originalProcCoords.current.top + 'px';
             endTopCoord.current = top;
             const crit = originalTopCoord.current - top;
-            console.log(first, second)
             if (crit > 0) {
-              first?.forEach((ele: number, idx: number) => {
-                if (idx === Math.floor(crit / ele)) {
-                  console.log(Array.from(faa).slice(0, first.length).reverse()[idx])
+              const movedDistanceToIdx = Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
+                ? testOriginalList.length - 1
+                : Math.floor(crit / fooRef.current![0]);
+              testOriginalList.reverse().forEach((currEle, idx) => {
+                (currEle as HTMLElement).style.transition = 'all 0.3s';
+                if (idx === movedDistanceToIdx) {
+                  (currEle as HTMLElement).style.boxShadow = '0 10px 20px skyblue';
+                } else {
+                  (currEle as HTMLElement).style.boxShadow = 'none';
                 }
-              })
+              });
             } else if (crit < 0) {
-              second?.forEach((ele: number, idx: number) => {
-                if (idx === Math.floor(crit * -1 / ele)) {
-                  console.log(Array.from(faa).slice(first!.length + 1).reverse()[idx]);
+              const movedDistanceToIdx = Math.floor(crit * -1 / fooRef.current![0]) >= testOriginalList.length
+                ? testOriginalList.length - 1
+                : Math.floor(crit * -1 / fooRef.current![0]);
+              testOriginalList.forEach((currEle, idx) => {
+                (currEle as HTMLElement).style.transition = 'all 0.3s';
+                if (idx === movedDistanceToIdx) {
+                  (currEle as HTMLElement).style.boxShadow = '0 10px 20px skyblue';
+                } else {
+                  (currEle as HTMLElement).style.boxShadow = 'none';
                 }
-              })
-              // console.log(Math.floor(crit * -1 / 67))
+              });
             }
+            /* new logic end */
           }
         }
       }}
@@ -326,18 +344,16 @@ const StoresList = ({ props }: any) => {
             clonedElement.current!.remove();
             clonedElement.current = null;
             const originalLists: (HTMLElement | null)[] = Array.from(dropRef.current.children);
+            originalLists.forEach(ele => { ele!.style.boxShadow = 'none' });
             const tgtIdx: number = originalLists.indexOf(originalTouchElement.current);
             const touchTgtMovedDistance: number = originalTopCoord.current - endTopCoord.current;
-            const touchTgtHeight: number = originalTouchElement.current!.clientHeight;
-            const { marginTop, marginBottom } = originalCSS.current!;
-            const touchTgtMargin: number = parseInt(marginTop, 10) + parseInt(marginBottom, 10);
             let distanceToIdx: number = 0;
             let insertCrit: number = 0;
             if (touchTgtMovedDistance < 0) {
-              distanceToIdx = Math.ceil(touchTgtMovedDistance / (touchTgtHeight + touchTgtMargin))
-              const idxToAdd: number = distanceToIdx * -1 >= originalLists.length - 1
+              distanceToIdx = Math.floor(touchTgtMovedDistance * -1 / fooRef.current![0]);
+              const idxToAdd: number = distanceToIdx >= originalLists.length - 1
                 ? originalLists.length - 1
-                : distanceToIdx * -1;
+                : distanceToIdx;
               insertCrit = tgtIdx + idxToAdd + 1 > originalLists.length - 1
                 ? originalLists.length
                 : tgtIdx + idxToAdd + 1;
@@ -345,7 +361,7 @@ const StoresList = ({ props }: any) => {
               setListState(result);
               dispatch(updateDropRes(result));
             } else if (touchTgtMovedDistance > 0) {
-              distanceToIdx = Math.floor(touchTgtMovedDistance / (touchTgtHeight + touchTgtMargin));
+              distanceToIdx = Math.floor(touchTgtMovedDistance / fooRef.current![0]);
               const idxToSub: number = distanceToIdx >= originalLists.length - 1
                 ? originalLists.length - 1
                 : distanceToIdx;
