@@ -279,17 +279,7 @@ const StoresList = ({ props }: any) => {
             endTopCoord.current = tTop;
             originalProcCoords.current.top = tTop - top;
             originalProcCoords.current.left = tLeft - left;
-            // const foo = Array.from(dropRef.current.children).map(foo => {
-            //   const bar = window.getComputedStyle(foo as Element);
-            //   const { height, marginTop, marginBottom } = bar;
-            //   const doh = [height, marginTop, marginBottom];
-            //   return doh.reduce((crit, add) => crit + parseInt(add, 10), 0);
-            // });
-            // fooRef.current = foo;
-            // console.log(sumAfterParse(marginTop, marginBottom, h));
-            // fooRef.current = [touchTgt.children[0].clientHeight];
             fooRef.current = [sumAfterParse(marginTop, marginBottom, h)];
-            // console.log(touchTgt.children[0].clientHeight)
             dropRef.current.appendChild(cloneTgt);
           }
         }
@@ -297,26 +287,23 @@ const StoresList = ({ props }: any) => {
       onTouchMove={e => {
         if (isReorderActivated) {
           if (e.target !== dropRef.current) {
-            /* new logic start */
             const testOriginalList = Array.from(dropRef.current.children).slice(0, dropRef.current.children.length - 1);
             const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
-            const idxOfCurrEleInLists = Array.from(testOriginalList)
-              .slice(0, testOriginalList.length - 1)
-              .indexOf(originalTouchElement.current);
             const left: number = e.touches[0].clientX;
             const top: number = e.touches[0].clientY;
             moveTgt.style.left = left - originalProcCoords.current.left + 'px';
             moveTgt.style.top = top - originalProcCoords.current.top + 'px';
             endTopCoord.current = top;
             const crit = originalTopCoord.current - top;
+            const currIdx = testOriginalList.indexOf(originalTouchElement.current);
             if (crit > 0) {
               const movedDistanceToIdx = Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
                 ? testOriginalList.length - 1
                 : Math.floor(crit / fooRef.current![0]);
-              testOriginalList.reverse().forEach((currEle, idx) => {
+              testOriginalList.slice(0, currIdx + 1).reverse().forEach((currEle, idx) => {
                 (currEle as HTMLElement).style.transition = 'all 0.3s';
                 if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 10px 20px skyblue';
+                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
                 } else {
                   (currEle as HTMLElement).style.boxShadow = 'none';
                 }
@@ -325,16 +312,15 @@ const StoresList = ({ props }: any) => {
               const movedDistanceToIdx = Math.floor(crit * -1 / fooRef.current![0]) >= testOriginalList.length
                 ? testOriginalList.length - 1
                 : Math.floor(crit * -1 / fooRef.current![0]);
-              testOriginalList.forEach((currEle, idx) => {
+              testOriginalList.slice(currIdx).forEach((currEle, idx, origArr) => {
                 (currEle as HTMLElement).style.transition = 'all 0.3s';
                 if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 10px 20px skyblue';
+                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
                 } else {
                   (currEle as HTMLElement).style.boxShadow = 'none';
                 }
               });
             }
-            /* new logic end */
           }
         }
       }}
