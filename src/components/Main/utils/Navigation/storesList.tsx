@@ -1,5 +1,7 @@
 /* eslint-disable no-else-return */
 import React, { useState, useEffect, useRef } from 'react';
+import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sizes } from '../../../../styles';
@@ -85,6 +87,12 @@ const StoresList = ({ props }: any) => {
     makeDraggable,
     updateDropRes
   } = props;
+  // useEffect(() => {
+  //   window.addEventListener('touchmove', e => e.preventDefault());
+  //   return () => {
+  //     window.removeEventListener('touchmove', e => e.preventDefault());
+  //   };
+  // }, []);
   useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -285,44 +293,51 @@ const StoresList = ({ props }: any) => {
         }
       }}
       onTouchMove={e => {
-        if (isReorderActivated) {
-          if (e.target !== dropRef.current) {
-            const testOriginalList = Array.from(dropRef.current.children).slice(0, dropRef.current.children.length - 1);
-            const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
-            const left: number = e.touches[0].clientX;
-            const top: number = e.touches[0].clientY;
-            moveTgt.style.left = left - originalProcCoords.current.left + 'px';
-            moveTgt.style.top = top - originalProcCoords.current.top + 'px';
-            endTopCoord.current = top;
-            const crit = originalTopCoord.current - top;
-            const currIdx = testOriginalList.indexOf(originalTouchElement.current);
-            if (crit > 0) {
-              const movedDistanceToIdx = Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
-                ? testOriginalList.length - 1
-                : Math.floor(crit / fooRef.current![0]);
-              testOriginalList.slice(0, currIdx + 1).reverse().forEach((currEle, idx) => {
-                (currEle as HTMLElement).style.transition = 'all 0.3s';
-                if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                } else {
-                  (currEle as HTMLElement).style.boxShadow = 'none';
+        // const testFoo = throttle(e => {
+            if (isReorderActivated) {
+              if (e.target !== dropRef.current) {
+                const testOriginalList = Array
+                  .from(dropRef.current.children)
+                  .slice(0, dropRef.current.children.length - 1);
+                const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
+                const left: number = e.touches[0].clientX;
+                const top: number = e.touches[0].clientY;
+                moveTgt.style.left = left - originalProcCoords.current.left + 'px';
+                moveTgt.style.top = top - originalProcCoords.current.top + 'px';
+                endTopCoord.current = top;
+                const crit = originalTopCoord.current - top;
+                const currIdx = testOriginalList.indexOf(originalTouchElement.current);
+                if (crit > 0) {
+                  const movedDistanceToIdx = Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
+                    ? testOriginalList.length - 1
+                    : Math.floor(crit / fooRef.current![0]);
+                  testOriginalList.slice(0, currIdx + 1).reverse().forEach((currEle, idx) => {
+                    (currEle as HTMLElement).style.transition = 'all 0.3s';
+                    if (idx === movedDistanceToIdx) {
+                      (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
+                      (dropRef.current.children[0] as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
+                    } else {
+                      (currEle as HTMLElement).style.boxShadow = 'none';
+                    }
+                  });
+                } else if (crit < 0) {
+                  const movedDistanceToIdx = Math.floor(crit * -1 / fooRef.current![0]) >= testOriginalList.length
+                    ? testOriginalList.length - 1
+                    : Math.floor(crit * -1 / fooRef.current![0]);
+                  testOriginalList.slice(currIdx).forEach((currEle, idx) => {
+                    (currEle as HTMLElement).style.transition = 'all 0.3s';
+                    if (idx === movedDistanceToIdx) {
+                      (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
+                      (dropRef.current.children[dropRef.current.children.length - 1]).style.boxShadow = '0 0 20px 5px skyblue';
+                    } else {
+                      (currEle as HTMLElement).style.boxShadow = 'none';
+                    }
+                  });
                 }
-              });
-            } else if (crit < 0) {
-              const movedDistanceToIdx = Math.floor(crit * -1 / fooRef.current![0]) >= testOriginalList.length
-                ? testOriginalList.length - 1
-                : Math.floor(crit * -1 / fooRef.current![0]);
-              testOriginalList.slice(currIdx).forEach((currEle, idx, origArr) => {
-                (currEle as HTMLElement).style.transition = 'all 0.3s';
-                if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                } else {
-                  (currEle as HTMLElement).style.boxShadow = 'none';
-                }
-              });
+              }
             }
-          }
-        }
+        // }, 500);
+        // testFoo(e);
       }}
       onTouchEnd={e => {
         if (isReorderActivated) {
