@@ -75,10 +75,6 @@ const globalStyles = (styles: StyleSet) => {
       body, #root {
         ${sizeSet.full}
       }
-      
-      body {
-        touch-action: none;
-      }
 
       #App {
         ${flexSet.vertical}

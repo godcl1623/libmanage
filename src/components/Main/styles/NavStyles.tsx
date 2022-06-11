@@ -57,6 +57,7 @@ export const navStyle = (styles: StyleSet) => {
     flex: 1;
     ${sizeSet.full}
     background: white;
+    touch-action: none;
 
     .category {
       margin-bottom: calc(var(--gap-multiply-big) * 2);
@@ -89,6 +90,7 @@ export const navStyle = (styles: StyleSet) => {
       ${setSize.free('100%')}
       background: var(--white);
       cursor: pointer;
+      touch-action: none;
 
       option {
         font-size: var(--font-size-standard);
