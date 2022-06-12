@@ -288,7 +288,7 @@ const StoresList = ({ props }: any) => {
             const originalStyles = touchTgt.children[0].getBoundingClientRect();
             originalCSS.current = window.getComputedStyle(touchTgt);
             const { left, top, height, width } = originalStyles;
-            const { marginTop, marginBottom } = originalCSS.current;
+            const { marginTop, marginBottom, background } = originalCSS.current;
             const { height: h } = window.getComputedStyle(touchTgt.children[0]);
             const { clientX: tLeft, clientY: tTop } = e.touches[0];
             const cloneTgt = touchTgt.cloneNode(true) as HTMLElement;
@@ -298,6 +298,7 @@ const StoresList = ({ props }: any) => {
             cloneTgt.style.left = left + 'px';
             cloneTgt.style.top = top + 'px';
             cloneTgt.style.opacity = '0.5';
+            cloneTgt.style.background = background;
             clonedElement.current = cloneTgt;
             originalTopCoord.current = tTop;
             endTopCoord.current = tTop;
