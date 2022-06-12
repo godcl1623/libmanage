@@ -261,10 +261,15 @@ const StoresList = ({ props }: any) => {
   return (
     <div
       id="drop-container"
-      style={{
-        height: '100%',
-        paddingTop: 'var(--gap-standard)'
-      }}
+      css={css`
+        height: 100%;
+        padding-top: var(--gap-standard);
+        touch-action: none;
+
+        @media (max-width: 599px) {
+          height: max-content;
+        }
+      `}
       ref={ref => {
         dropRef.current = ref;
         dragRef.current = ref;
@@ -322,7 +327,7 @@ const StoresList = ({ props }: any) => {
                 ? testOriginalList.length - 1
                 : Math.floor(crit / fooRef.current![0]);
               testOriginalList.slice(0, currIdx + 1).reverse().forEach((currEle, idx) => {
-                (currEle as HTMLElement).style.transition = 'all 0.3s';
+                (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
                 if (idx === movedDistanceToIdx) {
                   (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
                   (dropRef.current.children[0] as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
@@ -335,7 +340,7 @@ const StoresList = ({ props }: any) => {
                 ? testOriginalList.length - 1
                 : Math.floor(crit * -1 / fooRef.current![0]);
               testOriginalList.slice(currIdx).forEach((currEle, idx) => {
-                (currEle as HTMLElement).style.transition = 'all 0.3s';
+                (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
                 if (idx === movedDistanceToIdx) {
                   (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
                   (dropRef.current.children[dropRef.current.children.length - 1]).style.boxShadow = '0 0 20px 5px skyblue';
