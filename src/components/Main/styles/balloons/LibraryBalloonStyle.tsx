@@ -42,9 +42,11 @@ export const libraryBalloonStyle = (styles: StyleSet, vars: any) => {
 
       @media (max-width: 599px) {
         padding: var(--gap-standard);
-        ${setSize.free('100vw', '150px')}
+        ${setSize.free('100vw', '175px')}
         top: 35px;
+        top: 0;
         right: 0;
+        justify-content: flex-end;
       }
     }
   `);

@@ -56,7 +56,7 @@ export const libBalloonDisplay = (styles: StyleSet, vars: Record<string, string>
 
         * {
           margin: 0 var(--gap-multiply-small);
-          font-size: 12px;
+          font-size: 14px;
         }
 
         .balloon-header {
@@ -66,6 +66,7 @@ export const libBalloonDisplay = (styles: StyleSet, vars: Record<string, string>
         .btn-container {
           .balloon-btn {
             padding: var(--gap-multiply-small);
+            width: 75px;
           }
         }
       }
