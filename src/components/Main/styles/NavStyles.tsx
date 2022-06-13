@@ -26,7 +26,7 @@ export const storesListStyle = (styles: StyleSet) => {
 
       @media (orientation: portrait) and (max-width: 599px) {
         ${setSize.free('60px', '20px')}
-        font-size: 10px;
+        font-size: 12px;
       }
     }
 

@@ -72,6 +72,10 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
         justify-content: space-between;
         top: 47px;
         left: 0;
+
+        button:first-of-type {
+          margin-bottom: 15px;
+        }
       }
     }
   `);
