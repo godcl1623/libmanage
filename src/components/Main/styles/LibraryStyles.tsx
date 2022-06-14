@@ -61,6 +61,7 @@ export const libBalloonDisplay = (styles: StyleSet, vars: Record<string, string>
 
         .balloon-header {
           text-align: right;
+          font-size: 16px;
         }
 
         .btn-container {
