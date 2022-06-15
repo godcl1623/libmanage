@@ -47,7 +47,7 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
-        ${setSize.free(`${15.625 * 1.778}vw`, `${5.208 * 1.778}vw`)}
+        ${setSize.free(`${15.625 * 1.778}vw`, 'auto')}
         top: ${
           selectedBtn.current === optionRef.current
             ?
