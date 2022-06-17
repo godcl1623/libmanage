@@ -21,30 +21,26 @@ export const libraryBalloonStyle = (styles: StyleSet, vars: any) => {
     justify-content: space-between;
     align-items: center;
     ${setSize.free('15.625vw', '7.813vw')}
+    ${setSize.free('max-content', 'max-content')}
     position: absolute;
     top: calc(${btnCoords.topCoord}px + 3.241vh);
     right: 1.563vw;
     background: var(--btn-active);
     z-index: 2;
 
-    @media (orientation: landscape) {
-      @media (max-width: 800px) {
-        ${setSize.free(`max-content`, `max-content`)}
-      }
-    }
-
     @media (orientation: portrait) {
       @media (min-width: 600px) {
-        ${setSize.free(`${15.625 * 1.778}vw`, `${7.813 * 1.778}vw`)}
         top: calc(${btnCoords.topCoord}px + ${3.241 / 1.778}vh);
         right: ${1.563 * 1.778}vw;
       }
 
       @media (max-width: 599px) {
         padding: var(--gap-standard);
-        ${setSize.free('100vw', '150px')}
+        ${setSize.free('100vw', '175px')}
         top: 35px;
+        top: 0;
         right: 0;
+        justify-content: flex-end;
       }
     }
   `);

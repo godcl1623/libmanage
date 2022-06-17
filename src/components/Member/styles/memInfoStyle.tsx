@@ -42,6 +42,11 @@ export const checkInfoStyle = (styles: StyleSet) => {
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
+        h2 {
+          white-space: pre-line;
+          text-align: center;
+        }
+
         .input_container {
           margin: ${4.167 * 1.778}vw 0;
         }
@@ -61,6 +66,7 @@ export const checkInfoStyle = (styles: StyleSet) => {
         h2 {
           font-size: 16px;
           text-align: center;
+          white-space: pre-line;
         }
 
         .input_container {
@@ -143,12 +149,12 @@ export const modInfoStyle = (styles: StyleSet) => {
       }
 
       input {
-        ${setSize.free('48%')}
+        ${setSize.free('47%')}
         display: inline-block;
       }
 
       p#divider {
-        ${setSize.free('4%')}
+        ${setSize.free('6%')}
         display: inline-block;
         text-align: center;
       }
@@ -158,7 +164,7 @@ export const modInfoStyle = (styles: StyleSet) => {
         border-color: var(--grey-dark);
         border-radius: var(--border-rad-normal);
         padding: var(--gap-multiply-small) calc(var(--gap-multiply-small) * 3);
-        ${setSize.free('48%')}
+        ${setSize.free('47%')}
         display: inline-block;
         background: var(--white);
         font-size: var(--font-size-normal);
@@ -279,9 +285,11 @@ export const delInfoStyle = (styles: StyleSet) => {
 
     h2, h3 {
       margin-bottom: var(--gap-standard);
+      text-align: center;
     }
 
     #guidance {
+      white-space: pre-line;
       ${border}
       border-bottom: 0;
       border-color: var(--btn-disable);
@@ -293,6 +301,11 @@ export const delInfoStyle = (styles: StyleSet) => {
         margin-bottom: var(--gap-standard);
         text-align: center;
         font-size: calc(var(--font-size-normal) * 2);
+      }
+
+      ul {
+        margin: 0 auto;
+        width: max-content;
       }
 
       li {
@@ -333,6 +346,7 @@ export const delInfoStyle = (styles: StyleSet) => {
         padding: 0 calc(var(--gap-standard) * 2);
         ${flexSet.vertical}
         ${setSize.free('100%', '70%')}
+        white-space: pre-line;
       }
     }
 
@@ -351,7 +365,11 @@ export const delInfoStyle = (styles: StyleSet) => {
     }
 
     @media (orientation: portrait) {
-      @media (min-width: 600px) {  
+      @media (min-width: 600px) {
+          #guidance h3, #guidance h2 {
+            text-align: center;
+          }
+
           .check-delete {
             ${setSize.free('100%', `50%`)}
           }
@@ -387,6 +405,10 @@ export const delInfoStyle = (styles: StyleSet) => {
           h1 {
             margin-bottom: 10px;
             font-size: 28px;
+          }
+
+          h2, h3 {
+            text-align: center;
           }
 
           li {

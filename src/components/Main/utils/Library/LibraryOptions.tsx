@@ -3,11 +3,35 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { flex, sizes } from '../../../../styles';
 import { libBalloonDisplay, libBalloonInput } from '../../styles/LibraryStyles';
-import { StyleSet } from '../../../../custom_modules/commonUtils';
+import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
 
 // props 타입 체크 필요
-const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType }: any) => (
+const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType, isMobile }: any) => (
   <>
+    {
+      isMobile
+        ?
+          <div
+            id="mobile_close"
+            css={css`
+              border: 1px solid black;
+              border-radius: 50%;
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              ${(sizes as unknown as SetSize).free('25px', '25px')}
+              display: flex;
+              font-weight: bold;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
+            `}
+          >
+            X
+          </div>
+        :
+          ''
+    }
     <div
       className="balloon-display"
       css={css`${libBalloonDisplay({ flex, sizes } as StyleSet, { currDisplayType })}`}

@@ -27,7 +27,8 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
         ?
           `calc(${btnCoords.topCoord / 19.2}vw)`
         :
-          `calc(${btnCoords.botCoord}px + 3.703vh)`
+          // `calc(${btnCoords.botCoord}px + 3.703vh)`
+          `calc(${btnCoords.botCoord}px + 2.604vw)`
     };
     left: ${
       selectedBtn.current === optionRef.current
@@ -47,7 +48,7 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
 
     @media (orientation: portrait) {
       @media (min-width: 600px) {
-        ${setSize.free(`${15.625 * 1.778}vw`, `${5.208 * 1.778}vw`)}
+        ${setSize.free(`${15.625 * 1.778}vw`, 'auto')}
         top: ${
           selectedBtn.current === optionRef.current
             ?
@@ -72,6 +73,10 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
         justify-content: space-between;
         top: 47px;
         left: 0;
+
+        button:first-of-type {
+          margin-bottom: 15px;
+        }
       }
     }
   `);
@@ -116,7 +121,8 @@ export const headerBalloonHand = (states: any, condition: string) => {
         ?
           `calc(${btnCoords.topCoord / 19.2}vw)`
         :
-          `calc(${btnCoords.botCoord}px + 0.926vh)`
+          // `calc(${btnCoords.botCoord}px + 0.926vh)`
+          `calc(${btnCoords.botCoord}px + 1.042vw)`
     };
     left: ${
       selectedBtn.current === optionRef.current
