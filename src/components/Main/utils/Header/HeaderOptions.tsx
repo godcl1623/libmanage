@@ -59,13 +59,17 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
             >
               <p
                 className="balloon"
-                style={{
-                  fontSize: '0.938vw',
-                  whiteSpace: 'pre-line',
-                  textAlign: 'center'
-                }}
+                css={css`
+                  font-size: 0.938vw;
+                  white-space: pre-line;
+                  text-align: center;
+
+                  @media (max-width: 599px) {
+                    font-size: 12px;
+                  }
+                `}
               >
-                {'카테고리\n재정렬'}
+                {window.innerWidth > 599 ? '카테고리\n재정렬' : '카테고리 재정렬'}
               </p>
               <div
                 className="balloon-toggle-container"
@@ -124,13 +128,12 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
               >
                 <div
                   className='balloon-toggle_button'
-                  style={{
-                    borderRadius: '50%',
-                    background: 'var(--highlight-light)',
-                    // 수치 조정 필요
-                    transform: isReorderActivated ? 'translateX(1.302vw)' : 'unset',
-                    transition: 'all 0.3s'
-                  }}
+                  css={css`
+                    border-radius: 50%;
+                    background: var(--highlight-light);
+                    transform: ${isReorderActivated ? 'translateX(118%)' : 'unset'};
+                    transition: all 0.3s;
+                  `}
                 />
               </div>
             </div>

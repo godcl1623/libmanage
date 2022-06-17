@@ -75,7 +75,7 @@ const globalStyles = (styles: StyleSet) => {
       body, #root {
         ${sizeSet.full}
       }
-      
+
       #App {
         ${flexSet.vertical}
         ${sizeSet.full}
@@ -164,7 +164,7 @@ const globalStyles = (styles: StyleSet) => {
 
           button, input, a {
             border-radius: ${0.365 * 1.778}vw;
-            font-size: 10px;
+            font-size: 12px;
           }
 
           button {

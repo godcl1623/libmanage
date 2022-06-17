@@ -48,6 +48,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
   const userState = useAppSelector(state => state.sliceReducers.userState);
   const extCredState = useAppSelector(state => state.sliceReducers.extCredState);
   const librarySearch = useAppSelector(state => state.sliceReducers.librarySearch);
+  const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const appDispatch = useAppDispatch();
   const location = useLocation();
   const ref = React.useRef<HTMLButtonElement | null>(null);
@@ -100,6 +101,7 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
             coverSize={coverSize}
             setCoverSize={setCoverSize}
             currDisplayType={libDisplay}
+            isMobile={isMobile}
           />
         }
         display={libraryBalloonWrapper(balloonOrigin, balloonState)}

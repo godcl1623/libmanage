@@ -33,7 +33,13 @@ const DelMemInfo = ({ userState }: any) => {
     >
       <div id="guidance">
         <h1>탈퇴 안내</h1>
-        <h3>회원탈퇴를 신청하기 전에 안내 사항을 확인해주시기 바랍니다.</h3>
+        {
+          window.innerWidth < 1024
+          ?
+            <h3>{`회원탈퇴를 신청하기 전에\n안내 사항을 확인해주시기 바랍니다.`}</h3>
+          :
+            <h3>회원탈퇴를 신청하기 전에 안내 사항을 확인해주시기 바랍니다.</h3>
+        }
         <section>
           <h2>탈퇴 후 삭제되는 개인 정보</h2>
           <ul>
@@ -97,10 +103,20 @@ const DelMemInfo = ({ userState }: any) => {
         }}
       >
         <div className="check-delete">
-          <h3>
-            회원탈퇴를 희망하시는 경우 아래 입력창에 '<span>회원탈퇴</span>'를 입력하신 후 확인
-            버튼을 눌러주세요.
-          </h3>
+          {
+            window.innerWidth < 1024
+            ?
+              <h3>
+                  회원탈퇴를 희망하시는 경우<br />
+                  아래 입력창에 '<span>회원탈퇴</span>'를 입력하신 후<br />
+                  확인 버튼을 눌러주세요.
+              </h3>
+            :
+              <h3>
+                회원탈퇴를 희망하시는 경우 아래 입력창에 '<span>회원탈퇴</span>'를 입력하신 후<br />
+                확인 버튼을 눌러주세요.
+              </h3>
+          }
           <p>※ 탈퇴 신청이 접수된 계정은 복구가 불가합니다.</p>
           <input type="text" name="del_info_check" />
         </div>

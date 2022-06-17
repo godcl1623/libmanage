@@ -366,7 +366,7 @@ export const metaStyle = (styles: StyleSet, vars: any) => {
                   border-bottom: 1px solid black;
                   border-right: 3px double black;
                   padding: 20px 0;
-                  font-size: 12px;
+                  font-size: 14px;
                 }
               }
             }
@@ -385,7 +385,7 @@ export const metaStyle = (styles: StyleSet, vars: any) => {
 
               @media (orientation: portrait) {
                 @media (max-width: 599px) {
-                  font-size: 10px;
+                  font-size: 12px;
 
                   div {
                     border-bottom: 1px solid black;
@@ -402,7 +402,7 @@ export const metaStyle = (styles: StyleSet, vars: any) => {
 
             .sub-table {
               display: grid;
-              grid-template-columns: repeat(2, 1fr);
+              grid-template-columns: 2fr 1fr;
 
               .table-sub-title, .table-sub-contents {
                 border-bottom: 0.052vw solid black;
@@ -417,7 +417,7 @@ export const metaStyle = (styles: StyleSet, vars: any) => {
                     border-bottom: 1px solid black;
                     border-right: 1px solid black;
                     padding: 5px 0;
-                    font-size: 10px;
+                    font-size: 12px;
                     text-align: center;
                   }
                 }
@@ -673,7 +673,7 @@ export const metaStyle = (styles: StyleSet, vars: any) => {
                   }
 
                   img {
-                    ${setSize.free('80px', '60px')}
+                    ${setSize.free('160px', '120px')}
                   }
                 }
               }

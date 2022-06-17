@@ -18,7 +18,7 @@ export const optionsStyle = (styles: StyleSet) => {
 
       @media (max-width: 599px) {
         padding: 5px 20px;
-        ${setSize.free('80%', `25px`)}
+        ${setSize.free('80%', `40px`)}
       }
     }
   `);
@@ -41,7 +41,7 @@ export const memStatsStyle = (styles: StyleSet, vars: string) => {
               @media (max-width: 599px) {
                 margin: 0;
                 padding: 5px 20px;
-                ${(sizes as unknown as SetSize).free('80%', `25px`)}
+                ${(sizes as unknown as SetSize).free('80%', `40px`)}
               }
             `
           :
@@ -70,7 +70,11 @@ export const searchStyleForm = (styles: StyleSet) => {
 
     @media (max-width: 599px) {
       padding: 0;
-      ${setSize.free('80%', `25px`)}
+      ${setSize.free('80%', 'auto')}
+
+      input {
+        ${setSize.free('100%', '40px')}
+      }
     }
   `);
 }
@@ -251,10 +255,11 @@ export const headerStyle = (styles: StyleSet) => {
       align-items: center;
       background: var(--highlight-light);
       @media (orientation: portrait) and (max-width: 599px) {
-        margin: calc(var(--gap-standard) / 2) 0;
+        // margin: calc(var(--gap-standard) / 2) 0;
+        margin: 0 0 15px 0;
         padding: 10px 20px;
         border-radius: 0.64897vw;
-        ${setSize.free('80%', `30px`)}
+        ${setSize.free('80%', `40px`)}
       }
 
       .balloon-toggle-container {

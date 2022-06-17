@@ -26,7 +26,7 @@ export const storesListStyle = (styles: StyleSet) => {
 
       @media (orientation: portrait) and (max-width: 599px) {
         ${setSize.free('60px', '20px')}
-        font-size: 10px;
+        font-size: 12px;
       }
     }
 
@@ -57,6 +57,7 @@ export const navStyle = (styles: StyleSet) => {
     flex: 1;
     ${sizeSet.full}
     background: white;
+    // touch-action: none;
 
     .category {
       margin-bottom: calc(var(--gap-multiply-big) * 2);
@@ -89,6 +90,7 @@ export const navStyle = (styles: StyleSet) => {
       ${setSize.free('100%')}
       background: var(--white);
       cursor: pointer;
+      touch-action: none;
 
       option {
         font-size: var(--font-size-standard);
