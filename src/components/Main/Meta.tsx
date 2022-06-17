@@ -236,7 +236,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
                     setSelectedMedia('screenshots');
                   }}
                 >
-                  스크린샷({selectedItemData.screenshots ? screenshots.length : 0})
+                  스크린샷 ({selectedItemData.screenshots ? screenshots.length : 0})
                 </button>
                 <button
                   onClick={e => {
@@ -244,7 +244,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
                     setSelectedMedia('videos');
                   }}
                 >
-                  동영상({videos ? videos.length : 0})
+                  동영상 ({videos ? videos.length : 0})
                 </button>
                 <button
                   onClick={e => {
@@ -252,7 +252,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
                     setSelectedMedia('artworks');
                   }}
                 >
-                  기타({selectedItemData.artworks ? artworks.length : 0})
+                  기타 ({selectedItemData.artworks ? artworks.length : 0})
                 </button>
               </div>
               <div className="media-contents">

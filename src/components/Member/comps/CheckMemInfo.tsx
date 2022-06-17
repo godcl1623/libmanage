@@ -43,7 +43,13 @@ const CheckMemInfo = ({ userState, setState}: any) => (
         .catch(err => alert(err));
     }}
   >
-    <h2>본인 인증을 위해 비밀번호를 입력해주세요.</h2>
+    {
+      window.innerWidth < 1024
+      ?
+      <h2>{`본인 인증을 위해\n비밀번호를 입력해주세요.`}</h2>
+      :
+      <h2>본인 인증을 위해 비밀번호를 입력해주세요.</h2>
+    }
     <div
       className="input_container"
     >
