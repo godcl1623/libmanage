@@ -27,7 +27,8 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
         ?
           `calc(${btnCoords.topCoord / 19.2}vw)`
         :
-          `calc(${btnCoords.botCoord}px + 3.703vh)`
+          // `calc(${btnCoords.botCoord}px + 3.703vh)`
+          `calc(${btnCoords.botCoord}px + 2.604vw)`
     };
     left: ${
       selectedBtn.current === optionRef.current
@@ -120,7 +121,8 @@ export const headerBalloonHand = (states: any, condition: string) => {
         ?
           `calc(${btnCoords.topCoord / 19.2}vw)`
         :
-          `calc(${btnCoords.botCoord}px + 0.926vh)`
+          // `calc(${btnCoords.botCoord}px + 0.926vh)`
+          `calc(${btnCoords.botCoord}px + 1.042vw)`
     };
     left: ${
       selectedBtn.current === optionRef.current
