@@ -11,15 +11,16 @@ import { useAppSelector } from '../../../../slices';
 import { decryptor } from '../../../../custom_modules/aeser';
 
 type FindCategory = HTMLElement | ((param: HTMLElement) => HTMLElement) | undefined;
+// 터치 사용
 
-type CoordsObject = Record<string, number>;
+type CoordsObject = Record<string, number>; // 터치 사용
 
 type MoveResIdxs = {
   originalLists: (HTMLElement | null)[];
   insertCrit: number;
   tgtIdx: number;
   direction: string;
-};
+}; // 터치 사용
 
 function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
   if (ele.classList.contains(findTgt)) {
@@ -27,13 +28,13 @@ function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
   } else if (ele.parentElement) {
     return findCategory(ele.parentElement, findTgt);
   }
-}
+} // 터치 사용
 
 function sumAfterParse(...args: string[]): any {
   return args
     .map((size: string) => parseInt(size, 10))
     .reduce((init: number, add: number) => init + add, 0);
-}
+} // 터치 사용
 
 function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
   const { originalLists, insertCrit, tgtIdx, direction } = moveResIdxs;
@@ -45,7 +46,7 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
       : back.splice(back.indexOf(originalLists[tgtIdx]), 1)[0];
   back.unshift(moveItem);
   return [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
-}
+} // 터치 사용
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
@@ -56,14 +57,13 @@ const StoresList = ({ props }: any) => {
   const [dragStartEle, setDragStartEle] = useState<HTMLElement>();
   const [listState, setListState] = useState<string | string[]>('');
   const originalList = useRef<string | string[]>('');
-  const originalTouchElement = useRef<HTMLElement | null>(null);
-  const clonedElement = useRef<HTMLElement | null>(null);
-  const originalCSS = useRef<CSSStyleDeclaration | null>(null);
-  const originalTopCoord = useRef<number>(0);
-  const originalProcCoords = useRef<CoordsObject>({});
-  const endTopCoord = useRef<number>(0);
-  const fooRef = useRef<number[] | null>(null);
-  const barRef = useRef<number>(0);
+  const originalTouchElement = useRef<HTMLElement | null>(null); // 터치 사용 - 파라미터로
+  const clonedElement = useRef<HTMLElement | null>(null); // 터치 사용 - 반환 값으로
+  const originalCSS = useRef<CSSStyleDeclaration | null>(null); // 터치 사용 - 내부
+  const originalTopCoord = useRef<number>(0); // 터치 사용 - 내부
+  const originalProcCoords = useRef<CoordsObject>({}); // 터치 사용 - 내부
+  const endTopCoord = useRef<number>(0); // 터치 사용 - 내부
+  const fooRef = useRef<number[] | null>(null); // 터치 사용 - 내부
   const game = 'game';
   const music = 'music';
   const series = 'series';
