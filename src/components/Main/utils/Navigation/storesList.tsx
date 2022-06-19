@@ -50,6 +50,16 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
+  const {
+    selectedCategory,
+    storesList,
+    dispatch,
+    selectedStoresCreator,
+    dragRef,
+    dragInfo,
+    makeDraggable,
+    updateDropRes
+  } = props;
   const { userState, catDropResult, isReorderActivated } = useAppSelector(
     state => state.sliceReducers
   );
@@ -59,7 +69,6 @@ const StoresList = ({ props }: any) => {
   const originalList = useRef<string | string[]>('');
   const originalTouchElement = useRef<HTMLElement | null>(null); // 터치 사용 - 파라미터로
   const clonedElement = useRef<HTMLElement | null>(null); // 터치 사용 - 반환 값으로
-  const originalCSS = useRef<CSSStyleDeclaration | null>(null); // 터치 사용 - 내부
   const originalTopCoord = useRef<number>(0); // 터치 사용 - 내부
   const originalProcCoords = useRef<CoordsObject>({}); // 터치 사용 - 내부
   const endTopCoord = useRef<number>(0); // 터치 사용 - 내부
@@ -75,7 +84,7 @@ const StoresList = ({ props }: any) => {
       : null;
   const userSetList =
     storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
-  const { useDropClone } = cloneDnd;
+  const { useDropClone, useTouchDnd } = cloneDnd;
   const dropOption: DropOption = {
     currentItemCategory: {
       level0: ['nav_category']
@@ -83,16 +92,19 @@ const StoresList = ({ props }: any) => {
     applyToChildren: false
   };
   const [dropRef, dropInfo] = useDropClone(dropOption);
-  const {
-    selectedCategory,
-    storesList,
-    dispatch,
-    selectedStoresCreator,
-    dragRef,
-    dragInfo,
-    makeDraggable,
-    updateDropRes
-  } = props;
+  function handleDragStart(event: React.MouseEvent) {
+    setCurrentHover(event.target as HTMLElement);
+    setDragStartEle(event.target as HTMLElement);
+  }
+  const [makeTouchTgtClone] = useTouchDnd();
+  function handleTouchStart(event: React.TouchEvent): void {
+    if (isReorderActivated) {
+      if (event.target !== dropRef.current) {
+        const touchTgt = findCategory(event.target as HTMLElement, 'category') as HTMLElement;
+        makeTouchTgtClone(event, touchTgt, dropRef.current);
+      }
+    }
+  }
   useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -274,47 +286,17 @@ const StoresList = ({ props }: any) => {
         dropRef.current = ref;
         dragRef.current = ref;
       }}
-      onDragStart={e => {
-        setCurrentHover(e.target as HTMLElement);
-        setDragStartEle(e.target as HTMLElement);
-      }}
+      onDragStart={handleDragStart}
       onDragEnter={dragHighlighter}
       onDrop={reorderList}
-      onTouchStart={e => {
-        if (isReorderActivated) {
-          if (e.target !== dropRef.current) {
-            const touchTgt = findCategory(e.target as HTMLElement, 'category') as HTMLElement;
-            originalTouchElement.current = touchTgt;
-            const originalStyles = touchTgt.children[0].getBoundingClientRect();
-            originalCSS.current = window.getComputedStyle(touchTgt);
-            const { left, top, height, width } = originalStyles;
-            const { marginTop, marginBottom, background } = originalCSS.current;
-            const { height: h } = window.getComputedStyle(touchTgt.children[0]);
-            const { clientX: tLeft, clientY: tTop } = e.touches[0];
-            const cloneTgt = touchTgt.cloneNode(true) as HTMLElement;
-            cloneTgt.style.width = width + 'px';
-            cloneTgt.style.height = height + 'px';
-            cloneTgt.style.position = 'absolute';
-            cloneTgt.style.left = left + 'px';
-            cloneTgt.style.top = top + 'px';
-            cloneTgt.style.opacity = '0.5';
-            cloneTgt.style.background = background;
-            clonedElement.current = cloneTgt;
-            originalTopCoord.current = tTop;
-            endTopCoord.current = tTop;
-            originalProcCoords.current.top = tTop - top;
-            originalProcCoords.current.left = tLeft - left;
-            fooRef.current = [sumAfterParse(marginTop, marginBottom, h)];
-            dropRef.current.appendChild(cloneTgt);
-          }
-        }
-      }}
+      onTouchStart={handleTouchStart}
       onTouchMove={e => {
         if (isReorderActivated) {
           if (e.target !== dropRef.current) {
-            const testOriginalList = Array
-              .from(dropRef.current.children)
-              .slice(0, dropRef.current.children.length - 1);
+            const testOriginalList = Array.from(dropRef.current.children).slice(
+              0,
+              dropRef.current.children.length - 1
+            );
             const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
             const left: number = e.touches[0].clientX;
             const top: number = e.touches[0].clientY;
@@ -324,27 +306,34 @@ const StoresList = ({ props }: any) => {
             const crit = originalTopCoord.current - top;
             const currIdx = testOriginalList.indexOf(originalTouchElement.current);
             if (crit > 0) {
-              const movedDistanceToIdx = Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
-                ? testOriginalList.length - 1
-                : Math.floor(crit / fooRef.current![0]);
-              testOriginalList.slice(0, currIdx + 1).reverse().forEach((currEle, idx) => {
-                (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
-                if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                  (dropRef.current.children[0] as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                } else {
-                  (currEle as HTMLElement).style.boxShadow = 'none';
-                }
-              });
+              const movedDistanceToIdx =
+                Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
+                  ? testOriginalList.length - 1
+                  : Math.floor(crit / fooRef.current![0]);
+              testOriginalList
+                .slice(0, currIdx + 1)
+                .reverse()
+                .forEach((currEle, idx) => {
+                  (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
+                  if (idx === movedDistanceToIdx) {
+                    (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
+                    (dropRef.current.children[0] as HTMLElement).style.boxShadow =
+                      '0 0 20px 5px skyblue';
+                  } else {
+                    (currEle as HTMLElement).style.boxShadow = 'none';
+                  }
+                });
             } else if (crit < 0) {
-              const movedDistanceToIdx = Math.floor(crit * -1 / fooRef.current![0]) >= testOriginalList.length
-                ? testOriginalList.length - 1
-                : Math.floor(crit * -1 / fooRef.current![0]);
+              const movedDistanceToIdx =
+                Math.floor((crit * -1) / fooRef.current![0]) >= testOriginalList.length
+                  ? testOriginalList.length - 1
+                  : Math.floor((crit * -1) / fooRef.current![0]);
               testOriginalList.slice(currIdx).forEach((currEle, idx) => {
                 (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
                 if (idx === movedDistanceToIdx) {
                   (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                  (dropRef.current.children[dropRef.current.children.length - 1]).style.boxShadow = '0 0 20px 5px skyblue';
+                  dropRef.current.children[dropRef.current.children.length - 1].style.boxShadow =
+                    '0 0 20px 5px skyblue';
                 } else {
                   (currEle as HTMLElement).style.boxShadow = 'none';
                 }
