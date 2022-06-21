@@ -148,5 +148,45 @@ export default function useTouchDnd(styleOptions?: any): any[] {
     }
   };
 
-  return [makeTouchTgtClone, trackClonedTgt, highlightDragItem];
+  const detectDropEvt = (dropTgt: HTMLElement, updateStateFuncs: ((param: string[]) => void)): void => {
+    clonedElement.current!.remove();
+    clonedElement.current = null;
+    const originalLists: (HTMLElement | null)[] = Array.from(dropTgt.children) as HTMLElement[];
+    originalLists.forEach(ele => {
+      ele!.style.boxShadow = 'none';
+    });
+    const tgtIdx: number = originalLists.indexOf(originalTouchElement.current);
+    const touchTgtMovedDistance: number = originalTopCoord.current - endTopCoord.current;
+    let distanceToIdx: number = 0;
+    let insertCrit: number = 0;
+    if (touchTgtMovedDistance < 0) {
+      distanceToIdx = Math.floor((touchTgtMovedDistance * -1) / fooRef.current![0]);
+      const idxToAdd: number =
+        distanceToIdx >= originalLists.length - 1
+          ? originalLists.length - 1
+          : distanceToIdx;
+      insertCrit =
+        tgtIdx + idxToAdd + 1 > originalLists.length - 1
+          ? originalLists.length
+          : tgtIdx + idxToAdd + 1;
+      const result = returnMoveRes({
+        originalLists,
+        insertCrit,
+        tgtIdx,
+        direction: 'down'
+      });
+      updateStateFuncs(result);
+    } else if (touchTgtMovedDistance > 0) {
+      distanceToIdx = Math.floor(touchTgtMovedDistance / fooRef.current![0]);
+      const idxToSub: number =
+        distanceToIdx >= originalLists.length - 1
+          ? originalLists.length - 1
+          : distanceToIdx;
+      insertCrit = tgtIdx - idxToSub <= 0 ? 0 : tgtIdx - idxToSub;
+      const result = returnMoveRes({ originalLists, insertCrit, tgtIdx, direction: 'up' });
+      updateStateFuncs(result);
+    }
+  }
+
+  return [makeTouchTgtClone, trackClonedTgt, highlightDragItem, detectDropEvt];
 }

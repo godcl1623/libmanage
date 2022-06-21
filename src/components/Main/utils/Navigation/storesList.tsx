@@ -11,16 +11,13 @@ import { useAppSelector } from '../../../../slices';
 import { decryptor } from '../../../../custom_modules/aeser';
 
 type FindCategory = HTMLElement | ((param: HTMLElement) => HTMLElement) | undefined;
-// 터치 사용
-
-type CoordsObject = Record<string, number>; // 터치 사용
 
 type MoveResIdxs = {
   originalLists: (HTMLElement | null)[];
   insertCrit: number;
   tgtIdx: number;
   direction: string;
-}; // 터치 사용
+};
 
 function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
   if (ele.classList.contains(findTgt)) {
@@ -28,13 +25,7 @@ function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
   } else if (ele.parentElement) {
     return findCategory(ele.parentElement, findTgt);
   }
-} // 터치 사용
-
-function sumAfterParse(...args: string[]): any {
-  return args
-    .map((size: string) => parseInt(size, 10))
-    .reduce((init: number, add: number) => init + add, 0);
-} // 터치 사용
+}
 
 function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
   const { originalLists, insertCrit, tgtIdx, direction } = moveResIdxs;
@@ -46,7 +37,7 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
       : back.splice(back.indexOf(originalLists[tgtIdx]), 1)[0];
   back.unshift(moveItem);
   return [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
-} // 터치 사용
+}
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
@@ -67,12 +58,6 @@ const StoresList = ({ props }: any) => {
   const [dragStartEle, setDragStartEle] = useState<HTMLElement>();
   const [listState, setListState] = useState<string | string[]>('');
   const originalList = useRef<string | string[]>('');
-  const originalTouchElement = useRef<HTMLElement | null>(null); // 터치 사용 - 파라미터로
-  const clonedElement = useRef<HTMLElement | null>(null); // 터치 사용 - 반환 값으로
-  const originalTopCoord = useRef<number>(0); // 터치 사용 - 내부
-  const originalProcCoords = useRef<CoordsObject>({}); // 터치 사용 - 내부
-  const endTopCoord = useRef<number>(0); // 터치 사용 - 내부
-  const fooRef = useRef<number[] | null>(null); // 터치 사용 - 내부
   const game = 'game';
   const music = 'music';
   const series = 'series';
@@ -96,7 +81,7 @@ const StoresList = ({ props }: any) => {
     setCurrentHover(event.target as HTMLElement);
     setDragStartEle(event.target as HTMLElement);
   }
-  const [makeTouchTgtClone, trackClonedTgt, highlightDragItem] = useTouchDnd();
+  const [makeTouchTgtClone, trackClonedTgt, highlightDragItem, detectDropEvt] = useTouchDnd();
   function handleTouchStart(event: React.TouchEvent): void {
     if (isReorderActivated) {
       if (event.target !== dropRef.current) {
@@ -110,6 +95,17 @@ const StoresList = ({ props }: any) => {
       if (event.target !== dropRef.current) {
         trackClonedTgt(event);
         highlightDragItem(event, dropRef.current)
+      }
+    }
+  }
+  const updateStateFuncs = (dropRes: string[]): void => {
+    setListState(dropRes);
+    dispatch(updateDropRes(dropRes));
+  }
+  function handleTouchEnd(event: React.TouchEvent): void {
+    if (isReorderActivated) {
+      if (event.target !== dropRef.current) {
+        detectDropEvt(dropRef.current, updateStateFuncs);
       }
     }
   }
@@ -299,51 +295,7 @@ const StoresList = ({ props }: any) => {
       onDrop={reorderList}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onTouchEnd={e => {
-        if (isReorderActivated) {
-          if (e.target !== dropRef.current) {
-            clonedElement.current!.remove();
-            clonedElement.current = null;
-            const originalLists: (HTMLElement | null)[] = Array.from(dropRef.current.children);
-            originalLists.forEach(ele => {
-              ele!.style.boxShadow = 'none';
-            });
-            const tgtIdx: number = originalLists.indexOf(originalTouchElement.current);
-            const touchTgtMovedDistance: number = originalTopCoord.current - endTopCoord.current;
-            let distanceToIdx: number = 0;
-            let insertCrit: number = 0;
-            if (touchTgtMovedDistance < 0) {
-              distanceToIdx = Math.floor((touchTgtMovedDistance * -1) / fooRef.current![0]);
-              const idxToAdd: number =
-                distanceToIdx >= originalLists.length - 1
-                  ? originalLists.length - 1
-                  : distanceToIdx;
-              insertCrit =
-                tgtIdx + idxToAdd + 1 > originalLists.length - 1
-                  ? originalLists.length
-                  : tgtIdx + idxToAdd + 1;
-              const result = returnMoveRes({
-                originalLists,
-                insertCrit,
-                tgtIdx,
-                direction: 'down'
-              });
-              setListState(result);
-              dispatch(updateDropRes(result));
-            } else if (touchTgtMovedDistance > 0) {
-              distanceToIdx = Math.floor(touchTgtMovedDistance / fooRef.current![0]);
-              const idxToSub: number =
-                distanceToIdx >= originalLists.length - 1
-                  ? originalLists.length - 1
-                  : distanceToIdx;
-              insertCrit = tgtIdx - idxToSub <= 0 ? 0 : tgtIdx - idxToSub;
-              const result = returnMoveRes({ originalLists, insertCrit, tgtIdx, direction: 'up' });
-              setListState(result);
-              dispatch(updateDropRes(result));
-            }
-          }
-        }
-      }}
+      onTouchEnd={handleTouchEnd}
     >
       {displayMenu(selectedCategory, listState)}
     </div>
