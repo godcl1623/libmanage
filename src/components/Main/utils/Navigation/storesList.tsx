@@ -6,7 +6,7 @@ import { sizes } from '../../../../styles';
 import { storesListStyle } from '../../styles/NavStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 // eslint-disable-next-line import/no-relative-packages
-import cloneDnd, { DropOption } from '../../../../clone-dnd';
+import cloneDnd, { DropOption, TouchStyleOptions } from '../../../../clone-dnd';
 import { useAppSelector } from '../../../../slices';
 import { decryptor } from '../../../../custom_modules/aeser';
 
@@ -96,7 +96,24 @@ const StoresList = ({ props }: any) => {
   }
 
   /* ##### useTouchDnd ##### */
-  const [makeTouchTgtClone, trackClonedTgt, highlightDragItem, detectDropEvt] = useTouchDnd();
+  const touchStyleOptions: TouchStyleOptions = {
+    // cloneTgtStyle: {
+    //   width: '50%',
+    //   height: '50%',
+    //   // position: '0',
+    //   // left: '0',
+    //   // top: '0',
+    //   opacity: '1',
+    //   background: 'red'
+    // },
+    highlightStyles: {
+      transition: 'box-shadow 0.5s',
+      currEleBoxShadow: '0 0 5px 10px tomato',
+      dropTgtBoxShadow: '0 0 5px 10px tomato',
+      exceptionsBoxShadow: 'none'
+    }
+  }
+  const [makeTouchTgtClone, trackClonedTgt, highlightDragItem, detectDropEvt] = useTouchDnd(touchStyleOptions);
   function handleTouchStart(event: React.TouchEvent): void {
     if (isReorderActivated) {
       if (event.target !== dropRef.current) {

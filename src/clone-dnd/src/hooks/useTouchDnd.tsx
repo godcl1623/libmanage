@@ -1,5 +1,8 @@
 import React, { useRef } from 'react';
 
+const cloneTgtStyleKeys = ['width', 'height', 'position', 'left', 'top', 'opacity', 'background'] as const;
+const highlightStylesKeys = ['transition', 'currEleBoxShadow', 'dropTgtBoxShadow', 'exceptionsBoxShadow'] as const;
+
 type CoordsObject = Record<string, number>;
 
 type MoveResIdxs = {
@@ -8,6 +11,19 @@ type MoveResIdxs = {
   tgtIdx: number;
   direction: string;
 };
+
+type OrigCloneTgtStyle = {
+  [key in typeof cloneTgtStyleKeys[number] | string]?: string;
+}
+
+type OrigHighlightStyles = {
+  [key in typeof highlightStylesKeys[number]]?: string;
+}
+
+export interface ITouchStyleOptions {
+  cloneTgtStyle?: OrigCloneTgtStyle;
+  highlightStyles?: OrigHighlightStyles;
+}
 
 const returnMoveRes = (moveResIdxs: MoveResIdxs): string[] => {
   const { originalLists, insertCrit, tgtIdx, direction } = moveResIdxs;
@@ -21,7 +37,7 @@ const returnMoveRes = (moveResIdxs: MoveResIdxs): string[] => {
   return [...front, ...back].map(ele => (ele as HTMLElement).classList[1]);
 };
 
-export default function useTouchDnd(styleOptions?: any): any[] {
+export default function useTouchDnd(styleOptions?: ITouchStyleOptions): any[] {
   const originalTouchElement = useRef<HTMLElement | null>(null);
   const clonedElement = useRef<HTMLElement | null>(null);
   const originalCSS = useRef<CSSStyleDeclaration | null>(null);
@@ -49,26 +65,22 @@ export default function useTouchDnd(styleOptions?: any): any[] {
     const { height: h } = window.getComputedStyle(originalTouchElement.current.children[0]);
     const { clientX: tLeft, clientY: tTop } = touchEvt.touches[0];
     const cloneTgt = originalTouchElement.current.cloneNode(true) as HTMLElement;
+    const origStyleVals = [width, height, 'absolute', left, top, '0.5', background];
+    const origStyleUnits = ['px', 'px', '', 'px', 'px', '', ''];
     if (
       styleOptions &&
       styleOptions.cloneTgtStyle &&
       Object.values(styleOptions.cloneTgtStyle).length !== 0
     ) {
-      cloneTgt.style.width = styleOptions.width;
-      cloneTgt.style.height = styleOptions.height;
-      cloneTgt.style.position = styleOptions.position;
-      cloneTgt.style.left = styleOptions.left;
-      cloneTgt.style.top = styleOptions.top;
-      cloneTgt.style.opacity = styleOptions.opacity;
-      cloneTgt.style.background = styleOptions.background;
+      cloneTgtStyleKeys.forEach((key: string, idx: number) => {
+        cloneTgt.style[key as any] = styleOptions.cloneTgtStyle![key]
+          ? styleOptions.cloneTgtStyle![key] as string
+          : origStyleVals[idx] + origStyleUnits[idx];
+      })
     } else {
-      cloneTgt.style.width = width + 'px';
-      cloneTgt.style.height = height + 'px';
-      cloneTgt.style.position = 'absolute';
-      cloneTgt.style.left = left + 'px';
-      cloneTgt.style.top = top + 'px';
-      cloneTgt.style.opacity = '0.5';
-      cloneTgt.style.background = background;
+      cloneTgtStyleKeys.forEach((key: string, idx: number) => {
+        cloneTgt.style[key as any] = origStyleVals[idx] + origStyleUnits[idx];
+      })
     }
     clonedElement.current = cloneTgt;
     originalTopCoord.current = tTop;
@@ -107,18 +119,26 @@ export default function useTouchDnd(styleOptions?: any): any[] {
         .reverse()
         .forEach((currEle, idx) => {
           (currEle as HTMLElement).style.transition = styleConditions
-            ? styleOptions.highlightStyles.transition
+            ? styleOptions.highlightStyles!.transition
+              ? styleOptions.highlightStyles!.transition as string
+              : 'box-shadow 0.3s'
             : 'box-shadow 0.3s';
           if (idx === movedDistanceToIdx) {
             (currEle as HTMLElement).style.boxShadow = styleConditions
-              ? styleOptions.highlightStyles.currEleBoxShadow
+              ? styleOptions.highlightStyles!.currEleBoxShadow
+                ? styleOptions.highlightStyles!.currEleBoxShadow as string
+                : '0 0 20px 5px skyblue'
               : '0 0 20px 5px skyblue';
             (dropTgt.children[0] as HTMLElement).style.boxShadow = styleConditions
-              ? styleOptions.highlightStyles.dropTgtBoxShadow
+              ? styleOptions.highlightStyles!.dropTgtBoxShadow
+                ? styleOptions.highlightStyles!.dropTgtBoxShadow as string
+                : '0 0 20px 5px skyblue'
               : '0 0 20px 5px skyblue';
           } else {
             (currEle as HTMLElement).style.boxShadow = styleConditions
-              ? styleOptions.highlightStyles.exceptionsBoxShadow
+              ? styleOptions.highlightStyles!.exceptionsBoxShadow
+                ? styleOptions.highlightStyles!.exceptionsBoxShadow as string
+                : 'none'
               : 'none';
           }
         });
@@ -129,19 +149,27 @@ export default function useTouchDnd(styleOptions?: any): any[] {
           : Math.floor((crit * -1) / fooRef.current![0]);
       draggableTgtLists.slice(currIdx).forEach((currEle, idx) => {
         (currEle as HTMLElement).style.transition = styleConditions
-          ? styleOptions.highlightStyles.transition
+          ? styleOptions.highlightStyles!.transition
+            ? styleOptions.highlightStyles!.transition as string
+            : 'box-shadow 0.3s'
           : 'box-shadow 0.3s';
         if (idx === movedDistanceToIdx) {
           (currEle as HTMLElement).style.boxShadow = styleConditions
-            ? styleOptions.highlightStyles.currEleBoxShadow
+            ? styleOptions.highlightStyles!.currEleBoxShadow
+              ? styleOptions.highlightStyles!.currEleBoxShadow as string
+              : '0 0 20px 5px skyblue'
             : '0 0 20px 5px skyblue';
           (dropTgt.children[dropTgt.children.length - 1] as HTMLElement).style.boxShadow =
             styleConditions
-              ? styleOptions.highlightStyles.dropTgtBoxShadow
+              ? styleOptions.highlightStyles!.dropTgtBoxShadow
+                ? styleOptions.highlightStyles!.dropTgtBoxShadow as string
+                : '0 0 20px 5px skyblue'
               : '0 0 20px 5px skyblue';
         } else {
           (currEle as HTMLElement).style.boxShadow = styleConditions
-            ? styleOptions.highlightStyles.exceptionsBoxShadow
+            ? styleOptions.highlightStyles!.exceptionsBoxShadow
+              ? styleOptions.highlightStyles!.exceptionsBoxShadow as string
+              : 'none'
             : 'none';
         }
       });
@@ -152,8 +180,16 @@ export default function useTouchDnd(styleOptions?: any): any[] {
     clonedElement.current!.remove();
     clonedElement.current = null;
     const originalLists: (HTMLElement | null)[] = Array.from(dropTgt.children) as HTMLElement[];
+    const styleConditions =
+      styleOptions &&
+      styleOptions.highlightStyles &&
+      Object.values(styleOptions.highlightStyles).length !== 0;
     originalLists.forEach(ele => {
-      ele!.style.boxShadow = 'none';
+      ele!.style.boxShadow = styleConditions
+        ? styleOptions.highlightStyles!.exceptionsBoxShadow
+          ? styleOptions.highlightStyles!.exceptionsBoxShadow as string
+          : 'none'
+        : 'none';
     });
     const tgtIdx: number = originalLists.indexOf(originalTouchElement.current);
     const touchTgtMovedDistance: number = originalTopCoord.current - endTopCoord.current;
