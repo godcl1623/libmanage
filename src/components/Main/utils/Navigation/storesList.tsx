@@ -19,7 +19,8 @@ type MoveResIdxs = {
   direction: string;
 };
 
-function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
+/* ########## common functions ########## */
+const findCategory = (ele: HTMLElement, findTgt: string): FindCategory => {
   if (ele.classList.contains(findTgt)) {
     return ele;
   } else if (ele.parentElement) {
@@ -27,7 +28,7 @@ function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
   }
 }
 
-function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
+const returnMoveRes = (moveResIdxs: MoveResIdxs): string[] => {
   const { originalLists, insertCrit, tgtIdx, direction } = moveResIdxs;
   const front = originalLists.slice(0, insertCrit);
   const back = originalLists.slice(insertCrit);
@@ -41,6 +42,7 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
+  /* ########## props ########## */
   const {
     selectedCategory,
     storesList,
@@ -51,13 +53,21 @@ const StoresList = ({ props }: any) => {
     makeDraggable,
     updateDropRes
   } = props;
+
+  /* ########## global states ########## */
   const { userState, catDropResult, isReorderActivated } = useAppSelector(
     state => state.sliceReducers
   );
+
+  /* ########## local states ########## */
   const [currentHover, setCurrentHover] = useState<HTMLElement>();
   const [dragStartEle, setDragStartEle] = useState<HTMLElement>();
   const [listState, setListState] = useState<string | string[]>('');
+
+  /* ########## refs ########## */
   const originalList = useRef<string | string[]>('');
+
+  /* ########## variables ########## */
   const game = 'game';
   const music = 'music';
   const series = 'series';
@@ -69,7 +79,10 @@ const StoresList = ({ props }: any) => {
       : null;
   const userSetList =
     storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
+
+  /* ########## library inits ########## */
   const { useDropClone, useTouchDnd } = cloneDnd;
+  /* ##### useDropClone ##### */
   const dropOption: DropOption = {
     currentItemCategory: {
       level0: ['nav_category']
@@ -81,6 +94,8 @@ const StoresList = ({ props }: any) => {
     setCurrentHover(event.target as HTMLElement);
     setDragStartEle(event.target as HTMLElement);
   }
+
+  /* ##### useTouchDnd ##### */
   const [makeTouchTgtClone, trackClonedTgt, highlightDragItem, detectDropEvt] = useTouchDnd();
   function handleTouchStart(event: React.TouchEvent): void {
     if (isReorderActivated) {
@@ -109,6 +124,8 @@ const StoresList = ({ props }: any) => {
       }
     }
   }
+
+  /* ########## useEffect ########## */
   useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -129,6 +146,8 @@ const StoresList = ({ props }: any) => {
       }
     }
   }, [isReorderActivated, catDropResult]);
+
+  /* ########## useCallbacks ########## */
   // params 타입 설정 필요
   const displayMenu = React.useCallback(
     (category: string, ...params: any[]) => {
@@ -199,8 +218,9 @@ const StoresList = ({ props }: any) => {
       });
     },
     [listState]
-  );
+    );
 
+  /* ########## handlers using hooks ########## */
   const reorderList = (e: React.DragEvent): void => {
     const dragTgt = dragStartEle as HTMLElement;
     const parent = dragTgt.parentNode as HTMLElement;
@@ -274,6 +294,7 @@ const StoresList = ({ props }: any) => {
     }
   };
 
+  /* ########## return ########## */
   return (
     <div
       id="drop-container"
