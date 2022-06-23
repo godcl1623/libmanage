@@ -6,13 +6,11 @@ import { sizes } from '../../../../styles';
 import { storesListStyle } from '../../styles/NavStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 // eslint-disable-next-line import/no-relative-packages
-import cloneDnd, { DropOption } from '../../../../clone-dnd';
+import cloneDnd, { DropOption, TouchStyleOptions } from '../../../../clone-dnd';
 import { useAppSelector } from '../../../../slices';
 import { decryptor } from '../../../../custom_modules/aeser';
 
 type FindCategory = HTMLElement | ((param: HTMLElement) => HTMLElement) | undefined;
-
-type CoordsObject = Record<string, number>;
 
 type MoveResIdxs = {
   originalLists: (HTMLElement | null)[];
@@ -21,7 +19,8 @@ type MoveResIdxs = {
   direction: string;
 };
 
-function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
+/* ########## common functions ########## */
+const findCategory = (ele: HTMLElement, findTgt: string): FindCategory => {
   if (ele.classList.contains(findTgt)) {
     return ele;
   } else if (ele.parentElement) {
@@ -29,13 +28,7 @@ function findCategory(ele: HTMLElement, findTgt: string): FindCategory {
   }
 }
 
-function sumAfterParse(...args: string[]): any {
-  return args
-    .map((size: string) => parseInt(size, 10))
-    .reduce((init: number, add: number) => init + add, 0);
-}
-
-function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
+const returnMoveRes = (moveResIdxs: MoveResIdxs): string[] => {
   const { originalLists, insertCrit, tgtIdx, direction } = moveResIdxs;
   const front = originalLists.slice(0, insertCrit);
   const back = originalLists.slice(insertCrit);
@@ -49,21 +42,32 @@ function returnMoveRes(moveResIdxs: MoveResIdxs): string[] {
 
 // props 타입 설정 필요
 const StoresList = ({ props }: any) => {
+  /* ########## props ########## */
+  const {
+    selectedCategory,
+    storesList,
+    dispatch,
+    selectedStoresCreator,
+    dragRef,
+    dragInfo,
+    makeDraggable,
+    updateDropRes
+  } = props;
+
+  /* ########## global states ########## */
   const { userState, catDropResult, isReorderActivated } = useAppSelector(
     state => state.sliceReducers
   );
+
+  /* ########## local states ########## */
   const [currentHover, setCurrentHover] = useState<HTMLElement>();
   const [dragStartEle, setDragStartEle] = useState<HTMLElement>();
   const [listState, setListState] = useState<string | string[]>('');
+
+  /* ########## refs ########## */
   const originalList = useRef<string | string[]>('');
-  const originalTouchElement = useRef<HTMLElement | null>(null);
-  const clonedElement = useRef<HTMLElement | null>(null);
-  const originalCSS = useRef<CSSStyleDeclaration | null>(null);
-  const originalTopCoord = useRef<number>(0);
-  const originalProcCoords = useRef<CoordsObject>({});
-  const endTopCoord = useRef<number>(0);
-  const fooRef = useRef<number[] | null>(null);
-  const barRef = useRef<number>(0);
+
+  /* ########## variables ########## */
   const game = 'game';
   const music = 'music';
   const series = 'series';
@@ -75,7 +79,10 @@ const StoresList = ({ props }: any) => {
       : null;
   const userSetList =
     storagedList === userState.customCatOrder ? userState.customCatOrder : storagedList;
-  const { useDropClone } = cloneDnd;
+
+  /* ########## library inits ########## */
+  const { useDropClone, useTouchDnd } = cloneDnd;
+  /* ##### useDropClone ##### */
   const dropOption: DropOption = {
     currentItemCategory: {
       level0: ['nav_category']
@@ -83,16 +90,59 @@ const StoresList = ({ props }: any) => {
     applyToChildren: false
   };
   const [dropRef, dropInfo] = useDropClone(dropOption);
-  const {
-    selectedCategory,
-    storesList,
-    dispatch,
-    selectedStoresCreator,
-    dragRef,
-    dragInfo,
-    makeDraggable,
-    updateDropRes
-  } = props;
+  function handleDragStart(event: React.MouseEvent) {
+    setCurrentHover(event.target as HTMLElement);
+    setDragStartEle(event.target as HTMLElement);
+  }
+
+  /* ##### useTouchDnd ##### */
+  const touchStyleOptions: TouchStyleOptions = {
+    // cloneTgtStyle: {
+    //   width: '50%',
+    //   height: '50%',
+    //   // position: '0',
+    //   // left: '0',
+    //   // top: '0',
+    //   opacity: '1',
+    //   background: 'red'
+    // },
+    highlightStyles: {
+      transition: 'box-shadow 0.5s',
+      currEleBoxShadow: '0 0 5px 10px tomato',
+      dropTgtBoxShadow: '0 0 5px 10px tomato',
+      exceptionsBoxShadow: 'none'
+    }
+  }
+  const [makeTouchTgtClone, trackClonedTgt, highlightDragItem, detectDropEvt] = useTouchDnd(touchStyleOptions);
+  function handleTouchStart(event: React.TouchEvent): void {
+    if (isReorderActivated) {
+      if (event.target !== dropRef.current) {
+        const touchTgt = findCategory(event.target as HTMLElement, 'category') as HTMLElement;
+        makeTouchTgtClone(event, touchTgt, dropRef.current);
+      }
+    }
+  }
+  function handleTouchMove(event: React.TouchEvent): void {
+    if (isReorderActivated) {
+      if (event.target !== dropRef.current) {
+        trackClonedTgt(event);
+        highlightDragItem(event, dropRef.current)
+      }
+    }
+  }
+  const updateStateFuncs = (dropRes: string[]): void => {
+    setListState(dropRes);
+    dispatch(updateDropRes(dropRes));
+  }
+  function handleTouchEnd(event: React.TouchEvent): void {
+    if (isReorderActivated) {
+      if (event.target !== dropRef.current) {
+        detectDropEvt(dropRef.current, updateStateFuncs);
+      }
+    }
+  }
+
+  /* ########## useEffect ########## */
   useEffect(() => {
     let currentList: string | string[] = '';
     if (!userState.customCatOrder || userState.customCatOrder === 'default') {
@@ -113,6 +163,8 @@ const StoresList = ({ props }: any) => {
       }
     }
   }, [isReorderActivated, catDropResult]);
+
+  /* ########## useCallbacks ########## */
   // params 타입 설정 필요
   const displayMenu = React.useCallback(
     (category: string, ...params: any[]) => {
@@ -183,8 +235,9 @@ const StoresList = ({ props }: any) => {
       });
     },
     [listState]
-  );
+    );
 
+  /* ########## handlers using hooks ########## */
   const reorderList = (e: React.DragEvent): void => {
     const dragTgt = dragStartEle as HTMLElement;
     const parent = dragTgt.parentNode as HTMLElement;
@@ -258,6 +311,7 @@ const StoresList = ({ props }: any) => {
     }
   };
 
+  /* ########## return ########## */
   return (
     <div
       id="drop-container"
@@ -274,130 +328,12 @@ const StoresList = ({ props }: any) => {
         dropRef.current = ref;
         dragRef.current = ref;
       }}
-      onDragStart={e => {
-        setCurrentHover(e.target as HTMLElement);
-        setDragStartEle(e.target as HTMLElement);
-      }}
+      onDragStart={handleDragStart}
       onDragEnter={dragHighlighter}
       onDrop={reorderList}
-      onTouchStart={e => {
-        if (isReorderActivated) {
-          if (e.target !== dropRef.current) {
-            const touchTgt = findCategory(e.target as HTMLElement, 'category') as HTMLElement;
-            originalTouchElement.current = touchTgt;
-            const originalStyles = touchTgt.children[0].getBoundingClientRect();
-            originalCSS.current = window.getComputedStyle(touchTgt);
-            const { left, top, height, width } = originalStyles;
-            const { marginTop, marginBottom, background } = originalCSS.current;
-            const { height: h } = window.getComputedStyle(touchTgt.children[0]);
-            const { clientX: tLeft, clientY: tTop } = e.touches[0];
-            const cloneTgt = touchTgt.cloneNode(true) as HTMLElement;
-            cloneTgt.style.width = width + 'px';
-            cloneTgt.style.height = height + 'px';
-            cloneTgt.style.position = 'absolute';
-            cloneTgt.style.left = left + 'px';
-            cloneTgt.style.top = top + 'px';
-            cloneTgt.style.opacity = '0.5';
-            cloneTgt.style.background = background;
-            clonedElement.current = cloneTgt;
-            originalTopCoord.current = tTop;
-            endTopCoord.current = tTop;
-            originalProcCoords.current.top = tTop - top;
-            originalProcCoords.current.left = tLeft - left;
-            fooRef.current = [sumAfterParse(marginTop, marginBottom, h)];
-            dropRef.current.appendChild(cloneTgt);
-          }
-        }
-      }}
-      onTouchMove={e => {
-        if (isReorderActivated) {
-          if (e.target !== dropRef.current) {
-            const testOriginalList = Array
-              .from(dropRef.current.children)
-              .slice(0, dropRef.current.children.length - 1);
-            const moveTgt: HTMLElement | null = clonedElement.current as HTMLElement;
-            const left: number = e.touches[0].clientX;
-            const top: number = e.touches[0].clientY;
-            moveTgt.style.left = left - originalProcCoords.current.left + 'px';
-            moveTgt.style.top = top - originalProcCoords.current.top + 'px';
-            endTopCoord.current = top;
-            const crit = originalTopCoord.current - top;
-            const currIdx = testOriginalList.indexOf(originalTouchElement.current);
-            if (crit > 0) {
-              const movedDistanceToIdx = Math.floor(crit / fooRef.current![0]) >= testOriginalList.length
-                ? testOriginalList.length - 1
-                : Math.floor(crit / fooRef.current![0]);
-              testOriginalList.slice(0, currIdx + 1).reverse().forEach((currEle, idx) => {
-                (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
-                if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                  (dropRef.current.children[0] as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                } else {
-                  (currEle as HTMLElement).style.boxShadow = 'none';
-                }
-              });
-            } else if (crit < 0) {
-              const movedDistanceToIdx = Math.floor(crit * -1 / fooRef.current![0]) >= testOriginalList.length
-                ? testOriginalList.length - 1
-                : Math.floor(crit * -1 / fooRef.current![0]);
-              testOriginalList.slice(currIdx).forEach((currEle, idx) => {
-                (currEle as HTMLElement).style.transition = 'box-shadow 0.3s';
-                if (idx === movedDistanceToIdx) {
-                  (currEle as HTMLElement).style.boxShadow = '0 0 20px 5px skyblue';
-                  (dropRef.current.children[dropRef.current.children.length - 1]).style.boxShadow = '0 0 20px 5px skyblue';
-                } else {
-                  (currEle as HTMLElement).style.boxShadow = 'none';
-                }
-              });
-            }
-          }
-        }
-      }}
-      onTouchEnd={e => {
-        if (isReorderActivated) {
-          if (e.target !== dropRef.current) {
-            clonedElement.current!.remove();
-            clonedElement.current = null;
-            const originalLists: (HTMLElement | null)[] = Array.from(dropRef.current.children);
-            originalLists.forEach(ele => {
-              ele!.style.boxShadow = 'none';
-            });
-            const tgtIdx: number = originalLists.indexOf(originalTouchElement.current);
-            const touchTgtMovedDistance: number = originalTopCoord.current - endTopCoord.current;
-            let distanceToIdx: number = 0;
-            let insertCrit: number = 0;
-            if (touchTgtMovedDistance < 0) {
-              distanceToIdx = Math.floor((touchTgtMovedDistance * -1) / fooRef.current![0]);
-              const idxToAdd: number =
-                distanceToIdx >= originalLists.length - 1
-                  ? originalLists.length - 1
-                  : distanceToIdx;
-              insertCrit =
-                tgtIdx + idxToAdd + 1 > originalLists.length - 1
-                  ? originalLists.length
-                  : tgtIdx + idxToAdd + 1;
-              const result = returnMoveRes({
-                originalLists,
-                insertCrit,
-                tgtIdx,
-                direction: 'down'
-              });
-              setListState(result);
-              dispatch(updateDropRes(result));
-            } else if (touchTgtMovedDistance > 0) {
-              distanceToIdx = Math.floor(touchTgtMovedDistance / fooRef.current![0]);
-              const idxToSub: number =
-                distanceToIdx >= originalLists.length - 1
-                  ? originalLists.length - 1
-                  : distanceToIdx;
-              insertCrit = tgtIdx - idxToSub <= 0 ? 0 : tgtIdx - idxToSub;
-              const result = returnMoveRes({ originalLists, insertCrit, tgtIdx, direction: 'up' });
-              setListState(result);
-              dispatch(updateDropRes(result));
-            }
-          }
-        }
-      }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {displayMenu(selectedCategory, listState)}
     </div>

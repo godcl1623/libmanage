@@ -1,20 +1,29 @@
 # libmanage-client
 
+<br/><br/>
+
 ## 서비스 소개
 **libmanage**는 사용자의 스팀 라이브러리에 있는 게임의 메타 정보를 PC, 모바일 등 다양한 디바이스에서 설치할 수 있는 앱 형태로 제공하는 애플리케이션입니다.
 
 **libmanage-client**는 **libmanage** 애플리케이션의 프론트엔드 프로젝트입니다.
+
+<br/><br/>
 
 ## 목차
 * 기획 배경 및 상세 소개
 * 프로젝트 구조
 * 기능 명세 및 상세 화면
 * 기술 스택
+* 기술적 고민
+
+<br/><br/>
 
 ## 기획 배경 및 상세 소개
 * 프론트엔드 역량 향상을 위해 연습할 때보다 대규모의 프로젝트를 진행하는 한편, 관심 있던 기술을 구현해보며 지난 프로젝트들과 차별점을 두는 것을 목표로 삼았습니다.
 
 * 웹 앱의 기본적인 작동 방식에 대한 이해를 쌓기 위해 백엔드 서버를 직접 구현해보는 한편, MySQL을 활용해 DB 구축 및 CRUD 실습을 진행했습니다.
+
+<br/><br/>
 
 ## 프로젝트 구조
 ```
@@ -44,19 +53,27 @@
 │   │
 ```
 
+<br/><br/>
+
 ## 기능 명세 및 상세 화면
 <details>
 <summary>기능 명세 및 상세 화면</summary>
+
+<br/>
+
 <details>
-<summary>기본 화면</summary>
+<summary>1. 기본 화면</summary>
 <div markdown="1">
 
 ![main](https://user-images.githubusercontent.com/20578093/163828641-81572288-f474-43b1-8184-66774b385769.png)
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>로그인</summary>
+<summary>2. 로그인</summary>
 <div markdown="1">
 
 * DB 데이터와의 대조를 통한 **로그인** 기능
@@ -66,47 +83,62 @@
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>사용자 정보 관리</summary>
+<summary>3. 사용자 정보 관리</summary>
+
+<br/>
+
 <details>
-<summary>회원가입</summary>
+<summary>3-1. 회원가입</summary>
 <div markdown="1">
 
 ![libmng-reg](https://user-images.githubusercontent.com/20578093/163829174-f951975e-9c38-415f-bbf6-3ba2ee7c3f2d.png)
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>아이디/비밀번호 찾기</summary>
+<summary>3-2. 아이디/비밀번호 찾기</summary>
 <div markdown="1">
 
-* 아이디 찾기
+* 3-2-1. 아이디 찾기
 	![libmng_find_id](https://user-images.githubusercontent.com/20578093/163829466-3f33f88e-5f97-4b43-bf53-c4e77766d6cd.png)
-* 비밀번호 찾기
+* 3-2-2. 비밀번호 찾기
 	![libmng_find_pwd](https://user-images.githubusercontent.com/20578093/163829516-16e6ca66-2ab2-474a-90c7-247ed92c307f.png)
-* 경우별 예시
+* 3-2-3. 경우별 예시
 	![libmng_find_ex](https://user-images.githubusercontent.com/20578093/163829567-8fd3c940-013e-4bfe-b4e5-a226d1bbe8dd.png)
-<details>
-<summary>비밀번호 재설정</summary>
-<div markdown="1">
 
-* 사용자 요청별 토큰 기반으로 비밀번호 재설정 링크 제공
-* 토큰이 유효할 경우
-	![libmng_token_valid](https://user-images.githubusercontent.com/20578093/163829755-41dc4186-f260-472c-b191-0e2d4d0d942a.png)
-* 토큰이 만료된 경우
-	![libmng_token_expired](https://user-images.githubusercontent.com/20578093/163829848-653acec0-26a4-43e5-afc8-983877fcbc7a.png)
-* 올바르지 않은 토큰을 사용할 경우
-	![libmng_token_invalid](https://user-images.githubusercontent.com/20578093/163829790-21496226-0e26-40a8-969f-016c6dbc1729.png)
-* 오류가 발생한 경우
-	![libmng_token_err](https://user-images.githubusercontent.com/20578093/163829843-149dc5fe-b619-47ef-845d-ac59bb0dd2c5.png)
+	<details>
+	<summary>3-2-4. 비밀번호 재설정</summary>
+	<div markdown="1">
+
+	* 사용자 요청별 토큰 기반으로 비밀번호 재설정 링크 제공
+	* 토큰이 유효할 경우
+		![libmng_token_valid](https://user-images.githubusercontent.com/20578093/163829755-41dc4186-f260-472c-b191-0e2d4d0d942a.png)
+	* 토큰이 만료된 경우
+		![libmng_token_expired](https://user-images.githubusercontent.com/20578093/163829848-653acec0-26a4-43e5-afc8-983877fcbc7a.png)
+	* 올바르지 않은 토큰을 사용할 경우
+		![libmng_token_invalid](https://user-images.githubusercontent.com/20578093/163829790-21496226-0e26-40a8-969f-016c6dbc1729.png)
+	* 오류가 발생한 경우
+		![libmng_token_err](https://user-images.githubusercontent.com/20578093/163829843-149dc5fe-b619-47ef-845d-ac59bb0dd2c5.png)
+
+	</div>
+	</details>
+
+<br/>
 
 </div>
 </details>
 
-</div>
-</details>
+<br/>
+
 <details>
-<summary>회원정보 수정</summary>
+<summary>3-3. 회원정보 수정</summary>
 <div markdown="1">
 
 * 기능 이용 방법
@@ -116,8 +148,11 @@
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>회원 탈퇴</summary>
+<summary>3-4. 회원 탈퇴</summary>
 <div markdown="1">
 
 * 기능 이용 방법
@@ -127,11 +162,18 @@
 
 </div>
 </details>
+
 </details>
+
+<br/>
+
 <details>
-<summary>사용자 라이브러리 관리</summary>
+<summary>4. 사용자 라이브러리 관리</summary>
+
+<br/>
+
 <details>
-<summary>사용자의 스팀 로그인을 통한 라이브러리 정보 등록</summary>
+<summary>4-1. 사용자의 스팀 로그인을 통한 라이브러리 정보 등록</summary>
 <div markdown="1">
 
 1. 라이브러리를 등록할 스토어(스팀)에 로그인
@@ -269,8 +311,11 @@
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>카테고리 관리</summary>
+<summary>4-2. 카테고리 관리</summary>
 <div markdown="1">
 
 * 원하는 목록만 표시
@@ -294,29 +339,39 @@
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>라이브러리 텍스트/섬네일 표시</summary>
+<summary>4-3. 라이브러리 텍스트/섬네일 표시</summary>
 <div markdown="1">
 
 * 텍스트 리스트
 	![libmng_txt_list](https://user-images.githubusercontent.com/20578093/163831234-c6c5c7cd-1110-4320-91d8-fc902c7f15eb.png)
 * 섬네일 리스트
 	![libmng_thumbs_list](https://user-images.githubusercontent.com/20578093/163831228-8ac92217-054c-477d-87ce-584e7c5d18b6.png)
-<details>
-<summary>섬네일 크기 조정 시연</summary>
-<div markdown="1">
 
-![libmng_thumbs_resize_demo](https://user-images.githubusercontent.com/20578093/163831207-345f157e-55e6-4083-98ca-630a9743dd63.gif)
+	<details>
+	<summary>섬네일 크기 조정 시연</summary>
+	<div markdown="1">
+
+	![libmng_thumbs_resize_demo](https://user-images.githubusercontent.com/20578093/163831207-345f157e-55e6-4083-98ca-630a9743dd63.gif)
+
+	</div>
+	</details>
 
 </div>
 </details>
 
-</div>
-</details>
+<br/>
+
 <details>
-<summary>라이브러리 필터링 기능</summary>
+<summary>4-4. 라이브러리 필터링 기능</summary>
+
+<br/>
+
 <details>
-<summary>카테고리/스토어 단위 필터 시연</summary>
+<summary>4-4-1. 카테고리/스토어 단위 필터 시연</summary>
 <div markdown="1">
 
 * 기본 State: `all`
@@ -328,8 +383,11 @@
 
 </div>
 </details>
+
+<br/>
+
 <details>
-<summary>라이브러리 내 필터 시연</summary>
+<summary>4-4-2. 라이브러리 내 필터 시연</summary>
 <div markdown="1">
 
 * `Array.prototype.filter()`를 사용해 표시 아이템 필터링
@@ -338,8 +396,11 @@
 </div>
 </details>
 </details>
+
+<br/>
+
 <details>
-<summary>라이브러리 열람</summary>
+<summary>4-5. 라이브러리 열람</summary>
 <div markdown="1">
 
 * 사용자 라이브러리 중 [igdb.com](https://www.igdb.com/) 등록 데이터 열람 기능
@@ -363,10 +424,131 @@
 	![libmng_meta_meta](https://user-images.githubusercontent.com/20578093/163831598-0c721549-37e2-48be-958d-ee8f82bee3bc.png)
 </div>
 </details>
+
 </details>
 </details>
+
+<br/><br/>
 
 ## 기술 스택
 * Front-End
 	* React.js
+      - 실력 향상을 위해 React.js를 사용하여 좀 더 규모가 큰 프로젝트를 진행하는 것을 목표로 삼았습니다.
+      - 지난 프로젝트와 차별점을 두기 위해 다음과 같은 부분을 구현하는 데 집중했습니다.
+          - 단순한 SPA에서 벗어나 PWA 형태를 선택했습니다. 설치가 가능한 앱 형태로 프로젝트를 만든다는 컨셉을 지키기 위해서입니다.
+          - 지난 프로젝트에서 다루지 않았던 HTTP, Websocket 등을 사용한 통신을 구현했습니다.
+	* Emotion.js
+      - 전체 프로젝트에 걸쳐 스타일 작성 방법을 최대한 통일시키는 것을 목표로 삼았습니다.
+          - `<button>`, `<input>` 등 유사한 스타일의 특정 요소를 반환하는 컴포넌트는 Emotion.js의 Styled Components를 통해 코드 재사용성을 높였습니다.
+          - Emotion.js의 `css` Property를 통해 작성하는 코드는 컴포넌트 최상단 요소에서 스타일을 작성하는 등, 작성 방법을 통일하여 유지·보수성을 높이는 것에 집중했습니다.
 	* TypeScript
+    	* 타입스크립트 강의를 수강한 후, 좀 더 기능에 익숙해지기 위해 타입스크립트를 사용했습니다.
+
+<br/><br/>
+
+## 기술적 고민
+- 해결한 문제
+	<details>
+	<summary><span style="font-weight: bold;">1. 제3자 API 최적화</span></summary>
+	<div markdown="1">
+
+		* **요약**
+			- 데이터 로딩 속도를 높이기 위해 제3자 API 최적화 진행, 약 200개의 테스트 데이터를 한꺼번에 처리하는 대신 개별적으로 처리하도록 하여 데이터 표시 속도 40배 증가
+
+		* **문제 상황**
+			- 사용자의 Steam 보유 게임 목록을 검색해 받아온 메타 데이터를 사용자에게 표시하는 속도가 너무 느림
+			- 설명
+				- 메타 데이터는 `{"id":0000,"age_ratings":[344,43418 ... }`과 같은 형태(이하 **raw 형태**)로 제공되며, 이 중 사용자에게 표시할 데이터는 15가지임
+				- 각각의 항목에 저장된 값은 api 제공 업체인 igdb.com에서 사용하는 값으로, 자세한 데이터 열람을 원할 경우 추가적인 요청이 필요함
+					- 예를 들어 위 `age_ratings`의 `344`값이 무엇을 뜻하는지 알고 싶을 경우, `[요청 주소]/age_ratings`에 `344`값에 대한 검색 과정을 거쳐야 온전한 값을 얻을 수 있음
+				- 테스트 환경(= 200개) 기준, raw 형태의 메타 데이터를 받아오는 시간 자체는 길지 않아 개별 쿼리 방식으로 DB에 저장함
+				- 문제가 되는 부분은 DB에 저장된 raw 형태의 메타 데이터를 추가 요청으로 가공하는 과정을 거쳐 사용자에게 표시하는 부분임
+
+		* **접근 방법 및 해결**
+			* **원인 파악**: api가 한 번에 처리하는 데이터 수가 너무 적음
+				- 메타 데이터 제공 서비스인 igdb.com의 api는 초당 4건의 요청만 처리할 수 있기 때문임
+				- 해당 비율을 넘어갈 경우 429 오류가 반환되며 메타 데이터를 가공하는 절차가 종료됨
+			* **1차 해결안**: 멀티 쿼리를 사용해 한 번에 받아오는 데이터양을 늘림
+				- 멀티 쿼리는 igdb.com의 api가 제공하는 기능으로, 한 번에 다수의 요청을 처리하는 기능임
+				- 멑리 쿼리를 사용하면 10개의 요청을 하나의 요청으로 처리할 수 있기 때문에, 초당 최대 40건의 요청을 처리할 수 있음
+			* **2차 문제**: 요청 목록의 응답을 전부 받아오기 전에 다음 절차로 넘어가 버림
+				- 원인: `forEach`, `setTimeout`을 조합해 쿼리를 보내는 방식으로 코드를 구현했었는데, 루프 종료 조건을 데이터 수령이 아니라 변수 `count`의 값으로 설정했기 때문
+				- 개발 당시에는 코드 구조를 최대한 변경하지 않고 문제를 해결하는 것을 우선순위로 삼았기 때문에, 임시로 마지막 요청을 한 번 더 보내는 것으로 진행함
+			* **2차 해결안**: `Promise.all(Settled)` → `forEach` + `setTimeout` 롤백
+				- 각각의 쿼리는 `Promise`를 반환하므로, `Promise.all(Settled)`를 사용해 `response`를 한 번에 처리하고자 함
+				- `Promise.all(Settled)` 적용 결과 목록의 첫 번째 항목의 데이터는 제대로 반환이 됐으나, 나머지 `response`는 값이 전부 `undefined`로 변하는 문제가 발생함
+				- `forEach` 반복문 내부에서 `Promise.all(Settled)`를 사용했던 것이 원인으로 보임
+				- 개발 당시 원인을 발견하지 못했고, 요청을 한 번 더 보내는 방식으로 요청이 누락되는 문제 자체는 해결됐기 때문에 `forEach` + `setTimeout`을 통한 개별 요청으로 롤백해 기능을 구현함
+			* **3차 문제**: 200개 데이터 처리에 시간이 너무 오래 걸림
+				- 원인: 약 200개의 게임의 메타 데이터를 구성하는 개별 항목들에 대한 쿼리를 개별적으로 시행
+				- 전체 메타 데이터 수령에 20분 이상 소요됨
+			* **3차 해결안**: 사용자가 특정 게임의 정보 열람을 위해 클릭할 때 데이터를 받아오도록 수정
+				- 기존 방식
+					- 전체 게임 목록 →
+					raw 형태 메타 데이터 수령 →
+					개별 데이터 쿼리 과정을 `forEach` + `setTimeout`을 사용해 개별적으로 진행
+				- 개선 방식
+					- 최초 열람 항목
+						- 사용자가 특정 게임을 선택 →
+						`forEach` + `setTimeout`으로 `Promise` 배열 생성 →
+						`Promise.allSettled`로 한 번에 처리 →
+						메타 데이터 가공 후 사용자에 표시
+						- 가공된 데이터는 최초로 수령한 raw 형태 메타 데이터를 대신하여 DB에 저장
+					- 중복 열람 항목
+						- 최초 열람 시점에 가공 및 저장된 메타 데이터를 DB에서 불러와 표시
+			* **개선 결과**
+				- (최초 열람 항목) 메타 데이터 수령부터 표시까지 30초 소요되어 **약 40배**의 데이터 표시 속도 증가 효과
+
+	</div>
+	</details>
+
+	<details>
+	<summary><span style="font-weight: bold;">2. 카테고리 재배치 기능의 크로스 브라우징 문제 등 대응</span></summary>
+	<div markdown="1">
+
+	* **요약**
+		- clone-react-dnd 프로젝트를 사용해 구현한 카테고리 재배치 기능이 브라우저 종류, 디바이스 종류에 따라 작동하지 않는 문제가 발생
+
+	* **문제 상황**
+		1. Google Chrome, Mozilla Firefox에서 문제없이 작동하던 카테고리 재배치 기능이 Safari 브라우저에서 오류가 발생함
+				- 드래그 요소를 한 칸만 이동시켜도 목록의 끝으로 이동하는 현상이 발생함
+		2. 카테고리 재배치 기능이 모바일 브라우저에서 작동하지 않는 문제를 확인함
+
+	* **접근 방법 및 해결**
+		- 원인 파악
+			- **브라우저 호환 문제**
+				- clone-react-dnd 라이브러리 구현 당시 `dragend` 이벤트를 사용해 드래그, 드롭 이벤트를 모두 `useDragClone` Hook에서 처리하려 한 것이 원인이 됨
+				- Safari 브라우저에서 `dragend` 이벤트가 실제 커서가 이동한 거리를 반환하는 게 아니라 가상의 값을 반환하여 요소가 이동할 거리가 과도하게 책정되는 것이 원인이 됨
+			- **모바일 브라우저 미작동 문제**
+				- 모바일 브라우저에서 드래그 앤 드롭 이벤트가 아예 작동하지 않았는데, 원인은 드래그 앤 드롭 이벤트에 존재하는 `dataTransfer` 객체가 터치 이벤트에 없기 때문으로 보임
+		- 해결안
+			- **브라우저 호환 문제**
+				- clone-react-dnd 프로젝트: 기존 `useDragClone` Hook에서 `dragend`로 처리하던 드롭 관련 판정을 `useDropClone` Hook에서 `drop`으로 처리하도록 수정
+				- Library Manager 프로젝트: 변경된 라이브러리 사용 방법에 맞춰 카테고리 재배치 로직을 일부 수정
+			- **모바일 브라우저 미작동 문제**
+				- 터치 이벤트로 드래그 앤 드롭과 유사한 효과를 구현함
+					- `touchstart` 이벤트에서 드래그 대상을 복제해 드래그 대상의 이동 경로를 표현할 대상으로 삼음
+					- `touchmove` 이벤트에서 복제한 드래그 요소의 이동 경로 표현, 드롭할 좌표 저장, 드롭할 위치 표시의 기능을 수행함
+					- `touchend` 이벤트에서 실제 드래그 대상의 위치를 재배치함
+
+	* **적용 결과**
+		- 데스크톱 환경 기준 Google Chrome, Mozilla Firefox, Safari 브라우저에서 카테고리 재배치 기능이 모두 정상적으로 작동함
+		- 모바일 브라우저에서 카테고리 재배치 기능이 정상적으로 작동함
+
+	</div>
+	</details>
+
+<br />
+
+- 해결이 필요한 문제
+	<details>
+	<summary>최적화 문제</summary>
+
+	1. 섬네일 리스트
+        - 문제: 섬네일 리스트의 경우 목록을 표시할 때 모든 게임의 커버 이미지를 다운받기 때문에 초기 로딩이 발생함
+        - 해결 방법: Windowing 기법 도입을 통해 리스트 표시 최적화
+	2. 데이터 캐싱 문제
+        - 문제: PWA 표시를 위해 웹 앱에 최초로 접속하는 경우, 새로고침이 한 번 발생하기 전까진 캐싱이 이뤄지지 않아 화면 표시에 오류가 발생함
+        - 예상 원인: Service Worker의 최적화가 필요할 것으로 예상됨
+
+	</details>
