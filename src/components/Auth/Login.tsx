@@ -98,6 +98,10 @@ const Login = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   alert('alert')
+  // }, [])
+
   if (loginStatus) {
     return <></>;
   }
