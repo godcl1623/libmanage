@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -9,11 +9,10 @@ import { useAppDispatch, activateReorder, useAppSelector, updateDropRes, setComp
 import { decryptor, encryptor } from '../../../../custom_modules/aeser';
 import { sendTo } from '../../../../custom_modules/address';
 
-// props 타입 설정 필요
 const HeaderOptions = ({ setStates, states, components }: any) => {
   const isReorderActivated = useAppSelector(state => state.sliceReducers.isReorderActivated);
   const catDropRes = useAppSelector(state => state.sliceReducers.catDropResult);
-  const [lastReorderState, setLast] = React.useState<boolean>(false);
+  const [lastReorderState, setLast] = useState<boolean>(false);
   const appDispatch = useAppDispatch();
   const {
     dispatch,
@@ -97,7 +96,6 @@ const HeaderOptions = ({ setStates, states, components }: any) => {
                           localStorage.setItem('frog', modPackage);
                           const result = await axios
                             .put(
-                                // 'http://localhost:3003/member/modify_option',
                                 `https://${sendTo}/member/modify_option`,
                                 { pack: modPackage },
                                 { withCredentials: true }

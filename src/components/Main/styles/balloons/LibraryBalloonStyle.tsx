@@ -8,7 +8,6 @@ export const libraryBalloonWrapper = (balloonOrigin: string, balloonState: strin
   z-index: 2;
 `);
 
-// vars 타입 수정 필요
 export const libraryBalloonStyle = (styles: StyleSet, vars: any) => {
   const { sizes } = styles;
   const { balloonOrigin, balloonState, btnCoords } = vars;
@@ -46,7 +45,6 @@ export const libraryBalloonStyle = (styles: StyleSet, vars: any) => {
   `);
 };
 
-// vars 타입 수정 필요
 export const libraryBalloonHand = (vars: any) => {
   const { btnCoords, balloonOrigin, balloonState } = vars;
 

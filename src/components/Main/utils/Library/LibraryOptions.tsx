@@ -1,11 +1,9 @@
-import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { flex, sizes } from '../../../../styles';
 import { libBalloonDisplay, libBalloonInput } from '../../styles/LibraryStyles';
 import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
 
-// props 타입 체크 필요
 const LibraryOptions = ({ dispatch, changeState, coverSize, setCoverSize, currDisplayType, isMobile }: any) => (
   <>
     {

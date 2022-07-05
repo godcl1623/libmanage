@@ -21,7 +21,6 @@ import {
   checkIfMobile
 } from '../../../../../slices';
 
-// props 타입 체크 필요
 const OnlineWrapper = ({ Contents }: any) => {
   const loginStatus = useAppSelector(state => state.sliceReducers.loginStatus);
   const logoutClicked = useAppSelector(state => state.sliceReducers.logoutClicked);
@@ -36,7 +35,7 @@ const OnlineWrapper = ({ Contents }: any) => {
   const selectedMediaList = useAppSelector(state => state.sliceReducers.selectedMediaList);
   const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const selectedStores = useAppSelector(state => state.sliceReducers.selectedStores);
-  // 타입 수정 필요
+  
   const [storesList, setStoresList] = useState<any>('');
   const [userLibrary, setUserLibrary] = useState<any>('');
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -96,7 +95,6 @@ const OnlineWrapper = ({ Contents }: any) => {
       };
       await axios
         .post(
-          // 'http://localhost:3003/check_login',
           `https://${sendTo}/check_login`,
           { message },
           { withCredentials: true }
@@ -161,11 +159,8 @@ const OnlineWrapper = ({ Contents }: any) => {
         storeStat.map((ele, index) => (ele === true ? index : '')).filter(ele => ele !== '')
       );
       const storesToDisplay = activatedStores.map((status, index) =>
-        // 타입 체크 필요
         status.map((iTrue: any) => eachStoresOfCategories[index][iTrue])
       );
-      // setStoresList(storesToDisplay);
-      // 타입 체크 필요
       const storesOfCategoryList: Record<string, string | string[]> = {};
       categories.forEach((category, index) => {
         if (storesToDisplay[index] !== undefined) {
@@ -174,7 +169,6 @@ const OnlineWrapper = ({ Contents }: any) => {
           storesOfCategoryList[category] = 'foo';
         }
       });
-      // 타입 체크 필요
       setStoresList(storesOfCategoryList);
     }
     return () => {
@@ -186,20 +180,16 @@ const OnlineWrapper = ({ Contents }: any) => {
     const abortCon = new AbortController();
     const dataToSend = {
       reqUser: userState.nickname,
-      // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
       reqLibs: storesList.game
     };
     if (dataToSend.reqLibs !== '') {
       axios
-        // .post('http://localhost:3003/get/db', { reqData: dataToSend }, { withCredentials: true })
         .post(`https://${sendTo}/get/db`, { reqData: dataToSend }, { withCredentials: true })
         .then(res => {
-          // 임시로 작업 - 모든 카테고리 및 모든 스토어에 대응할 수 있도록 수정 필요
           if (res.data !== 'no_result') {
             setUserLibrary({ steam: res.data });
           }
         });
-      // .catch(err => alert(err));
     }
     return () => {
       abortCon.abort();

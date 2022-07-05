@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, memo } from 'react';
+import { useState, useEffect, Fragment, ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -19,13 +19,8 @@ import {
   setSelMediaList
 } from '../../slices';
 
-// const MakeMediaList = memo(MakeMediaList);
-// const ToBack = memo(ToBack);
-// const AgeRatingDistributor = memo(AgeRatingDistributor);
-
 type PropsType = {
   portrait: boolean;
-  // heights 타입 수정 필요
   heights: any;
 };
 
@@ -197,7 +192,6 @@ const Meta = ({ portrait, heights }: PropsType) => {
                   .replace(/\n/g, '\n\n')
                   .replace(/\n\n\n/g, '\n\n')
                   .split('\n')
-                  // line 타입 수정 필요
                   .map((line: any, idx: number) =>
                     line.length !== 0 ? line : <br key={`br ${idx + 1}`} />
                   )}
@@ -275,12 +269,9 @@ const Meta = ({ portrait, heights }: PropsType) => {
           <article className="meta-wrapper-contents-info">
             <div id="grid-table">
               {titleVals.map((vals, idx) => {
-                // result 타입 수정 필요
-                let result: React.ReactElement | null = null;
+                let result: ReactElement | null = null;
                 if (titles[idx] === '출시일') {
-                  // 타입 수정 필요
                   let releaseCheckList: Record<string, boolean> = {};
-                  // prev, next 타입 변경 필요
                   vals.slice().sort((prev: any, next: any) =>
                     prev.platform_name[0] < next.platform_name[0] ? -1 : 1
                   );
@@ -290,10 +281,8 @@ const Meta = ({ portrait, heights }: PropsType) => {
                         {titles[idx]}
                       </div>
                       <div key={`${titles[idx]}-value-${idx + 1}`} className="sub-table">
-                        {/* val 타입 수정 필요 */}
                         {vals.map((val: any, subidx: number) => {
-                          // res 타입 수정 필요
-                          let res: React.ReactElement | null = null;
+                          let res: ReactElement | null = null;
                           if (releaseCheckList[val.platform_name] !== true) {
                             releaseCheckList[val.platform_name] = true;
                             res = (
@@ -332,11 +321,10 @@ const Meta = ({ portrait, heights }: PropsType) => {
                             개발사
                           </div>
                           {
-                            // val들 타입, res 타입 변경 필요
                             vals.filter((val: any) => val.developer === true).length !== 0 ? (
                               vals.filter((val: any) => val.developer === true).length === 1 ? (
                                 vals.map((val: any, subidx: number) => {
-                                  let res: React.ReactElement | null = null;
+                                  let res: ReactElement | null = null;
                                   if (val.developer === true) {
                                     res = (
                                       <div
@@ -352,9 +340,8 @@ const Meta = ({ portrait, heights }: PropsType) => {
                               ) : (
                                 <div key={`dev_comp_cont-${idx + 1}`}>
                                   {
-                                    // val들 타입, res 타입 변경 필요
                                     vals.map((val: any, subidx: number) => {
-                                      let res: React.ReactElement | null = null;
+                                      let res: ReactElement | null = null;
                                       if (val.developer === true) {
                                         res = (
                                           <div
@@ -382,11 +369,10 @@ const Meta = ({ portrait, heights }: PropsType) => {
                             배급사
                           </div>
                           {
-                            // val들 타입, res 타입 변경 필요
                             vals.filter((val: any) => val.publisher === true).length !== 0 ? (
                               vals.filter((val: any) => val.publisher === true).length === 1 ? (
                                 vals.map((val: any, subidx: number) => {
-                                  let res: React.ReactElement | null = null;
+                                  let res: ReactElement | null = null;
                                   if (val.publisher === true) {
                                     res = (
                                       <div
@@ -402,7 +388,7 @@ const Meta = ({ portrait, heights }: PropsType) => {
                               ) : (
                                 <div key={`prod_comp_cont-${idx + 1}`}>
                                   {vals.map((val: any, subidx: number) => {
-                                    let res: React.ReactElement | null = null;
+                                    let res: ReactElement | null = null;
                                     if (val.publisher === true) {
                                       res = (
                                         <div
@@ -428,7 +414,6 @@ const Meta = ({ portrait, heights }: PropsType) => {
                     </Fragment>
                   );
                 } else if (titles[idx] === '관련 링크') {
-                  // prev, next 타입 수정 필요
                   vals.slice().sort((prev: any, next: any) => (prev.category < next.category ? -1 : 1));
                   result = (
                     <Fragment key={`frag-${titles[idx]}`}>
@@ -437,9 +422,8 @@ const Meta = ({ portrait, heights }: PropsType) => {
                       </div>
                       <div key={`${titles[idx]}-ext_cont-${idx + 1}`} className="sub-table">
                         {
-                          // val, res 타입 수정 필요
                           vals.map((val: any, subidx: number) => {
-                            let res: React.ReactElement | null = null;
+                            let res: ReactElement | null = null;
                             const categoryIdx = val.category < 7 ? val.category : val.category - 1;
                             res = (
                               <Fragment key={`web_frag-${subidx + 1}`}>
@@ -467,7 +451,6 @@ const Meta = ({ portrait, heights }: PropsType) => {
                       </div>
                       <div key={`${titles[idx]}-val_wrap-${idx + 1}`} className="table-contents">
                         {
-                          // val 타입 수정 필요
                           vals.map((val: any, subidx: number) => (
                             <div key={`${titles[idx]}-val-${subidx + 1}`}>{val}</div>
                           ))

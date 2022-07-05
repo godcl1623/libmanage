@@ -1,5 +1,4 @@
 /* eslint-disable no-else-return */
-import React, { memo } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import MemberInfoWrap from '../../../Member/MemberInfoWrap';
@@ -9,11 +8,6 @@ import { sizes, flex } from '../../../../styles';
 import { defaultContentsStyle } from '../../styles/modals/ModalContentsStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-const MemoedInfoWrap = memo(MemberInfoWrap);
-const MemoedHeaderOpt = memo(ModalHeaderOption);
-const MemoedModalMeta = memo(ModalMetaMedia);
-
-// props 타입 체크 필요
 const ModalContents = ({ args }: any) => {
   const {
     userState,
@@ -30,7 +24,6 @@ const ModalContents = ({ args }: any) => {
   } = args;
   const caution = <p>※ 현재 기술적 문제로 Steam 서비스만 지원됩니다.</p>;
   if (modalOrigin === 'Header_Option') {
-    // 모든 스토어에 대응 가능하도록 개선 필요
     return (
       <ModalHeaderOption
         props={{

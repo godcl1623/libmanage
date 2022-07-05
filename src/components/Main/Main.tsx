@@ -1,16 +1,13 @@
 /* eslint-disable no-else-return */
-import React, { memo } from 'react';
+import { useState, useEffect } from 'react';
 import MainContents from './utils/Main/MainContents';
 import OnlineWrapper from './utils/Main/NetworkStatus/OnlineWrapper';
 import OfflineWrapper from './utils/Main/NetworkStatus/OfflineWrapper';
 
-const MemoedOnline = memo(OnlineWrapper);
-const MemoedOffline = memo(OfflineWrapper);
-
 const Main = () => {
-  const [ isOnline, setIsOnline ] = React.useState(true);
+  const [ isOnline, setIsOnline ] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (navigator.onLine) {
       setIsOnline(true);
     } else {

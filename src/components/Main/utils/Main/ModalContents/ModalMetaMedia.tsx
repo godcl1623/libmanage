@@ -1,4 +1,4 @@
-import React, { memo, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { AiOutlineCloseCircle, AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
@@ -7,11 +7,6 @@ import { metaModalStyles } from '../../../styles/modals/ModalContentsStyles';
 import { StyleSet } from '../../../../../custom_modules/commonUtils';
 
 const MediaContents = lazy(() => import('./MediaContents'));
-
-const MemoedCircle = memo(AiOutlineCloseCircle);
-const MemoedRight = memo(AiOutlineRight);
-const MemoedLeft = memo(AiOutlineLeft);
-const MemoedMedia = memo(MediaContents);
 
 const fallBack = () => (
   <h1
@@ -26,7 +21,6 @@ const fallBack = () => (
   </h1>
 );
 
-// props 타입 체크 필요
 const ModalMetaMedia = ({ props }: any) => {
   const {
     dispatch,

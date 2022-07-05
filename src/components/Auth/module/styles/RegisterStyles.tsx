@@ -1,8 +1,7 @@
 import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
 
-const registerStyles = (styles: StyleSet, vars: Record<string, number | string>) => {
+const registerStyles = (styles: StyleSet) => {
   const { sizes, flex, border } = styles;
-  const { idState } = vars;
   const setSize = sizes as unknown as SetSize;
   const flexSet = flex as StyleSet;
   const sizeSet = sizes as StyleSet;

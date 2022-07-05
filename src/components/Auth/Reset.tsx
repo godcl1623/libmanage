@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-alert */
-import React, { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -13,9 +13,6 @@ import { flex, sizes } from '../../styles';
 import { changePwdRoot, tokenExpired } from './module/styles/ResetStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
 import { useAppDispatch, useAppSelector, setTokenStat } from '../../slices';
-
-const MemoedIco = memo(FaHome);
-const MemoedPwd = memo(ChangePwd);
 
 const now = () => {
   const date = new Date();
@@ -45,7 +42,6 @@ const Reset = () => {
       tokenTail,
       requestedTime
     }
-    // axios.post('http://localhost:3003/member/reset', { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
     axios.post(`https://${sendTo}/member/reset`, { postData: encryptor(postData, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
       .then(res => {
         appDispatch(setTokenStat(res.data.tokenState));

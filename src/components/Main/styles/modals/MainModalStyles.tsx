@@ -1,6 +1,5 @@
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-// 파라미터 타입 체크 필요
 const modalOption = (origin: string, isMobile: boolean, isPortrait: boolean, flex: StyleSet) => `
   position: absolute;
   width: ${

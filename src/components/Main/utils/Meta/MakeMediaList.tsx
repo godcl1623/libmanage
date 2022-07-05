@@ -1,6 +1,3 @@
-import React from 'react';
-
-// props 타입 수정 필요
 const MakeMediaList = ({ props }: any) => {
   const {
     selectedMedia,
@@ -26,7 +23,6 @@ const MakeMediaList = ({ props }: any) => {
   }
   if (selectedMedia === 'videos') {
     return targetMedia
-    // 파라미터 타입 확인 필요
       ? targetMedia.map((media: string, idx: number) => (
           <div
             className="media-wrapper"
@@ -71,7 +67,6 @@ const MakeMediaList = ({ props }: any) => {
       : '';
   }
   return targetMedia
-  // 파라미터 타입 확인 필요
     ? targetMedia.map((media: string, idx: number) => (
         <div
           className="media-wrapper"

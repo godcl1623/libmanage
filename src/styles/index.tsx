@@ -91,5 +91,4 @@ export const mediaQuery: StyleSet = {
   setMobile: `@media (max-width: 599px)`
 }
 
-// export const border = `border: 1px solid black;`;
 export const border: string = `border: 0.052vw solid black;`;

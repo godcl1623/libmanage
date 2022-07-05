@@ -1,4 +1,3 @@
-import React, { memo } from 'react';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -10,9 +9,6 @@ import { border, flex, sizes } from '../../../styles';
 import { checkInfoStyle } from '../styles/memInfoStyle';
 import { StyleSet } from '../../../custom_modules/commonUtils';
 
-// const FormSubmit = memo(FormSubmit);
-
-// props 타입 수정 필요
 const CheckMemInfo = ({ userState, setState}: any) => (
   <form
     css={css`${checkInfoStyle({ flex, sizes, border } as StyleSet)}`}
@@ -28,7 +24,6 @@ const CheckMemInfo = ({ userState, setState}: any) => (
       }
       axios
         .post(
-          // 'http://localhost:3003/verify',
           `https://${sendTo}/verify`,
           { sofo: encryptor(verificationData, process.env.REACT_APP_TRACER as string) },
           { withCredentials: true }

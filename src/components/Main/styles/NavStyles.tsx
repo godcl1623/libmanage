@@ -57,7 +57,6 @@ export const navStyle = (styles: StyleSet) => {
     flex: 1;
     ${sizeSet.full}
     background: white;
-    // touch-action: none;
 
     .category {
       margin-bottom: calc(var(--gap-multiply-big) * 2);

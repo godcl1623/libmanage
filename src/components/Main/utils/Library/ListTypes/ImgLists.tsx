@@ -1,9 +1,7 @@
-import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../../custom_modules/address';
 
-// props 타입 변경 필요
 const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
   const { funcs, actions, styles, states, colCount } = props;
   const { location, dispatch, axios } = funcs;
@@ -14,7 +12,6 @@ const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
   const { steam } = userLib;
   if (location.pathname === '/offline' || !navigator.onLine) {
     const result =
-      // prev, next, item 타입 변경 필요
       steam
         .sort((prev: any, next: any) => (prev.titles < next.titles ? -1 : 1))
         .map((item: any, idx: number) => (
@@ -45,12 +42,10 @@ const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
             />
           </li>
         ));
-    // ele 타입 변경 필요
     return result.filter((ele: any) => ele.props.children.props.title.match(filter));
   }
 
   const result =
-    // item 타입 변경 필요
     steam.map((item: any, index: number) => (
       <li
         key={`img-${index}`}
@@ -77,12 +72,10 @@ const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
             if (extCredState.cid === undefined) {
               axios
                 .post(
-                  // 'http://localhost:3003/api/connect',
                   `https://${sendTo}/api/connect`,
                   { execute: 'order66' },
                   { withCredentials: true }
                 )
-                // res 타입 변경 필요
                 .then((res: any) => {
                   dispatch(extCredStateCreator(res.data));
                   const reqData = {
@@ -92,12 +85,10 @@ const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
                   };
                   axios
                     .post(
-                      // 'http://localhost:3003/get/meta',
                       `https://${sendTo}/get/meta`,
                       { reqData },
                       { withCredentials: true }
                     )
-                    // res 타입 변경 필요
                     .then((res: any) => {
                       dispatch(selectedItemDataCreator(res.data));
                     });
@@ -110,12 +101,10 @@ const ImgLists = ({ props, filter, colIndex, rowIndex }: any) => {
               };
               axios
                 .post(
-                  // 'http://localhost:3003/get/meta',
                   `https://${sendTo}/get/meta`,
                   { reqData },
                   { withCredentials: true }
                 )
-                // res 타입 변경 필요
                 .then((res: any) => {
                   dispatch(selectedItemDataCreator(res.data));
                 });

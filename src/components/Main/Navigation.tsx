@@ -1,5 +1,4 @@
 /* eslint-disable import/no-relative-packages */
-import React, { memo } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { border, flex, sizes } from '../../styles';
@@ -9,9 +8,6 @@ import { StyleSet } from '../../custom_modules/commonUtils';
 import { useAppDispatch, useAppSelector, setSelCategory, setSelStores, updateDropRes } from '../../slices';
 import cloneDnd, { DragOption } from '../../clone-dnd';
 
-// const MemoedStores = memo(StoresList);
-
-// props 타입 설정 필요 - storesList 타입 설정 필요
 const Navigation = ({ storesList }: any) => {
   const selectedCategory = useAppSelector(state => state.sliceReducers.selectedCategory);
   const appDispatch = useAppDispatch();

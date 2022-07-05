@@ -1,12 +1,10 @@
 import { StyleSet, SetSize } from '../../../custom_modules/commonUtils';
 
-// vars 타입 수정 필요
 export const backBtnStyle = (styles: StyleSet, vars: any) => {
   const { flex, sizes } = styles;
   const { headerHeight, selStoresListHeight } = vars;
   const flexSet = flex as StyleSet;
   const setSize = sizes as unknown as SetSize;
-  const sizeSet = sizes as StyleSet;
 
   return (`
     padding: 10px;
@@ -23,7 +21,6 @@ export const backBtnStyle = (styles: StyleSet, vars: any) => {
   `);
 };
 
-// vars 타입 수정 필요
 export const metaStyle = (styles: StyleSet, vars: any) => {
   const { flex, sizes, border } = styles;
   const { metaScore, selectedMedia, selectedItemData } = vars;

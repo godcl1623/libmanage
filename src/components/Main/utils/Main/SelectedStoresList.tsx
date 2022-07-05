@@ -1,15 +1,14 @@
-import React from 'react';
+import { useEffect } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { flex, sizes } from '../../../../styles';
 import { selStoresListStyle } from '../../styles/MainStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-// props 타입 수정 필요
 const SelectedStoresList = ({ listRef, setHeight, selStores, funcs }: any) => {
   const { dispatch, selectedStoresCreator, selectedItemCreator, selectedItemDataCreator } = funcs;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const detector = () => {
       if (window.matchMedia('(orientation: portrait)').matches) {
         setHeight(listRef.current.getBoundingClientRect().height);
@@ -32,7 +31,6 @@ const SelectedStoresList = ({ listRef, setHeight, selStores, funcs }: any) => {
           ?
             ''
           :
-            // store 타입 수정 필요
             selStores.map((store: string) => 
               <button
                 key={`${store}-button`}

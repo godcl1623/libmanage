@@ -1,4 +1,3 @@
-import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { sendTo } from '../../../../custom_modules/address';
@@ -6,7 +5,6 @@ import { sizes } from '../../../../styles';
 import { memStatsStyle } from '../../styles/HeaderStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 
-// props 타입 체크 필요
 const MemberStatus = ({ loginStatus, functions }: any) => {
   const {
     dispatch,
@@ -33,12 +31,10 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
           };
           axios
             .post(
-              // 'http://localhost:3003/logout_process',
               `https://${sendTo}/logout_process`,
               { message },
               { withCredentials: true }
             )
-            // res 타입 체크 필요
             .then((res: any) => {
               dispatch(logoutClickedCreator(true));
               dispatch(userStateCreator(null));
@@ -54,7 +50,6 @@ const MemberStatus = ({ loginStatus, functions }: any) => {
               alert('로그아웃 했습니다.');
               navigate('/');
             })
-            // err 타입 체크 필요
             .catch((err: Error) => alert(err));
         }}
       >

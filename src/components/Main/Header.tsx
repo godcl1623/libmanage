@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -34,12 +34,6 @@ import {
   setSelMediaId,
   setSelMediaList
 } from '../../slices';
-
-const MemoedIco = memo(FaBars);
-const MemoedBalloon = memo(Balloon);
-const MemoedHeaderOpt = memo(HeaderOptions);
-const MemoedSearch = memo(SearchField);
-const MemoedMemStat = memo(MemberStatus);
 
 type PropsType = {
   headerRef: React.MutableRefObject<HTMLElement>;

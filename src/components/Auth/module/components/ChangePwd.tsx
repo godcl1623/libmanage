@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { memo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -14,9 +14,6 @@ import { border, flex, sizes } from '../../../../styles';
 import style from '../styles/components/ChangePwdStyles';
 import { StyleSet } from '../../../../custom_modules/commonUtils';
 import { useAppDispatch, setTokenStat } from '../../../../slices';
-
-const MemoedInput = memo(InputTemplate);
-const MemoedSubmit = memo(FormSubmit);
 
 type TokenCnt = Record<string, string>;
 
@@ -68,7 +65,6 @@ const ChangePwd = ({ token, reqTime }: Record<string, TokenCnt | (() => void)>) 
           formData.ttl = ttl;
           formData.reqTime = (reqTime as () => void)();
           formData.originTime = originTime;
-          // axios.post('http://localhost:3003/member/reset/pwd', { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
           axios.post(`https://${sendTo}/member/reset/pwd`, { formData: encryptor(formData, process.env.REACT_APP_TRACER as string) }, {withCredentials: true})
             .then(res => {
               if (res.data === 'complete') {

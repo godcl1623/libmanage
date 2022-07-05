@@ -1,6 +1,5 @@
 import { StyleSet, SetSize } from '../../../../custom_modules/commonUtils';
 
-// 파라미터 타입 체크 필요
 export const headerModalStyles = (styles: StyleSet, condition: boolean) => {
   const { sizes, flex } = styles;
   const flexSet = flex as StyleSet;
@@ -256,7 +255,6 @@ export const defaultContentsStyle = (styles: StyleSet) => {
   `);
 };
 
-// 파라미터 타입 체크 필요
 export const offlineHeaderModalStyle = (styles: StyleSet, condition: string) => {
   const { flex, sizes, border } = styles;
   const flexSet = flex as StyleSet;
@@ -305,7 +303,6 @@ export const offlineHeaderModalStyle = (styles: StyleSet, condition: string) => 
 
       #offline-form-wrapper {
         ${sizeSet.full}
-        // ${border}
 
         #offline-import-wrapper {
           ${sizeSet.full}

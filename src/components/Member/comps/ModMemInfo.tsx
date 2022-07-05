@@ -1,4 +1,4 @@
-import React, { useState, useRef, memo, Dispatch } from 'react';
+import React, { useState, useRef, Dispatch } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -21,10 +21,6 @@ import {
   setModalState
 } from '../../../slices';
 
-// const InputTemplate = memo(InputTemplate);
-// const FormSubmit = memo(FormSubmit);
-
-// 파라미터 타입 확인 필요
 const verifyTest = (verifyValue: string, verifyState: string | number) => {
   if (verifyValue !== '비밀번호') {
     if (verifyState === 1) {
@@ -39,7 +35,6 @@ const verifyTest = (verifyValue: string, verifyState: string | number) => {
   return '　';
 };
 
-// 파라미터 타입 확인 필요
 const customOption = (
   state: string,
   func1: (val: string) => void,
@@ -59,7 +54,6 @@ const customOption = (
   );
 };
 
-// props 타입 수정 필요
 const ModMemInfo = ({ userState }: any) => {
   const [pwdMatch, setPwdMatch] = useState(true);
   const [emailState, setEmailState] = useState('');
@@ -93,9 +87,7 @@ const ModMemInfo = ({ userState }: any) => {
             : ''
         };
         const sofo: Record<string, string> = {};
-        // 파라미터 타입 확인 필요
         const checkInputVal = (targetTxt: string, target: string) => {
-          // 합수 타입 수정 필요
           type TempFuncType =
             | (() => void)
             | ((string: string) => boolean)
@@ -134,7 +126,6 @@ const ModMemInfo = ({ userState }: any) => {
             return isValid;
           }
         };
-        // 파라미터 타입 확인 필요
         const verifyLogic = async (typed: any[]) => {
           let result = false;
           const flags: Record<string, string | boolean> = {
@@ -143,7 +134,6 @@ const ModMemInfo = ({ userState }: any) => {
             email_id: '',
             loop_done: false
           };
-          // 파라미터 타입 확인 필요
           await typed.forEach((type: any, idx: number) => {
             if (type.name === 'nickname') {
               if (checkInputVal(type.name, formData.nick)) {
@@ -173,7 +163,6 @@ const ModMemInfo = ({ userState }: any) => {
               flags.loop_done = true;
             }
           });
-          // 각 파라미터 타입 확인 필요
           const flagsVal = Object.values(flags)
             .slice(0, 3)
             .filter(val => val !== '')
@@ -187,7 +176,6 @@ const ModMemInfo = ({ userState }: any) => {
           }
           return result;
         };
-        // 파라미터 타입 확인 필요
         const existCheck = async (sofo: Record<string, string>) => {
           const pack = {
             sofo,
@@ -195,7 +183,6 @@ const ModMemInfo = ({ userState }: any) => {
           };
           await axios
             .put(
-              // 'http://localhost:3003/member/update',
               `https://${sendTo}/member/update`,
               { foo: encryptor(pack, process.env.REACT_APP_TRACER as string) },
               { withCredentials: true }
@@ -226,7 +213,6 @@ const ModMemInfo = ({ userState }: any) => {
                 };
                 axios
                   .post(
-                    // 'http://localhost:3003/logout_process',
                     `https://${sendTo}/logout_process`,
                     { message },
                     { withCredentials: true }

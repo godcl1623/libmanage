@@ -1,4 +1,3 @@
-import React, { memo } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
@@ -11,15 +10,6 @@ import ModalContents from './ModalContents';
 import SelectedStoresList from './SelectedStoresList';
 import modalOption from '../../styles/modals/MainModalStyles';
 
-const MemoedHeader = memo(Header);
-const MemoedLib = memo(Library);
-const MemoedMeta = memo(Meta);
-const MemoedNav = memo(Navigation);
-const MemoedModal = memo(Modal);
-const MemoedModalCont = memo(ModalContents);
-const MemoedStoreList = memo(SelectedStoresList);
-
-// props 타입 체크 필요
 const MainContents = ({ props }: any) => {
   const { states, setStates, actionCreators, refs, moduleHooks, styles } = props;
   const {
@@ -67,11 +57,9 @@ const MainContents = ({ props }: any) => {
           ${mainStyle({ flex, sizes }, { modalState, modalOrigin, headerHeight })}
         `}
         onClick={e => {
-          // e.preventDefault();
           if (!isMobile) {
             if (
               balloonState !== 'none' &&
-              // e.target 타입 체크 필요
               Array.from((e.target as HTMLElement).className).slice(0, 7).join('') !== 'balloon'
             ) {
               dispatch(balloonStateCreator('none'));
@@ -79,7 +67,6 @@ const MainContents = ({ props }: any) => {
           } else if (
             balloonState !== 'none' &&
             Array.from((e.target as HTMLElement).className).slice(0, 7).join('') !== 'balloon' &&
-            // e.target 타입 체크 필요
             (e.target as any).name !== 'libraryFilter' &&
             (e.target as any).name !== 'delete-input'
           ) {
@@ -112,7 +99,6 @@ const MainContents = ({ props }: any) => {
             <>
               <Navigation storesList={storesList} />
               <Library userLib={userLibrary} coverSize={coverSize} setCoverSize={setCoverSize} />
-              {/* <h1>oo</h1> */}
               <Meta portrait={isPortrait} heights={{ headerHeight, selStoresListHeight }} />
             </>
           ) : isMobile ? (

@@ -1,12 +1,8 @@
-// const currentNum = 2;
 const OLD_CACHE = 'my-app-cache-v2';
 const CACHE_NAME = 'my-app-cache-v1';
-const _window = this || self || window;
-// + String(currentNum - 1);
 
 const urlsToCache = ['/'];
 
-// 추가
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(registrations => {
     for (const registration of registrations) {
@@ -16,14 +12,12 @@ if ('serviceWorker' in navigator) {
 }
 
 self.addEventListener('install', event => {
-  // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       console.log('Opened cache');
       return cache.addAll(urlsToCache);
     }).then(e => self.skipWaiting())
   );
-  // self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
@@ -43,14 +37,13 @@ self.addEventListener('fetch', event => {
             })
           )
           .catch(err => {
-            const cache = caches.open(CACHE_NAME);
+            throw new Error(err);
           })
       );
     })
   );
 });
 
-// 추가
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(cacheNames =>
@@ -58,20 +51,12 @@ self.addEventListener('activate', e => {
         cacheNames
           .filter(cacheName => cacheName === OLD_CACHE)
           .map(cacheName => {
-            
             console.log('Removing old cache.', cacheName);
             return caches.delete(cacheName);
           })
       )
       .then(delCacheRes => {
         if (delCacheRes[0] != null) {
-          // if ('serviceWorker' in navigator) {
-          //   navigator.serviceWorker.getRegistrations().then(registrations => {
-          //     registrations.map(r => r.unregister());
-          //   });
-          //   window.location.reload(true);
-          // }
-          
           this.location.reload();
         }
       })

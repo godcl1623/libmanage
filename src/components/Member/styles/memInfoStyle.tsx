@@ -469,7 +469,6 @@ export const delInfoStyle = (styles: StyleSet) => {
   `);
 };
 
-// 파라미터 타입 확인 필요
 export const memInfoStyle = (styles: StyleSet, state: string) => {
   const { sizes, border } = styles;
   const sizeSet = sizes as StyleSet;

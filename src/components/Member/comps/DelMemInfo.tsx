@@ -1,4 +1,3 @@
-import React, { memo } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -18,9 +17,6 @@ import {
   setModalState
 } from '../../../slices';
 
-// const FormSubmit = memo(FormSubmit);
-
-// props 타입 수정 필요
 const DelMemInfo = ({ userState }: any) => {
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -61,7 +57,6 @@ const DelMemInfo = ({ userState }: any) => {
             const reqUser = encryptor(userState.nickname, process.env.REACT_APP_TRACER as string);
             axios
               .delete(
-                // `http://localhost:3003/member`,
                 `https://${sendTo}/member`,
                 {
                   headers: {
@@ -80,7 +75,6 @@ const DelMemInfo = ({ userState }: any) => {
                   };
                   axios
                     .post(
-                      // 'http://localhost:3003/logout_process',
                       `https://${sendTo}/logout_process`,
                       { message },
                       { withCredentials: true }

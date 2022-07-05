@@ -1,16 +1,13 @@
 /* eslint-disable no-else-return */
-import React, { Suspense, memo } from 'react';
+import { Suspense, lazy } from 'react';
 import axios from 'axios';
 import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { flex } from '../../../../styles';
 import { makeListStyle } from '../../styles/LibraryStyles';
 
-const TextLists = React.lazy(() => import('./ListTypes/TextLists'));
-const ImgLists = React.lazy(() => import('./ListTypes/ImgLists'));
-
-const MemoedText = memo(TextLists);
-const MemoedImg = memo(ImgLists);
+const TextLists = lazy(() => import('./ListTypes/TextLists'));
+const ImgLists = lazy(() => import('./ListTypes/ImgLists'));
 
 const fallBack = () => (
   <h1
@@ -25,7 +22,6 @@ const fallBack = () => (
   </h1>
 );
 
-// 타입 수정 필요
 const MakeList = ({ args }: any) => {
   const {
     userLib,
@@ -115,11 +111,6 @@ const MakeList = ({ args }: any) => {
                   )
                 }
               </AutoSizer>
-              {/* <TextLists
-                props={{funcs, actions, styles, states}}
-                filter={word}
-                // windIdx={index}
-              /> */}
             </Suspense>
           );
         } else if (libDisplay === 'cover') {

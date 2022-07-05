@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState, memo } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -13,9 +13,6 @@ import { sendTo } from '../../custom_modules/address';
 import { sizes, flex, border } from '../../styles';
 import style from './module/styles/RegisterStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
-
-const MemoedSubmit = memo(FormSubmit);
-const MemoedInput = memo(InputTemplate);
 
 const Register = () => {
   const [pwdMatch, setPwdMatch] = useState(true);
@@ -58,7 +55,7 @@ const Register = () => {
     <article
       id="register"
       css={css`
-        ${style({ sizes, flex, border } as StyleSet, { idState })}
+        ${style({ sizes, flex, border } as StyleSet)}
       `}
     >
       <h1>Register</h1>
@@ -66,7 +63,6 @@ const Register = () => {
         id="register-form"
         onSubmit={e => {
           e.preventDefault();
-          // 작동 여부 확인 필요
           if (e.currentTarget.PWD.value !== e.currentTarget.PWD_check.value) {
             setPwdMatch(false);
           }
@@ -85,7 +81,6 @@ const Register = () => {
             email: `${e.currentTarget.email_id.value}@${e.currentTarget.email_provider.value}`
           }
           const sofo: Record<string, string> = {}
-          // 작동 여부 확인 필요
           const checkInputVal = (...args: string[]) => {
             const [ id, pwd, nick, email ] = args;
             let isValid = true;
@@ -116,7 +111,6 @@ const Register = () => {
           };
           const existCheck = async (sofo: Record<string, string>) => {
             await axios.post(
-              // 'http://localhost:3003/member/register',
               `https://${sendTo}/member/register`,
               {foo: encryptor(sofo, process.env.REACT_APP_TRACER as string)},
               { withCredentials: true })
@@ -169,7 +163,7 @@ const Register = () => {
           <p
             className="verify-error"
             css={css`
-              opacity: ${idState !== 1 && idState !== 'wrong' ? '0' : '100%'}
+              opacity: ${idState !== 1 && idState !== 'wrong' ? '0' : '100%'};
             `}
           >{verifyTest('ID', idState)}</p>
         </div>
@@ -187,7 +181,7 @@ const Register = () => {
           <p
             className="verify-error"
             css={css`
-              opacity: ${pwdState !== 'wrong' ? '0' : '100%'}
+              opacity: ${pwdState !== 'wrong' ? '0' : '100%'};
             `}
           >{verifyTest('비밀번호', pwdState)}</p>
         </div>
@@ -202,7 +196,7 @@ const Register = () => {
           <p
             className="verify-error"
             css={css`
-              opacity: ${pwdMatch !== false ? '0' : '100%'}
+              opacity: ${pwdMatch !== false ? '0' : '100%'};
             `}
           >※ 비밀번호가 일치하지 않습니다.</p>
         </div>
@@ -217,7 +211,7 @@ const Register = () => {
           <p
             className="verify-error"
             css={css`
-              opacity: ${nickState !== 1 && nickState !== 'wrong' ? '0' : '100%'}
+              opacity: ${nickState !== 1 && nickState !== 'wrong' ? '0' : '100%'};
             `}
           >{ verifyTest('별명', nickState) }</p>
         </div>
@@ -235,7 +229,7 @@ const Register = () => {
           <p
             className="verify-error"
             css={css`
-              opacity: ${emailAuth !== 1 && emailAuth !== 'wrong' ? '0' : '100%'}
+              opacity: ${emailAuth !== 1 && emailAuth !== 'wrong' ? '0' : '100%'};
             `}
           >{ verifyTest('이메일 주소', emailAuth) }</p>
         </div>

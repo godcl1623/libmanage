@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -12,10 +12,6 @@ import { border, flex, sizes } from '../../styles';
 import { verifyId, verifyNick, verifyEmail } from './module/utils';
 import style from './module/styles/FindStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
-
-const MemoedSubmit = memo(FormSubmit);
-const MemoedFindReq = memo(FindRequested);
-const MemoedLink = memo(Link);
 
 const Find = ({ mode }: any) => {
   const [tabState, setTabState] = useState(mode);
@@ -56,7 +52,6 @@ const Find = ({ mode }: any) => {
               const emptyInputCheck = inputs.filter(input => input.value === '');
               const formData: FormCheck = {};
               const verifyForm = (...args: string[]) => {
-                // 타입 체크 필요
                 let result: boolean | (number | null)[] = false;
                 if (args.length === 2) {
                   const verifyFuncs = [verifyNick, verifyEmail];
@@ -82,13 +77,11 @@ const Find = ({ mode }: any) => {
                 return result;
               };
               const infoCheck = async (infoObj: FormCheck) => {
-              // await axios.post(`http://localhost:3003/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
               await axios.post(`https://${sendTo}/member/find/${tabState}`, { infoObj: encryptor(infoObj, process.env.REACT_APP_TRACER as string) }, { withCredentials: true })
                   .then(res => alert(res.data))
                   .catch(err => alert(err));
               };
               if (tabState === 'id') {
-                // 작동 여부 확인 필요
                 const nickVal = e.currentTarget.nickname.value;
                 const emailVal = e.currentTarget.email.value;
                 const verifyResult = verifyForm(nickVal, emailVal);
@@ -104,7 +97,6 @@ const Find = ({ mode }: any) => {
                   alert(`다음 항목이 올바르지 않습니다: ${alertMsg}`);
                 }
               } else {
-                // 작동 여부 확인 필요
                 const idVal = e.currentTarget.ID.value;
                 const nickVal = e.currentTarget.nickname.value;
                 const emailVal = e.currentTarget.email.value;

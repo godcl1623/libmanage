@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, memo } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import axios from 'axios';
@@ -14,23 +14,17 @@ import { loginTop, hrStyle } from './module/styles/LoginStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
 import { useAppDispatch, useAppSelector, setLoginStat, setUserState, setLogoutClickStat, setCompareState } from '../../slices';
 
-// const MemoedLink = memo(StyledLink);
-// const MemoedBtn = memo(Button);
-
-// 타입 확인 필요
 const loginException = (dispatch: Dispatch, navigate: NavigateFunction) => {
   const formData = {
     mode: 'guest'
   };
   axios
     .post(
-      // 'http://localhost:3003/login_process',
       `https://${sendTo}/login_process`,
       { sofo: encryptor(formData, process.env.REACT_APP_TRACER as string) },
       { withCredentials: true }
     )
     .then(res => {
-      // 임시로 작성
       dispatch(setLoginStat(true));
       dispatch(setUserState(res.data));
       localStorage.setItem('frog', encryptor(JSON.stringify(res.data), process.env.REACT_APP_TRACER as string));
@@ -57,7 +51,6 @@ const Login = () => {
     }
     axios
       .post(
-        // 'http://localhost:3003/check_login',
         `https://${sendTo}/check_login`,
         { message },
         { withCredentials: true }
@@ -98,10 +91,6 @@ const Login = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   alert('alert')
-  // }, [])
-
   if (loginStatus) {
     return <></>;
   }
@@ -126,14 +115,12 @@ const Login = () => {
             ID: '',
             PWD: ''
           };
-          // 작동 확인 필요
           if (e.currentTarget.ID.value !== '' && e.currentTarget.PWD.value !== '') {
             formData.ID = e.currentTarget.ID.value;
             formData.PWD = salter(hasher(e.currentTarget.PWD.value));
           }
           axios
             .post(
-              // 'http://localhost:3003/login_process',
               `https://${sendTo}/login_process`,
               { sofo: encryptor(formData, process.env.REACT_APP_TRACER as string) },
               { withCredentials: true }
@@ -154,9 +141,7 @@ const Login = () => {
             .catch(err => alert(err));
         }}
       >
-        {/* <label htmlFor="ID">ID: </label> */}
         <input className="input-id" type="text" name="ID" placeholder="User ID"/>
-        {/* <label htmlFor="PWD">PW: </label> */}
         <input className="input-pwd" type="password" name="PWD" placeholder="Password" />
         <Button type="submit" name="login">
           LOGIN

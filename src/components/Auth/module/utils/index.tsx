@@ -1,12 +1,9 @@
-/* 반환 타입 지정 필요 */
-
 export const verifyId = (string: string) => {
   const form = /^[A-Za-z0-9]{6,12}$/;
   return form.test(string);
 };
 
 export const verifyPwd = (string: string) => {
-  // const form = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*]).{8,16}$/;
   const form = /^[A-Za-z0-9!@#$%^&*]{8,16}$/;
   return form.test(string);
 };

@@ -229,8 +229,6 @@ export const headerStyle = (styles: StyleSet) => {
         flex: 1;
 
         button#member-info {
-          // padding: 0 var(--gap-standard);
-
           @media (orientation: portrait) and (max-width: 599px) {
             ${setSize.free('max-content', `25px`)}
             font-size: 12px;
@@ -255,7 +253,6 @@ export const headerStyle = (styles: StyleSet) => {
       align-items: center;
       background: var(--highlight-light);
       @media (orientation: portrait) and (max-width: 599px) {
-        // margin: calc(var(--gap-standard) / 2) 0;
         margin: 0 0 15px 0;
         padding: 10px 20px;
         border-radius: 0.64897vw;

@@ -36,7 +36,6 @@ const userState = createSlice({
   name: 'USER_STATE',
   initialState: {} as any,
   reducers: {
-    // 타입 수정 필요
     setUserState(state, action: PayloadAction<any>) {
       if (action.payload !== null) {
         return {
@@ -114,7 +113,6 @@ const selectedStores = createSlice({
   name: 'SELECTED_STORES',
   initialState: ['all'] as string | string[],
   reducers: {
-    // 타입 확인 필요 -> string | string[] 혹은 그와 동등한 무언가로 바꿔야 함
     setSelStores(state, action: PayloadAction<any>) {
       const result = [...state];
     if (action.payload !== 'all') {
@@ -150,7 +148,6 @@ const extCredState = createSlice({
   name: 'EXT_CRED',
   initialState: {},
   reducers: {
-    // 타입 수정 필요
     setExtCredStat(state, action: PayloadAction<any>) {
       return { ...state, ...action.payload };
     }
@@ -161,7 +158,6 @@ const selectedItem = createSlice({
   name: 'SELECTED_ITEM',
   initialState: '',
   reducers: {
-    // 타입 수정 필요
     setSelItem(state, action: PayloadAction<any>) {
       return action.payload;
     }
@@ -172,7 +168,6 @@ const selectedItemData = createSlice({
   name: 'SELECTED_ITEM_DATA',
   initialState: {} as any,
   reducers: {
-    // 타입 수정 필요
     setSelItemData(state, action: PayloadAction<any>) {
       return action.payload;
     }

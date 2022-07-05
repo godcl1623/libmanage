@@ -1,5 +1,5 @@
 /* eslint-disable no-else-return */
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -27,11 +27,6 @@ import {
   setModalOrigin
 } from '../../slices';
 
-// const MemoedIco = memo(FaBars);
-// const MemoedBalloon = memo(Balloon);
-// const MemoedLibOpt = memo(LibraryOptions);
-// const MemoedLists = memo(MakeList);
-
 type PropsType = {
   userLib: Record<string, string>;
   coverSize: number;
@@ -39,7 +34,7 @@ type PropsType = {
 };
 
 const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
-  const [btnCoords, setBtnCoords] = React.useState({});
+  const [btnCoords, setBtnCoords] = useState({});
   const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
   const balloonOrigin = useAppSelector(state => state.sliceReducers.balloonOrigin);
   const libDisplay = useAppSelector(state => state.sliceReducers.libDisplay);
@@ -51,8 +46,8 @@ const Library = ({ userLib, coverSize, setCoverSize }: PropsType) => {
   const isMobile = useAppSelector(state => state.sliceReducers.isMobile);
   const appDispatch = useAppDispatch();
   const location = useLocation();
-  const ref = React.useRef<HTMLButtonElement | null>(null);
-  const ulRef = React.useRef<HTMLUListElement | null>(null);
+  const ref = useRef<HTMLButtonElement | null>(null);
+  const ulRef = useRef<HTMLUListElement | null>(null);
   const updateBtnCoords = (...args: number[]) => {
     const [left, top, height] = args;
     setBtnCoords(prevState => ({

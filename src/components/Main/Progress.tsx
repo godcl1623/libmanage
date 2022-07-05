@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
@@ -7,7 +7,6 @@ import { sendTo } from '../../custom_modules/address';
 import { flex, sizes } from '../../styles';
 import progressStyles from './styles/progressStyles';
 import { StyleSet } from '../../custom_modules/commonUtils';
-// 테스트
 import { useAppDispatch, useAppSelector, setCompareState } from '../../slices';
 
 const Progress = () => {
@@ -28,7 +27,6 @@ const Progress = () => {
     navigate('/main');
   }, 30000);
   const totalProcess = status !== '5' ? `(${count}/${total})` : '';
-  // 타입 확인 필요
   const statusText = (status: string, addStr: string) => {
     switch (status) {
       case '1':
@@ -60,7 +58,6 @@ const Progress = () => {
     };
     const timer = forceAbort(abortCon, navigate);
     axios
-      // .post('http://localhost:3003/check_login', { message }, { withCredentials: true })
       .post(`https://${sendTo}/check_login`, { message }, { withCredentials: true })
       .then(res => {
         const reqUserInfo = res.data;
@@ -74,7 +71,6 @@ const Progress = () => {
     if (userInfo !== '') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .get('http://localhost:3003/storeLib', { withCredentials: true })
         .get(`https://${sendTo}/storeLib`, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
@@ -96,7 +92,6 @@ const Progress = () => {
       }
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .post('http://localhost:3003/meta/search', { pack }, { withCredentials: true })
         .post(`https://${sendTo}/meta/search`, { pack }, { withCredentials: true })
         .then(res => {
           clearTimeout(timer);
@@ -114,7 +109,6 @@ const Progress = () => {
     if (currApiCall === 'done') {
       const timer = forceAbort(abortCon, navigate);
       axios
-        // .post('http://localhost:3003/api/search', { reqUserInfo: userInfo }, { withCredentials: true })
         .post(`https://${sendTo}/api/search`, { reqUserInfo: userInfo }, { withCredentials: true })
         .then(res => {
           if (res.data.result) {
@@ -128,7 +122,6 @@ const Progress = () => {
     return () => abortCon.abort();
   }, [currApiCall]);
   useEffect(() => {
-    // const ws = new WebSocket('ws://localhost:3003');
     const ws = new WebSocket(`wss://${sendTo}`);
     ws.onopen = () => ws.send('client_connected');
     ws.onmessage = msg => {

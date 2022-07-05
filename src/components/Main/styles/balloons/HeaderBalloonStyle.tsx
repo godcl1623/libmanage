@@ -8,7 +8,6 @@ export const headerBalloonWrapper = (condition: string, state: string) => (`
   z-index: 2;
 `);
 
-// states 타입 수정 필요
 export const headerBalloonStyle = (styles: StyleSet, states: any, condition: string) => {
   const { flex, sizes } = styles;
   const { balloonState, selectedBtn, optionRef, btnCoords } = states;
@@ -27,7 +26,6 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
         ?
           `calc(${btnCoords.topCoord / 19.2}vw)`
         :
-          // `calc(${btnCoords.botCoord}px + 3.703vh)`
           `calc(${btnCoords.botCoord}px + 2.604vw)`
     };
     left: ${
@@ -82,7 +80,6 @@ export const headerBalloonStyle = (styles: StyleSet, states: any, condition: str
   `);
 };
 
-// states 타입 수정 필요
 export const headerBalloonHand = (states: any, condition: string) => {
   const { balloonState, selectedBtn, optionRef, btnCoords } = states;
 
@@ -121,7 +118,6 @@ export const headerBalloonHand = (states: any, condition: string) => {
         ?
           `calc(${btnCoords.topCoord / 19.2}vw)`
         :
-          // `calc(${btnCoords.botCoord}px + 0.926vh)`
           `calc(${btnCoords.botCoord}px + 1.042vw)`
     };
     left: ${

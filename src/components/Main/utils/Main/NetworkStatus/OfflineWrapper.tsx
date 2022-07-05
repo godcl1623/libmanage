@@ -1,8 +1,7 @@
 import React from 'react';
-import { sendTo } from '../../../../../custom_modules/address';
 import { sizes, flex } from '../../../../../styles';
 import { mainStyle } from '../../../styles/MainStyles';
-// 테스트
+
 import {
   useAppSelector,
   useAppDispatch,
@@ -16,7 +15,6 @@ import {
   checkIfMobile
 } from '../../../../../slices';
 
-// props 타입 체크 필요
 const OfflineWrapper = ({ Contents }: any) => {
   const balloonState = useAppSelector(state => state.sliceReducers.balloonState);
   const userState = useAppSelector(state => state.sliceReducers.userState);

@@ -1,8 +1,7 @@
-import { StyleSet, SetSize } from '../../custom_modules/commonUtils';
+import { StyleSet } from '../../custom_modules/commonUtils';
 
 const globalStyles = (styles: StyleSet) => {
   const { sizes, flex, border } = styles;
-  const setSize = sizes as unknown as SetSize;
   const flexSet = flex as StyleSet;
   const sizeSet = sizes as StyleSet;
 

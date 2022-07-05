@@ -3,28 +3,6 @@ import { Link } from 'react-router-dom';
 import { sizes, flex } from '.';
 import { StyleSet } from '../custom_modules/commonUtils';
 
-// export const A = styled.a`
-//   padding: 0.438rem;
-//   border: 0.063rem solid transparent;
-//   display: inline-block;
-//   border-radius: 0.438rem;
-//   background-color: var(--white);
-//   color: var(--point-dark);
-//   text-decoration: none;
-//   font-size: var(--p);
-
-//   :hover {
-//     -webkit-filter: brightness(90%);
-//             filter: brightness(90%);
-//   }
-
-//   :active {
-//     -webkit-transform: scale(0.98);
-//         -ms-transform: scale(0.98);
-//             transform: scale(0.98);
-//   }
-// `;
-
 export const A = styled.a`
   @media (orientation: landscape) {
     border: 0.052vw solid transparent;
