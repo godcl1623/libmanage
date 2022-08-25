@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import TabBtn from './parts/TabBtn';
-import ModMemInfo from './comps/ModMemInfo';
-import CheckMemInfo from './comps/CheckMemInfo';
-import DelMemInfo from './comps/DelMemInfo';
+import TabBtn from './components/TabBtn';
+import ModMemInfo from './components/ModMemInfo';
+import CheckMemInfo from './components/CheckMemInfo';
+import DelMemInfo from './components/DelMemInfo';
 import { border, sizes } from '../../styles';
 import { memInfoStyle } from './styles/memInfoStyle';
 import { StyleSet } from '../../custom_modules/commonUtils';
