@@ -48,7 +48,7 @@ export class CommonUtils {
   }
 }
 
-export const useStore = create<any>((set => ({
+export const useStore = create<any>(devtools(set => ({
   currentDragCategory: '',
   setDragCat(category: string): void {
     set({ currentDragCategory: category });
