@@ -1,19 +1,14 @@
-import React, { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import TabBtn from './parts/TabBtn';
-import ModMemInfo from './comps/ModMemInfo';
-import CheckMemInfo from './comps/CheckMemInfo';
-import DelMemInfo from './comps/DelMemInfo';
+import TabBtn from './components/TabBtn';
+import ModMemInfo from './components/ModMemInfo';
+import CheckMemInfo from './components/CheckMemInfo';
+import DelMemInfo from './components/DelMemInfo';
 import { border, sizes } from '../../styles';
 import { memInfoStyle } from './styles/memInfoStyle';
 import { StyleSet } from '../../custom_modules/commonUtils';
 import { useAppSelector } from '../../slices';
-
-// const TabBtn = memo(TabBtn);
-// const ModMemInfo = memo(ModMemInfo);
-// const CheckMemInfo = memo(CheckMemInfo);
-// const DelMemInfo = memo(DelMemInfo);
 
 const MemberInfoWrap = () => {
   const modalState = useAppSelector(state => state.sliceReducers.modalState);

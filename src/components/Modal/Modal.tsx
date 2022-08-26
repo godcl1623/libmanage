@@ -1,11 +1,9 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import modalBgStyle from './styles/modalBgStyle';
 import { useAppSelector, useAppDispatch, setModalState, setSelMediaId } from '../../slices';
 
-// props 타입 설정 필요
 const Modal = ({ style, contents, origin }: any) => {
   const modalState = useAppSelector(state => state.sliceReducers.modalState);
   const selMediaId = useAppSelector(state => state.sliceReducers.selectedMediaId);
