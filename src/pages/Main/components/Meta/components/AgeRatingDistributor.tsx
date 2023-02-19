@@ -26,6 +26,7 @@ const AgeRatingDistributor = ({ ages, props }: any) => {
         ageRatingsImgUrls = {};
         break;
     }
+    if (targetRating === '') return;
     return (
       <img
         key={`${targetRating}-${ratings[rating]}`}
